@@ -2,16 +2,7 @@
     @typeparam TList where TList : List<TIem>
 
 @inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<TList>
+
 @implements IAutoBuildableComponent
 
 <AutoDataGrid T="TIem" Items="@Value"/>
-
-
-@code {
-#pragma warning disable CA2252
-    public int Priority => 1000;
-
-    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoDataGrid;
-    
-#pragma warning restore CA2252
-}

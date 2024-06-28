@@ -1,10 +1,4 @@
-@using Blater.Frontend.Auto.AutoBuilders
-@using Blater.Frontend.Models
-@using Blater.Frontend.Services
-
 @typeparam T where T : Blater.Models.Bases.BaseDataModel
-
-@inject LocalizationService LocalizationService
 
 <MudCard Elevation="0" Class="pa-4 mb-2">
     <MudText Typo="Typo.h5">
@@ -29,23 +23,3 @@
         BeforeUpsert="@BeforeUpsert"
         />
 </MudCard>
-
-@code {
-#pragma warning disable CA2252
-    private readonly string _typeName = typeof(T).Name;
-
-    [Parameter]
-    public BlaterId? Id { get; set; }
-
-    [Parameter]
-    public T? Model { get; set; }
-
-    [Parameter]
-    public FindPropertiesAttributeOptions<T>? Options { get; set; }
-    
-    [Parameter]
-    public Func<T, Task<bool>>? BeforeUpsert { get; set; }
-
-    private AutoFormBuilder<T> FormBuilder { get; set; } = null!;
-#pragma warning restore CA2252
-}
