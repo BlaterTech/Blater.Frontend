@@ -1,34 +1,19 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
-using Blater.Interfaces;
+using Blater.JsonUtilities;
 using Blater.Models.User;
-using Blater.SDK.Implementations.BlaterDatabase.Stores;
 using Blazored.LocalStorage;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Blater.Frontend.Services;
 
 [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
-public class AuthenticationService
+public class AuthenticationService(
+    ILocalStorageService localStorageService,
+    BlaterAuthState blaterAuthState,
+    NavigationService navigationService)
 {
-
-    private readonly IBlaterDatabaseStoreT<BlaterUser> _store;
-    private readonly ILocalStorageService _localStorageService;
-    private readonly BlaterAuthState _blaterAuthState;
-    private readonly NavigationService _navigationService;
-    private readonly BlaterHttpClient _blaterHttpClient;
-    
-    public AuthenticationService(ILocalStorageService localStorageService, BlaterAuthState blaterAuthState,
-        NavigationService navigationService, BlaterHttpClient blaterHttpClient)
-    {
-        _localStorageService = localStorageService;
-        _blaterAuthState = blaterAuthState;
-        _navigationService = navigationService;
-        _blaterHttpClient = blaterHttpClient;
-
-        var databaseStore = new BlaterDatabaseStoreEndPoints(_blaterHttpClient);
-        _store = new BlaterDatabaseStoreTEndPoints<BlaterUser>(databaseStore);
-    }
-    
     private const string LocalStorageValueKey = "Blater-UserToken";
 
     private async Task<LoginResponse> Login(string jwtToken, bool saveStorage = true)
@@ -36,38 +21,52 @@ public class AuthenticationService
         var jwtTokenHandler = new JwtSecurityTokenHandler();
         
         var jwtTokenDecoded = jwtTokenHandler.ReadJwtToken(jwtToken);
-        
-        var claimUserId = jwtTokenDecoded.Claims.FirstOrDefault(x => x.Type == "UserId");
 
-        var userId = claimUserId?.Value;
-        
-        if (string.IsNullOrWhiteSpace(userId))
+        if (jwtTokenDecoded.ValidTo < DateTime.UtcNow)
         {
-            return new LoginResponse(false, "Invalid jwt token");
+            navigationService.Navigate("login");
+            return new LoginResponse(false, "JWT token expired");
+        }
+
+        var userTokenClaim = jwtTokenDecoded.Claims.FirstOrDefault(x => x.Type == "UserToken");
+
+        if (userTokenClaim == null)
+        {
+            return new LoginResponse(false, "Invalid jwt token, no UserToken claim found");
         }
         
-        _blaterHttpClient.SetToken(jwtToken);
-        
-        var findUser = await _store.FindOne(x => x.Id == userId);
-        if (findUser.HandleErrors(out _, out var response))
+        var blaterUserToken = userTokenClaim.Value.FromJson<BlaterUserToken>();
+
+        if (blaterUserToken == null)
         {
-            return new LoginResponse(false, "Errors in user");
+            return new LoginResponse(false, "Invalid jwt token, no UserToken claim found");
         }
         
-        if (response.LockoutEnabled)
+        if (blaterUserToken.LockoutEnabled)
         {
             return new LoginResponse(false, "User lockout enabled");
         }
 
-        SetUserState(response);
+        SetState(blaterUserToken, jwtToken);
         
         if (saveStorage)
         {
-            await _localStorageService.SetItemAsStringAsync(LocalStorageValueKey, jwtToken);
+            await localStorageService.SetItemAsStringAsync(LocalStorageValueKey, jwtToken);
         }
         
-        _navigationService.Navigate($"home");
+        navigationService.Navigate("home");
         return new LoginResponse(true, "User founded");
+    }
+
+    private void SetState(BlaterUserToken userToken, string jwtToken)
+    {
+        blaterAuthState.UserId = userToken.UserId;
+        blaterAuthState.Permissions = userToken.Permissions;
+        blaterAuthState.RoleNames = userToken.RoleNames;
+        blaterAuthState.Email = userToken.Email;
+        blaterAuthState.Name = userToken.Name;
+        blaterAuthState.LoggedIn = true;
+        blaterAuthState.JwtToken = jwtToken;
     }
 
     public async Task Logout()
@@ -76,9 +75,9 @@ public class AuthenticationService
         
         if (!string.IsNullOrWhiteSpace(jwt))
         {
-            await _localStorageService.RemoveItemAsync(LocalStorageValueKey);
-            _blaterAuthState.LoggedIn = false;
-            _navigationService.Navigate($"login");
+            await localStorageService.RemoveItemAsync(LocalStorageValueKey);
+            blaterAuthState.LoggedIn = false;
+            navigationService.Navigate("login");
         }
     }
     
@@ -88,7 +87,7 @@ public class AuthenticationService
         
         if (string.IsNullOrWhiteSpace(jwtToken))
         {
-            _navigationService.Navigate($"login");
+            navigationService.Navigate("login");
             return;
         }
         
@@ -97,7 +96,7 @@ public class AuthenticationService
     
     public async Task<string> GetJwt()
     {
-        var jwtToken = await _localStorageService.GetItemAsStringAsync(LocalStorageValueKey);
+        var jwtToken = await localStorageService.GetItemAsStringAsync(LocalStorageValueKey);
         
         return string.IsNullOrWhiteSpace(jwtToken) ? string.Empty : jwtToken;
     }
@@ -108,21 +107,10 @@ public class AuthenticationService
 
         if (result.Success)
         {
-            _navigationService.Navigate("home");
+            navigationService.Navigate("home");
         }
 
         return result;
-    }
-
-    private void SetUserState(BlaterUser user)
-    {
-        _blaterAuthState.UserId = user.Id;
-        _blaterAuthState.Email = user.Email;
-        _blaterAuthState.Name = user.Name;
-        _blaterAuthState.LockoutEnabled = user.LockoutEnabled;
-        _blaterAuthState.RoleNames = user.RoleNames;
-        _blaterAuthState.Permissions = user.Permissions;
-        _blaterAuthState.LoggedIn = true;
     }
 }
 
