@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Blater.FrontEnd.Models;
+namespace Blater.Frontend.Models;
 
 public class FindPropertiesAttributeOptions<TOption>
 {

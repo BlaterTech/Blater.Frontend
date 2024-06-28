@@ -1,6 +1,5 @@
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
-@using Blater.Enumerations.AutoModel
-@inherits Blater.FrontEnd.Auto.Bases.BaseAutoComponent
+@implements IAutoBuildableComponent
+@inherits Blater.Frontend.Auto.Bases.BaseAutoComponent
 
 <div id="auto-text" class="@ExtraClass">
     <MudText Typo="Typo.h6">@Value</MudText>
@@ -8,8 +7,10 @@
 
 
 @code {
+#pragma warning disable CA2252
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoTitle;
 
     [Parameter]
     public string? Value { get; set; }
+#pragma warning restore CA2252
 }

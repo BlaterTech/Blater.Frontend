@@ -1,7 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormComponent<decimal>
-@using Blater.Enumerations.AutoModel
-@using MudBlazor
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseAutoFormComponent<decimal>
+@implements IAutoBuildableComponent
 
 <div id="auto-decimal-input" class="@ExtraClass">
     <MudNumericField
@@ -21,11 +19,13 @@
 
 @code
 {
-    
+#pragma warning disable CA2252
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoDecimalInput;
     
     private async Task Callback(decimal obj)
     {
         await NotifyValueChanged(obj);
     }
+    
+#pragma warning restore CA2252
 }

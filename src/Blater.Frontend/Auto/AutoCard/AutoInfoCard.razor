@@ -1,11 +1,7 @@
-﻿@using Blater.FrontEnd.Services
+﻿@using Blater.Frontend.Services
 @using Blater.Interfaces
-@using MudBlazor;
 
 @typeparam T where T : Blater.Models.Bases.BaseDataModel
-
-@inject LocalizationService LocalizationService
-@inject IBlaterDatabaseStoreT<T> DataRepository
 
 <MudCard Class="d-flex pa-4 align-center">
     <MudCard Elevation="0"
@@ -30,6 +26,9 @@
 
 @code
 {
+#pragma warning disable CA2252
+    [Inject] private IBlaterDatabaseStoreT<T> DataRepository { get; set; } = null!;
+    [Inject] private LocalizationService LocalizationService { get; set; } = null!;
     private string? Label { get; set; }
 
     [Parameter]
@@ -78,4 +77,5 @@
 
         await InvokeAsync(StateHasChanged);
     }
+#pragma warning restore CA2252
 }

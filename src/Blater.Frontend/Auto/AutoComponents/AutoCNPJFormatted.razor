@@ -1,6 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<string>
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<string>
+@implements IAutoBuildableComponent
 
 @switch (string.IsNullOrWhiteSpace(Value))
 {
@@ -34,7 +33,7 @@
 }
 
 @code {
-
+#pragma warning disable CA2252
     public int Priority => 1000;
 
     private string Cnpj => $"{Value.Substring(0, 2)}." +
@@ -44,4 +43,6 @@
                            $"{Value.Substring(12, 2)}";
 
     public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoCNPJFormatted;
+    
+#pragma warning restore CA2252
 }

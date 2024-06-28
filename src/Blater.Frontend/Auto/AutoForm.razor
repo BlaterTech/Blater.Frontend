@@ -1,8 +1,6 @@
-@using Blater.FrontEnd.Auto.AutoBuilders
-@using Blater.FrontEnd.Models
-@using Blater.FrontEnd.Services
-@using Blater.Models
-@using MudBlazor;
+@using Blater.Frontend.Auto.AutoBuilders
+@using Blater.Frontend.Models
+@using Blater.Frontend.Services
 
 @typeparam T where T : Blater.Models.Bases.BaseDataModel
 
@@ -33,6 +31,7 @@
 </MudCard>
 
 @code {
+#pragma warning disable CA2252
     private readonly string _typeName = typeof(T).Name;
 
     [Parameter]
@@ -48,4 +47,5 @@
     public Func<T, Task<bool>>? BeforeUpsert { get; set; }
 
     private AutoFormBuilder<T> FormBuilder { get; set; } = null!;
+#pragma warning restore CA2252
 }

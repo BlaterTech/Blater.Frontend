@@ -1,9 +1,8 @@
 ﻿@typeparam TItemType where TItemType : IConvertible
 
-@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormComponent<TItemType>
-@using Blater.Enumerations.AutoModel
-@using Blater.FrontEnd.Services
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+@inherits Blater.Frontend.Auto.Bases.BaseAutoFormComponent<TItemType>
+@using Blater.Frontend.Services
+@implements IAutoBuildableComponent
 
 @inject LocalizationService LocalizationService
 
@@ -23,5 +22,7 @@
 
 
 @code {
+#pragma warning disable CA2252
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoSelectNoTranslationInput;
+#pragma warning restore CA2252
 }

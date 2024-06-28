@@ -1,13 +1,9 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormComponent<bool>
-@using Blater.Enumerations.AutoModel
+﻿@inherits Blater.Frontend.Auto.Bases.BaseAutoFormComponent<bool>
 @using Blater.Models.User
-@using MudBlazor;
 
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+@implements IAutoBuildableComponent
 
-@inject BlaterAuthState AuthState
-
-@if (ParentId != AuthState.UserId)
+@if (_notEqual)
 {
     <div id="auto-toggle-input" class="@ExtraClass">
         <MudSwitch
@@ -28,14 +24,26 @@
 
 @code
 {
+#pragma warning disable CA2252
+    [Inject] private BlaterAuthState BlaterAuthState { get; set; } = null!;
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoEnableSwitchInput;
     
     [CascadingParameter(Name = "ParentId")]
     public string? ParentId { get; set; }
+
+    bool _notEqual;
+    
+    protected override void OnInitialized()
+    {
+        _notEqual = ParentId != BlaterAuthState.UserId;
+        base.OnInitialized();
+    }
 
     private async Task Callback(bool obj)
     {
         Value = obj;
         await ValueChanged.InvokeAsync(Value);
     }
+    
+#pragma warning restore CA2252
 }

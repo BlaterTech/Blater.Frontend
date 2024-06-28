@@ -1,7 +1,6 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<bool>
-@using Blater.Enumerations.AutoModel
-@using Blater.FrontEnd.Services
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<bool>
+@using Blater.Frontend.Services
+@implements IAutoBuildableComponent
 
 @inject LocalizationService LocalizationService
 
@@ -26,7 +25,10 @@
 
 @code
 {
+#pragma warning disable CA2252
     public int Priority => 1000;
 
     public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoTextStatus;
+    
+#pragma warning restore CA2252
 }

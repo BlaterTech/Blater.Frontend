@@ -1,8 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<decimal>
-
-@using System.Globalization
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<decimal>
+@implements IAutoBuildableComponent
 
 <div id="auto-money-rounded-table" class="@ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))
@@ -16,8 +13,9 @@
 
 
 @code {
-
+#pragma warning disable CA2252
     public int Priority => 1000;
 
     public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoMoneyRoundedTable;
+#pragma warning restore CA2252
 }

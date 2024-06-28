@@ -1,6 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoImageComponent
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseValueAutoImageComponent
+@implements IAutoBuildableComponent
 
 <div id="auto-image-rounded" class="@ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))
@@ -18,9 +17,9 @@
 
 
 @code {
-
+#pragma warning disable CA2252
     public int Priority => 1000;
 
     public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoImageRounded;
-
+#pragma warning restore CA2252
 }

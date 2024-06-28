@@ -4,7 +4,7 @@ using Blater.JsonUtilities;
 using Blater.Models.User;
 using Blazored.LocalStorage;
 
-namespace Blater.FrontEnd.Services;
+namespace Blater.Frontend.Services;
 
 [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 public class AuthenticationService(

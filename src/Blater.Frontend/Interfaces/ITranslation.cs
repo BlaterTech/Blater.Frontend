@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Blater.Enumerations;
 
-namespace Blater.FrontEnd.Interfaces;
+namespace Blater.Frontend.Interfaces;
 
 [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 public interface ITranslation

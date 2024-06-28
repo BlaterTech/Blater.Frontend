@@ -1,8 +1,6 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormComponent<bool>
-@using Blater.Enumerations.AutoModel
-@using MudBlazor;
+﻿@inherits Blater.Frontend.Auto.Bases.BaseAutoFormComponent<bool>
 
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+@implements IAutoBuildableComponent
 
 <div id="auto-toggle-input" class="@ExtraClass">
     <MudSwitch
@@ -23,6 +21,7 @@
 
 @code
 {
+#pragma warning disable CA2252
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoSwitchInput;
 
     private async Task Callback(bool obj)
@@ -30,4 +29,6 @@
         Value = obj;
         await ValueChanged.InvokeAsync(Value);
     }
+    
+#pragma warning restore CA2252
 }

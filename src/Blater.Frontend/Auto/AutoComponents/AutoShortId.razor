@@ -1,6 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<Guid>
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<Guid>
+@implements IAutoBuildableComponent
 
 <div id="auto-short-id" class="@ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))
@@ -14,8 +13,9 @@
 
 
 @code {
-
+#pragma warning disable CA2252
     public int Priority => 1000;
 
     public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoShortId;
+#pragma warning restore CA2252
 }

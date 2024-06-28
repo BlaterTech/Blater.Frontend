@@ -1,6 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormComponent<bool>
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseAutoFormComponent<bool>
+@implements IAutoBuildableComponent
 
 <div id="auto-checkbox-input" class="@ExtraClass">
 
@@ -19,7 +18,8 @@
 
 @code
 {
-
+#pragma warning disable CA2252
 
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoCheckBoxInput;
+#pragma warning restore CA2252
 }

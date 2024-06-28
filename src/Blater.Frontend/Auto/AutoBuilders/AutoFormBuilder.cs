@@ -8,7 +8,7 @@ using Blater.AutoModelConfigurations.Configs;
 using Blater.Enumerations.AutoModel;
 using Blater.Extensions;
 using Blater.Frontend.Auto.AutoInputs;
-using Blater.FrontEnd.EasyRenderTree;
+using Blater.Frontend.EasyRenderTree;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 using MudBlazor;
 using Color = MudBlazor.Color;
 
-namespace Blater.FrontEnd.Auto.AutoBuilders;
+namespace Blater.Frontend.Auto.AutoBuilders;
 
 [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 [SuppressMessage("Attributes/Parameters", "MUD0002:Unknown MudBlazor attribute/parameter")]

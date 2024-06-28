@@ -1,6 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoImageComponent
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseValueAutoImageComponent
+@implements IAutoBuildableComponent
 
 <div id="auto-image-rectangle" class="flex items-center gap-4 p-1 @ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))
@@ -15,8 +14,9 @@
 </div>
 
 @code {
-    
+#pragma warning disable CA2252
     public int Priority => 1000;
 
     public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoImageRectangle;
+#pragma warning restore CA2252
 }

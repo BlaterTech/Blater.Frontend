@@ -1,20 +1,32 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<Enum>
+﻿@inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<Enum>
 @using Blater.Attributes
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+@implements IAutoBuildableComponent
 
 <div id="auto-text-status" class="@ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))
     {
         <MudText>@LabelName</MudText>
     }
-        <MudText Class="text-sm text-neutral-700">@(Value.GetShortName())</MudText>
+    else
+    {
+        <MudText Class="text-sm text-neutral-700">@(_shortName)</MudText> 
+    }
     
 </div>
 
 @code
 {
+#pragma warning disable CA2252
     public int Priority => 1000;
 
     public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoTextEnum;
+
+    string? _shortName;
+    
+    protected override void OnInitialized()
+    {
+        _shortName = Value.GetShortName();
+    }
+
+#pragma warning restore CA2252
 }

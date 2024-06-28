@@ -1,14 +1,8 @@
-@using Blater.FrontEnd.Models
-@using Blater.FrontEnd.Services
+@using Blater.Frontend.Models
+@using Blater.Frontend.Services
 @using Blater.Interfaces
-@using Blater.Models
-@using Microsoft.Extensions.Logging
-@using MudBlazor;
 
 @typeparam T where T : Blater.Models.Bases.BaseDataModel
-
-@inject IBlaterDatabaseStoreT<T> DataRepository
-@inject NavigationService NavigationService
 
 @if (Loading)
 {
@@ -16,7 +10,8 @@
 }
 else
 {
-    if (Id != Guid.Empty)
+#pragma warning disable CA2252
+    if (Id != BlaterId.Empty)
     {
         <AutoDetailsBuilder
             T="T"
@@ -50,10 +45,11 @@ else
             </p>
         </div>
     }
+#pragma warning restore CA2252
 }
 
 @code {
-
+#pragma warning disable CA2252
     public AutoDetails()
     {
         EditCallback = EventCallback.Factory.Create<T>(this, item => { NavigationService.NavigateTo($"{typeof(T).Name}/Edit/{item.Id}"); });
@@ -82,6 +78,10 @@ else
     [Parameter] public FindPropertiesAttributeOptions<T>? Options { get; set; } = new();
 
     [Inject] public LocalizationService LocalizationService { get; set; } = default!;
+    
+    [Inject] public NavigationService NavigationService { get; set; } = default!;
+    
+    [Inject] public IBlaterDatabaseStoreT<T> DataRepository { get; set; } = default!;
 
     [Inject] public ILogger<AutoDetails<T>> Logger { get; set; } = default!;
 
@@ -132,5 +132,5 @@ else
     {
         await NavigationService.GoBack();
     }
-
+#pragma warning restore CA2252
 }

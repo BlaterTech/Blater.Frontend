@@ -5,9 +5,9 @@ using Blater.AutoModelConfigurations;
 using Blater.AutoModelConfigurations.Configs;
 using Blater.Enumerations.AutoModel;
 using Blater.Extensions;
-using Blater.FrontEnd.EasyRenderTree;
-using Blater.FrontEnd.Models;
-using Blater.FrontEnd.Services;
+using Blater.Frontend.EasyRenderTree;
+using Blater.Frontend.Models;
+using Blater.Frontend.Services;
 using Blater.Interfaces;
 using Blater.Models;
 using Blater.Models.Bases;
@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.Extensions.Logging;
 
-namespace Blater.FrontEnd.Auto.AutoBuilders;
+namespace Blater.Frontend.Auto.AutoBuilders;
 
 [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : BaseDataModel

@@ -1,7 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormComponent<int>
-@using Blater.Enumerations.AutoModel
-@using MudBlazor
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseAutoFormComponent<int>
+@implements IAutoBuildableComponent
 
 <div id="auto-numeric-input" class="@ExtraClass">
 
@@ -22,7 +20,8 @@
 
 @code
 {
-
+#pragma warning disable CA2252
 
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoNumericInput;
+#pragma warning restore CA2252
 }

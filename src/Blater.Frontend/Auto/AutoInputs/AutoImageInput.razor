@@ -1,6 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormImageComponent
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseAutoFormImageComponent
+@implements IAutoBuildableComponent
 
 <div id="auto-image-input" class="@ExtraClass">
     <AsImageInput
@@ -21,7 +20,8 @@
 
 @code
 {
-
+#pragma warning disable CA2252
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoImageInput;
     
+#pragma warning restore CA2252
 }

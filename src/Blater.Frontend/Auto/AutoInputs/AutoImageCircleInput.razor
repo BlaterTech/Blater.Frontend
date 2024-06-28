@@ -1,5 +1,4 @@
-﻿@using Blater.Enumerations.AutoModel
-@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormImageComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseAutoFormImageComponent
 
 <div id="auto-image-circle-input" class="@ExtraClass">
     <AsImageCircleInput
@@ -17,7 +16,8 @@
 </div>
 
 @code {
-    
+#pragma warning disable CA2252
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoImageCircleInput;
     
+#pragma warning restore CA2252
 }

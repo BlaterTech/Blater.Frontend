@@ -20,7 +20,7 @@
         <PackageReference Include="System.Reactive.Linq" Version="6.0.1" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.0-preview1" />
 
-        <PackageReference Include="MudBlazor" Version="7.0.0-rc.2" />
+        <PackageReference Include="MudBlazor" Version="6.20.0" />
 
         <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta09" PrivateAssets="all" ExcludeAssets="runtime" />
         
@@ -33,7 +33,17 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Folder Include="Attributes\" />
+      <Folder Include="Components\" />
+      <Folder Include="Layouts\" />
+      <Folder Include="Pages\" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Components\Chat\AsChat.razor" />
+      <UpToDateCheckInput Remove="Components\Chat\AsChatOld.razor" />
+      <UpToDateCheckInput Remove="Components\Chat\Components\AsAttachmentDisplay.razor" />
+      <UpToDateCheckInput Remove="Components\Chat\Components\AsMessageBubble.razor" />
+      <UpToDateCheckInput Remove="Components\Chat\Components\AsMessageDateHeader.razor" />
     </ItemGroup>
 
 </Project>

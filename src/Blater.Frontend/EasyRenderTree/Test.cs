@@ -1,6 +1,6 @@
 using MudBlazor;
 
-namespace Blater.FrontEnd.EasyRenderTree;
+namespace Blater.Frontend.EasyRenderTree;
 
 public class Test
 {

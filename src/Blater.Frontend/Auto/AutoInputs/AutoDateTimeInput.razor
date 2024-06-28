@@ -1,8 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormComponent<DateTime>
-
-@using System.Globalization
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseAutoFormComponent<DateTime>
+@implements IAutoBuildableComponent
 
 <div id="auto-datetime-input" class="@ExtraClass">
     <MudTextField
@@ -24,7 +21,7 @@
 
 @code
 {
-
+#pragma warning disable CA2252
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoDateTimeInput;
 
     protected override async Task OnInitializedAsync()
@@ -45,4 +42,5 @@
     {
         await NotifyValueChanged();
     }
+#pragma warning restore CA2252
 }

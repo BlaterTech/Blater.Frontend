@@ -1,6 +1,6 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<string>
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<string>
+
+@implements IAutoBuildableComponent
 
 <div id="auto-image-circle" class="pl-2 @ExtraClass">
 
@@ -15,7 +15,7 @@
 </div>
 
 @code {
-
+#pragma warning disable CA2252
     private string ImageSize => Size switch
     {
         AutoFieldSize.Normal          => "w-8 h-8 rounded-full",
@@ -42,5 +42,5 @@
     
     [Parameter]
     public bool? ContainerPublic { get; set; }
-
+#pragma warning restore CA2252
 }

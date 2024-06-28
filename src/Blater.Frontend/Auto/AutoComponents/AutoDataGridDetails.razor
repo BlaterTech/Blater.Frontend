@@ -1,15 +1,17 @@
 @typeparam TIem where TIem : Blater.Models.Bases.BaseDataModel
-               @typeparam TList where TList : List<TIem>
+    @typeparam TList where TList : List<TIem>
 
-           @inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<TList>
-           @using Blater.Enumerations.AutoModel
-           @implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+@inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<TList>
+@implements IAutoBuildableComponent
 
-           <AutoDataGrid T="TIem" Items="@Value"/>
+<AutoDataGrid T="TIem" Items="@Value"/>
 
 
-           @code {
-               public int Priority => 1000;
+@code {
+#pragma warning disable CA2252
+    public int Priority => 1000;
 
-               public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoDataGrid;
-           }
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoDataGrid;
+    
+#pragma warning restore CA2252
+}

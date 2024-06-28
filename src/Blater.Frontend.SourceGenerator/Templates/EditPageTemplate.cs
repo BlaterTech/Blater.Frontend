@@ -15,6 +15,7 @@ public static class EditPageTemplate
               [AutoIgnore]
               [Layout(typeof(ContainerLayout))]
               [Route("/{{typeName}}/Edit/{Id:guid}")]
+              [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
               public partial class {{typeName}}EditPage : ComponentBase
               {
                   protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)

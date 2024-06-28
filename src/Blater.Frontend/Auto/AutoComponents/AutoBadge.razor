@@ -1,21 +1,18 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<Blater.Enumerations.StatusTags>
+﻿@inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<Blater.Enumerations.StatusTags>
 
-@using Blater.Enumerations
-@using Blater.Enumerations.AutoModel
-@using MudBlazor
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+@implements IAutoBuildableComponent
 
 <div id="auto-badge" class="@ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))
     {
         <MudText>@LabelName</MudText>
     }
-    <MudChip Color="BadgeType">@TextType</MudChip>
+    <MudChip T="string" Color="BadgeType">@TextType</MudChip>
 
 </div>
 
 @code {
-
+#pragma warning disable CA2252
     private Color BadgeType => Value switch
     {
         StatusTags.Available  => Color.Success,
@@ -50,4 +47,5 @@
     public int Priority => 1000;
 
     public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoBadge;
+#pragma warning restore CA2252
 }

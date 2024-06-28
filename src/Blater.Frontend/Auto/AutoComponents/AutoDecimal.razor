@@ -1,6 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<decimal>
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<decimal>
+@implements IAutoBuildableComponent
 
 <div id="auto-double" class="@ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))
@@ -12,6 +11,9 @@
 
 @code
 {
+#pragma warning disable CA2252
     public int Priority => 1000;
     public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoDecimal;
+    
+#pragma warning restore CA2252
 }

@@ -1,6 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<bool>
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<bool>
+@implements IAutoBuildableComponent
 
 <div id="auto-status" class="@ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))
@@ -19,8 +18,9 @@
 
 @code
 {
+#pragma warning disable CA2252
     public int Priority => 1000;
 
     public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoStatus;
-
+#pragma warning restore CA2252
 }

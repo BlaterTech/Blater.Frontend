@@ -2,7 +2,7 @@
 using Blater.Models.Bases;
 using MudBlazor;
 
-namespace Blater.FrontEnd.Auto;
+namespace Blater.Frontend.Auto;
 
 [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 public class CustomDataGridAction<T> where T : BaseDataModel

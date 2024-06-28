@@ -1,7 +1,7 @@
-﻿using Blater.FrontEnd.Auto.Bases;
+﻿using Blater.Frontend.Auto.Bases;
 using Microsoft.AspNetCore.Components;
 
-namespace Blater.FrontEnd.Auto.AutoInputs;
+namespace Blater.Frontend.Auto.AutoInputs;
 
 public abstract class _BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TValue>
 {

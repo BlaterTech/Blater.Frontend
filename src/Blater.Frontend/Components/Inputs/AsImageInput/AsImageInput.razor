@@ -1,0 +1,39 @@
+﻿@inherits BaseImageInput<AsImageInput>
+
+<div id="auto-image-input" class="d-flex flex-column justify-center align-center my-4 mr-8 @ExtraClass">
+    <MudFileUpload T="IBrowserFile"
+                   OnFilesChanged="OnInputFileChanged"
+                   Hidden="@false"
+                   MaximumFileCount="1"
+                   InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20"
+                   InputStyle="opacity:0"
+                   Style="height: 20rem; width: 100%;"
+                   @ondragenter="@SetDragClass"
+                   @ondragleave="@ClearDragClass"
+                   @ondragend="@ClearDragClass">
+        <ButtonTemplate>
+            <div class="d-flex flex-column align-center" style="width: 100%">
+                <div
+                    class="d-flex justify-center align-center absolute z-10"
+                    style="background: rgba(0,0,0,0.40);height: 14rem; width: 14rem;border-radius: 50%;">
+                    <MudIcon
+                        Style="color: white;height: 4rem;width: 4rem;"
+                        Color="Color.Inherit"
+                        Icon="@Icons.Material.Outlined.CameraEnhance"/>
+                </div>
+                <MudImage
+                    Src="@Value"
+                    Class="@DragClass"
+                    Style="height: 14rem; width: 100%;z-index: 0"/>
+
+                <MudText Typo="Typo.subtitle1">
+                    Clique ou arraste para editar.
+                </MudText>
+
+                <MudText Typo="Typo.subtitle2">
+                    Formatos: JPEG, PNG.
+                </MudText>
+            </div>
+        </ButtonTemplate>
+    </MudFileUpload>
+</div>

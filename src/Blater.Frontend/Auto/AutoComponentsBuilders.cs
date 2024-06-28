@@ -5,7 +5,7 @@ using Blater.Helpers;
 using Blater.Logging;
 using Serilog;
 
-namespace Blater.FrontEnd.Auto;
+namespace Blater.Frontend.Auto;
 
 /// <summary>
 ///     Finder of types that can be built using the auto form builder

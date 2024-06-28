@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Blater.Enumerations;
-using Blater.FrontEnd.Interfaces;
-using Blater.FrontEnd.Models;
+using Blater.Frontend.Interfaces;
+using Blater.Frontend.Models;
 using Blater.Helpers;
 using Blater.Logging;
 using Microsoft.Extensions.Logging;
 
-namespace Blater.FrontEnd.Services;
+namespace Blater.Frontend.Services;
 
 [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 public class LocalizationService

@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace Blater.FrontEnd.EasyRenderTree;
+namespace Blater.Frontend.EasyRenderTree;
 
 [SuppressMessage("Usage", "ASP0006:Do not use non-literal sequence numbers")]
 public class EasyRenderTreeComponent(RenderTreeBuilder renderTreeBuilder, bool isElement = false)

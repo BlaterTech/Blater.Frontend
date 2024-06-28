@@ -1,6 +1,5 @@
-﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<string>
-@using Blater.Enumerations.AutoModel
-@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
+﻿@inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<string>
+@implements IAutoBuildableComponent
 
 <div id="auto-text-area" class="flex flex-col @ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))
@@ -14,8 +13,9 @@
 </div>
 
 @code {
-
+#pragma warning disable CA2252
     public int Priority => 1000;
 
     public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoTextArea;
+#pragma warning restore CA2252
 }

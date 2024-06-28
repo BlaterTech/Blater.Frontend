@@ -15,6 +15,7 @@ public static class CreatePageTemplate
               [AutoIgnore]
               [Layout(typeof(ContainerLayout))]
               [Route("/{{typeName}}/Create")]
+              [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
               public partial class {{typeName}}CreatePage : ComponentBase
               {
                   protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
