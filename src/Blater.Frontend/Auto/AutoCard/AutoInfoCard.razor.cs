@@ -11,6 +11,7 @@ public partial class AutoInfoCard<T> where T : BaseDataModel
 {
     [Inject] private IBlaterDatabaseStoreT<T> DataRepository { get; set; } = null!;
     [Inject] private LocalizationService LocalizationService { get; set; } = null!;
+    
     private string? Label { get; set; }
 
     [Parameter]
@@ -19,7 +20,7 @@ public partial class AutoInfoCard<T> where T : BaseDataModel
 
 
     private int Counter { get; set; }
-
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)

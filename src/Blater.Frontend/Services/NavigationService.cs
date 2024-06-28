@@ -118,7 +118,17 @@ public class NavigationService
             return;
         }
 
-        NavigateTo(route);
+        Navigate(route);
+    }
+
+    private static string RemoveLeadingSlash(string route)
+    {
+        if (route.StartsWith('/'))
+        {
+            route = route.Remove(0, 1);
+        }
+
+        return route;
     }
 
     /// <summary>
@@ -127,35 +137,24 @@ public class NavigationService
     /// </summary>
     public void Navigate(string route)
     {
-        if (route.StartsWith("/"))
-        {
-            route = route.Remove(0, 1);
-        }
+        route = RemoveLeadingSlash(route);   
+        var blaterUserToken = _serviceProvider.GetRequiredService<BlaterAuthState>();
 
-        var blaterUserToken = _serviceProvider.GetService<BlaterAuthState>();
-
-        if (string.IsNullOrWhiteSpace(blaterUserToken?.Name))
+        if (!blaterUserToken.LoggedIn)
         {
             Log.Information("Logged in is false, navigating to Authentication");
-            _navigationManager.NavigateTo("login");
+            _navigationManager.NavigateTo("/login", true);
             return;
         }
         
         _navigationManager.NavigateTo($"{route}");
     }
-
-    /// <summary>
-    ///     Navigate to the route without any checks or adding prefixes
-    /// </summary>
-    /// <param name="route"></param>
+    
     public void NavigateTo(string route)
     {
-        if (route.StartsWith('/'))
-        {
-            route = route.Remove(0, 1);
-        }
-
-        _navigationManager.NavigateTo(route);
+        route = RemoveLeadingSlash(route);
+        
+        _navigationManager.NavigateTo($"{route}");
     }
 
     public async Task GoBack()

@@ -14,7 +14,6 @@ using MudBlazor;
 
 namespace Blater.Frontend.Auto;
 
-// ReSharper disable once InconsistentNaming
 [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 public partial class AutoDataGrid<T> where T : BaseDataModel
 {
@@ -27,11 +26,11 @@ public partial class AutoDataGrid<T> where T : BaseDataModel
 
     public AutoDataGrid()
     {
-        CreateCallBack = EventCallback.Factory.Create(this, _ => { NavigationService.NavigateTo($"{typeof(T).Name}/Create"); });
+        CreateCallBack = EventCallback.Factory.Create(this, _ => { NavigationService.Navigate($"{typeof(T).Name}/Create"); });
 
-        DetailsCallback = EventCallback.Factory.Create<T>(this, item => { NavigationService.NavigateTo($"{typeof(T).Name}/Details/{item.Id}"); });
+        DetailsCallback = EventCallback.Factory.Create<T>(this, item => { NavigationService.Navigate($"{typeof(T).Name}/Details/{item.Id}"); });
 
-        EditCallback = EventCallback.Factory.Create<T>(this, item => { NavigationService.NavigateTo($"{typeof(T).Name}/Edit/{item.Id}"); });
+        EditCallback = EventCallback.Factory.Create<T>(this, item => { NavigationService.Navigate($"{typeof(T).Name}/Edit/{item.Id}"); });
 
         DisableCallback = EventCallback.Factory.Create<T>(this, item =>
         {

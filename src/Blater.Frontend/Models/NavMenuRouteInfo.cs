@@ -7,9 +7,9 @@ public class NavMenuRouteInfo
     public string? Route { get; init; }
     public int Priority { get; init; }
 
-    public List<string> RoleNames { get; init; } = [];
+    public string[] RoleNames { get; init; } = [];
     
-    public List<string> Permissions { get; init; } = [];
+    public string[] Permissions { get; init; } = [];
 
     public List<NavMenuRouteInfo> ChildRoutes { get; } = [];
 
