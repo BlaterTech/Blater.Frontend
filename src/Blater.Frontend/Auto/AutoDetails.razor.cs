@@ -14,7 +14,7 @@ public partial class AutoDetails<T> where T : BaseDataModel
 {
     public AutoDetails()
     {
-        EditCallback = EventCallback.Factory.Create<T>(this, item => { NavigationService.NavigateTo($"{typeof(T).Name}/Edit/{item.Id}"); });
+        EditCallback = EventCallback.Factory.Create<T>(this, item => { NavigationService.Navigate($"{typeof(T).Name}/Edit/{item.Id}"); });
     }
 
     private string _typeName = typeof(T).Name;
@@ -87,7 +87,7 @@ public partial class AutoDetails<T> where T : BaseDataModel
 
     private void EditPage()
     {
-        NavigationService.NavigateTo($"{typeof(T).Name}/Edit/{Id}");
+        NavigationService.Navigate($"{typeof(T).Name}/Edit/{Id}");
     }
 
     private async void BackPage()

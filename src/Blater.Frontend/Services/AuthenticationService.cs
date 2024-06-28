@@ -22,7 +22,7 @@ public class AuthenticationService(
 
         if (jwtTokenDecoded.ValidTo < DateTime.UtcNow)
         {
-            navigationService.Navigate("login");
+            navigationService.NavigateTo("login");
             return new LoginResponse(false, "JWT token expired");
         }
 
@@ -52,7 +52,7 @@ public class AuthenticationService(
             await localStorageService.SetItemAsStringAsync(LocalStorageValueKey, jwtToken);
         }
         
-        navigationService.Navigate("home");
+        navigationService.NavigateTo("home");
         return new LoginResponse(true, "User founded");
     }
 
@@ -75,7 +75,7 @@ public class AuthenticationService(
         {
             await localStorageService.RemoveItemAsync(LocalStorageValueKey);
             blaterAuthState.LoggedIn = false;
-            navigationService.Navigate("login");
+            navigationService.NavigateTo("login");
         }
     }
     
@@ -85,7 +85,7 @@ public class AuthenticationService(
         
         if (string.IsNullOrWhiteSpace(jwtToken))
         {
-            navigationService.Navigate("login");
+            navigationService.NavigateTo("login");
             return;
         }
         
@@ -105,7 +105,7 @@ public class AuthenticationService(
 
         if (result.Success)
         {
-            navigationService.Navigate("home");
+            navigationService.NavigateTo("home");
         }
 
         return result;

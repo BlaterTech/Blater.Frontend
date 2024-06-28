@@ -256,17 +256,17 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     protected void NavigateToEditPage()
     {
-        NavigationService.NavigateTo($"{typeof(T).Name}/Edit/{Id}");
+        NavigationService.Navigate($"{typeof(T).Name}/Edit/{Id}");
     }
 
     protected void NavigateToDetailsPage()
     {
-        NavigationService.NavigateTo($"{typeof(T).Name}/Details/{Id}");
+        NavigationService.Navigate($"{typeof(T).Name}/Details/{Id}");
     }
 
     protected void NavigateToCreatePage()
     {
-        NavigationService.NavigateTo($"{typeof(T).Name}/Create");
+        NavigationService.Navigate($"{typeof(T).Name}/Create");
     }
 
     #region EventCallback Creator
