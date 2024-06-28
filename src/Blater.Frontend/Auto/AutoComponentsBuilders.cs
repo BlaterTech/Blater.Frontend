@@ -1,14 +1,16 @@
-﻿using Blater.Frontend.AutoModelConfigurations.Configs;
-using Blater.Frontend.Enumerations.AutoModel;
-using Blater.Frontend.Helpers;
-using Blater.Frontend.Logging;
+﻿using System.Diagnostics.CodeAnalysis;
+using Blater.AutoModelConfigurations.Configs;
+using Blater.Enumerations.AutoModel;
+using Blater.Helpers;
+using Blater.Logging;
 using Serilog;
 
-namespace Blater.Frontend.Auto;
+namespace Blater.FrontEnd.Auto;
 
 /// <summary>
 ///     Finder of types that can be built using the auto form builder
 /// </summary>
+[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 public static class AutoComponentsBuilders
 {
     private static readonly Type BaseComponentType = typeof(IAutoBuildableComponent);
@@ -58,7 +60,7 @@ public static class AutoComponentsBuilders
 
     public static IAutoBuildableComponent? GetComponentBuilder(AutoComponentConfiguration componentConfiguration, AutoComponentDisplayType displayType)
     {
-        var fieldConfigurationDisplayType = componentConfiguration.AutoComponentTypes.GetValueOrDefault(displayType);
+        var fieldConfigurationDisplayType = componentConfiguration.ComponentTypes.GetValueOrDefault(displayType);
 
         if (fieldConfigurationDisplayType == null)
         {

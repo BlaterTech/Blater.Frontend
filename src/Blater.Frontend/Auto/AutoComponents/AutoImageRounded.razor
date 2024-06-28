@@ -1,0 +1,26 @@
+﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoImageComponent
+@using Blater.Enumerations.AutoModel
+@implements IAutoBuildableComponent
+
+<div id="auto-image-rounded" class="@ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudAvatar>
+        <MudImage
+            Src="@Value"
+            Elevation="25"
+            Class="rounded-lg"
+            Style="@ImageStyle"/>
+    </MudAvatar>
+</div>
+
+
+@code {
+
+    public int Priority => 1000;
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoImageRounded;
+
+}

@@ -16,31 +16,24 @@
     </ItemGroup>
     
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj"/>
-    </ItemGroup>
-    
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0-preview.5.24306.11"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0-preview.5.24306.11"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0-preview.5.24306.7"/>
-
         <PackageReference Include="System.Reactive" Version="6.0.1" />
         <PackageReference Include="System.Reactive.Linq" Version="6.0.1" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.0-preview1" />
 
-        <PackageReference Include="Serilog" Version="4.0.0" />
-        <PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1"/>
-        <PackageReference Include="Serilog.Exceptions" Version="8.4.0"/>
-        <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.1-dev-10391" />
-        <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-
         <PackageReference Include="MudBlazor" Version="7.0.0-rc.2" />
 
         <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta09" PrivateAssets="all" ExcludeAssets="runtime" />
-        <PackageReference Include="Ardalis.SmartEnum" Version="8.0.0"/>
         
         <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj" />
+      <ProjectReference Include="..\Blater.Frontend.SourceGenerator\Blater.Frontend.SourceGenerator.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Attributes\" />
     </ItemGroup>
 
 </Project>

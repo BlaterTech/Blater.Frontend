@@ -1,0 +1,32 @@
+﻿@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormComponent<string>
+@using Blater.Enumerations.AutoModel
+@using MudBlazor
+@implements IAutoBuildableComponent
+
+<div id="auto-text-area-input" class="@ExtraClass">
+    <MudTextField
+        T="string"
+        id="@InputId"
+        Disabled="Disabled"
+        Class="@ExtraClass"
+        Value="@Value"
+        ValueChanged="@ValueChanged"
+        Placeholder="@PlaceholderText"
+        Label="@LabelName"
+        Error="@HasValidationError"
+                ErrorText="@ValidationErrorMessage"
+                RequiredError="@ValidationErrorMessage"
+        Required="@Required"
+        Variant="@Variant.Filled"
+        Text="@Value"
+        AutoGrow="true"
+        Lines="3"/>
+</div>
+
+
+@code
+{
+
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoTextAreaInput;
+}

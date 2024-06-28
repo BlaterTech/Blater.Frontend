@@ -1,4 +1,4 @@
-namespace Blater.Frontend.Models;
+namespace Blater.FrontEnd.Models;
 
 public class NavMenuRouteInfo
 {

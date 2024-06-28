@@ -1,0 +1,22 @@
+﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoImageComponent
+@using Blater.Enumerations.AutoModel
+@implements IAutoBuildableComponent
+
+<div id="auto-image-rectangle" class="flex items-center gap-4 p-1 @ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudImage
+        Src="@Value"
+        Elevation="25"
+        Class="rounded"
+        Style="@ImageStyle"/>
+</div>
+
+@code {
+    
+    public int Priority => 1000;
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoImageRectangle;
+}

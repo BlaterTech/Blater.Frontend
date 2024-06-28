@@ -1,0 +1,81 @@
+﻿@using Blater.FrontEnd.Services
+@using Blater.Interfaces
+@using MudBlazor;
+
+@typeparam T where T : Blater.Models.Bases.BaseDataModel
+
+@inject LocalizationService LocalizationService
+@inject IBlaterDatabaseStoreT<T> DataRepository
+
+<MudCard Class="d-flex pa-4 align-center">
+    <MudCard Elevation="0"
+             Class="rounded-lg pa-1">
+        <MudIcon
+            Size="Size.Large"
+            Style="color: var(--mud-palette-primary-lighten )"
+            Color="Color.Inherit"
+            Icon="@Icon"/>
+    </MudCard>
+
+    <MudStack Spacing="0" Class="mx-4">
+        <MudText Typo="Typo.body1">@Label</MudText>
+        <MudText
+            Typo="Typo.h5"
+            Color="Color.Inherit"
+            Style="color: var(--mud-palette-primary-lighten )">
+            @Counter
+        </MudText>
+    </MudStack>
+</MudCard>
+
+@code
+{
+    private string? Label { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public string Icon { get; set; } = null!;
+
+
+    private int Counter { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Label = LocalizationService.Get($"CardLabel-{OverrideTranslation ?? typeof(T).Name}");
+
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    [Parameter]
+    public Func<IBlaterDatabaseStoreT<T>, Task<int>>? OverrideGetCount { get; set; }
+
+    [Parameter]
+    public string? OverrideTranslation { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        LocalizationService.LocalizationChanged += UpdateDataGrid;
+
+        void UpdateDataGrid()
+        {
+            Label = LocalizationService.Get($"CardLabel-{OverrideTranslation ?? typeof(T).Name}");
+            InvokeAsync(StateHasChanged);
+        }
+
+        if (OverrideGetCount == null)
+        {
+            var countFromSource = await DataRepository.Count().ConfigureAwait(false);
+            Counter = countFromSource.Value;
+        }
+        else
+        {
+            var countFromSource = await OverrideGetCount(DataRepository).ConfigureAwait(false);
+            Counter = countFromSource;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+}

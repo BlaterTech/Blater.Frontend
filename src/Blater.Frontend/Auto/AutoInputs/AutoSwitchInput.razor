@@ -1,0 +1,33 @@
+﻿@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormComponent<bool>
+@using Blater.Enumerations.AutoModel
+@using MudBlazor;
+
+@implements IAutoBuildableComponent
+
+<div id="auto-toggle-input" class="@ExtraClass">
+    <MudSwitch
+        T="bool"
+        Value="@Value"
+        Disabled="@Disabled"
+        Error="@HasValidationError"
+                ErrorText="@ValidationErrorMessage"
+                RequiredError="@ValidationErrorMessage"
+        ValueChanged="@Callback"
+        Label="@LabelName"
+        LabelPosition="LabelPosition.Start"
+        Color="Color.Primary"
+        Class="align-start pl-4"
+        Required="@Required"/>
+</div>
+
+
+@code
+{
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoSwitchInput;
+
+    private async Task Callback(bool obj)
+    {
+        Value = obj;
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

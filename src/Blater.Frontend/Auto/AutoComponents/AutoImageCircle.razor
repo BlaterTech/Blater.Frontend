@@ -1,0 +1,46 @@
+﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<string>
+@using Blater.Enumerations.AutoModel
+@implements IAutoBuildableComponent
+
+<div id="auto-image-circle" class="pl-2 @ExtraClass">
+
+    @*<img src="@Value" alt="image" class="@(ImageSize) rounded-full">*@
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudAvatar>
+        <MudImage Src="@Value" Class="@ImageSize"/>
+    </MudAvatar>
+</div>
+
+@code {
+
+    private string ImageSize => Size switch
+    {
+        AutoFieldSize.Normal          => "w-8 h-8 rounded-full",
+        AutoFieldSize.Small           => "w-4 h-4 rounded-full",
+        AutoFieldSize.Medium          => "w-6 h-6 rounded-full",
+        AutoFieldSize.Large           => "w-28 h-28 rounded-full",
+        AutoFieldSize.ExtraLarge      => "w-48 h-48 rounded-full",
+        AutoFieldSize.ExtraExtraLarge => "w-96 h-96 rounded-full",
+        _                             => "w-8 h-8"
+    };
+
+    public int Priority => 1000;
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoImageCircle;
+
+    [Parameter]
+    public int MinImageWidth { get; set; }
+
+    [Parameter]
+    public int MinImageHeight { get; set; }
+    
+    [Parameter]
+    public string? ContainerPrefix { get; set; }
+    
+    [Parameter]
+    public bool? ContainerPublic { get; set; }
+
+}

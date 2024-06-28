@@ -1,0 +1,136 @@
+@using Blater.FrontEnd.Models
+@using Blater.FrontEnd.Services
+@using Blater.Interfaces
+@using Blater.Models
+@using Microsoft.Extensions.Logging
+@using MudBlazor;
+
+@typeparam T where T : Blater.Models.Bases.BaseDataModel
+
+@inject IBlaterDatabaseStoreT<T> DataRepository
+@inject NavigationService NavigationService
+
+@if (Loading)
+{
+    @*<AsLoading Class="mt-20 h-12 w-12"></AsLoading>*@
+}
+else
+{
+    if (Id != Guid.Empty)
+    {
+        <AutoDetailsBuilder
+            T="T"
+            Id="@Id"
+            HasEditButton="@HasEditButton"
+            EditCallback="@EditCallback"
+            Options="@Options"
+            ExtraStyle="@ExtraStyle"/>
+
+        @if (BackButton)
+        {
+            <div class="flex justify-start gap-4 mt-4">
+                <MudButton
+                    Variant="Variant.Filled"
+                    OnClick="@BackPage">
+                    @LocalizationService.Get("BackButton")
+                </MudButton>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-3xl  text-left text-primary-1000">
+            @_title
+        </p>
+
+        <!-- Item Not found asMessage -->
+        <div class="flex flex-col justify-center items-center">
+            <p class="text-xl  text-left text-primary-1000">
+                @LocalizationService.Get("ItemNotFound")
+            </p>
+        </div>
+    }
+}
+
+@code {
+
+    public AutoDetails()
+    {
+        EditCallback = EventCallback.Factory.Create<T>(this, item => { NavigationService.NavigateTo($"{typeof(T).Name}/Edit/{item.Id}"); });
+    }
+
+    private string _typeName = typeof(T).Name;
+
+
+    private string _title = "";
+
+    [Parameter] public string? SubTitle { get; set; }
+
+    [Parameter] public string? ExtraStyle { get; set; }
+
+    [Parameter] public bool BackButton { get; set; } = true;
+
+    [Parameter] public bool HasEditButton { get; set; } = true;
+
+    [Parameter] public EventCallback<T> EditCallback { get; set; }
+
+    public T? Model { get; set; }
+
+    [Parameter]
+    [EditorRequired] public BlaterId Id { get; set; } = null!;
+
+    [Parameter] public FindPropertiesAttributeOptions<T>? Options { get; set; } = new();
+
+    [Inject] public LocalizationService LocalizationService { get; set; } = default!;
+
+    [Inject] public ILogger<AutoDetails<T>> Logger { get; set; } = default!;
+
+    [Parameter] public bool Loading { get; set; } = true;
+
+    private bool ButtonTitle => SubTitle == null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadData();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadData();
+        }
+    }
+
+    private async Task LoadData()
+    {
+        if (Id == Guid.Empty)
+        {
+            return;
+        }
+
+        var model = await DataRepository.FindOne(Id);
+
+        if (model.Value == null)
+        {
+            Id = BlaterId.Empty;
+            return;
+        }
+
+        _title = LocalizationService.Get($"Details-Title-{typeof(T).Name}");
+        Model = model.Value;
+        Loading = false;
+        StateHasChanged();
+    }
+
+    private void EditPage()
+    {
+        NavigationService.NavigateTo($"{typeof(T).Name}/Edit/{Id}");
+    }
+
+    private async void BackPage()
+    {
+        await NavigationService.GoBack();
+    }
+
+}

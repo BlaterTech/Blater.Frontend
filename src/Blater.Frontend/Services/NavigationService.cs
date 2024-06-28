@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Blater.Frontend.Attributes.Auto;
-using Blater.Frontend.Helpers;
-using Blater.Frontend.Models;
+using Blater.Attributes.Auto;
+using Blater.FrontEnd.Models;
+using Blater.Helpers;
 using Blater.Models.User;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +10,7 @@ using Microsoft.JSInterop;
 using MudBlazor;
 using Serilog;
 
-namespace Blater.Frontend.Services;
+namespace Blater.FrontEnd.Services;
 
 [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 public class NavigationService

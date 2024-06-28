@@ -1,0 +1,51 @@
+@using Blater.FrontEnd.Auto.AutoBuilders
+@using Blater.FrontEnd.Models
+@using Blater.FrontEnd.Services
+@using Blater.Models
+@using MudBlazor;
+
+@typeparam T where T : Blater.Models.Bases.BaseDataModel
+
+@inject LocalizationService LocalizationService
+
+<MudCard Elevation="0" Class="pa-4 mb-2">
+    <MudText Typo="Typo.h5">
+        @if (FormBuilder.EditMode)
+        {
+            @LocalizationService.Get($"FormEdit-Title-{_typeName}")
+        }
+        else
+        {
+            @LocalizationService.Get($"FormCreate-Title-{_typeName}")
+        }
+    </MudText>
+</MudCard>
+
+<MudCard Elevation="0" Class="pa-4">
+    <AutoFormBuilder
+        @ref="@FormBuilder"
+        T="T"
+        Id="@Id"
+        Model="@Model"
+        Options="@Options"
+        BeforeUpsert="@BeforeUpsert"
+        />
+</MudCard>
+
+@code {
+    private readonly string _typeName = typeof(T).Name;
+
+    [Parameter]
+    public BlaterId? Id { get; set; }
+
+    [Parameter]
+    public T? Model { get; set; }
+
+    [Parameter]
+    public FindPropertiesAttributeOptions<T>? Options { get; set; }
+    
+    [Parameter]
+    public Func<T, Task<bool>>? BeforeUpsert { get; set; }
+
+    private AutoFormBuilder<T> FormBuilder { get; set; } = null!;
+}

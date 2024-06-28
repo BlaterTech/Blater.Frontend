@@ -1,0 +1,50 @@
+﻿@using Blater.FrontEnd.Services
+@using MudBlazor
+<MudTimeline
+    TimelineOrientation="TimelineOrientation.Horizontal"
+    TimelinePosition="TimelinePosition.Top"
+    Reverse="false"
+    TimelineAlign="TimelineAlign.Default">
+    @foreach (KeyValuePair<int, string> step in StepsAndTexts)
+    {
+        
+        <MudTimelineItem
+            Color="@(CurrentStep >= step.Key ? Color.Primary : Color.Surface)"
+            Variant="Variant.Filled"
+            Size="Size.Large">
+            <ItemDot>
+                @if (CurrentStep > step.Key)
+                {
+                    <MudIcon Icon="@Icons.Material.Filled.Done"/>
+                }
+                else
+                {
+                    <MudText>
+                        @step.Key
+                    </MudText>
+                }
+            </ItemDot>
+            <ItemContent>
+                <MudText
+                    Color="@(CurrentStep >= step.Key ? Color.Primary : Color.Default)"
+                    Align="Align.Center">
+                    @LocalizationService.Get($"TimeLine-{step.Value}")
+                </MudText>
+            </ItemContent>
+        </MudTimelineItem>
+    }
+</MudTimeline>
+
+@code
+{
+
+    [Parameter]
+    public Dictionary<int, string> StepsAndTexts { get; set; } = null!;
+    
+    [Parameter]
+    public int CurrentStep { get; set; }
+    
+    [Inject]
+    public LocalizationService LocalizationService { get; set; } = null!;
+    
+}

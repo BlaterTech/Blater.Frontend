@@ -1,0 +1,31 @@
+﻿@*@inherits BaseAutoComponent<Guid>
+@implements IAutoBuildableComponent
+@inject IDataRepository<UserGroup> UserGroupDataRepository
+
+<div id="auto-user-group-name" class="@ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <p class="text-sm text-left text-primary-1000 ">
+            @LabelName
+        </p>
+    }
+    <span class="text-sm text-neutral-700">@_groupName</span>
+</div>
+
+
+@code {
+
+    public int Priority => 1000;
+
+    private string _groupName = "";
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var group = await UserGroupDataRepository.FindOne(Value);
+        if (group != null)
+        {
+            _groupName = group.Name;
+        }
+    }
+
+}*@

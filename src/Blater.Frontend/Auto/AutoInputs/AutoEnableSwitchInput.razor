@@ -1,0 +1,41 @@
+﻿@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormComponent<bool>
+@using Blater.Enumerations.AutoModel
+@using Blater.Models.User
+@using MudBlazor;
+
+@implements IAutoBuildableComponent
+
+@inject BlaterAuthState AuthState
+
+@if (ParentId != AuthState.UserId)
+{
+    <div id="auto-toggle-input" class="@ExtraClass">
+        <MudSwitch
+            T="bool"
+            Value="@Value"
+            Disabled="@Disabled"
+            Error="@HasValidationError"
+            ErrorText="@ValidationErrorMessage"
+            RequiredError="@ValidationErrorMessage"
+            ValueChanged="@((bool val) => Callback(val))"
+            Label="@LabelName"
+            LabelPosition="LabelPosition.Start"
+            Color="Color.Primary"
+            Class="align-start pl-4"
+            Required="@Required"/>
+    </div>
+}
+
+@code
+{
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoEnableSwitchInput;
+    
+    [CascadingParameter(Name = "ParentId")]
+    public string? ParentId { get; set; }
+
+    private async Task Callback(bool obj)
+    {
+        Value = obj;
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

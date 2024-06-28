@@ -1,0 +1,15 @@
+@typeparam TIem where TIem : Blater.Models.Bases.BaseDataModel
+               @typeparam TList where TList : List<TIem>
+
+           @inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<TList>
+           @using Blater.Enumerations.AutoModel
+           @implements IAutoBuildableComponent
+
+           <AutoDataGrid T="TIem" Items="@Value"/>
+
+
+           @code {
+               public int Priority => 1000;
+
+               public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoDataGrid;
+           }

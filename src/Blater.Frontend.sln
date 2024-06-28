@@ -2,6 +2,14 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater.FrontEnd", "Blater.FrontEnd\Blater.FrontEnd.csproj", "{438B3C36-FBC2-4A2B-8614-698FD8B112DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater.Frontend.SourceGenerator", "Blater.Frontend.SourceGenerator\Blater.Frontend.SourceGenerator.csproj", "{FA69EF50-68D7-447E-92FD-4E96C3A06AC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Public", "Public", "{C5262A89-81F8-4913-BD34-7DD0E7DBFAAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater", "..\..\Blater\src\Blater\Blater.csproj", "{D3BECD5A-D3ED-4EA1-A7B2-E96631E52A57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater.SDK", "..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj", "{4402DB02-4D44-45C4-B622-D545B2FAD124}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +20,21 @@ Global
 		{438B3C36-FBC2-4A2B-8614-698FD8B112DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{438B3C36-FBC2-4A2B-8614-698FD8B112DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{438B3C36-FBC2-4A2B-8614-698FD8B112DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA69EF50-68D7-447E-92FD-4E96C3A06AC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA69EF50-68D7-447E-92FD-4E96C3A06AC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA69EF50-68D7-447E-92FD-4E96C3A06AC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA69EF50-68D7-447E-92FD-4E96C3A06AC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3BECD5A-D3ED-4EA1-A7B2-E96631E52A57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3BECD5A-D3ED-4EA1-A7B2-E96631E52A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3BECD5A-D3ED-4EA1-A7B2-E96631E52A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3BECD5A-D3ED-4EA1-A7B2-E96631E52A57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4402DB02-4D44-45C4-B622-D545B2FAD124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4402DB02-4D44-45C4-B622-D545B2FAD124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4402DB02-4D44-45C4-B622-D545B2FAD124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4402DB02-4D44-45C4-B622-D545B2FAD124}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D3BECD5A-D3ED-4EA1-A7B2-E96631E52A57} = {C5262A89-81F8-4913-BD34-7DD0E7DBFAAC}
+		{4402DB02-4D44-45C4-B622-D545B2FAD124} = {C5262A89-81F8-4913-BD34-7DD0E7DBFAAC}
 	EndGlobalSection
 EndGlobal

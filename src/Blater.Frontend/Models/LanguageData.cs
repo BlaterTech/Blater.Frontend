@@ -1,13 +1,15 @@
-﻿using Blater.Frontend.Enumerations;
+﻿using System.Diagnostics.CodeAnalysis;
+using Blater.Enumerations;
 
-#pragma warning disable CS8618
-namespace Blater.Frontend.Models;
+namespace Blater.FrontEnd.Models;
 
+[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 public class LanguageData
 {
     public LanguageTranslation Language { get; set; }
-    public string Code { get; set; }
-    public string DateFormat { get; set; }
-    public string CurrencySymbol { get; set; }
-    public string CurrencySeparator { get; set; }
+
+    public string Code { get; set; } = null!;
+    public string DateFormat { get; set; } = null!;
+    public string CurrencySymbol { get; set; } = null!;
+    public string CurrencySeparator { get; set; } = null!;
 }

@@ -1,12 +1,14 @@
-﻿using Blater.Frontend.Enumerations;
-using Blater.Frontend.Helpers;
-using Blater.Frontend.Interfaces;
-using Blater.Frontend.Logging;
-using Blater.Frontend.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+using Blater.Enumerations;
+using Blater.FrontEnd.Interfaces;
+using Blater.FrontEnd.Models;
+using Blater.Helpers;
+using Blater.Logging;
 using Microsoft.Extensions.Logging;
 
-namespace Blater.Frontend.Services;
+namespace Blater.FrontEnd.Services;
 
+[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 public class LocalizationService
 {
     private static Dictionary<string, string> _dictionary = new();

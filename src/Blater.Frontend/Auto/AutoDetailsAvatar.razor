@@ -1,0 +1,49 @@
+@using Blater.FrontEnd.Services
+<MudCard
+    Style="background-image: linear-gradient(to bottom, transparent 50%, var(--mud-palette-surface) 50%),
+     url('https://liporstoragepulic.blob.core.windows.net/images/15518074_5594016 1.png');"
+    Class="pa-4 d-flex justify-center align-center flex-column gap-2">
+
+    <MudAvatar
+        Image="@AvatarUrl"
+        Elevation="25"
+        Style="width: 128px;
+         height: 128px;
+          border-radius: 50%;
+           border: 2px solid #FFFFFF;
+            background-color: #FFFFFF;"
+        Class="z-10"
+        Size="Size.Large"/>
+
+    <MudText
+        Typo="Typo.h5"
+        Align="Align.Center">
+        @Title
+    </MudText>
+    <MudText
+        Typo="Typo.h6"
+        Align="Align.Center">
+        @SubTitle
+    </MudText>
+</MudCard>
+
+
+@code {
+
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string? SubTitle { get; set; }
+
+    [Parameter]
+    public string? AvatarUrl { get; set; }
+
+    [Inject]
+    public LocalizationService LocalizationService { get; set; } = default!;
+
+    [Parameter]
+    public bool Loading { get; set; } = true;
+
+}

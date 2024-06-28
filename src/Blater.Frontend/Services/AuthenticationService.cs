@@ -3,10 +3,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Blater.JsonUtilities;
 using Blater.Models.User;
 using Blazored.LocalStorage;
-using Microsoft.Extensions.Logging;
-using Serilog;
 
-namespace Blater.Frontend.Services;
+namespace Blater.FrontEnd.Services;
 
 [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 public class AuthenticationService(

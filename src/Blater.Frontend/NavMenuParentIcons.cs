@@ -1,4 +1,4 @@
-namespace Blater.Frontend;
+namespace Blater.FrontEnd;
 
 public static class NavMenuParentIcons
 {

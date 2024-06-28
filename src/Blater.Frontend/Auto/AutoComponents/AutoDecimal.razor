@@ -1,0 +1,17 @@
+﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<decimal>
+@using Blater.Enumerations.AutoModel
+@implements IAutoBuildableComponent
+
+<div id="auto-double" class="@ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudText>@Value.ToString("##.##")</MudText>
+</div>
+
+@code
+{
+    public int Priority => 1000;
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoDecimal;
+}

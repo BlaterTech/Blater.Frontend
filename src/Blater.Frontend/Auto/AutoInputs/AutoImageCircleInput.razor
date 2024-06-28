@@ -1,0 +1,23 @@
+﻿@using Blater.Enumerations.AutoModel
+@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormImageComponent
+
+<div id="auto-image-circle-input" class="@ExtraClass">
+    <AsImageCircleInput
+        Disabled="@Disabled"
+        Required="@Required"
+        MaxFileSizeMb="8"
+        ExtraClass="@ExtraClass"
+        ContainerPrefix="@ContainerPrefix"
+        ContainerPublic="@ContainerPublic"
+        MaxImageSizeMb="8"
+        Value="@Value"
+        ValueChanged="@ValueChanged"
+        HasValidationError="@HasValidationError"
+        ValidationErrorMessage="@ValidationErrorMessage"/>
+</div>
+
+@code {
+    
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoImageCircleInput;
+    
+}

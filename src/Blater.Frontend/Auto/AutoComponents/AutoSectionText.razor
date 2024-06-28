@@ -1,0 +1,18 @@
+﻿@typeparam TItemType where TItemType : IConvertible
+@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<TItemType>
+@using Blater.Enumerations.AutoModel
+@implements IAutoBuildableComponent
+
+<div id="auto-section-text" class="@ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+</div>
+
+
+@code {
+    public int Priority => 1000;
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoSectionText;
+
+}

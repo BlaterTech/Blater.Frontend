@@ -1,0 +1,31 @@
+﻿@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormComponent<decimal>
+@using Blater.Enumerations.AutoModel
+@using MudBlazor
+@implements IAutoBuildableComponent
+
+<div id="auto-decimal-input" class="@ExtraClass">
+    <MudNumericField
+        T="decimal"
+        Disabled="Disabled"
+        Class="@ExtraClass"
+        Value="@Value"
+        ValueChanged="@Callback"
+        Label="@LabelName"
+        Error="@HasValidationError"
+        ErrorText="@ValidationErrorMessage"
+        RequiredError="@ValidationErrorMessage"
+        Required="@Required"
+        Variant="@Variant.Filled"/>
+</div>
+
+
+@code
+{
+    
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoDecimalInput;
+    
+    private async Task Callback(decimal obj)
+    {
+        await NotifyValueChanged(obj);
+    }
+}

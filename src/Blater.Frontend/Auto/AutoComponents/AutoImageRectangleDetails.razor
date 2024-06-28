@@ -1,0 +1,19 @@
+﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoImageComponent
+@using Blater.Enumerations.AutoModel
+@implements IAutoBuildableComponent
+
+<div id="auto-image-rectangle-details" class="flex items-center gap-4 @ExtraClass">
+    <MudImage 
+        Src="@Value"
+        Alt="image" 
+        Elevation="25"
+        Style="max-height: 300px; width: 100%"
+        Class="rounded"/>
+</div>
+
+@code {
+    public int Priority => 1000;
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoImageRectangleDetails;
+
+}

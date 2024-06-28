@@ -1,0 +1,28 @@
+﻿@inherits Blater.FrontEnd.Auto.Bases.BaseAutoFormComponent<int>
+@using Blater.Enumerations.AutoModel
+@using MudBlazor
+@implements IAutoBuildableComponent
+
+<div id="auto-numeric-input" class="@ExtraClass">
+
+    <MudNumericField
+        id="@InputId"
+        Disabled="Disabled"
+        Class="@ExtraClass"
+        Value="@Value"
+        ValueChanged="@ValueChanged"
+        Label="@LabelName"
+        Error="@HasValidationError"
+                ErrorText="@ValidationErrorMessage"
+                RequiredError="@ValidationErrorMessage"
+        Required="@Required"
+        Variant="@Variant.Filled"/>
+</div>
+
+
+@code
+{
+
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoNumericInput;
+}
