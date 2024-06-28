@@ -1,7 +1,7 @@
 @typeparam TItemType where TItemType : IConvertible
 @inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<TItemType>
 @using Blater.Enumerations.AutoModel
-@implements IAutoBuildableComponent
+@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
 
 <div id="auto-text" class="@ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))

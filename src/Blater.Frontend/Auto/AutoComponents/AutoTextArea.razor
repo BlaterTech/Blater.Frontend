@@ -1,6 +1,6 @@
 ﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<string>
 @using Blater.Enumerations.AutoModel
-@implements IAutoBuildableComponent
+@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
 
 <div id="auto-text-area" class="flex flex-col @ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))

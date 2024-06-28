@@ -1,7 +1,7 @@
 ﻿@inherits Blater.FrontEnd.Auto.Bases.BaseValueAutoComponent<decimal>
 @using System.Globalization
 @using Blater.Enumerations.AutoModel
-@implements IAutoBuildableComponent
+@implements Blater.FrontEnd.Auto.IAutoBuildableComponent
 
 <div id="auto-money-rounded" class="@ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))

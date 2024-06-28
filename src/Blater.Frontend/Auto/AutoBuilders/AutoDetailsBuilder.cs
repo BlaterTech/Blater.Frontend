@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Blater.Enumerations.AutoModel;
+using Blater.Frontend.Auto;
 using Blater.FrontEnd.EasyRenderTree;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;

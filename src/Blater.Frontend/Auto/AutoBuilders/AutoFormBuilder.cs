@@ -7,7 +7,7 @@ using Blater.AutoModelConfigurations;
 using Blater.AutoModelConfigurations.Configs;
 using Blater.Enumerations.AutoModel;
 using Blater.Extensions;
-using Blater.FrontEnd.Auto.AutoInputs;
+using Blater.Frontend.Auto.AutoInputs;
 using Blater.FrontEnd.EasyRenderTree;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
