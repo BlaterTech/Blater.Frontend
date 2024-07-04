@@ -139,7 +139,7 @@ public class NavigationService
     {
         route = RemoveLeadingSlash(route);   
         var blaterUserToken = _serviceProvider.GetRequiredService<BlaterAuthState>();
-
+        
         if (!blaterUserToken.LoggedIn)
         {
             Log.Information("Logged in is false, navigating to Authentication");
