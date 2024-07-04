@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
+using Blater.Extensions;
 using Blater.JsonUtilities;
 using Blater.Models.User;
 using Blazored.LocalStorage;
@@ -17,7 +18,7 @@ public class AuthenticationService(
     private async Task<LoginResponse> Login(string jwtToken, bool saveStorage = true)
     {
         var jwtTokenHandler = new JwtSecurityTokenHandler();
-        
+
         var jwtTokenDecoded = jwtTokenHandler.ReadJwtToken(jwtToken);
 
         if (jwtTokenDecoded.ValidTo < DateTime.UtcNow)
@@ -26,32 +27,59 @@ public class AuthenticationService(
             return new LoginResponse(false, "JWT token expired");
         }
 
-        var userTokenClaim = jwtTokenDecoded.Claims.FirstOrDefault(x => x.Type == "UserToken");
+        var claims = jwtTokenDecoded.Claims
+            .GroupBy(x => x.Type)
+            .ToDictionary(
+                g => g.Key.ToCamelCase(), 
+                g => g
+                    .Select(c => c.Value)
+                    .ToList());
 
-        if (userTokenClaim == null)
+        var blaterUserToken = new BlaterUserToken();
+        var props = typeof(BlaterUserToken).GetProperties();
+        foreach (var prop in props)
+        {
+            var key = prop.Name.ToCamelCase();
+            if (!claims.TryGetValue(key, out var claimValues))
+            {
+                continue;
+            }
+            
+            object value;
+
+            if (prop.Name == "LockoutEnabled")
+            {
+                value = claimValues.First() == "enabled";
+            }
+            else if(prop.PropertyType == typeof(List<string>))
+            {
+                value = claimValues;
+            }
+            else
+            {
+                value = claimValues.First();
+            }
+            
+            prop.SetValue(blaterUserToken, value);
+        }
+        
+        if (string.IsNullOrWhiteSpace(blaterUserToken.UserId))
         {
             return new LoginResponse(false, "Invalid jwt token, no UserToken claim found");
         }
-        
-        var blaterUserToken = userTokenClaim.Value.FromJson<BlaterUserToken>();
 
-        if (blaterUserToken == null)
-        {
-            return new LoginResponse(false, "Invalid jwt token, no UserToken claim found");
-        }
-        
         if (blaterUserToken.LockoutEnabled)
         {
             return new LoginResponse(false, "User lockout enabled");
         }
 
         SetState(blaterUserToken, jwtToken);
-        
+
         if (saveStorage)
         {
             await localStorageService.SetItemAsStringAsync(LocalStorageValueKey, jwtToken);
         }
-        
+
         navigationService.NavigateTo("home");
         return new LoginResponse(true, "User founded");
     }
@@ -69,8 +97,8 @@ public class AuthenticationService(
 
     public async Task Logout()
     {
-        var jwt= await GetJwt();
-        
+        var jwt = await GetJwt();
+
         if (!string.IsNullOrWhiteSpace(jwt))
         {
             await localStorageService.RemoveItemAsync(LocalStorageValueKey);
@@ -78,24 +106,24 @@ public class AuthenticationService(
             navigationService.NavigateTo("login");
         }
     }
-    
+
     public async Task TryAutoLogin()
     {
         var jwtToken = await GetJwt();
-        
+
         if (string.IsNullOrWhiteSpace(jwtToken))
         {
             navigationService.NavigateTo("login");
             return;
         }
-        
+
         await Login(jwtToken);
     }
-    
+
     public async Task<string> GetJwt()
     {
         var jwtToken = await localStorageService.GetItemAsStringAsync(LocalStorageValueKey);
-        
+
         return string.IsNullOrWhiteSpace(jwtToken) ? string.Empty : jwtToken;
     }
 
