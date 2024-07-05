@@ -100,7 +100,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
         Loading = true;
 
-        await DataRepository.Upsert(Model.Id, Model);
+        await DataRepository.Upsert(Model);
 
         Snackbar.Add(Localization.Get($"{Model.GetType().Name}-SnackBar-{(EditMode ? "Updated" : "Created")}"), Severity.Success);
 

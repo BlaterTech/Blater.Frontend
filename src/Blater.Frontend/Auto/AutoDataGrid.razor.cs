@@ -35,7 +35,7 @@ public partial class AutoDataGrid<T> where T : BaseDataModel
         DisableCallback = EventCallback.Factory.Create<T>(this, item =>
         {
             item.Enabled = !item.Enabled;
-            DataRepository.Update(item.Id, item);
+            DataRepository.Update(item);
         });
 
         CheckboxCallback = EventCallback.Factory.Create<(T model, bool value)>(this, _ => { });
