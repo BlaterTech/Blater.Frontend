@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Blater.Attributes.Auto;
+using Blater.Frontend.Interfaces;
 using Blater.Frontend.Models;
 using Blater.Helpers;
 using Blater.Models.User;
@@ -18,19 +19,19 @@ public class NavigationService
     private readonly IJSRuntime _jsRuntime;
     private readonly LocalizationService _localizationService;
     private readonly NavigationManager _navigationManager;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IBlaterCookieService _cookieService;
 
     public readonly List<string> IgnorePrefixes = ["Authentication/"];
 
     public List<NavMenuRouteInfo> Routes = [];
 
     public NavigationService(LocalizationService localizationService, NavigationManager navigationManager,
-                             IJSRuntime jsRuntime, IServiceProvider serviceProvider)
+                             IJSRuntime jsRuntime, IBlaterCookieService cookieService)
     {
         _localizationService = localizationService;
         _navigationManager = navigationManager;
         _jsRuntime = jsRuntime;
-        _serviceProvider = serviceProvider;
+        _cookieService = cookieService;
 
         LoadRoutes();
 
@@ -138,12 +139,12 @@ public class NavigationService
     public void Navigate(string route)
     {
         route = RemoveLeadingSlash(route);   
-        var blaterUserToken = _serviceProvider.GetRequiredService<BlaterAuthState>();
+        var blaterUserToken = _cookieService.ReadCookieString("Blater-UserToken").GetAwaiter().GetResult();
         
-        if (!blaterUserToken.LoggedIn)
+        if (string.IsNullOrWhiteSpace(blaterUserToken))
         {
             Log.Information("Logged in is false, navigating to Authentication");
-            _navigationManager.NavigateTo("/login", true);
+            _navigationManager.NavigateTo("login");
             return;
         }
         
