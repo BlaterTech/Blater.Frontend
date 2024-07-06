@@ -8,11 +8,11 @@ namespace Blater.Frontend.Services;
 
 [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
 public class AuthenticationService(
-    IBlaterLocalStorageService localStorageService,
     BlaterAuthState blaterAuthState,
+    IBlaterCookieService cookieService,
     NavigationService navigationService)
 {
-    private const string LocalStorageValueKey = "UserToken";
+    private const string CookieKey = "Blater-UserToken";
 
     private async Task<LoginResponse> Login(string jwtToken, bool saveStorage = true)
     {
@@ -76,7 +76,7 @@ public class AuthenticationService(
 
         if (saveStorage)
         {
-            await localStorageService.SetItem(LocalStorageValueKey, blaterAuthState);
+            await cookieService.WriteCookieString(CookieKey, jwtToken, DateTime.UtcNow.AddDays(1));
         }
 
         navigationService.NavigateTo("home");
@@ -85,37 +85,29 @@ public class AuthenticationService(
 
     public async Task Logout()
     {
-        var authState = await GetBlaterState();
+        var jwtToken = await TryGetCookie();
 
-        if (!string.IsNullOrWhiteSpace(authState?.JwtToken))
+        if (!string.IsNullOrWhiteSpace(jwtToken))
         {
-            await localStorageService.RemoveItem(LocalStorageValueKey);
+            await cookieService.DeleteCookie(CookieKey);
             blaterAuthState.LoggedIn = false;
             navigationService.NavigateTo("login");
         }
     }
 
-    public async Task<BlaterAuthState?> TryAutoLogin()
+    public async Task TryAutoLogin()
     {
-        var authState = await GetBlaterState();
-
-        if (string.IsNullOrWhiteSpace(authState?.JwtToken))
+        var jwtToken = await TryGetCookie();
+        
+        if (string.IsNullOrWhiteSpace(jwtToken))
         {
             navigationService.NavigateTo("login");
-            return default;
+            return;
         }
 
-        await Login(authState.JwtToken);
-        return authState;
+        await Login(jwtToken);
     }
-
-    public async Task<BlaterAuthState?> GetBlaterState()
-    {
-        var authState = await localStorageService.GetItem<BlaterAuthState>(LocalStorageValueKey);
-
-        return string.IsNullOrWhiteSpace(authState?.JwtToken) ? default : authState;
-    }
-
+    
     public async Task<LoginResponse> LoginJwt(string jwtToken, bool saveStorage = true)
     {
         var result = await Login(jwtToken, saveStorage);
@@ -125,6 +117,12 @@ public class AuthenticationService(
             navigationService.NavigateTo("home");
         }
 
+        return result;
+    }
+
+    public async Task<string> TryGetCookie()
+    {
+        var result = await cookieService.ReadCookieString(CookieKey);
         return result;
     }
     
