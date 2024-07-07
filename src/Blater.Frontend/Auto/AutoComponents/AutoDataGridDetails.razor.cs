@@ -4,7 +4,7 @@ using Blater.Models.Bases;
 
 namespace Blater.Frontend.Auto.AutoComponents;
 
-[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+
 public partial class AutoDataGridDetails<TIem, TList> 
     where TIem : BaseDataModel
     where TList : List<TIem>

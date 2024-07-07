@@ -14,7 +14,7 @@ using MudBlazor;
 
 namespace Blater.Frontend.Auto;
 
-[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+
 public partial class AutoDataGrid<T> where T : BaseDataModel
 {
     private List<AutoComponentConfiguration> _componentConfigurations = null!;

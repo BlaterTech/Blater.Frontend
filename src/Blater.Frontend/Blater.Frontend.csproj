@@ -31,18 +31,5 @@
       <ProjectReference Include="..\..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj" />
       <ProjectReference Include="..\Blater.Frontend.SourceGenerator\Blater.Frontend.SourceGenerator.csproj" />
     </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="Components\" />
-      <Folder Include="Pages\" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Components\Chat\AsChat.razor" />
-      <UpToDateCheckInput Remove="Components\Chat\AsChatOld.razor" />
-      <UpToDateCheckInput Remove="Components\Chat\Components\AsAttachmentDisplay.razor" />
-      <UpToDateCheckInput Remove="Components\Chat\Components\AsMessageBubble.razor" />
-      <UpToDateCheckInput Remove="Components\Chat\Components\AsMessageDateHeader.razor" />
-    </ItemGroup>
 
 </Project>

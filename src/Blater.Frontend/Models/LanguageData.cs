@@ -3,7 +3,7 @@ using Blater.Enumerations;
 
 namespace Blater.Frontend.Models;
 
-[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+
 public class LanguageData
 {
     public LanguageTranslation Language { get; set; }

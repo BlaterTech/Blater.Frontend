@@ -8,7 +8,7 @@ using MudBlazor;
 
 namespace Blater.Frontend.Auto.AutoBuilders;
 
-[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+
 public class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDataModel
 {
     public override AutoComponentDisplayType DisplayType { get; set; } = AutoComponentDisplayType.Details;
@@ -23,7 +23,7 @@ public class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseD
             builder.OpenComponent<AutoDetailsAvatar>()
                    .AddAttribute("Title", avatarFrontendModel.Title)
                    .AddAttribute("SubTitle", avatarFrontendModel.SubTitle)
-                   .AddAttribute("AvatarUrl", avatarFrontendModel.AvatarUrl)
+                   .AddAttribute("AvatarImage", avatarFrontendModel.AvatarImage)
                    .Close();
         }
 

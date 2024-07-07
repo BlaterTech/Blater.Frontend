@@ -3,7 +3,7 @@ using Blater.Enumerations.AutoModel;
 
 namespace Blater.Frontend.Auto;
 
-[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+
 public interface IAutoBuildableComponent
 {
     public BaseAutoComponentTypeEnumeration ComponentType { get; }

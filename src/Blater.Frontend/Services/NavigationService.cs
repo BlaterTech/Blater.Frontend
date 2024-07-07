@@ -4,16 +4,14 @@ using Blater.Attributes.Auto;
 using Blater.Frontend.Interfaces;
 using Blater.Frontend.Models;
 using Blater.Helpers;
-using Blater.Models.User;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using MudBlazor;
 using Serilog;
 
 namespace Blater.Frontend.Services;
 
-[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+
 public class NavigationService
 {
     private readonly IJSRuntime _jsRuntime;

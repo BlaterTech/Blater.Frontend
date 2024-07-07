@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Auto;
 
-[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+
 public partial class AutoForm<T> where T : BaseDataModel
 {
     private readonly string _typeName = typeof(T).Name;

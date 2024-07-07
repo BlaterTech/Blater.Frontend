@@ -15,7 +15,7 @@ public static class DetailsPageTemplate
               [AutoIgnore]
               [Layout(typeof(ContainerLayout))]
               [Route("/{{typeName}}/Details/{Id:guid}")]
-              [SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+              
               public partial class {{typeName}}DetailsPage : ComponentBase
               {
                   protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)

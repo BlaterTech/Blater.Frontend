@@ -1,7 +1,6 @@
 ﻿using Blater.Exceptions;
 using Blater.Frontend.Interfaces;
 using Blater.JsonUtilities;
-using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.JSInterop;
 

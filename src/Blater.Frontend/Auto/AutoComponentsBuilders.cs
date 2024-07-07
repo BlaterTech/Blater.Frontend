@@ -10,7 +10,7 @@ namespace Blater.Frontend.Auto;
 /// <summary>
 ///     Finder of types that can be built using the auto form builder
 /// </summary>
-[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+
 public static class AutoComponentsBuilders
 {
     private static readonly Type BaseComponentType = typeof(IAutoBuildableComponent);

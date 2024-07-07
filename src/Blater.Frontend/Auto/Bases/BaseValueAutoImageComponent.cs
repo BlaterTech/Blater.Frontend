@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Auto.Bases;
 
-[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+
 public class BaseValueAutoImageComponent : BaseValueAutoComponent<string>
 {
     [Parameter]

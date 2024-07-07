@@ -19,7 +19,7 @@ using Color = MudBlazor.Color;
 
 namespace Blater.Frontend.Auto.AutoBuilders;
 
-[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+
 [SuppressMessage("Attributes/Parameters", "MUD0002:Unknown MudBlazor attribute/parameter")]
 public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDataModel
 {
@@ -134,10 +134,10 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
                                   .AddContent(avatarDivBuilder =>
                                    {
                                        avatarDivBuilder.OpenComponent<AutoImageCircleInput>()
-                                                       .AddAttribute("Value", avatarFrontendModel.AvatarUrl)
+                                                       .AddAttribute("Value", avatarFrontendModel.AvatarImage)
                                                        .AddAttribute("ContainerPrefix", "avatar")
                                                        .AddAttribute("ContainerPublic", true)
-                                                       .AddAttribute("ValueChanged", EventCallback.Factory.Create<string>(this, value => avatarFrontendModel.AvatarUrl = value))
+                                                       .AddAttribute("ValueChanged", EventCallback.Factory.Create<string>(this, value => avatarFrontendModel.AvatarImage = value))
                                                        .Close();
                                    }).Close();
                         divBuilder.OpenElement("div", BuildInputs);

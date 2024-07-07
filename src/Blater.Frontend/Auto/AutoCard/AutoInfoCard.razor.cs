@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Auto.AutoCard;
 
-[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+
 public partial class AutoInfoCard<T> where T : BaseDataModel
 {
     [Inject] private IBlaterDatabaseStoreT<T> DataRepository { get; set; } = null!;

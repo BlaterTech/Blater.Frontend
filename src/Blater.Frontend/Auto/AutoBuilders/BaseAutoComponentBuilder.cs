@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Blater.Frontend.Auto.AutoBuilders;
 
-[SuppressMessage("Usage", "CA2252:Esta API requer a aceitação de recursos de visualização")]
+
 public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : BaseDataModel
 {
     private bool _enabled = true;
