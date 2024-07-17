@@ -31,5 +31,63 @@
       <ProjectReference Include="..\..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj" />
       <ProjectReference Include="..\Blater.Frontend.SourceGenerator\Blater.Frontend.SourceGenerator.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Auto\AutoCard\AutoInfoCard.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoAddress.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoBadge.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoCNPJFormatted.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoDataGridDetails.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoDate.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoDecimal.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoFileDetails.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoGuidListCount.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoImageCircle.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoImageRectangle.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoImageRectangleDetails.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoImageRounded.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoLastCreditCardNumbers.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoMoney.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoMoneyRounded.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoMoneyRoundedTable.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoNumeric.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoSectionText.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoShortId.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoStatus.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoText.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoTextArea.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoTextEnum.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoTextLink.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoTextStatus.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoTextTable.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoTitle.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoUserGroupName.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoWallet.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoComponents\AutoWalletTable.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoDataGrid.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoDetails.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoDetailsAvatar.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoForm.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoAddressInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoCheckBoxInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoCNPJInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoDateTimeInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoDecimalInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoEditPasswordInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoEnableSwitchInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoFileInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoImageCircleInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoImageInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoMoneyInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoNumericInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoPasswordInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoSelectInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoSelectNoTranslationInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoSwitchInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoTextAreaInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoTextInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoInputs\AutoTitleInput.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoTimeline.razor" />
+    </ItemGroup>
 
 </Project>

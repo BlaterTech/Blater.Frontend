@@ -1,8 +1,0 @@
-@typeparam TIem where TIem : Blater.Models.Bases.BaseDataModel
-    @typeparam TList where TList : List<TIem>
-
-@inherits Blater.Frontend.Auto.Bases.BaseValueAutoComponent<TList>
-
-@implements IAutoBuildableComponent
-
-<AutoDataGrid T="TIem" Items="@Value"/>

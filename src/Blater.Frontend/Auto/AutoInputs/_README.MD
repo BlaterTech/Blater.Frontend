@@ -1,1 +1,0 @@
-Only card auto components
