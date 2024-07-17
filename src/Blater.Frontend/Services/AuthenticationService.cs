@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using Blater.Extensions;
 using Blater.Frontend.Interfaces;
 using Blater.Models.User;

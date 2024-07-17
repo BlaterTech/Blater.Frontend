@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Blater.Enumerations.AutoModel;
+﻿using Blater.Enumerations.AutoModel;
 
 namespace Blater.Frontend.Auto;
 

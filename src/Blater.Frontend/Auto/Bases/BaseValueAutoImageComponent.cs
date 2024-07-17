@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Blater.Enumerations.AutoModel;
+﻿using Blater.Enumerations.AutoModel;
 using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Auto.Bases;

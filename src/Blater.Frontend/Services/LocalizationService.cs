@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Blater.Enumerations;
+﻿using Blater.Enumerations;
 using Blater.Frontend.Interfaces;
 using Blater.Frontend.Models;
 using Blater.Helpers;

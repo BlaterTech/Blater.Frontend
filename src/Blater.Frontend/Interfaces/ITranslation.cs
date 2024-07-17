@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using Blater.Enumerations;
 
 namespace Blater.Frontend.Interfaces;

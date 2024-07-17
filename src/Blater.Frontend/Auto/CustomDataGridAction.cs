@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Blater.Models.Bases;
+﻿using Blater.Models.Bases;
 using MudBlazor;
 
 namespace Blater.Frontend.Auto;
