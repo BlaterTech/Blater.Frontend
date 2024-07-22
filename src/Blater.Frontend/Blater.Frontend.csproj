@@ -32,5 +32,10 @@
       <ProjectReference Include="..\..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj" />
       <ProjectReference Include="..\Blater.Frontend.SourceGenerator\Blater.Frontend.SourceGenerator.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="wwwroot\css\" />
+      <Folder Include="wwwroot\img\" />
+    </ItemGroup>
 
 </Project>
