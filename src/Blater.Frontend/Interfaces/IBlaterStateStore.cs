@@ -16,13 +16,6 @@ public interface IBlaterStateStore
     bool Equals(object? aObject);
     int GetHashCode();
     void Remove(IStateComponent aBlazorStateComponent);
-
-    /// <summary>
-    ///     Will iterate over all subscriptions for the given type and call ReRender on each.
-    ///     If the target component no longer exists it will remove its subscription.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
     Task ReRenderSubscribers<T>();
-
     Task<T?> WaitForState<T>(Expression<Func<T, bool>> predicate);
 }

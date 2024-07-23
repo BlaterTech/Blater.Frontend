@@ -9,6 +9,7 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
     private readonly Dictionary<string, CacheItem> _cache = new();
     private readonly ReaderWriterLockSlim _cacheLock = new();
     private bool _loading;
+    private Task _loadTask = null!;
     
     public TimeSpan DefaultTimeout { get; set; } = TimeSpan.FromMinutes(5.0);
 
@@ -46,16 +47,16 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
 
     public async Task<TValue?> Get<TValue>(string key)
     {
+        await EnsureLoaded();
+        
         _cacheLock.EnterReadLock();
-        key = key.SanitizeKey();
-        await LoadValues();
         try
         {
+            key = key.SanitizeKey();
             if (_cache.TryGetValue(key, out var cacheItem) && !cacheItem.IsExpired())
             {
                 return (TValue)cacheItem.Value;
             }
-
             return default;
         }
         finally
@@ -71,8 +72,9 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
 
     public async Task<TValue> GetOrSet<TValue>(string key, Func<TValue> valueFactory, TimeSpan? timeout = null)
     {
+        await EnsureLoaded();
+
         _cacheLock.EnterUpgradeableReadLock();
-        await LoadValues();
         try
         {
             key = key.SanitizeKey();
@@ -116,25 +118,28 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
     {
         if (value == null) return;
 
+        await EnsureLoaded();
+        
         _cacheLock.EnterWriteLock();
-        await LoadValues();
+        var cacheItem = new CacheItem(value, DateTime.UtcNow.Add(timeout ?? DefaultTimeout));
         try
         {
-            var cacheItem = new CacheItem(value, DateTime.UtcNow.Add(timeout ?? DefaultTimeout));
             key = key.SanitizeKey();
             _cache[key] = cacheItem;
-            await localStorage.SetItemAsync(key, cacheItem);
         }
         finally
         {
             _cacheLock.ExitWriteLock();
         }
+        
+        await localStorage.SetItemAsync(key, cacheItem);
     }
 
     public async Task Remove(string key)
     {
+        await EnsureLoaded();
+
         _cacheLock.EnterWriteLock();
-        await LoadValues();
         try
         {
             key = key.SanitizeKey();
@@ -151,8 +156,9 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
 
     public async Task Remove(IEnumerable<string> keys)
     {
+        await EnsureLoaded();
+
         _cacheLock.EnterWriteLock();
-        await LoadValues();
         try
         {
             foreach (var key in keys)
@@ -172,8 +178,9 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
 
     public async Task<bool> ContainsKey(string key)
     {
+        await EnsureLoaded();
+
         _cacheLock.EnterReadLock();
-        await LoadValues();
         try
         {
             key = key.SanitizeKey();
@@ -187,8 +194,9 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
 
     public async Task Clear()
     {
+        await EnsureLoaded();
+
         _cacheLock.EnterWriteLock();
-        await LoadValues();
         try
         {
             _cache.Clear();
@@ -200,13 +208,18 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
         }
     }
 
+    private async Task EnsureLoaded()
+    {
+        if (!_loading)
+        {
+            _loading = true;
+            _loadTask = LoadValues();
+        }
+        await _loadTask;
+    }
+
     private async Task LoadValues()
     {
-        if (_loading)
-        {
-            return;
-        }
-        
         var keys = await localStorage.KeysAsync();
 
         foreach (var key in keys)
@@ -216,10 +229,16 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
             var item = await localStorage.GetItemAsync<CacheItem>(newKey);
             if (item != null)
             {
-                _cache[newKey] = item;
+                _cacheLock.EnterWriteLock();
+                try
+                {
+                    _cache[newKey] = item;
+                }
+                finally
+                {
+                    _cacheLock.ExitWriteLock();
+                }
             }
         }
-
-        _loading = true;
     }
 }
