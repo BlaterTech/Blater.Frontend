@@ -8,7 +8,7 @@ public interface IBlaterStateStore
     void AddSubscription<T>(IStateComponent aBlazorStateComponent);
     void AddSubscription(Type aType, IStateComponent aBlazorStateComponent);
     Task SetState(object? state);
-    Task<T?> GetState<T>();
+    Task<T> GetState<T>(); 
     Task<object> GetState(Type type);
     void DeleteState<T>();
     void DeleteState(Type type);

@@ -1,4 +1,6 @@
 ﻿using System.Linq.Expressions;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Blater.Frontend.Interfaces;
 using Blater.JsonUtilities;
 using Blater.Models.User;
@@ -14,7 +16,7 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
     private readonly List<Subscription> _blazorStateComponentReferencesList = [];
 
     private readonly Dictionary<Type, List<Action>> _subscriptions = new();
-    
+
     private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
 
     public void AddSubscription<T>(IStateComponent aBlazorStateComponent)
@@ -47,7 +49,7 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
         {
             var type = state.GetType();
             var name = type.Name;
-            memoryCache.Set(name, state);
+            await memoryCache.Set(name, state);
             await ReRenderSubscribers(type);
             NotifyStateChanged(type);
         }
@@ -57,11 +59,19 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
         }
     }
 
-    public async Task<T?> GetState<T>()
+    public async Task<T> GetState<T>()
     {
         var type = typeof(T);
         var result = await GetState(type);
-        return result.ToJson().FromJson<T>() ?? default;
+
+        var value = result switch
+        {
+            JsonElement jsonElement => jsonElement.GetRawText().FromJson<T>() ?? Activator.CreateInstance<T>(),
+            T typedValue => typedValue,
+            _ => Activator.CreateInstance<T>()
+        };
+        
+        return value;
     }
 
     public async Task<object> GetState(Type type)
@@ -72,7 +82,7 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
         {
             return value;
         }
-
+        
         try
         {
             var emptyState = Activator.CreateInstance(type);
@@ -80,7 +90,7 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
             if (emptyState == null)
                 throw new Exception($"Could not create instance of type {type}");
 
-            memoryCache.Set(key, emptyState);
+            await memoryCache.Set(key, emptyState);
             return emptyState;
         }
         catch (Exception e)
@@ -149,7 +159,7 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
 
         await ReRenderSubscribers(type);
     }
-    
+
     public async Task<T?> WaitForState<T>(Expression<Func<T, bool>> predicate)
     {
         var compiled = predicate.Compile();
@@ -168,7 +178,7 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
         logger.LogError("Could not get expected state after {Attempts} attempts", attempts);
         return default;
     }
-    
+
     /// <summary>
     ///     Will iterate over all subscriptions for the given type and call ReRender on each.
     ///     If the target component no longer exists it will remove its subscription.
@@ -209,7 +219,7 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
         }
     }
 
-    
+
     private void NotifyStateChanged(Type type)
     {
         if (!_subscriptions.TryGetValue(type, out var value)) return;

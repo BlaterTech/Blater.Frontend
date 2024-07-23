@@ -1,4 +1,5 @@
 ﻿using Blater.Frontend.Interfaces;
+using Blater.JsonUtilities;
 using Blater.Utilities;
 using Microsoft.AspNetCore.Components;
 
@@ -19,11 +20,12 @@ public class BlaterStateComponent : ComponentBase, IStateComponent, IDisposable
         await InvokeAsync(StateHasChanged);
     }
 
-    protected async Task<T?> GetState<T>()
+    protected async Task<T> GetState<T>()
     {
         var stateType = typeof(T);
         StateStoreService.AddSubscription(stateType, this);
-        return await StateStoreService.GetState<T>();
+        var result = await StateStoreService.GetState<T>();
+        return result;
     }
 
     protected async Task SetState<T>(T state)

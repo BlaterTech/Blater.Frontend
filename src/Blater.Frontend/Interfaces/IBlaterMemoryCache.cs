@@ -9,11 +9,11 @@ public interface IBlaterMemoryCache
     HashSet<CacheItem> Values { get; }
     Task<TValue?> Get<TValue>(string key);
     Task<object?> Get(string key);
-    TValue GetOrSet<TValue>(string key, Func<TValue> valueFactory, TimeSpan? timeout = null);
+    Task<TValue> GetOrSet<TValue>(string key, Func<TValue> valueFactory, TimeSpan? timeout = null);
     bool TryGetValue<TValue>(string key, out TValue value);
-    void Set(string key, object? value, TimeSpan? timeout = null);
-    void Remove(string key);
-    void Remove(IEnumerable<string> keys);
-    bool ContainsKey(string key);
-    void Clear();
+    Task Set(string key, object? value, TimeSpan? timeout = null);
+    Task Remove(string key);
+    Task Remove(IEnumerable<string> keys);
+    Task<bool> ContainsKey(string key);
+    Task Clear();
 }

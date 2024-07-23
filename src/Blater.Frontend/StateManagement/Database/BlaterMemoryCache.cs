@@ -1,7 +1,6 @@
-﻿using Blater.Frontend.Interfaces;
-using Blater.JsonUtilities;
+﻿using Blater.Frontend.Extensions;
+using Blater.Frontend.Interfaces;
 using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.StateManagement.Database;
 
@@ -9,8 +8,8 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
 {
     private readonly Dictionary<string, CacheItem> _cache = new();
     private readonly ReaderWriterLockSlim _cacheLock = new();
-    private bool _isInitialized;
-    private const string BaseKey = "blater-state";
+    private bool _loading;
+    
     public TimeSpan DefaultTimeout { get; set; } = TimeSpan.FromMinutes(5.0);
 
     public HashSet<string> Keys
@@ -47,26 +46,22 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
 
     public async Task<TValue?> Get<TValue>(string key)
     {
-        await LoadValues();
         _cacheLock.EnterReadLock();
+        key = key.SanitizeKey();
+        await LoadValues();
         try
         {
-            key = $"{BaseKey}-{key.ToLower()}";
             if (_cache.TryGetValue(key, out var cacheItem) && !cacheItem.IsExpired())
             {
                 return (TValue)cacheItem.Value;
             }
+
+            return default;
         }
         finally
         {
             _cacheLock.ExitReadLock();
         }
-
-        var storedValue = await localStorage.GetItemAsync<TValue>(key);
-        if (storedValue == null) return default;
-
-        Set(key, storedValue);
-        return storedValue;
     }
 
     public Task<object?> Get(string key)
@@ -74,19 +69,20 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
         return Get<object>(key);
     }
 
-    public TValue GetOrSet<TValue>(string key, Func<TValue> valueFactory, TimeSpan? timeout = null)
+    public async Task<TValue> GetOrSet<TValue>(string key, Func<TValue> valueFactory, TimeSpan? timeout = null)
     {
         _cacheLock.EnterUpgradeableReadLock();
+        await LoadValues();
         try
         {
-            key = $"{BaseKey}-{key.ToLower()}";
+            key = key.SanitizeKey();
             if (_cache.TryGetValue(key, out var cacheItem) && !cacheItem.IsExpired())
             {
                 return (TValue)cacheItem.Value;
             }
 
             var value = valueFactory();
-            Set(key, value, timeout);
+            await Set(key, value, timeout);
             return value;
         }
         finally
@@ -100,7 +96,7 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
         _cacheLock.EnterReadLock();
         try
         {
-            key = $"{BaseKey}-{key.ToLower()}";
+            key = key.SanitizeKey();
             if (_cache.TryGetValue(key, out var cacheItem) && !cacheItem.IsExpired())
             {
                 value = (TValue)cacheItem.Value;
@@ -116,17 +112,18 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
         }
     }
 
-    public void Set(string key, object? value, TimeSpan? timeout = null)
+    public async Task Set(string key, object? value, TimeSpan? timeout = null)
     {
         if (value == null) return;
 
         _cacheLock.EnterWriteLock();
+        await LoadValues();
         try
         {
             var cacheItem = new CacheItem(value, DateTime.UtcNow.Add(timeout ?? DefaultTimeout));
-            key = $"{BaseKey}-{key.ToLower()}";
+            key = key.SanitizeKey();
             _cache[key] = cacheItem;
-            localStorage.SetItemAsync(key, cacheItem);
+            await localStorage.SetItemAsync(key, cacheItem);
         }
         finally
         {
@@ -134,15 +131,16 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
         }
     }
 
-    public void Remove(string key)
+    public async Task Remove(string key)
     {
         _cacheLock.EnterWriteLock();
+        await LoadValues();
         try
         {
-            key = $"{BaseKey}-{key.ToLower()}";
+            key = key.SanitizeKey();
             if (_cache.Remove(key))
             {
-                localStorage.RemoveItemAsync(key);
+                await localStorage.RemoveItemAsync(key);
             }
         }
         finally
@@ -151,17 +149,18 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
         }
     }
 
-    public void Remove(IEnumerable<string> keys)
+    public async Task Remove(IEnumerable<string> keys)
     {
         _cacheLock.EnterWriteLock();
+        await LoadValues();
         try
         {
             foreach (var key in keys)
             {
-                var newKey = $"{BaseKey}-{key.ToLower()}";
+                var newKey = key.SanitizeKey();
                 if (_cache.Remove(newKey))
                 {
-                    localStorage.RemoveItemAsync(newKey);
+                    await localStorage.RemoveItemAsync(newKey);
                 }
             }
         }
@@ -171,12 +170,13 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
         }
     }
 
-    public bool ContainsKey(string key)
+    public async Task<bool> ContainsKey(string key)
     {
         _cacheLock.EnterReadLock();
+        await LoadValues();
         try
         {
-            key = $"{BaseKey}-{key.ToLower()}";
+            key = key.SanitizeKey();
             return _cache.ContainsKey(key);
         }
         finally
@@ -185,13 +185,14 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
         }
     }
 
-    public void Clear()
+    public async Task Clear()
     {
         _cacheLock.EnterWriteLock();
+        await LoadValues();
         try
         {
             _cache.Clear();
-            localStorage.ClearAsync();
+            await localStorage.ClearAsync();
         }
         finally
         {
@@ -201,13 +202,16 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
 
     private async Task LoadValues()
     {
-        if (_isInitialized) return;
-
+        if (_loading)
+        {
+            return;
+        }
+        
         var keys = await localStorage.KeysAsync();
+
         foreach (var key in keys)
         {
-            var newKey = "";
-            newKey = !key.Contains("blater-state") ? $"{BaseKey}-{key.ToLower()}" : key;
+            var newKey = key.SanitizeKey();
 
             var item = await localStorage.GetItemAsync<CacheItem>(newKey);
             if (item != null)
@@ -216,6 +220,6 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
             }
         }
 
-        _isInitialized = true;
+        _loading = true;
     }
 }
