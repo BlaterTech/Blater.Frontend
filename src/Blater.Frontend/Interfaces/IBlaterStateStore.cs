@@ -8,10 +8,10 @@ public interface IBlaterStateStore
     void AddSubscription<T>(IStateComponent aBlazorStateComponent);
     void AddSubscription(Type aType, IStateComponent aBlazorStateComponent);
     Task SetState(object? state);
-    Task<T> GetState<T>();
+    Task<T?> GetState<T>();
     Task<object> GetState(Type type);
-    Task DeleteState<T>();
-    Task DeleteState(Type type);
+    void DeleteState<T>();
+    void DeleteState(Type type);
     void Subscribe<T>(Action callback);
     bool Equals(object? aObject);
     int GetHashCode();

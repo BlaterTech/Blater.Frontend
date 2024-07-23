@@ -1,11 +1,12 @@
 ﻿using System.Linq.Expressions;
 using Blater.Frontend.Interfaces;
+using Blater.JsonUtilities;
 using Blater.Models.User;
 using Microsoft.Extensions.Logging;
 
 namespace Blater.Frontend.StateManagement;
 
-public class BlaterStateStore(IBlaterMemoryDatabase memoryDatabase, ILogger<BlaterStateStore> logger)
+public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStateStore> logger)
     : IBlaterStateStore
 {
     private record Subscription(Type StateType, string ComponentId, WeakReference<IStateComponent?> WeakReference);
@@ -45,8 +46,8 @@ public class BlaterStateStore(IBlaterMemoryDatabase memoryDatabase, ILogger<Blat
         try
         {
             var type = state.GetType();
-            
-            await memoryDatabase.Insert(type, state);
+            var name = type.Name;
+            memoryCache.Set(name, state);
             await ReRenderSubscribers(type);
             NotifyStateChanged(type);
         }
@@ -56,16 +57,17 @@ public class BlaterStateStore(IBlaterMemoryDatabase memoryDatabase, ILogger<Blat
         }
     }
 
-    public async Task<T> GetState<T>()
+    public async Task<T?> GetState<T>()
     {
         var type = typeof(T);
-        return (T)await GetState(type);
+        var result = await GetState(type);
+        return result.ToJson().FromJson<T>() ?? default;
     }
 
     public async Task<object> GetState(Type type)
     {
         var key = type.Name;
-        var value = memoryDatabase.Get(key);
+        var value = await memoryCache.Get(key);
         if (value != null)
         {
             return value;
@@ -78,7 +80,7 @@ public class BlaterStateStore(IBlaterMemoryDatabase memoryDatabase, ILogger<Blat
             if (emptyState == null)
                 throw new Exception($"Could not create instance of type {type}");
 
-            await memoryDatabase.Insert(key, emptyState);
+            memoryCache.Set(key, emptyState);
             return emptyState;
         }
         catch (Exception e)
@@ -89,15 +91,16 @@ public class BlaterStateStore(IBlaterMemoryDatabase memoryDatabase, ILogger<Blat
         throw new Exception($"Could not find or create instance of type {type}");
     }
 
-    public Task DeleteState<T>()
+    public void DeleteState<T>()
     {
         var type = typeof(T);
-        return DeleteState(type);
+        DeleteState(type);
     }
 
-    public Task DeleteState(Type type)
+    public void DeleteState(Type type)
     {
-        return memoryDatabase.Remove(type);
+        var name = type.Name;
+        memoryCache.Remove(name);
     }
 
     public void Subscribe<T>(Action callback)

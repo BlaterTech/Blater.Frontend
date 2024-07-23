@@ -16,7 +16,7 @@ public class BlaterStateInputComponent : ComponentBase, IStateComponent, IDispos
         await InvokeAsync(StateHasChanged);
     }
 
-    protected async Task<T> GetState<T>()
+    protected async Task<T?> GetState<T>()
     {
         var stateType = typeof(T);
         StateStoreService.AddSubscription(stateType, this);

@@ -12,23 +12,14 @@ public class BlaterStateComponent : ComponentBase, IStateComponent, IDisposable
     public IBlaterStateStore StateStoreService { get; set; } = null!;
     
     [Inject]
-    public IBlaterMemoryDatabase MemoryDatabase { get; set; } = null!;
+    public IBlaterMemoryCache MemoryCache { get; set; } = null!;
     
     public async Task ReRender()
     {
         await InvokeAsync(StateHasChanged);
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await MemoryDatabase.LoadFromLocalStorage();
-            StateHasChanged();
-        }
-    }
-
-    protected async Task<T> GetState<T>()
+    protected async Task<T?> GetState<T>()
     {
         var stateType = typeof(T);
         StateStoreService.AddSubscription(stateType, this);
