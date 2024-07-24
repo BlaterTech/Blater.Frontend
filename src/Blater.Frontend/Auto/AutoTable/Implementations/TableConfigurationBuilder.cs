@@ -17,18 +17,38 @@ public class TableConfigurationBuilder<TTable>(TableConfiguration<TTable> tableC
         return this;
     }
 
-    public IColumnConfigurationBuilder Property<TProperty>(
+    public IColumnConfigurationBuilder<TTable> Property<TProperty>(
         Expression<Func<TTable, TProperty>> propertyExpression)
     {
         var propertyName = GetPropertyName(propertyExpression);
         var columnConfiguration = tableConfiguration.Columns.FirstOrDefault(c => c.HasColumnName == propertyName);
 
-        if (columnConfiguration != null) return new ColumnConfigurationBuilder(columnConfiguration);
+        if (columnConfiguration != null) return new ColumnConfigurationBuilder<TTable>(columnConfiguration);
         
         _currentColumnConfig = new ColumnConfiguration { HasColumnName = propertyName };
         tableConfiguration.Columns.Add(_currentColumnConfig);
 
-        return new ColumnConfigurationBuilder(_currentColumnConfig);
+        return new ColumnConfigurationBuilder<TTable>(_currentColumnConfig);
+    }
+
+    public TTable GetInstance()
+    {
+        throw new NotImplementedException();
+    }
+
+    public TProperty GetPropertyValue<TProperty>(Func<TTable, TProperty> value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public TTable SetValue<TProperty>(Func<TTable, TProperty> setter)
+    {
+        throw new NotImplementedException();
+    }
+
+    public TTable SetValue(TTable setter)
+    {
+        throw new NotImplementedException();
     }
 
     private string GetPropertyName<TProperty>(Expression<Func<TTable, TProperty>> propertyExpression)

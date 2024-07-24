@@ -1,13 +1,16 @@
-﻿using Blater.Frontend.Auto.AutoTable.Implementations;
+﻿using System.ComponentModel.DataAnnotations;
+using Blater.Frontend.Auto.AutoTable.Implementations;
 using Blater.Frontend.Auto.AutoTable.Interfaces;
 using Blater.Models.Bases;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace Blater.Frontend.Auto.AutoTable.Configurations;
 
 public class Foo : BaseDataModel
 {
     public int Quantity { get; set; }
-    
+
     private class FooConfiguration : ITableConfiguration<Foo>
     {
         public void Configure(TableConfigurationBuilder<Foo> builder)
@@ -17,12 +20,27 @@ public class Foo : BaseDataModel
             builder
                 .Property(x => x.Quantity)
                 .Order(5)
+                .Order(5)
+                .Order(5)
                 .HasColumnName("Qtd")
                 .MaxLength(5)
                 .MergeColumn(2)
                 .Class("mud-width-full")
                 .Style("color: red")
-                .IsRequired();
+                .IsRequired()
+                .HasValidation(value => value.Quantity > 0, "Quantity must be greater than 0")
+                .HasValidation(v =>
+                {
+                    v.AddRule(new RangeAttribute(1, 100) { ErrorMessage = "Quantity must be between 1 and 100" });
+                    v.AddRule(new RequiredAttribute { ErrorMessage = "Quantity is required" });
+                })
+                .ComponentType("ComponentName, creating enum component name")
+                .OnValueChanged(EventCallback.Factory.Create<int>(this, value => OnQuantityChanged(builder, value)));
+        }
+
+        private void OnQuantityChanged(TableConfigurationBuilder<Foo> builder, int value)
+        {
+            builder.SetValue(x => x.Quantity += value);
         }
     }
 }
