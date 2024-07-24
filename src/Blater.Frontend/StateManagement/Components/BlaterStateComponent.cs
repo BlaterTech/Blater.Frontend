@@ -12,9 +12,6 @@ public class BlaterStateComponent : ComponentBase, IStateComponent, IDisposable
     [Inject]
     public IBlaterStateStore StateStoreService { get; set; } = null!;
     
-    [Inject]
-    public IBlaterMemoryCache MemoryCache { get; set; } = null!;
-    
     public async Task ReRender()
     {
         await InvokeAsync(StateHasChanged);
@@ -28,9 +25,9 @@ public class BlaterStateComponent : ComponentBase, IStateComponent, IDisposable
         return result;
     }
 
-    protected async Task SetState<T>(T state)
+    protected async Task SetState<T>(T state, TimeSpan? timeout = null)
     {
-        await StateStoreService.SetState(state);
+        await StateStoreService.SetState(state, timeout);
     }
     
     public void Dispose()

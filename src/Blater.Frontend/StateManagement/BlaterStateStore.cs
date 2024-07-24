@@ -40,7 +40,7 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
         _blazorStateComponentReferencesList.Add(subscription);
     }
 
-    public async Task SetState(object? state)
+    public async Task SetState(object? state, TimeSpan? timeout = null)
     {
         if (state == null) return;
 
@@ -49,7 +49,7 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
         {
             var type = state.GetType();
             var name = type.Name;
-            await memoryCache.Set(name, state);
+            await memoryCache.Set(name, state, timeout);
             await ReRenderSubscribers(type);
             NotifyStateChanged(type);
         }
