@@ -18,4 +18,6 @@ public interface IColumnConfigurationBuilder<T> where T : BaseDataModel
     IColumnConfigurationBuilder<T> HasValidation(Func<T, bool> validationRule, string errorMessage);
     IColumnConfigurationBuilder<T> ComponentType(string style);
     IColumnConfigurationBuilder<T> OnValueChanged<TProperty>(EventCallback<TProperty> callback);
+    IColumnConfigurationBuilder<T> OnClick<TProperty>(EventCallback<TProperty> callback);
+    IColumnConfigurationBuilder<T> OnParameterSet<TProperty>(EventCallback<TProperty> callback);
 }   

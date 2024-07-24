@@ -69,7 +69,17 @@ public class ColumnConfigurationBuilder<T>(ColumnConfiguration configuration) : 
     {
         throw new NotImplementedException();
     }
-    
+
+    public IColumnConfigurationBuilder<T> OnClick<TProperty>(EventCallback<TProperty> callback)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IColumnConfigurationBuilder<T> OnParameterSet<TProperty>(EventCallback<TProperty> callback)
+    {
+        throw new NotImplementedException();
+    }
+
     public IColumnConfigurationBuilder<T> ComponentType(string style)
     {
         throw new NotImplementedException();
