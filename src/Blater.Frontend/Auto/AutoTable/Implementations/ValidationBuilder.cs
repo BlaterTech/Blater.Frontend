@@ -7,7 +7,7 @@ namespace Blater.Frontend.Auto.AutoTable.Implementations;
 public class ValidationBuilder<TProperty>(ValidationConfiguration<TProperty> configuration)
     : IValidationBuilder<TProperty>
 {
-    public IValidationBuilder<TProperty> AddRule(ValidationAttribute attribute)
+    public IValidationBuilder<TProperty> AddValidation(ValidationAttribute attribute)
     {
         configuration.ValidationAttributes.Add(attribute);
         return this;

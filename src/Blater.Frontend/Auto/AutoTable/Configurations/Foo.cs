@@ -31,8 +31,8 @@ public class Foo : BaseDataModel
                 .HasValidation(value => value.Quantity > 0, "Quantity must be greater than 0")
                 .HasValidation(v =>
                 {
-                    v.AddRule(new RangeAttribute(1, 100) { ErrorMessage = "Quantity must be between 1 and 100" });
-                    v.AddRule(new RequiredAttribute { ErrorMessage = "Quantity is required" });
+                    v.AddValidation(new RangeAttribute(1, 100) { ErrorMessage = "Quantity must be between 1 and 100" });
+                    v.AddValidation(new RequiredAttribute { ErrorMessage = "Quantity is required" });
                 })
                 .ComponentType("ComponentName, creating enum component name")
                 .OnValueChanged(EventCallback.Factory.Create<int>(this, value => OnQuantityChanged(builder, value)));
