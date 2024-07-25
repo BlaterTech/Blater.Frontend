@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Auto.AutoTable.Interfaces;
 
-public interface IColumnConfigurationBuilder<T> where T : BaseDataModel
+public interface IColumnConfigurationBuilder<out T> where T : BaseDataModel
 {
     IColumnConfigurationBuilder<T> HasColumnName(string columnName);
     IColumnConfigurationBuilder<T> MaxLength(int value);

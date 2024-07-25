@@ -13,7 +13,7 @@ public class ValidationBuilder<TProperty>(ValidationConfiguration<TProperty> con
         return this;
     }
 
-    public IValidationBuilder<TProperty> AddRule(Func<TProperty, bool> rule, string errorMessage)
+    public IValidationBuilder<TProperty> AddValidation(Func<TProperty, bool> rule, string errorMessage)
     {
         configuration.Rules.Add(rule);
         configuration.ErrorMessages.Add(errorMessage);
