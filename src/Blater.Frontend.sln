@@ -10,6 +10,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater", "..\..\Blater\src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater.SDK", "..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj", "{4402DB02-4D44-45C4-B622-D545B2FAD124}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater.Frontend.Charts", "Blater.Frontend.Charts\Blater.Frontend.Charts.csproj", "{75CE3566-6F0C-48F7-B407-A6D9B48C5A90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater.Frontend.Store", "Blater.Frontend.Store\Blater.Frontend.Store.csproj", "{E745DC89-B403-4C65-B4A7-C0CB7A8EC876}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater.Frontend.Chat", "Blater.Frontend.Chat\Blater.Frontend.Chat.csproj", "{51AD232C-6F05-4089-AF15-722BA38C8DF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +38,18 @@ Global
 		{4402DB02-4D44-45C4-B622-D545B2FAD124}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4402DB02-4D44-45C4-B622-D545B2FAD124}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4402DB02-4D44-45C4-B622-D545B2FAD124}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75CE3566-6F0C-48F7-B407-A6D9B48C5A90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75CE3566-6F0C-48F7-B407-A6D9B48C5A90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75CE3566-6F0C-48F7-B407-A6D9B48C5A90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75CE3566-6F0C-48F7-B407-A6D9B48C5A90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E745DC89-B403-4C65-B4A7-C0CB7A8EC876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E745DC89-B403-4C65-B4A7-C0CB7A8EC876}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E745DC89-B403-4C65-B4A7-C0CB7A8EC876}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E745DC89-B403-4C65-B4A7-C0CB7A8EC876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51AD232C-6F05-4089-AF15-722BA38C8DF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51AD232C-6F05-4089-AF15-722BA38C8DF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51AD232C-6F05-4089-AF15-722BA38C8DF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51AD232C-6F05-4089-AF15-722BA38C8DF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D3BECD5A-D3ED-4EA1-A7B2-E96631E52A57} = {C5262A89-81F8-4913-BD34-7DD0E7DBFAAC}
