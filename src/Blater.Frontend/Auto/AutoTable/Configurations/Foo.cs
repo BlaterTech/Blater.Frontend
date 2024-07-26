@@ -3,7 +3,6 @@ using Blater.Frontend.Auto.AutoTable.Implementations;
 using Blater.Frontend.Auto.AutoTable.Interfaces;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
 
 namespace Blater.Frontend.Auto.AutoTable.Configurations;
 

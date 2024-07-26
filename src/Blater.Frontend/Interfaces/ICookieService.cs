@@ -1,6 +1,4 @@
-﻿using Blater.Results;
-
-namespace Blater.Frontend.Interfaces;
+﻿namespace Blater.Frontend.Interfaces;
 
 public interface ICookieService
 {

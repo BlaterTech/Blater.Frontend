@@ -1,5 +1,4 @@
-﻿using Blater.Frontend.Auto.AutoTable.Implementations;
-using Blater.Models.Bases;
+﻿using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Auto.AutoTable.Interfaces;
