@@ -21,16 +21,7 @@ public class CookieService(IJSRuntime jsRuntime, IHttpContextAccessor httpContex
     public async Task<string> GetCookie(string key)
     {
         string result;
-
-        try
-        {
-
-        }
-        catch
-        {
-            throw;
-        }
-    
+        
         if (_httpContext is { Response.HasStarted: false })
         {
             result = _httpContext.Request.Cookies[key];

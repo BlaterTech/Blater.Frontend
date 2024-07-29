@@ -19,7 +19,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{C0BD395B-C0A7-4BDF-9E1B-3F0DBCFF6FFE}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
+		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{5187165B-E6FB-48E0-A94F-1349EE010C42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,5 +62,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D3BECD5A-D3ED-4EA1-A7B2-E96631E52A57} = {C5262A89-81F8-4913-BD34-7DD0E7DBFAAC}
 		{4402DB02-4D44-45C4-B622-D545B2FAD124} = {C5262A89-81F8-4913-BD34-7DD0E7DBFAAC}
+		{75CE3566-6F0C-48F7-B407-A6D9B48C5A90} = {5187165B-E6FB-48E0-A94F-1349EE010C42}
+		{51AD232C-6F05-4089-AF15-722BA38C8DF9} = {5187165B-E6FB-48E0-A94F-1349EE010C42}
+		{E745DC89-B403-4C65-B4A7-C0CB7A8EC876} = {5187165B-E6FB-48E0-A94F-1349EE010C42}
 	EndGlobalSection
 EndGlobal
