@@ -1,4 +1,4 @@
-/*using System.Diagnostics;
+using System.Diagnostics;
 using System.Security.Claims;
 using Blater.Frontend.Extensions;
 using Blater.Interfaces;
@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Blater.Frontend.Pages.Account;
+namespace Blater.Frontend.Persisting.Authentication;
 
 // This is a server-side AuthenticationStateProvider that revalidates the security stamp for the connected user
 // every 30 minutes an interactive circuit is connected. It also uses PersistentComponentState to flow the
@@ -102,4 +102,4 @@ internal sealed class PersistingRevalidatingAuthenticationStateProvider : Revali
         AuthenticationStateChanged -= OnAuthenticationStateChanged;
         base.Dispose(disposing);
     }
-}*/
+}
