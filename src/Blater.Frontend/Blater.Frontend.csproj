@@ -45,11 +45,5 @@
       <Folder Include="wwwroot\css\" />
       <Folder Include="wwwroot\img\" />
     </ItemGroup>
-    
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Components\Inputs\BlaterButtonInput.razor" />
-      <UpToDateCheckInput Remove="Components\Inputs\BlaterPasswordInput.razor" />
-      <UpToDateCheckInput Remove="Components\Inputs\BlaterTextInput.razor" />
-    </ItemGroup>
 
 </Project>

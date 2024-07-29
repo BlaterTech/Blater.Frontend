@@ -67,6 +67,8 @@ public class TenantData : ITableEntity
     public required string ThemeDrawerIcon { get; set; }
     public required string ThemeAppbarBackground { get; set; }
     public required string ThemeAppbarText { get; set; }
+    public required string ThemeSurface { get; set; }
+    public required string ThemeBackground { get; set; }
     
     #endregion
 }

@@ -8,7 +8,7 @@ using Blater.Frontend.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Blater.Frontend.Services;
+namespace Blater.Frontend.Tenant;
 
 [SuppressMessage("Performance", "CA1848:Usar os delegados LoggerMessage")]
 public class TenantService : ITenantService, IDisposable
