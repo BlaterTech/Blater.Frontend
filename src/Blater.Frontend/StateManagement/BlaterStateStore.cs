@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Text.Json;
 using Blater.Frontend.Interfaces;
 using Blater.JsonUtilities;
@@ -7,8 +8,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Blater.Frontend.StateManagement;
 
+[SuppressMessage("Usage", "CA2201:Não gerar tipos de exceção reservados")]
+[SuppressMessage("Performance", "CA1848:Usar os delegados LoggerMessage")]
 public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStateStore> logger)
-    : IBlaterStateStore
+    : IBlaterStateStore, IDisposable
 {
     private record Subscription(Type StateType, string ComponentId, WeakReference<IStateComponent?> WeakReference);
 
@@ -125,9 +128,9 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
         }
     }
 
-    public override bool Equals(object? aObject)
+    public override bool Equals(object? obj)
     {
-        return aObject is BlaterStateStore service &&
+        return obj is BlaterStateStore service &&
                EqualityComparer<List<Subscription>>.Default.Equals(
                    _blazorStateComponentReferencesList,
                    service._blazorStateComponentReferencesList);
@@ -226,5 +229,10 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
         {
             action();
         }
+    }
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
     }
 }

@@ -1,7 +1,9 @@
-﻿using Blater.Frontend.StateManagement.Database;
+﻿using System.Diagnostics.CodeAnalysis;
+using Blater.Frontend.StateManagement.Database;
 
 namespace Blater.Frontend.Interfaces;
 
+[SuppressMessage("Naming", "CA1716:Identificadores não devem corresponder a palavras-chave")]
 public interface IBlaterMemoryCache
 {
     TimeSpan DefaultTimeout { get; set; }

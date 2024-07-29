@@ -1,0 +1,23 @@
+<Project>
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>preview</LangVersion>
+        
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <AnalysisLevel>latest-Recommended</AnalysisLevel>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <NoWarn>$(NoWarn);NU5104</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <SupportedPlatform Include="browser"/>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <SolutionDirectory>$(MSBuildThisFileDirectory.TrimEnd('\\'))</SolutionDirectory>
+    </PropertyGroup>
+</Project> 

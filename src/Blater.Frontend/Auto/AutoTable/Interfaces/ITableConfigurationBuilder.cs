@@ -1,8 +1,10 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using Blater.Models.Bases;
 
 namespace Blater.Frontend.Auto.AutoTable.Interfaces;
 
+[SuppressMessage("Naming", "CA1716:Identificadores não devem corresponder a palavras-chave")]
 public interface ITableConfigurationBuilder<TTable> where TTable : BaseDataModel
 {
     ITableConfigurationBuilder<TTable> ToTable(string tableName);

@@ -51,7 +51,7 @@ public class TableConfigurationBuilder<TTable>(TableConfiguration<TTable> tableC
         throw new NotImplementedException();
     }
 
-    private string GetPropertyName<TProperty>(Expression<Func<TTable, TProperty>> propertyExpression)
+    private static string GetPropertyName<TProperty>(Expression<Func<TTable, TProperty>> propertyExpression)
     {
         return propertyExpression.Body switch
         {

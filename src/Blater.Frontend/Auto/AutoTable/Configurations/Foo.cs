@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using Blater.Frontend.Auto.AutoTable.Implementations;
 using Blater.Frontend.Auto.AutoTable.Interfaces;
 using Blater.Models.Bases;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Auto.AutoTable.Configurations;
 
+[SuppressMessage("Performance", "CA1822:Marcar membros como estáticos")]
 public class Foo : BaseDataModel
 {
     public int Quantity { get; set; }

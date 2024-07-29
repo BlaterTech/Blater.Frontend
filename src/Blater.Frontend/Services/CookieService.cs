@@ -1,10 +1,12 @@
-﻿using Blater.Frontend.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+using Blater.Frontend.Interfaces;
 using Blater.JsonUtilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.JSInterop;
 
 namespace Blater.Frontend.Services;
 
+[SuppressMessage("Usage", "CA2201:Não gerar tipos de exceção reservados")]
 public class CookieService(IJSRuntime jsRuntime, IHttpContextAccessor httpContextAccessor) : ICookieService
 {
     private readonly HttpContext? _httpContext = httpContextAccessor.HttpContext;

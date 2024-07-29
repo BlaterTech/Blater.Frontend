@@ -4,7 +4,7 @@ using Blazored.LocalStorage;
 
 namespace Blater.Frontend.StateManagement.Database;
 
-public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemoryCache
+public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemoryCache, IDisposable
 {
     private readonly Dictionary<string, CacheItem> _cache = new();
     private readonly ReaderWriterLockSlim _cacheLock = new();
@@ -240,5 +240,10 @@ public class BlaterMemoryCache(ILocalStorageService localStorage) : IBlaterMemor
                 }
             }
         }
+    }
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
     }
 }
