@@ -1,7 +1,7 @@
 ﻿using Blater.Models.Storage;
 using Blater.Models.Storage.Request;
 
-namespace Blater.FrontEnd.Interfaces;
+namespace Blater.Frontend.Interfaces;
 
 public interface IBlobStorageService
 {

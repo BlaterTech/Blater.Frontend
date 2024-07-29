@@ -24,7 +24,7 @@ public class CookieService(IJSRuntime jsRuntime, IHttpContextAccessor httpContex
         
         if (_httpContext is { Response.HasStarted: false })
         {
-            result = _httpContext.Request.Cookies[key];
+            result = _httpContext.Request.Cookies[key] ?? "";
         }
         else
         {

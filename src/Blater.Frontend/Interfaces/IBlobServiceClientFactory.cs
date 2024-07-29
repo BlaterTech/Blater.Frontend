@@ -1,7 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using Blater.Frontend.Enumerations;
 
-namespace Blater.FrontEnd.Interfaces;
+namespace Blater.Frontend.Interfaces;
 
 public interface IBlobServiceClientFactory
 {

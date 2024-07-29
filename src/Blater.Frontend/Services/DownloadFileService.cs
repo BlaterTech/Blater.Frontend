@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Blater.FrontEnd.Interfaces;
+using Blater.Frontend.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 

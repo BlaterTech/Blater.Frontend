@@ -1,9 +1,9 @@
 ﻿using Azure.Storage.Blobs;
 using Blater.Frontend.Enumerations;
-using Blater.FrontEnd.Interfaces;
+using Blater.Frontend.Interfaces;
 using Microsoft.Extensions.Configuration;
 
-namespace Blater.FrontEnd.Factories;
+namespace Blater.Frontend.Factories;
 
 public class BlobServiceClientFactory(IConfiguration configuration) : IBlobServiceClientFactory
 {

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using Blater.Frontend.Auto.AutoTable.Implementations;
 using Blater.Frontend.Auto.AutoTable.Interfaces;
 using Blater.Models.Bases;

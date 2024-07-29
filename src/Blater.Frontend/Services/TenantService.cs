@@ -3,7 +3,7 @@ using Azure.Data.Tables;
 using Azure.Security.KeyVault.Secrets;
 using Blater.Enumerations;
 using Blater.Frontend.Extensions;
-using Blater.FrontEnd.Interfaces;
+using Blater.Frontend.Interfaces;
 using Blater.Frontend.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

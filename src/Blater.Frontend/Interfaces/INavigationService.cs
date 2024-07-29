@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Blater.FrontEnd.Interfaces;
+namespace Blater.Frontend.Interfaces;
 
 public interface INavigationService
 {

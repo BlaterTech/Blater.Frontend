@@ -1,7 +1,7 @@
 ﻿using Blater.Enumerations;
-using Blater.FrontEnd.Interfaces;
+using Blater.Frontend.Interfaces;
 
-namespace Blater.FrontEnd.Translations;
+namespace Blater.Frontend.Translations;
 
 public class FrontendTranslationPortugues : ITranslation
 {

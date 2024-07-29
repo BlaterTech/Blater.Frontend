@@ -2,10 +2,9 @@
 using System.Reflection;
 using Blater.Attributes.Auto;
 using Blater.Extensions;
-using Blater.FrontEnd;
 using Blater.Frontend.Attributes;
-using Blater.FrontEnd.Interfaces;
-using Blater.FrontEnd.Models;
+using Blater.Frontend.Interfaces;
+using Blater.Frontend.Models;
 using Blater.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;

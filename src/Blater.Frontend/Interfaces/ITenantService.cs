@@ -1,7 +1,7 @@
 ﻿using Blater.Enumerations;
 using Blater.Frontend.Models;
 
-namespace Blater.FrontEnd.Interfaces;
+namespace Blater.Frontend.Interfaces;
 
 public interface ITenantService
 {

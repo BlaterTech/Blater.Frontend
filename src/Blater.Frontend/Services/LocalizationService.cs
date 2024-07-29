@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Blater.Enumerations;
-using Blater.FrontEnd.Interfaces;
-using Blater.FrontEnd.Models;
+using Blater.Frontend.Interfaces;
+using Blater.Frontend.Models;
 using Blater.Helpers;
 using Blater.Logging;
 using Microsoft.Extensions.Logging;

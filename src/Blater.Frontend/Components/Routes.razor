@@ -1,0 +1,20 @@
+﻿@using System.Reflection
+
+<Router AppAssembly="@ExecutingAssembly" AdditionalAssemblies="AdditionalAssemblies">
+    <Found Context="routeData">
+        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(BlaterMainLayout)">
+            <NotAuthorized>
+                <RedirectToLogin/>
+            </NotAuthorized>
+        </AuthorizeRouteView>
+        <FocusOnNavigate RouteData="routeData" Selector="h1"/>
+    </Found>
+</Router>
+
+@code
+{
+    private static readonly Assembly ExecutingAssembly = Assembly.GetEntryAssembly()!;
+    private static readonly Assembly FrontEndAssembly = typeof(WebSetup).Assembly;
+
+    private static readonly List<Assembly> AdditionalAssemblies = [FrontEndAssembly];
+}

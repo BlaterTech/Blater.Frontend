@@ -1,6 +1,6 @@
 ﻿using Blater.Enumerations;
 
-namespace Blater.FrontEnd.Models;
+namespace Blater.Frontend.Models;
 
 public class LanguageData
 {

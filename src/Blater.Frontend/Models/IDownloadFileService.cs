@@ -1,4 +1,4 @@
-﻿namespace Blater.FrontEnd.Models;
+﻿namespace Blater.Frontend.Models;
 
 public interface IDownloadFileService
 {

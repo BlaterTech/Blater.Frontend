@@ -4,14 +4,14 @@ using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
 using Blater.Extensions;
 using Blater.Frontend.Enumerations;
-using Blater.FrontEnd.Exceptions;
-using Blater.FrontEnd.Interfaces;
+using Blater.Frontend.Exceptions;
+using Blater.Frontend.Interfaces;
 using Blater.Models.Storage;
 using Blater.Models.Storage.Request;
 using Microsoft.Extensions.Logging;
 using SharpCompress.Readers;
 
-namespace Blater.FrontEnd.Storage;
+namespace Blater.Frontend.Storage;
 
 [SuppressMessage("Performance", "CA1848:Usar os delegados LoggerMessage")]
 [SuppressMessage("Usage", "CA2254:O modelo deve ser uma expressão estática")]

@@ -1,6 +1,6 @@
 ﻿using Blater.Results;
 
-namespace Blater.FrontEnd.Exceptions;
+namespace Blater.Frontend.Exceptions;
 
 public class BlaterBlobStorageException : Exception
 {
