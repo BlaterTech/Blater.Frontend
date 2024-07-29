@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater.FrontEnd", "Blater.FrontEnd\Blater.FrontEnd.csproj", "{438B3C36-FBC2-4A2B-8614-698FD8B112DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater.Frontend", "Blater.Frontend\Blater.Frontend.csproj", "{438B3C36-FBC2-4A2B-8614-698FD8B112DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater.Frontend.SourceGenerator", "Blater.Frontend.SourceGenerator\Blater.Frontend.SourceGenerator.csproj", "{FA69EF50-68D7-447E-92FD-4E96C3A06AC3}"
 EndProject
