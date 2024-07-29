@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Blater.Frontend.StateManagement;
 
-[SuppressMessage("Usage", "CA2201:Não gerar tipos de exceção reservados")]
 [SuppressMessage("Performance", "CA1848:Usar os delegados LoggerMessage")]
 public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStateStore> logger)
     : IBlaterStateStore, IDisposable
@@ -90,7 +89,7 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
             var emptyState = Activator.CreateInstance(type);
 
             if (emptyState == null)
-                throw new Exception($"Could not create instance of type {type}");
+                throw new InvalidOperationException($"Could not create instance of type {type}");
 
             await memoryCache.Set(key, emptyState);
             return emptyState;
@@ -100,7 +99,7 @@ public class BlaterStateStore(IBlaterMemoryCache memoryCache, ILogger<BlaterStat
             logger.LogError(e, "Could not create instance of type {Type}", type);
         }
 
-        throw new Exception($"Could not find or create instance of type {type}");
+        throw new InvalidOperationException($"Could not find or create instance of type {type}");
     }
 
     public void DeleteState<T>()

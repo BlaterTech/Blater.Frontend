@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Auto.AutoTable.Configurations;
 
-[SuppressMessage("Performance", "CA1822:Marcar membros como estáticos")]
 public class Foo : BaseDataModel
 {
     public int Quantity { get; set; }
@@ -39,7 +38,7 @@ public class Foo : BaseDataModel
                 .OnValueChanged(EventCallback.Factory.Create<int>(this, value => OnQuantityChanged(builder, value)));
         }
 
-        private void OnQuantityChanged(TableConfigurationBuilder<Foo> builder, int value)
+        private static void OnQuantityChanged(TableConfigurationBuilder<Foo> builder, int value)
         {
             builder.SetValue(x => x.Quantity += value);
         }
