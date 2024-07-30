@@ -1,6 +1,6 @@
 ﻿@using System.Reflection
 
-<Router AppAssembly="@ExecutingAssembly">
+<Router AppAssembly="@ExecutingAssembly" AdditionalAssemblies="AdditionalAssemblies">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(BlaterMainLayout)">
             <NotAuthorized>
@@ -9,9 +9,22 @@
         </AuthorizeRouteView>
         <FocusOnNavigate RouteData="routeData" Selector="h1"/>
     </Found>
+    <NotFound>
+        @foreach (var asse in AdditionalAssemblies)
+        {
+            <p>@asse.FullName</p>
+        }
+        <p>@ExecutingAssembly.FullName</p>
+    </NotFound>
 </Router>
 
 @code
 {
-    private static readonly Assembly ExecutingAssembly = Assembly.GetExecutingAssembly();
+    private static readonly Assembly ExecutingAssembly = Assembly.GetExecutingAssembly()!;
+    private static readonly Assembly FrontEndAssembly = typeof(WebSetup).Assembly;
+
+    private static readonly List<Assembly> AdditionalAssemblies = new()
+    {
+        FrontEndAssembly
+    };
 }

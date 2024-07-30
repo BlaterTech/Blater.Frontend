@@ -95,9 +95,7 @@ public static class WebSetup
         app.MapRazorComponents<TApp>()
            .AddInteractiveServerRenderMode()
            .AddInteractiveWebAssemblyRenderMode()
-           .AddAdditionalAssemblies(typeof(Blater.Frontend.Client.WebSetup).Assembly,
-                                    typeof(WebSetup).Assembly,
-                                    Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly());
+           .AddAdditionalAssemblies(typeof(Blater.Frontend.Client.WebSetup).Assembly);
     }
     
     public static async Task RunBlaterApp<TApp>(string[]? args = default)  where TApp : ComponentBase
