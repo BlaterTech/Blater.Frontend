@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{5187165B-E6FB-48E0-A94F-1349EE010C42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blater.Frontend.WebAssembly", "Blater.Frontend.WebAssembly\Blater.Frontend.WebAssembly.csproj", "{7D239358-2B23-4394-8133-8A5B7D5B231F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{51AD232C-6F05-4089-AF15-722BA38C8DF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51AD232C-6F05-4089-AF15-722BA38C8DF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51AD232C-6F05-4089-AF15-722BA38C8DF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D239358-2B23-4394-8133-8A5B7D5B231F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D239358-2B23-4394-8133-8A5B7D5B231F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D239358-2B23-4394-8133-8A5B7D5B231F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D239358-2B23-4394-8133-8A5B7D5B231F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D3BECD5A-D3ED-4EA1-A7B2-E96631E52A57} = {C5262A89-81F8-4913-BD34-7DD0E7DBFAAC}

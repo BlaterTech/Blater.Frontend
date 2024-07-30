@@ -18,7 +18,7 @@ namespace Blater.Frontend.Persisting.Authentication;
 // This is a server-side AuthenticationStateProvider that revalidates the security stamp for the connected user
 // every 30 minutes an interactive circuit is connected. It also uses PersistentComponentState to flow the
 // authentication state to the client which is then fixed for the lifetime of the WebAssembly application.
-internal sealed class PersistingRevalidatingAuthenticationStateProvider : RevalidatingServerAuthenticationStateProvider
+internal sealed class PersistingRevalidatingAuthenticationStateProvider : AuthenticationStateProvider
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly PersistentComponentState _state;
@@ -54,16 +54,10 @@ internal sealed class PersistingRevalidatingAuthenticationStateProvider : Revali
         return await ValidateSecurityStampAsync(userManager, authenticationState.User);
     }
 
-    private static async Task<bool> ValidateSecurityStampAsync(IBlaterDatabaseRepository<BlaterUser> repository, ClaimsPrincipal principal)
+    private static bool ValidateSecurityStampAsync(IBlaterDatabaseRepository<BlaterUser> repository, ClaimsPrincipal principal)
     {
         var claim = principal.Claims.FirstOrDefault(x => x.Type == "UserId");
         if (claim == null)
-        {
-            return false;
-        }
-
-        var user = await repository.FindOne(x => x.Id == claim.Value);
-        if (user == null)
         {
             return false;
         }

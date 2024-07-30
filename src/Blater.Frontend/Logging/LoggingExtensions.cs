@@ -116,10 +116,10 @@ public static class LoggingExtensions
         builder.Services.AddSerilog((sp, config) => config.ConfigLoggerConfig(sp));
     }
     
-    public static void UseSerilogDefaultConfig(this WebApplicationBuilder builder)
+    /*public static void UseSerilogDefaultConfig(this WebApplicationBuilder builder)
     {
         builder.Services.AddSerilog((sp, config) => config.ConfigLoggerConfig(sp));
-    }
+    }*/
     
     private static LoggerConfiguration ConfigLoggerConfig(this LoggerConfiguration config, IServiceProvider sp)
     {
