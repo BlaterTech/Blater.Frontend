@@ -1,6 +1,6 @@
 ﻿@using System.Reflection
 
-<Router AppAssembly="@ExecutingAssembly" AdditionalAssemblies="AdditionalAssemblies">
+<Router AppAssembly="@ExecutingAssembly">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(BlaterMainLayout)">
             <NotAuthorized>
@@ -14,10 +14,4 @@
 @code
 {
     private static readonly Assembly ExecutingAssembly = Assembly.GetExecutingAssembly();
-
-    private static readonly List<Assembly> AdditionalAssemblies =
-    [
-        typeof(WebSetup).Assembly,
-        Assembly.GetEntryAssembly()!
-    ];
 }
