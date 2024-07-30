@@ -1,4 +1,4 @@
-﻿using Blater.Frontend.Enumerations;
+﻿/*using Blater.Frontend.Enumerations;
 
 namespace Blater.Frontend.Attributes;
 
@@ -8,4 +8,4 @@ public class RequiredAccessAttribute(List<string> userRoles, List<string> userPe
     public List<string> UserRoles { get; } = userRoles;
     public List<string> UserPermissions { get; } = userPermissions;
     public UserTypes UserTypes { get; } = userTypes;
-}
+}*/

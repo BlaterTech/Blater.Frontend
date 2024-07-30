@@ -1,32 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0-preview.6.24328.4"  />
+        <SupportedPlatform Include="browser"/>
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.0-preview.6.24328.4" />
-        <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0-preview.6.24327.7" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.7" />
+
+        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
 
         <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
         
-        <PackageReference Include="SharpCompress" Version="0.37.2" />
-        <PackageReference Include="System.Drawing.Common" Version="9.0.0-preview.6.24327.6" />
         <PackageReference Include="System.Reactive" Version="6.0.1" />
         <PackageReference Include="System.Reactive.Linq" Version="6.0.1" />
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
-
-        <PackageReference Include="MudBlazor" Version="7.4.0" />
+        
         <PackageReference Include="Extensions.MudBlazor.StaticInput" Version="2.1.1" />
-
-        <PackageReference Include="BlazorMonaco" Version="3.2.0" />
         
         <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta09" PrivateAssets="all" ExcludeAssets="runtime" />
-        
-        <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
-        <PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
     </ItemGroup>
     
-    
+    <ItemGroup>
+      <ProjectReference Include="..\Blater.Frontend.Client\Blater.Frontend.Client.csproj" />
+    </ItemGroup>
 
 </Project>

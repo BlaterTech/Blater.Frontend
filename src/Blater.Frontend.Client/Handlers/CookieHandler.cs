@@ -1,8 +1,7 @@
 ﻿using System.Net.Http.Headers;
-using Blater.Frontend.Client;
 using Blater.Frontend.Client.Extensions;
 
-namespace Blater.Frontend.Handlers;
+namespace Blater.Frontend.Client.Handlers;
 
 public class CookieHandler : DelegatingHandler
 {

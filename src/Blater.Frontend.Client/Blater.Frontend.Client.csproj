@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+    
+    <ItemGroup>
+        <SupportedPlatform Include="browser-wasm"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MudBlazor" Version="7.4.0" />
+        
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.7" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.7" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.7"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.7" />
+
+        <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+        <PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
+
+        <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta09" PrivateAssets="all" ExcludeAssets="runtime" />
+
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Blater\src\Blater\Blater.csproj" />
+      <ProjectReference Include="..\..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj" />
+    </ItemGroup>
+    
+</Project>
