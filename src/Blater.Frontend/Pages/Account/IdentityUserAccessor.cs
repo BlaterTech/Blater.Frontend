@@ -2,7 +2,7 @@ using Blater.Interfaces;
 using Blater.Models.User;
 using Microsoft.AspNetCore.Http;
 
-namespace Blater.Frontend.Account;
+namespace Blater.Frontend.Pages.Account;
 
 public sealed class IdentityUserAccessor(
     IBlaterDatabaseRepository<BlaterUser> repository,

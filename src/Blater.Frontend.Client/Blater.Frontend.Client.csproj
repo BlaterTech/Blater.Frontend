@@ -24,5 +24,9 @@
       <ProjectReference Include="..\..\..\Blater\src\Blater\Blater.csproj" />
       <ProjectReference Include="..\..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\" />
+    </ItemGroup>
     
 </Project>

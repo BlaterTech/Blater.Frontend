@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 
-namespace Blater.Frontend.Account;
+namespace Blater.Frontend.Pages.Account;
 
 public sealed class IdentityRedirectManager(NavigationManager navigationManager)
 {

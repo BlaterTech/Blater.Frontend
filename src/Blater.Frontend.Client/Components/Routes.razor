@@ -13,8 +13,11 @@
 
 @code
 {
-    private static readonly Assembly ExecutingAssembly = Assembly.GetEntryAssembly()!;
-    private static readonly Assembly FrontEndAssembly = typeof(WebSetup).Assembly;
+    private static readonly Assembly ExecutingAssembly = Assembly.GetExecutingAssembly();
 
-    private static readonly List<Assembly> AdditionalAssemblies = [FrontEndAssembly];
+    private static readonly List<Assembly> AdditionalAssemblies =
+    [
+        typeof(WebSetup).Assembly,
+        Assembly.GetEntryAssembly()!
+    ];
 }

@@ -22,5 +22,13 @@
     <ItemGroup>
       <ProjectReference Include="..\Blater.Frontend.Client\Blater.Frontend.Client.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <AdditionalFiles Include="Pages\Account\BlaterAccountLayout.razor" />
+      <AdditionalFiles Include="Pages\Account\Components\BlaterLogin.razor" />
+      <AdditionalFiles Include="Pages\Account\Pages\LoginPage.razor" />
+      <AdditionalFiles Include="Pages\Account\Pages\RegisterPage.razor" />
+      <AdditionalFiles Include="Pages\Error.razor" />
+    </ItemGroup>
 
 </Project>

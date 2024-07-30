@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 
-namespace Blater.Frontend.Account.Pages;
+namespace Blater.Frontend.Pages.Account.Pages;
 
 public class BaseAccountPage : ComponentBase
 {
