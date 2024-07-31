@@ -22,5 +22,21 @@
     <ItemGroup>
       <ProjectReference Include="..\Blater.Frontend.Client\Blater.Frontend.Client.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\img\about.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\blater-favicon.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\blater-founder-1.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\blater-founder-2.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\blater-founder-3.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\blater-founder-4.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\blater-icon.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\blater-logo.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\database.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\favicon.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\notebook.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\random-user.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\space-technology.svg" />
+    </ItemGroup>
 
 </Project>

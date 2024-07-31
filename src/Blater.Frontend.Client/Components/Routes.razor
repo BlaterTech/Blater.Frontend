@@ -1,7 +1,7 @@
 ﻿@using System.Reflection
 @using Blater.Helpers
 
-<Router AppAssembly="@ExecutingAssembly" AdditionalAssemblies="AdditionalAssemblies">
+<Router AppAssembly="@ExecutingAssembly" AdditionalAssemblies="@AdditionalAssemblies">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(BlaterMainLayout)">
             <NotAuthorized>
@@ -16,6 +16,6 @@
 {
     private static readonly List<Assembly> AdditionalAssemblies = TypesHelper.Assemblies.ToList();
     
-    private static readonly Assembly ExecutingAssembly = 
+    private static readonly Assembly ExecutingAssembly =
         AdditionalAssemblies.FirstOrDefault(x => x.FullName!.Contains("Portal.Client"))!;
 }

@@ -20,6 +20,8 @@ namespace Blater.Frontend;
 
 public static class WebSetup
 {
+    private static readonly List<Assembly> AdditionalAssemblies = TypesHelper.Assemblies.ToList();
+    
     public static void AddBlaterFrontendServer(this IServiceCollection services)
     {
         // Add services to the container.
@@ -94,11 +96,13 @@ public static class WebSetup
         app.UseAntiforgery();
 
         app.UseStaticFiles();
+
+        AdditionalAssemblies.Remove(typeof(TApp).Assembly);
         
         app.MapRazorComponents<TApp>()
            .AddInteractiveServerRenderMode()
            .AddInteractiveWebAssemblyRenderMode()
-           .AddAdditionalAssemblies(assembly);
+           .AddAdditionalAssemblies(AdditionalAssemblies.ToArray());
     }
     
     public static async Task RunBlaterApp<TApp>(Assembly assembly, string[]? args = default)  where TApp : ComponentBase
