@@ -92,6 +92,8 @@ public static class WebSetup
         }
 
         app.UseAntiforgery();
+
+        app.UseStaticFiles();
         
         app.MapRazorComponents<TApp>()
            .AddInteractiveServerRenderMode()

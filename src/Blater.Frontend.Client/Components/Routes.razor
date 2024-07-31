@@ -10,18 +10,12 @@
         </AuthorizeRouteView>
         <FocusOnNavigate RouteData="routeData" Selector="h1"/>
     </Found>
-    <NotFound>
-        @foreach (var asse in AdditionalAssemblies)
-        {
-            <p>Add -> @asse.FullName</p>
-        }
-        <p>Exe -> @ExecutingAssembly?.FullName</p>
-    </NotFound>
 </Router>
 
 @code
 {
     private static readonly List<Assembly> AdditionalAssemblies = TypesHelper.Assemblies.ToList();
+    
     private static readonly Assembly ExecutingAssembly = 
-        TypesHelper.Assemblies.FirstOrDefault(x => x.FullName!.Contains("Portal.Client"))!;
+        AdditionalAssemblies.FirstOrDefault(x => x.FullName!.Contains("Portal.Client"))!;
 }
