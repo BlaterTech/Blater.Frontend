@@ -76,7 +76,7 @@ public static class WebSetup
         services.AddMudServices();
     }
     
-    public static void UseBlaterFrontendServer<TApp>(this WebApplication app) where TApp : ComponentBase
+    public static void UseBlaterFrontendServer<TApp>(this WebApplication app, Assembly assembly) where TApp : ComponentBase
     {
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -95,12 +95,10 @@ public static class WebSetup
         app.MapRazorComponents<TApp>()
            .AddInteractiveServerRenderMode()
            .AddInteractiveWebAssemblyRenderMode()
-           .AddAdditionalAssemblies(typeof(Blater.Frontend.Client.WebSetup).Assembly,
-                                    typeof(Blater.Frontend.WebSetup).Assembly,
-                                    Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly());
+           .AddAdditionalAssemblies(typeof(Blater.Frontend.Client.WebSetup).Assembly, assembly);
     }
     
-    public static async Task RunBlaterApp<TApp>(string[]? args = default)  where TApp : ComponentBase
+    public static async Task RunBlaterApp<TApp>(Assembly assembly, string[]? args = default)  where TApp : ComponentBase
     {
         var builder = WebApplication.CreateBuilder(args ?? []);
         
@@ -108,7 +106,7 @@ public static class WebSetup
 
         var app = builder.Build();
         
-        app.UseBlaterFrontendServer<TApp>();
+        app.UseBlaterFrontendServer<TApp>(assembly);
         
         try
         {

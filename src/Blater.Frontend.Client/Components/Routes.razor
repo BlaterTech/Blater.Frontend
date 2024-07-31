@@ -1,4 +1,5 @@
 ﻿@using System.Reflection
+@using Blater.Helpers
 
 <Router AppAssembly="@ExecutingAssembly" AdditionalAssemblies="AdditionalAssemblies">
     <Found Context="routeData">
@@ -12,19 +13,15 @@
     <NotFound>
         @foreach (var asse in AdditionalAssemblies)
         {
-            <p>@asse.FullName</p>
+            <p>Add -> @asse.FullName</p>
         }
-        <p>@ExecutingAssembly.FullName</p>
+        <p>Exe -> @ExecutingAssembly?.FullName</p>
     </NotFound>
 </Router>
 
 @code
 {
-    private static readonly Assembly ExecutingAssembly = Assembly.GetExecutingAssembly()!;
-    private static readonly Assembly FrontEndAssembly = typeof(WebSetup).Assembly;
-
-    private static readonly List<Assembly> AdditionalAssemblies = new()
-    {
-        FrontEndAssembly
-    };
+    private static readonly List<Assembly> AdditionalAssemblies = TypesHelper.Assemblies.ToList();
+    private static readonly Assembly ExecutingAssembly = AdditionalAssemblies
+       .FirstOrDefault(x => x.FullName!.Contains("Portal.Client"))!;
 }
