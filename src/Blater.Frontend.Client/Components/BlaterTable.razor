@@ -1,5 +1,91 @@
-﻿<h3>BlaterTable</h3>
-
-@code {
-    
-}
+﻿<MudTable T="Employee" @ref="_mudTable" Items="@FilterEmployees" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>
+            <MudTableSortLabel
+                SortBy="@(new Func<Employee, object>(p => p.Id))">
+                @nameof(Employee.Id)
+            </MudTableSortLabel>
+            <MudTextField
+                T="string"
+                Label="@nameof(Employee.Id)"
+                Variant="Variant.Outlined"
+                Immediate="true"
+                ValueChanged="@(x => QueryFilter(x, nameof(Employee.Id)))"/>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel
+                SortBy="@(new Func<Employee, object>(p => p.Name))">
+                @nameof(Employee.Name)
+            </MudTableSortLabel>
+            <MudTextField
+                T="string"
+                Label="@nameof(Employee.Name)"
+                Variant="Variant.Outlined"
+                Immediate="true"
+                ValueChanged="@(x => QueryFilter(x, nameof(Employee.Name)))"/>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel
+                SortBy="@(new Func<Employee, object>(p => p.Position))">
+                @nameof(Employee.Position)
+            </MudTableSortLabel>
+            <MudTextField
+                T="string"
+                Label="@nameof(Employee.Position)"
+                Variant="Variant.Outlined"
+                Immediate="true"
+                ValueChanged="@(x => QueryFilter(x, nameof(Employee.Position)))"/>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel
+                SortBy="@(new Func<Employee, object>(p => p.YearsEmployed))">
+                @nameof(Employee.YearsEmployed)
+            </MudTableSortLabel>
+            <MudTextField
+                T="int"
+                Label="@nameof(Employee.YearsEmployed)"
+                Variant="Variant.Outlined"
+                Immediate="true"
+                ValueChanged="@(x => QueryFilter(x, nameof(Employee.YearsEmployed)))"/>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel
+                SortBy="@(new Func<Employee, object>(p => p.Salary))">
+                @nameof(Employee.Salary)
+            </MudTableSortLabel>
+            <MudTextField
+                T="int"
+                Label="@nameof(Employee.Salary)"
+                Variant="Variant.Outlined"
+                Immediate="true"
+                ValueChanged="@(x => QueryFilter(x, nameof(Employee.Salary)))"/>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel
+                SortBy="@(new Func<Employee, object>(p => p.Rating))">
+                @nameof(Employee.Rating)
+            </MudTableSortLabel>
+            <MudTextField
+                T="int"
+                Label="@nameof(Employee.Rating)"
+                Variant="Variant.Outlined"
+                Immediate="true"
+                ValueChanged="@(x => QueryFilter(x, nameof(Employee.Rating)))"/>
+        </MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="@nameof(Employee.Id)">@context.Id</MudTd>
+        <MudTd DataLabel="@nameof(Employee.Name)">@context.Name</MudTd>
+        <MudTd DataLabel="@nameof(Employee.Position)">@context.Position</MudTd>
+        <MudTd DataLabel="@nameof(Employee.YearsEmployed)">@context.YearsEmployed</MudTd>
+        <MudTd DataLabel="@nameof(Employee.Salary)">@context.Salary</MudTd>
+        <MudTd DataLabel="@nameof(Employee.Rating)">@context.Rating</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="@(new[] { 10, 25, 50, 100 })"
+                       RowsPerPageString="@("Rows per page:")"
+                       InfoFormat="@("{first_item}-{last_item} of {all_items}")"
+                       AllItemsText="@("All")"
+                       HorizontalAlignment="@HorizontalAlignment.Right"/>
+    </PagerContent>
+</MudTable>
