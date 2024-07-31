@@ -3,6 +3,7 @@ using Blater.Frontend.Authentication;
 using Blater.Frontend.Client;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Pages.Account;
+using Blater.Helpers;
 using Blater.SDK.Extensions;
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
@@ -95,7 +96,7 @@ public static class WebSetup
         app.MapRazorComponents<TApp>()
            .AddInteractiveServerRenderMode()
            .AddInteractiveWebAssemblyRenderMode()
-           .AddAdditionalAssemblies(typeof(Blater.Frontend.Client.WebSetup).Assembly, assembly);
+           .AddAdditionalAssemblies(assembly);
     }
     
     public static async Task RunBlaterApp<TApp>(Assembly assembly, string[]? args = default)  where TApp : ComponentBase

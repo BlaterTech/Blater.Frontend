@@ -22,6 +22,6 @@
 @code
 {
     private static readonly List<Assembly> AdditionalAssemblies = TypesHelper.Assemblies.ToList();
-    private static readonly Assembly ExecutingAssembly = AdditionalAssemblies
-       .FirstOrDefault(x => x.FullName!.Contains("Portal.Client"))!;
+    private static readonly Assembly ExecutingAssembly = 
+        TypesHelper.Assemblies.FirstOrDefault(x => x.FullName!.Contains("Portal.Client"))!;
 }
