@@ -68,7 +68,8 @@
                     var propName = prop.Name;
                     <MudTh>
                         <MudTableSortLabel
-                            SortBy="@CreateSortFunc(propName)">
+                            SortBy="@CreateSortFunc(propName)"
+                            Enabled="@EnabledSortedColumn">
                             @LocalizationService.GetValue($"BlaterTable-ColumnName-{propName}")
                         </MudTableSortLabel>
                         @if (EnabledFilters)

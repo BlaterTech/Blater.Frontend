@@ -98,6 +98,9 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
 
     [Parameter]
     public bool EnabledDefaultActions { get; set; } = true;
+    
+    [Parameter]
+    public bool EnabledSortedColumn { get; set; } = true;
 
     [Parameter]
     public bool EnabledFilters { get; set; } = true;
