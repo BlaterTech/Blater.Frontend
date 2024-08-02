@@ -2,6 +2,8 @@
 using Blater.Frontend.Authentication;
 using Blater.Frontend.Client;
 using Blater.Frontend.Client.Handlers;
+using Blater.Frontend.Client.Interfaces;
+using Blater.Frontend.Client.Services;
 using Blater.Frontend.Pages.Account;
 using Blater.Helpers;
 using Blater.SDK.Extensions;
@@ -76,6 +78,8 @@ public static class WebSetup
         services.AddBlazoredSessionStorage();
         //services.AddScoped<IBlaterMemoryCache, BlaterMemoryCache>();
         //services.AddScoped<IBlaterStateStore, BlaterStateStore>();
+        services.AddScoped<ILocalizationService, LocalizationService>();
+        services.AddScoped<INavigationService, NavigationService>();
         services.AddMudServices();
     }
     

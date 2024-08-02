@@ -17,14 +17,14 @@ namespace Blater.Frontend.Client.Services;
 public class NavigationService : INavigationService
 {
     private readonly IJSRuntime _jsRuntime;
-    private readonly LocalizationService _localizationService;
+    private readonly ILocalizationService _localizationService;
     private readonly NavigationManager _navigationManager;
 
     public readonly List<string> IgnorePrefixes = ["Account/"];
 
     public List<NavMenuRouteInfo> Routes = [];
 
-    public NavigationService(LocalizationService localizationService, NavigationManager navigationManager, IJSRuntime jsRuntime)
+    public NavigationService(ILocalizationService localizationService, NavigationManager navigationManager, IJSRuntime jsRuntime)
     {
         _localizationService = localizationService;
         _navigationManager = navigationManager;
@@ -32,7 +32,7 @@ public class NavigationService : INavigationService
 
         LoadRoutes();
 
-        LocalizationService.LocalizationChanged += LoadRoutes;
+        ILocalizationService.LocalizationChanged += LoadRoutes;
     }
 
     private void LoadRoutes()

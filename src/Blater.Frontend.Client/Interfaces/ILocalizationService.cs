@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Blater.Enumerations;
+﻿using Blater.Enumerations;
 using Blater.Frontend.Client.Models;
 
 #pragma warning disable CS0067 // Event is never used

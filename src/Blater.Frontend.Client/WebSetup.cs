@@ -1,12 +1,11 @@
-﻿using Blater.Enumerations;
-using Blater.Frontend.Client.Authentication;
+﻿using Blater.Frontend.Client.Authentication;
 using Blater.Frontend.Client.Handlers;
+using Blater.Frontend.Client.Interfaces;
+using Blater.Frontend.Client.Services;
 using Blater.SDK.Extensions;
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
@@ -44,6 +43,8 @@ public static class WebSetup
         services.AddBlazoredSessionStorage();
         //services.AddScoped<IBlaterMemoryCache, BlaterMemoryCache>();
         //services.AddScoped<IBlaterStateStore, BlaterStateStore>();
+        services.AddScoped<ILocalizationService, LocalizationService>();
+        services.AddScoped<INavigationService, NavigationService>();
         services.AddMudServices();
     }
     

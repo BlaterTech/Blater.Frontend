@@ -1,93 +1,138 @@
-﻿@typeparam T where T : Blater.Models.Bases.BaseDataModel
+﻿@using System.Globalization
+@typeparam T where T : Blater.Models.Bases.BaseDataModel
 
-<MudTable T="Employee" @ref="_mudTable" Items="@FilterEmployees" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
-    <HeaderContent>
-        <MudTh>
-            <MudTableSortLabel
-                SortBy="@(new Func<Employee, object>(p => p.Id))">
-                @nameof(Employee.Id)
-            </MudTableSortLabel>
-            <MudTextField
-                T="string"
-                Label="@nameof(Employee.Id)"
-                Variant="Variant.Outlined"
-                Immediate="true"
-                ValueChanged="@(x => QueryFilter(x, nameof(Employee.Id)))"/>
-        </MudTh>
-        <MudTh>
-            <MudTableSortLabel
-                SortBy="@(new Func<Employee, object>(p => p.Name))">
-                @nameof(Employee.Name)
-            </MudTableSortLabel>
-            <MudTextField
-                T="string"
-                Label="@nameof(Employee.Name)"
-                Variant="Variant.Outlined"
-                Immediate="true"
-                ValueChanged="@(x => QueryFilter(x, nameof(Employee.Name)))"/>
-        </MudTh>
-        <MudTh>
-            <MudTableSortLabel
-                SortBy="@(new Func<Employee, object>(p => p.Position))">
-                @nameof(Employee.Position)
-            </MudTableSortLabel>
-            <MudTextField
-                T="string"
-                Label="@nameof(Employee.Position)"
-                Variant="Variant.Outlined"
-                Immediate="true"
-                ValueChanged="@(x => QueryFilter(x, nameof(Employee.Position)))"/>
-        </MudTh>
-        <MudTh>
-            <MudTableSortLabel
-                SortBy="@(new Func<Employee, object>(p => p.YearsEmployed))">
-                @nameof(Employee.YearsEmployed)
-            </MudTableSortLabel>
-            <MudTextField
-                T="int"
-                Label="@nameof(Employee.YearsEmployed)"
-                Variant="Variant.Outlined"
-                Immediate="true"
-                ValueChanged="@(x => QueryFilter(x, nameof(Employee.YearsEmployed)))"/>
-        </MudTh>
-        <MudTh>
-            <MudTableSortLabel
-                SortBy="@(new Func<Employee, object>(p => p.Salary))">
-                @nameof(Employee.Salary)
-            </MudTableSortLabel>
-            <MudTextField
-                T="int"
-                Label="@nameof(Employee.Salary)"
-                Variant="Variant.Outlined"
-                Immediate="true"
-                ValueChanged="@(x => QueryFilter(x, nameof(Employee.Salary)))"/>
-        </MudTh>
-        <MudTh>
-            <MudTableSortLabel
-                SortBy="@(new Func<Employee, object>(p => p.Rating))">
-                @nameof(Employee.Rating)
-            </MudTableSortLabel>
-            <MudTextField
-                T="int"
-                Label="@nameof(Employee.Rating)"
-                Variant="Variant.Outlined"
-                Immediate="true"
-                ValueChanged="@(x => QueryFilter(x, nameof(Employee.Rating)))"/>
-        </MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="@nameof(Employee.Id)">@context.Id</MudTd>
-        <MudTd DataLabel="@nameof(Employee.Name)">@context.Name</MudTd>
-        <MudTd DataLabel="@nameof(Employee.Position)">@context.Position</MudTd>
-        <MudTd DataLabel="@nameof(Employee.YearsEmployed)">@context.YearsEmployed</MudTd>
-        <MudTd DataLabel="@nameof(Employee.Salary)">@context.Salary</MudTd>
-        <MudTd DataLabel="@nameof(Employee.Rating)">@context.Rating</MudTd>
-    </RowTemplate>
-    <PagerContent>
-        <MudTablePager PageSizeOptions="@(new[] { 10, 25, 50, 100 })"
-                       RowsPerPageString="@("Rows per page:")"
-                       InfoFormat="@("{first_item}-{last_item} of {all_items}")"
-                       AllItemsText="@("All")"
-                       HorizontalAlignment="@HorizontalAlignment.Right"/>
-    </PagerContent>
-</MudTable>
+<MudCard Elevation="0" Class="pa-4 mb-2 mud-height-full">
+    <MudGrid Spacing="0">
+        <MudItem xs="12" Class="d-flex">
+            <MudText Typo="Typo.h5">
+                @LocalizationService.GetValue($"BlaterTable-Title-{_typeName}")
+            </MudText>
+            <MudSpacer/>
+            @if (CreateButton)
+            {
+                <MudIconButton
+                    Color="Color.Primary"
+                    OnClick="@OnCreate"
+                    Variant="Variant.Filled"
+                    Icon="@Material.Filled.Add"
+                    Size="Size.Medium">
+                </MudIconButton>
+            }
+        </MudItem>
+    </MudGrid>
+</MudCard>
+
+<MudCard Elevation="0" Class="pa-4">
+    <form @onsubmit="Filter">
+        <MudGrid Spacing="1">
+            <MudItem xs="12">
+                <MudText Typo="Typo.h5">
+                    @LocalizationService.GetValue($"BlaterTable-FilterValues")
+                </MudText>
+            </MudItem>
+            <MudItem xs="12" lg="3">
+                <MudDateRangePicker
+                    Variant="Variant.Filled"
+                    Clearable="true"
+                    Culture="@(new CultureInfo("pt-BR"))"
+                    Label="@LocalizationService.GetValue("BlaterTable-Date-Range-Label")"
+                    DateRangeChanged="@(x => DateRangeValueChanged(x))"
+                    DateRange="@(_dateRange ?? new DateRange())"/>
+                <MudSpacer/>
+            </MudItem>
+        </MudGrid>
+    </form>
+
+    <MudTable
+        T="T"
+        @ref="_mudTable"
+        Items="@Items"
+        Breakpoint="Breakpoint.Sm"
+        Striped="@EnabledStriped"
+        MultiSelection="@EnabledMultiSelection"
+        SelectOnRowClick="@EnabledSelectOnRowClick"
+        SelectionChangeable="@EnabledSelectionChangeable"
+        SelectedItemsChanged="@OnSelectedItemsChanged"
+        SelectedItemChanged="@OnSelectedItemChanged"
+        OnRowClick="@OnRowClick"
+        FixedHeader="@EnabledFixedHeader"
+        FixedFooter="@EnabledFixedFooter"
+        Height="@(EnabledFixedHeader || EnabledFixedFooter ? "70vh" : "")"
+        Loading="@_loading"
+        LoadingProgressColor="@LoadingProgressColor">
+        <HeaderContent>
+            @{
+                var props = typeof(T).GetProperties();
+                foreach (var prop in props)
+                {
+                    var propName = prop.Name;
+                    <MudTh>
+                        <MudTableSortLabel
+                            SortBy="@CreateSortFunc(propName)">
+                            @LocalizationService.GetValue($"BlaterTable-ColumnName-{propName}")
+                        </MudTableSortLabel>
+                        <MudTextField
+                            T="object"
+                            Label="@LocalizationService.GetValue($"BlaterTable-Filter-{propName}")"
+                            Variant="Variant.Outlined"
+                            Immediate="true"
+                            ValueChanged="@(x => QueryFilter(x, propName))"/>
+                    </MudTh>
+                }
+
+                <MudTh/>
+            }
+        </HeaderContent>
+        <RowTemplate>
+            @{
+                var props = typeof(T).GetProperties();
+                foreach (var prop in props)
+                {
+                    var propName = prop.Name;
+                    var propValue = prop.GetValue(context);
+                    <MudTd DataLabel="@propName">@propValue</MudTd>
+                }
+
+                if (ShowCustomActions || ShowDefaultActions)
+                {
+                    <MudTd>
+                        <div class="d-flex align-center justify-center gap-2">
+                            @if (ShowDefaultActions)
+                            {
+                                <MudIconButton
+                                    Icon="@Material.Outlined.RemoveRedEye"
+                                    Color="Color.Primary"
+                                    OnClick="@(() => OnDetails.InvokeAsync(context))"/>
+                                <MudIconButton
+                                    Icon="@Material.Outlined.Edit"
+                                    Color="Color.Primary"
+                                    OnClick="@(() => OnEditChanged.InvokeAsync(context))"/>
+                                <MudIconButton
+                                    Icon="@(context.Enabled ? Material.Outlined.LockOpen : Material.Outlined.Lock)"
+                                    Color="@(context.Enabled ? Color.Primary : Color.Error)"
+                                    OnClick="@(() => OnDisabledChanged.InvokeAsync(context))"/>
+                            }
+                            @if (ShowCustomActions)
+                            {
+                                foreach (var item in CustomDataGridActions)
+                                {
+                                    <MudIconButton
+                                        Icon="@item.Icon"
+                                        Color="@(item.Color ?? Color.Primary)"
+                                        OnClick="@(() => item.OnValueChanged(context))"/>
+                                }
+                            }
+                        </div>
+                    </MudTd>
+                }
+            }
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="@(new[] { 10, 25, 50, 100 })"
+                           RowsPerPageString="@("Rows per page:")"
+                           InfoFormat="@("{first_item}-{last_item} of {all_items}")"
+                           AllItemsText="@("All")"
+                           HorizontalAlignment="@HorizontalAlignment.Right"/>
+        </PagerContent>
+    </MudTable>
+</MudCard>
