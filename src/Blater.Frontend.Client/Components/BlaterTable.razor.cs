@@ -91,17 +91,20 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
     public List<Guid> Ids { get; set; } = [];
     
     [Parameter]
-    public bool CreateButton { get; set; } = true;
-
-    [Parameter]
-    public bool ShowDefaultActions { get; set; } = true;
-    
-    [Parameter]
-    public bool ShowCustomActions { get; set; }
-    
-    [Parameter]
     public List<CustomDataGridAction<T>> CustomDataGridActions { get; set; } = [];
 
+    [Parameter]
+    public bool EnabledCreateButton { get; set; } = true;
+
+    [Parameter]
+    public bool EnabledDefaultActions { get; set; } = true;
+
+    [Parameter]
+    public bool EnabledFilters { get; set; } = true;
+    
+    [Parameter]
+    public bool EnabledCustomActions { get; set; }
+    
     [Parameter]
     public bool EnabledMultiSelection { get; set; }
     

@@ -8,7 +8,7 @@
                 @LocalizationService.GetValue($"BlaterTable-Title-{_typeName}")
             </MudText>
             <MudSpacer/>
-            @if (CreateButton)
+            @if (EnabledCreateButton)
             {
                 <MudIconButton
                     Color="Color.Primary"
@@ -71,12 +71,15 @@
                             SortBy="@CreateSortFunc(propName)">
                             @LocalizationService.GetValue($"BlaterTable-ColumnName-{propName}")
                         </MudTableSortLabel>
-                        <MudTextField
-                            T="object"
-                            Label="@LocalizationService.GetValue($"BlaterTable-Filter-{propName}")"
-                            Variant="Variant.Outlined"
-                            Immediate="true"
-                            ValueChanged="@(x => QueryFilter(x, propName))"/>
+                        @if (EnabledFilters)
+                        {
+                            <MudTextField
+                                T="object"
+                                Label="@LocalizationService.GetValue($"BlaterTable-Filter-{propName}")"
+                                Variant="Variant.Outlined"
+                                Immediate="true"
+                                ValueChanged="@(x => QueryFilter(x, propName))"/>
+                        }
                     </MudTh>
                 }
 
@@ -93,11 +96,11 @@
                     <MudTd DataLabel="@propName">@propValue</MudTd>
                 }
 
-                if (ShowCustomActions || ShowDefaultActions)
+                if (EnabledCustomActions || EnabledDefaultActions)
                 {
                     <MudTd>
                         <div class="d-flex align-center justify-center gap-2">
-                            @if (ShowDefaultActions)
+                            @if (EnabledDefaultActions)
                             {
                                 <MudIconButton
                                     Icon="@Material.Outlined.RemoveRedEye"
@@ -112,7 +115,7 @@
                                     Color="@(context.Enabled ? Color.Primary : Color.Error)"
                                     OnClick="@(() => OnDisabledChanged.InvokeAsync(context))"/>
                             }
-                            @if (ShowCustomActions)
+                            @if (EnabledCustomActions)
                             {
                                 foreach (var item in CustomDataGridActions)
                                 {
