@@ -1,11 +1,93 @@
-﻿using Blater.Utilities;
+﻿using Blater.Frontend.Client.Interfaces;
+using Blater.Frontend.Client.Models;
+using Blater.Interfaces;
+using Blater.Models.Bases;
+using Blater.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Components;
 
-public partial class BlaterTable : ComponentBase
+public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
 {
+    #region Parameters
+
+    #region Events
+
+    [Parameter]
+    public EventCallback<T> OnDisabledChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<T> OnDetails { get; set; }
+
+    [Parameter]
+    public EventCallback<T> OnEditChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<T> OnDeleteChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<T> OnAddChanged { get; set; }
+    
+    [Parameter]
+    public EventCallback<T> OnFilterChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<(T model, bool value)> OnCheckboxChanged { get; set; }
+
+    [Parameter]
+    public EventCallback OnCreate { get; set; }
+    
+    [Parameter]
+    public EventCallback<HashSet<T>> OnSelectedItemsChanged { get; set; }
+    
+    [Parameter]
+    public EventCallback<T> OnSelectedItemChanged { get; set; }
+
+    #endregion
+    
+    [Parameter]
+    public List<T> Items { get; set; } = [];
+
+    [Parameter]
+    public List<Guid> Ids { get; set; } = [];
+    
+    [Parameter]
+    public bool CreateButton { get; set; } = true;
+
+    [Parameter]
+    public bool ShowDefaultActions { get; set; } = true;
+    
+    [Parameter]
+    public bool ShowCustomActions { get; set; } = false;
+    
+    [Parameter]
+    public List<CustomDataGridAction<T>> CustomDataGridActions { get; set; } = [];
+
+    [Parameter]
+    public bool MultiSelection { get; set; } = false;
+
+    #endregion
+
+    #region Injects
+
+    [Inject]
+    public ILogger<BlaterTable<T>> Logger { get; set; } = null!;
+
+    [Inject]
+    public IBlaterDatabaseStoreT<T> DatabaseStoreT { get; set; } = null!;
+
+    [Inject]
+    public ILocalizationService LocalizationService { get; set; } = null!;
+
+    [Inject]
+    public INavigationService NavigationService { get; set; } = null!;
+
+    #endregion
+    
+    public string Title { get; set; } = string.Empty;
+    
     public record Employee(Guid Id, string Name, string Position, int YearsEmployed, int Salary, int Rating, DateTimeOffset CreatedAt, DateTimeOffset UpdatedAt, bool Enabled);
 
     public IEnumerable<Employee> Employees { get; set; } = [];

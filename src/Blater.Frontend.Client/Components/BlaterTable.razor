@@ -1,4 +1,6 @@
-﻿<MudTable T="Employee" @ref="_mudTable" Items="@FilterEmployees" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
+﻿@typeparam T where T : Blater.Models.Bases.BaseDataModel
+
+<MudTable T="Employee" @ref="_mudTable" Items="@FilterEmployees" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
     <HeaderContent>
         <MudTh>
             <MudTableSortLabel

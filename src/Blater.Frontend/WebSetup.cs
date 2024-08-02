@@ -118,6 +118,7 @@ public static class WebSetup
         try
         {
             await app.RunAsync();
+            await app.WaitForShutdownAsync();
         }
         finally
         {
