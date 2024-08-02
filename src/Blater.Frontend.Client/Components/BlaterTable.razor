@@ -84,7 +84,10 @@
                     </MudTh>
                 }
 
-                <MudTh/>
+                if (EnabledCustomActions || EnabledDefaultActions)
+                {
+                    <MudTh/>
+                }
             }
         </HeaderContent>
         <RowTemplate>
