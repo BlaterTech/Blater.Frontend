@@ -1,5 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using Blater.Frontend.Client.Auto.AutoTable;
+using Blater.Frontend.Client.Auto.AutoTable.Implementations;
+using Blater.Frontend.Client.Auto.AutoTable.Models;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Models;
 using Blater.Interfaces;
@@ -156,14 +159,58 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
     private bool _loading;
     private DateRange? _dateRange;
     private string _typeName = typeof(T).Name;
-
+    private TableConfiguration<T> ModelConfiguration { get; set; } = null!;
+    private List<ColumnConfiguration> ColumnConfigurations { get; set; } = null!;
+    private string Title { get; set; } = string.Empty;
+    
     protected override async Task OnInitializedAsync()
     {
         _loading = true;
         
-        await Task.Delay(1500);
+        ILocalizationService.LocalizationChanged += UpdateDataGrid;
+        TableConfigurations<T>.ModelsChanged += UpdateDataGrid;
+        
+        if (string.IsNullOrEmpty(Title))
+        {
+            Title = LocalizationService.GetValue(typeof(T).Name);
+        }
 
+        UpdateDataGrid();
+        
+        await Task.Delay(1500);
+        
         _loading = false;
+        return;
+
+        void UpdateDataGrid()
+        {
+            UpdateModelConfiguration();
+            StateHasChanged();
+        }
+    }
+    
+    private void UpdateModelConfiguration()
+    {
+        var modelConfiguration = TableConfigurations<T>.Configurations.GetValueOrDefault(typeof(T));
+
+        if (modelConfiguration is null)
+        {
+            Logger.LogWarning("No configuration found for model {ModelName} in the FieldConfigurations", typeof(T).Name);
+            return;
+        }
+        
+        ModelConfiguration = modelConfiguration;
+
+        ColumnConfigurations = modelConfiguration.Columns.OrderBy(x => x.Order).ToList();
+        
+        Console.WriteLine("ColumnConfigurations.Count => "+ ColumnConfigurations.Count);
+        
+        ColumnConfigurations.ForEach(x =>
+        {
+            Console.WriteLine("HasColumnName => "+x.HasColumnName);
+            Console.WriteLine("Order => "+x.Order);
+            Console.WriteLine("PropertyInfo.Name => "+x.PropertyInfo.Name);
+        });
     }
 
     private async Task DateRangeValueChanged(DateRange obj)

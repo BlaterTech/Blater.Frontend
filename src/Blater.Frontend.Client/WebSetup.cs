@@ -1,4 +1,5 @@
 ﻿using Blater.Frontend.Client.Authentication;
+using Blater.Frontend.Client.Auto.AutoTable;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Services;
@@ -54,6 +55,8 @@ public static class WebSetup
         
         builder.Services.AddBlaterFrontendClient();
 
+        AutoTableBuilder.Initialize();
+        
         var app = builder.Build();
 
         try
