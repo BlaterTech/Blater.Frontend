@@ -1,0 +1,27 @@
+﻿@typeparam TItemType where TItemType : IConvertible
+
+@inherits BaseAutoFormComponent<TItemType>
+@using Blater.Frontend.Client.Auto.AutoModels
+@using Blater.Frontend.Client.Services
+@implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
+
+@inject LocalizationService LocalizationService
+
+<div id="auto-select-input" class="@ExtraClass">
+    <MudSelect T="TItemType"
+               Label="@LocalizationService.GetValue($"Label-{TypeName}")"
+               Variant="Variant.Filled"
+               AnchorOrigin="Origin.BottomCenter"
+               Value="@Value"
+               ValueChanged="@ValueChanged">
+        @foreach (TItemType value in Enum.GetValues(typeof(TItemType)))
+        {
+            <MudSelectItem T="TItemType" Value="@value">@LocalizationService.GetValue(value?.ToString() ?? "")</MudSelectItem>
+        }
+    </MudSelect>
+</div>
+
+
+@code {
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoSelectInput;
+}

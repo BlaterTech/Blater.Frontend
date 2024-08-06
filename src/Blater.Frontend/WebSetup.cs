@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Blater.Frontend.Authentication;
 using Blater.Frontend.Client;
-using Blater.Frontend.Client.Auto.AutoTable;
+using Blater.Frontend.Client.Auto.Components.AutoTable;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Services;

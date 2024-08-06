@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Blater.Frontend.Client.Auto.AutoTable.Models;
+namespace Blater.Frontend.Client.Auto.Components.AutoTable.Models;
 
 public class ColumnConfiguration
 {

@@ -1,8 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.AutoTable;
-using Blater.Frontend.Client.Auto.AutoTable.Implementations;
-using Blater.Frontend.Client.Auto.AutoTable.Models;
+using Blater.Frontend.Client.Auto.Components.AutoTable;
+using Blater.Frontend.Client.Auto.Components.AutoTable.Models;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Models;
 using Blater.Interfaces;
@@ -231,16 +230,24 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
         return Expression.Lambda<Func<T, object>>(body, param).Compile();
     }
 
+    private MudBlazor.Converter<object, string> _converter = new()
+    {
+        SetFunc = value => value?.ToString()
+    };
+
     private void QueryFilter(object? value, string propertyName)
     {
         try
         {
+            Console.WriteLine("Value => " +value);
+            Console.WriteLine("PropertyName => " +propertyName);
             if (value == null || string.IsNullOrWhiteSpace(propertyName))
             {
                 return;
             }
             
             var type = value.GetType();
+            Console.WriteLine("Value Type => " +type.Name);
             string stringValue;
             if (type == typeof(string))
             {

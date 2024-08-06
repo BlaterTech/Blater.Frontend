@@ -1,0 +1,34 @@
+﻿@inherits BaseAutoFormComponent<decimal>
+@using Blater.Frontend.Client.Auto.AutoModels
+@implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
+
+<div id="auto-money-input" class="@ExtraClass">
+    <MudTextField
+        T="decimal"
+        id="@InputId"
+        Value="@Value"
+        Label="@LabelName"
+        Variant="@Variant.Filled"
+        ValueChanged="@Callback"
+        Error="@HasValidationError"
+                ErrorText="@ValidationErrorMessage"
+                RequiredError="@ValidationErrorMessage"
+        Required="@Required"
+        Adornment="Adornment.Start"
+        AdornmentIcon="@Icons.Material.Filled.AttachMoney"
+        AdornmentColor="Color.Warning"/>
+</div>
+
+
+@code
+{
+
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoMoneyInput;
+
+    private async Task Callback(decimal obj)
+    {
+        await NotifyValueChanged(obj);
+    }
+
+}

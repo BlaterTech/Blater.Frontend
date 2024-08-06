@@ -62,27 +62,24 @@
         LoadingProgressColor="@LoadingProgressColor">
         <HeaderContent>
             @{
-                foreach (var column in ColumnConfigurations)
+                foreach (var column in ColumnConfigurations.Where(column => column.EnabledColumn))
                 {
-                    if (column.EnabledColumn)
-                    {
-                        <MudTh>
-                            <MudTableSortLabel
-                                SortBy="@CreateSortFunc(column.HasColumnName)"
-                                Enabled="@column.EnabledFilter">
-                                @LocalizationService.GetValue($"BlaterTable-ColumnName-{column.HasColumnName}")
-                            </MudTableSortLabel>
-                            @if (column.EnabledFilter)
-                            {
-                                <MudTextField
-                                    T="object"
-                                    Label="@LocalizationService.GetValue($"BlaterTable-Filter-{column.HasColumnName}")"
-                                    Variant="Variant.Outlined"
-                                    Immediate="true"
-                                    ValueChanged="@(x => QueryFilter(x, column.PropertyInfo.Name))"/>
-                            }
-                        </MudTh>  
-                    }
+                    <MudTh>
+                        <MudTableSortLabel
+                            SortBy="@CreateSortFunc(column.PropertyInfo.Name)"
+                            Enabled="@column.EnabledFilter">
+                            @(string.IsNullOrWhiteSpace(column.HasColumnName) ? LocalizationService.GetValue($"BlaterTable-Table-{column.PropertyInfo.Name}") : column.HasColumnName)
+                        </MudTableSortLabel>
+                        @if (column.EnabledFilter)
+                        {
+                            <MudTextField
+                                T="object"
+                                Label="@(string.IsNullOrWhiteSpace(column.HasColumnName) ? LocalizationService.GetValue($"BlaterTable-Filter-{column.PropertyInfo.Name}") : column.HasColumnName)"
+                                Variant="Variant.Outlined"
+                                Immediate="true"
+                                ValueChanged="@(x => QueryFilter(x, column.PropertyInfo.Name))"/>
+                        }
+                    </MudTh>
                 }
 
                 if (EnabledCustomActions || EnabledDefaultActions)
@@ -95,7 +92,7 @@
             @{
                 foreach (var column in ColumnConfigurations)
                 {
-                    var propName = column.HasColumnName;
+                    var propName = string.IsNullOrWhiteSpace(column.HasColumnName) ? column.PropertyInfo.Name : column.HasColumnName;
                     var propValue = column.PropertyInfo.GetValue(context);
                     if (column.EnabledColumn)
                     {

@@ -128,6 +128,13 @@ public class LocalizationService : ILocalizationService, IDisposable
         return Dictionary.GetValueOrDefault(id);
     }
 
+    public bool TryAddValue(string key, object value)
+    {
+        var stringValue = value.ToString();
+        
+        return Dictionary.TryAdd(key, stringValue ?? string.Empty);
+    }
+
     public void Dispose()
     {
         GC.SuppressFinalize(this);

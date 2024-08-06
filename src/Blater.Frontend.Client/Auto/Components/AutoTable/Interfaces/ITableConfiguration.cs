@@ -1,7 +1,7 @@
-﻿using Blater.Frontend.Client.Auto.AutoTable.Implementations;
+﻿using Blater.Frontend.Client.Auto.Components.AutoTable.Implementations;
 using Blater.Models.Bases;
 
-namespace Blater.Frontend.Client.Auto.AutoTable.Interfaces;
+namespace Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
 
 public interface ITableConfiguration<TTable> where TTable : BaseDataModel
 {

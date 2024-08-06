@@ -15,5 +15,6 @@ public interface ILocalizationService
     string GetValue(object obj);
     string? GetValueOrDefault(object obj);
     string? GetValueOrDefault(string id);
+    bool TryAddValue(string key, object value);
     void Dispose();
 }

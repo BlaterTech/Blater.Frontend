@@ -1,0 +1,20 @@
+﻿@typeparam T where T : IConvertible
+
+<MudTextField
+    T="T"
+    Label="@Label"
+    Variant="Variant.Outlined"
+    Immediate="true"
+    Value="@Value"
+    ValueChanged="@ValueChanged"/>
+
+@code {
+    [Parameter]
+    public string Label { get; set; } = null!;
+
+    [Parameter]
+    public T Value { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<T> ValueChanged { get; set; }
+}

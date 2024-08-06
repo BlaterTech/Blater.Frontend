@@ -1,9 +1,9 @@
-﻿using Blater.Frontend.Client.Auto.AutoTable.Interfaces;
-using Blater.Frontend.Client.Auto.AutoTable.Models;
+﻿using Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
+using Blater.Frontend.Client.Auto.Components.AutoTable.Models;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
 
-namespace Blater.Frontend.Client.Auto.AutoTable.Implementations;
+namespace Blater.Frontend.Client.Auto.Components.AutoTable.Implementations;
 
 public class ColumnConfigurationBuilder<T>(ColumnConfiguration configuration) : IColumnConfigurationBuilder<T> where T : BaseDataModel
 {

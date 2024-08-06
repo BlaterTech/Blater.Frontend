@@ -1,9 +1,9 @@
-﻿using Blater.Frontend.Client.Auto.AutoTable.Interfaces;
+﻿using Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;
 
-namespace Blater.Frontend.Client.Auto.AutoTable;
+namespace Blater.Frontend.Client.Auto.Components.AutoTable;
 
 public static class AutoTableBuilder
 {

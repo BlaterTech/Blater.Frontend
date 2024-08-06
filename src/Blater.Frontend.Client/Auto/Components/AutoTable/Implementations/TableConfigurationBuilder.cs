@@ -1,16 +1,15 @@
 ﻿using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.AutoTable.Interfaces;
-using Blater.Frontend.Client.Auto.AutoTable.Models;
+using Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
+using Blater.Frontend.Client.Auto.Components.AutoTable.Models;
 using Blater.Models.Bases;
 
-namespace Blater.Frontend.Client.Auto.AutoTable.Implementations;
+namespace Blater.Frontend.Client.Auto.Components.AutoTable.Implementations;
 
 public class TableConfigurationBuilder<TTable>
     : ITableConfigurationBuilder<TTable>
     where TTable : BaseDataModel
 {
     private readonly TableConfiguration<TTable> _tableConfiguration;
-
     public TableConfigurationBuilder(TableConfiguration<TTable> tableConfiguration)
     {
         _tableConfiguration = tableConfiguration;

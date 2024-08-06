@@ -1,0 +1,48 @@
+﻿@inherits BaseAutoFormComponent<DateTime>
+
+@using System.Globalization
+@using Blater.Frontend.Client.Auto.AutoModels
+@implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
+
+<div id="auto-datetime-input" class="@ExtraClass">
+    <MudTextField
+        T="DateTime"
+        Disabled="@Disabled"
+        Format="yyyy-MM-dd"
+        InputType="InputType.Date"
+        Variant="Variant.Filled"
+        Label="@LabelName"
+        Value="@Value"
+        ValueChanged="@ValueChanged"
+        Required="@Required"
+        Culture="@(new CultureInfo("pt-BR"))"
+        Class="@ExtraClass"
+        Error="@HasValidationError"
+        ErrorText="@ValidationErrorMessage"
+        RequiredError="@ValidationErrorMessage"/>
+</div>
+
+@code
+{
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoDateTimeInput;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Value == default)
+        {
+            Value = DateTime.UtcNow;
+        }
+
+        await NotifyValueChanged();
+        await base.OnInitializedAsync();
+    }
+
+
+    public override string ValueAsString => Value.ToString();
+
+    private async Task DateChanged()
+    {
+        await NotifyValueChanged();
+    }
+}

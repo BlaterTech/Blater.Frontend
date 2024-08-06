@@ -1,13 +1,13 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Blater.Frontend.Client.Auto.AutoTable.Implementations;
-using Blater.Frontend.Client.Auto.AutoTable.Interfaces;
-using Blater.Frontend.Client.Auto.AutoTable.Models;
+using Blater.Frontend.Client.Auto.Components.AutoTable.Implementations;
+using Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
+using Blater.Frontend.Client.Auto.Components.AutoTable.Models;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;
 using Blater.Models.Bases;
 
-namespace Blater.Frontend.Client.Auto.AutoTable;
+namespace Blater.Frontend.Client.Auto.Components.AutoTable;
 
 [SuppressMessage("Design", "CA1000:Não declarar membros estáticos em tipos genéricos")]
 public static class TableConfigurations<T> where T : BaseDataModel

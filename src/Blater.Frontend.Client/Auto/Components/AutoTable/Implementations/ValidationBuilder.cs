@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Blater.Frontend.Client.Auto.AutoTable.Interfaces;
-using Blater.Frontend.Client.Auto.AutoTable.Models;
+using Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
+using Blater.Frontend.Client.Auto.Components.AutoTable.Models;
 
-namespace Blater.Frontend.Client.Auto.AutoTable.Implementations;
+namespace Blater.Frontend.Client.Auto.Components.AutoTable.Implementations;
 
 public class ValidationBuilder<TProperty>(ValidationConfiguration<TProperty> configuration)
     : IValidationBuilder<TProperty>

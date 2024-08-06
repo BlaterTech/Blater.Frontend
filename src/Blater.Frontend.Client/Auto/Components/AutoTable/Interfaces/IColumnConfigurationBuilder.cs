@@ -2,7 +2,7 @@
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
 
-namespace Blater.Frontend.Client.Auto.AutoTable.Interfaces;
+namespace Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
 
 [SuppressMessage("Naming", "CA1716:Identificadores não devem corresponder a palavras-chave")]
 public interface IColumnConfigurationBuilder<out T> where T : BaseDataModel

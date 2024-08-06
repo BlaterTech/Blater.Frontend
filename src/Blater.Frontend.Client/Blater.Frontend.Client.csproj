@@ -5,6 +5,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Ardalis.SmartEnum" Version="8.0.0" />
         <PackageReference Include="MudBlazor" Version="7.4.0" />
         
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.7" />
@@ -25,6 +26,21 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\Blater\src\Blater\Blater.csproj" />
       <ProjectReference Include="..\..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Auto\Components\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoCheckBoxInput.razor" />
+      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoDateTimeInput.razor" />
+      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoDecimalInput.razor" />
+      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoMoneyInput.razor" />
+      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoNumericInput.razor" />
+      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoSelectInput.razor" />
+      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoSwitchInput.razor" />
+      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoTextInput.razor" />
     </ItemGroup>
     
 </Project>

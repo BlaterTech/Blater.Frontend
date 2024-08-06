@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Blater.Frontend.Client.Auto.AutoTable.Interfaces;
+namespace Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
 
 public interface IValidationBuilder<out TProperty>
 {
