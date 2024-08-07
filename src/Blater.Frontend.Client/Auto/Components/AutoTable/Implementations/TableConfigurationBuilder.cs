@@ -22,17 +22,19 @@ public class TableConfigurationBuilder<TTable>
         return this;
     }
 
-    public ITableConfigurationBuilder<TTable> EnabledFixedHeader()
+    public ITableConfigurationBuilder<TTable> EnableFixedHeader(bool value = true)
     {
-        _tableConfiguration.EnabledFixedHeader = true;
+        _tableConfiguration.EnabledFixedHeader = value;
         return this;
     }
 
-    public ITableConfigurationBuilder<TTable> EnabledFixedFooter()
+    public ITableConfigurationBuilder<TTable> EnableFixedFooter(bool value = true)
     {
-        _tableConfiguration.EnabledFixedFooter = true;
+        _tableConfiguration.EnabledFixedFooter = value;
         return this;
     }
+
+    public bool Test { get => _tableConfiguration.EnabledFixedFooter ; set => _tableConfiguration.EnabledFixedFooter = value; }
 
     public IColumnConfigurationBuilder<TTable> Property<TProperty>(
         Expression<Func<TTable, TProperty>> propertyExpression)

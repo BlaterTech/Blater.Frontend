@@ -41,6 +41,7 @@ public static class TableConfigurations<T> where T : BaseDataModel
         
         foreach (var modelType in models)
         {
+            Console.WriteLine("modelType =>" + modelType.Name);
             var instance = Activator.CreateInstance(modelType) as ITableConfiguration<T>;
 
             if (instance == null)

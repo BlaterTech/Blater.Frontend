@@ -30,7 +30,17 @@
                     @LocalizationService.GetValue($"BlaterTable-FilterValues")
                 </MudText>
             </MudItem>
-            <MudItem xs="12" lg="3">
+            <MudItem xs="12" lg="8">
+                <MudDateRangePicker
+                    Variant="Variant.Filled"
+                    Clearable="true"
+                    Culture="@(new CultureInfo("pt-BR"))"
+                    Label="@LocalizationService.GetValue("BlaterTable-Date-Range-Label")"
+                    DateRangeChanged="@(x => DateRangeValueChanged(x))"
+                    DateRange="@(_dateRange ?? new DateRange())"/>
+                <MudSpacer/>
+            </MudItem>
+            <MudItem xs="12" lg="4">
                 <MudDateRangePicker
                     Variant="Variant.Filled"
                     Clearable="true"

@@ -8,8 +8,8 @@ namespace Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
 public interface ITableConfigurationBuilder<TTable> where TTable : BaseDataModel
 {
     ITableConfigurationBuilder<TTable> ToTable(string tableName);
-    ITableConfigurationBuilder<TTable> EnabledFixedHeader();
-    ITableConfigurationBuilder<TTable> EnabledFixedFooter();
+    ITableConfigurationBuilder<TTable> EnableFixedHeader(bool value = true);
+    ITableConfigurationBuilder<TTable> EnableFixedFooter(bool value = true);
     
     IColumnConfigurationBuilder<TTable> Property<TProperty>(Expression<Func<TTable, TProperty>> propertyExpression);
     

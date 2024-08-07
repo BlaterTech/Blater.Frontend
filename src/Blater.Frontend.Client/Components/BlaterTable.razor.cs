@@ -201,15 +201,6 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
         ModelConfiguration = modelConfiguration;
 
         ColumnConfigurations = modelConfiguration.Columns.OrderBy(x => x.Order).ToList();
-        
-        Console.WriteLine("ColumnConfigurations.Count => "+ ColumnConfigurations.Count);
-        
-        ColumnConfigurations.ForEach(x =>
-        {
-            Console.WriteLine("HasColumnName => "+x.HasColumnName);
-            Console.WriteLine("Order => "+x.Order);
-            Console.WriteLine("PropertyInfo.Name => "+x.PropertyInfo.Name);
-        });
     }
 
     private async Task DateRangeValueChanged(DateRange obj)
@@ -239,15 +230,12 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
     {
         try
         {
-            Console.WriteLine("Value => " +value);
-            Console.WriteLine("PropertyName => " +propertyName);
             if (value == null || string.IsNullOrWhiteSpace(propertyName))
             {
                 return;
             }
             
             var type = value.GetType();
-            Console.WriteLine("Value Type => " +type.Name);
             string stringValue;
             if (type == typeof(string))
             {

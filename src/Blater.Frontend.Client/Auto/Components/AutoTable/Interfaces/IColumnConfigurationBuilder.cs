@@ -7,7 +7,7 @@ namespace Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
 [SuppressMessage("Naming", "CA1716:Identificadores não devem corresponder a palavras-chave")]
 public interface IColumnConfigurationBuilder<out T> where T : BaseDataModel
 {
-    IColumnConfigurationBuilder<T> HasColumnName(string columnName);
+    IColumnConfigurationBuilder<T> SetName(string columnName);
     IColumnConfigurationBuilder<T> MaxLength(int value);
     IColumnConfigurationBuilder<T> DataFormat(string format);
     IColumnConfigurationBuilder<T> Class(string cssClass);

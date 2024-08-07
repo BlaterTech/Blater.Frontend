@@ -7,7 +7,7 @@ namespace Blater.Frontend.Client.Auto.Components.AutoTable.Implementations;
 
 public class ColumnConfigurationBuilder<T>(ColumnConfiguration configuration) : IColumnConfigurationBuilder<T> where T : BaseDataModel
 {
-    public IColumnConfigurationBuilder<T> HasColumnName(string columnName)
+    public IColumnConfigurationBuilder<T> SetName(string columnName)
     {
         configuration.HasColumnName = columnName;
         return this;
@@ -66,7 +66,7 @@ public class ColumnConfigurationBuilder<T>(ColumnConfiguration configuration) : 
         configuration.EnabledSortBy = false;
         return this;
     }
-
+ 
     public IColumnConfigurationBuilder<T> HasValidation(Action<IValidationBuilder<T>> configure)
     {
         throw new NotImplementedException();
@@ -88,6 +88,11 @@ public class ColumnConfigurationBuilder<T>(ColumnConfiguration configuration) : 
     }
 
     public IColumnConfigurationBuilder<T> OnParameterSet<TProperty>(EventCallback<TProperty> callback)
+    {
+        throw new NotImplementedException();
+    }
+    
+    public IColumnConfigurationBuilder<T> LocalizationId(string style)
     {
         throw new NotImplementedException();
     }
