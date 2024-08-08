@@ -1,4 +1,4 @@
-﻿using Blater.Frontend.Client.Auto.Components.AutoTable.Implementations;
+﻿using Blater.Frontend.Client.Auto.Components.AutoTable.Builders;
 using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;

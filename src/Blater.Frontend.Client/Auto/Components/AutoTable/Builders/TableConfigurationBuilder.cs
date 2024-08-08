@@ -3,7 +3,7 @@ using Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
 using Blater.Frontend.Client.Auto.Components.AutoTable.Models;
 using Blater.Models.Bases;
 
-namespace Blater.Frontend.Client.Auto.Components.AutoTable.Implementations;
+namespace Blater.Frontend.Client.Auto.Components.AutoTable.Builders;
 
 public class TableConfigurationBuilder<TTable>
     : ITableConfigurationBuilder<TTable>

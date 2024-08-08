@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Blater.Frontend.Authentication;
 using Blater.Frontend.Client;
+using Blater.Frontend.Client.Auto.Components;
 using Blater.Frontend.Client.Auto.Components.AutoTable;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
@@ -86,7 +87,7 @@ public static class WebSetup
     
     public static void UseBlaterFrontendServer<TApp>(this WebApplication app, Assembly assembly) where TApp : ComponentBase
     {
-        AutoTableBuilder.Initialize();
+        AutoBuilder.Initialize();
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {

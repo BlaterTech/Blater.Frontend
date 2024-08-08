@@ -3,11 +3,11 @@ using Blater.Frontend.Client.Auto.Components.AutoTable.Models;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
 
-namespace Blater.Frontend.Client.Auto.Components.AutoTable.Implementations;
+namespace Blater.Frontend.Client.Auto.Components.AutoTable.Builders;
 
 public class ColumnConfigurationBuilder<T>(ColumnConfiguration configuration) : IColumnConfigurationBuilder<T> where T : BaseDataModel
 {
-    public IColumnConfigurationBuilder<T> SetName(string columnName)
+    public IColumnConfigurationBuilder<T> Name(string columnName)
     {
         configuration.HasColumnName = columnName;
         return this;
@@ -49,21 +49,21 @@ public class ColumnConfigurationBuilder<T>(ColumnConfiguration configuration) : 
         return this;
     }
 
-    public IColumnConfigurationBuilder<T> DisabledColumn()
+    public IColumnConfigurationBuilder<T> DisableColumn(bool value = false)
     {
-        configuration.EnabledColumn = false;
+        configuration.DisableColumn = value;
         return this;
     }
 
-    public IColumnConfigurationBuilder<T> DisabledFilter()
+    public IColumnConfigurationBuilder<T> DisableFilter(bool value = false)
     {
-        configuration.EnabledFilter = false;
+        configuration.DisableFilter = value;
         return this;
     }
 
-    public IColumnConfigurationBuilder<T> DisabledSortBy()
+    public IColumnConfigurationBuilder<T> DisableSortBy(bool value = false)
     {
-        configuration.EnabledSortBy = false;
+        configuration.DisableSortBy = value;
         return this;
     }
  

@@ -2,7 +2,7 @@
 using Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
 using Blater.Frontend.Client.Auto.Components.AutoTable.Models;
 
-namespace Blater.Frontend.Client.Auto.Components.AutoTable.Implementations;
+namespace Blater.Frontend.Client.Auto.Components.AutoTable.Builders;
 
 public class ValidationBuilder<TProperty>(ValidationConfiguration<TProperty> configuration)
     : IValidationBuilder<TProperty>

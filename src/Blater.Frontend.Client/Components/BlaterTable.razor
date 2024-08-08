@@ -72,15 +72,15 @@
         LoadingProgressColor="@LoadingProgressColor">
         <HeaderContent>
             @{
-                foreach (var column in ColumnConfigurations.Where(column => column.EnabledColumn))
+                foreach (var column in ColumnConfigurations.Where(column => column.DisableColumn))
                 {
                     <MudTh>
                         <MudTableSortLabel
                             SortBy="@CreateSortFunc(column.PropertyInfo.Name)"
-                            Enabled="@column.EnabledFilter">
+                            Enabled="@column.DisableFilter">
                             @(string.IsNullOrWhiteSpace(column.HasColumnName) ? LocalizationService.GetValue($"BlaterTable-Table-{column.PropertyInfo.Name}") : column.HasColumnName)
                         </MudTableSortLabel>
-                        @if (column.EnabledFilter)
+                        @if (column.DisableFilter)
                         {
                             <MudTextField
                                 T="object"
@@ -104,7 +104,7 @@
                 {
                     var propName = string.IsNullOrWhiteSpace(column.HasColumnName) ? column.PropertyInfo.Name : column.HasColumnName;
                     var propValue = column.PropertyInfo.GetValue(context);
-                    if (column.EnabledColumn)
+                    if (column.DisableColumn)
                     {
                         <MudTd DataLabel="@propName">@propValue</MudTd>
                     }

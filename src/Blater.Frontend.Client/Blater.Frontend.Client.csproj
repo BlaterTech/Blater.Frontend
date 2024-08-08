@@ -30,10 +30,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Auto\Components\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <AdditionalFiles Include="Auto\Components\AutoInputs\AutoCheckBoxInput.razor" />
       <AdditionalFiles Include="Auto\Components\AutoInputs\AutoDateTimeInput.razor" />
       <AdditionalFiles Include="Auto\Components\AutoInputs\AutoDecimalInput.razor" />

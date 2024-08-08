@@ -9,7 +9,7 @@ public class AutoTableComponentBuilder<T> : BaseAutoComponentBuilder<T, TableCon
 {
     protected override void CreateGenericComponent(EasyRenderTreeBuilder builder, TableConfiguration<T> componentConfiguration)
     {
-        foreach (var columnConfiguration in componentConfiguration.Columns.Where(x => x.EnabledColumn))
+        foreach (var columnConfiguration in componentConfiguration.Columns.Where(x => x.DisableColumn))
         {
             var propertyInfo = columnConfiguration.PropertyInfo;
             var componentBuilderType = propertyInfo.GetType();
