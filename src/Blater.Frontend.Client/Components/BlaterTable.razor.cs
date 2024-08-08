@@ -151,6 +151,9 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
     
     [Inject]
     public ISnackbar Snackbar { get; set; } = null!;
+    
+    [Inject]
+    public IDialogService DialogService { get; set; } = null!;
 
     #endregion
     
