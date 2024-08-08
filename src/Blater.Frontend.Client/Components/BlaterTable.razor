@@ -75,20 +75,14 @@
                 foreach (var column in ColumnConfigurations.Where(column => column.DisableColumn))
                 {
                     <MudTh>
-                        <MudTableSortLabel
-                            SortBy="@CreateSortFunc(column.PropertyInfo.Name)"
-                            Enabled="@column.DisableFilter">
-                            @(string.IsNullOrWhiteSpace(column.HasColumnName) ? LocalizationService.GetValue($"BlaterTable-Table-{column.PropertyInfo.Name}") : column.HasColumnName)
-                        </MudTableSortLabel>
-                        @if (column.DisableFilter)
-                        {
-                            <MudTextField
-                                T="object"
-                                Label="@(string.IsNullOrWhiteSpace(column.HasColumnName) ? LocalizationService.GetValue($"BlaterTable-Filter-{column.PropertyInfo.Name}") : column.HasColumnName)"
-                                Variant="Variant.Outlined"
-                                Immediate="true"
-                                ValueChanged="@(x => QueryFilter(x, column.PropertyInfo.Name))"/>
-                        }
+                        <div class="d-flex align-center justify-center">
+                            <MudTableSortLabel
+                                SortBy="@CreateSortFunc(column.PropertyInfo.Name)"
+                                Enabled="@column.DisableFilter">
+                                @(string.IsNullOrWhiteSpace(column.HasColumnName) ? LocalizationService.GetValue($"BlaterTable-Table-{column.PropertyInfo.Name}") : column.HasColumnName)
+                            </MudTableSortLabel>
+                            <MudIconButton Icon="@_iconFilter" OnClick="@Filter"/>
+                        </div>
                     </MudTh>
                 }
 

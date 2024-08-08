@@ -208,10 +208,12 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
         _dateRange = obj;
         await Task.Delay(1);
     }
-    
-    private static async Task Filter()
+
+    private string _iconFilter = Icons.Material.Outlined.FilterAlt;
+    private async Task Filter()
     {
         await Task.Delay(1);
+        _iconFilter = Icons.Material.Filled.FilterAlt;
     }
     
     private static Func<T, object> CreateSortFunc(string propName)
@@ -220,11 +222,6 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
         var body = Expression.Convert(Expression.Property(param, propName), typeof(object));
         return Expression.Lambda<Func<T, object>>(body, param).Compile();
     }
-
-    private MudBlazor.Converter<object, string> _converter = new()
-    {
-        SetFunc = value => value?.ToString()
-    };
 
     private void QueryFilter(object? value, string propertyName)
     {
