@@ -1,7 +1,6 @@
-﻿using Blater.Frontend.Client.Auto.Components.AutoTable.Models;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Configurations.Table;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Models.Bases;
-using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders;
 

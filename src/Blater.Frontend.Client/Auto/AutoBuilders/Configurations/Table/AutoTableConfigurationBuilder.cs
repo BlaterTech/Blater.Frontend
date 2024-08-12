@@ -1,42 +1,41 @@
 ﻿using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
-using Blater.Frontend.Client.Auto.Components.AutoTable.Models;
+using Blater.Frontend.Client.Auto.AutoConfigurations;
+using Blater.Frontend.Client.Auto.AutoModels.Configurations.Table;
+using Blater.Frontend.Client.Auto.Interfaces.AutoTable;
 using Blater.Models.Bases;
 
-namespace Blater.Frontend.Client.Auto.Components.AutoTable.Builders;
+namespace Blater.Frontend.Client.Auto.AutoBuilders.Configurations.Table;
 
-public class TableConfigurationBuilder<TTable>
-    : ITableConfigurationBuilder<TTable>
+public class AutoTableConfigurationBuilder<TTable>
+    : IAutoTableConfigurationBuilder<TTable>
     where TTable : BaseDataModel
 {
     private readonly TableConfiguration<TTable> _tableConfiguration;
-    public TableConfigurationBuilder(TableConfiguration<TTable> tableConfiguration)
+    public AutoTableConfigurationBuilder(TableConfiguration<TTable> tableConfiguration)
     {
         _tableConfiguration = tableConfiguration;
         TableConfigurations<TTable>.Configurations.Add(typeof(TTable), tableConfiguration);
     }
 
-    public ITableConfigurationBuilder<TTable> ToTable(string tableName)
+    public IAutoTableConfigurationBuilder<TTable> ToTable(string tableName)
     {
         _tableConfiguration.ToTable = tableName;
         return this;
     }
 
-    public ITableConfigurationBuilder<TTable> EnableFixedHeader(bool value = true)
+    public IAutoTableConfigurationBuilder<TTable> EnableFixedHeader(bool value = true)
     {
         _tableConfiguration.EnabledFixedHeader = value;
         return this;
     }
 
-    public ITableConfigurationBuilder<TTable> EnableFixedFooter(bool value = true)
+    public IAutoTableConfigurationBuilder<TTable> EnableFixedFooter(bool value = true)
     {
         _tableConfiguration.EnabledFixedFooter = value;
         return this;
     }
 
-    public bool Test { get => _tableConfiguration.EnabledFixedFooter ; set => _tableConfiguration.EnabledFixedFooter = value; }
-
-    public IColumnConfigurationBuilder<TTable> Property<TProperty>(
+    public IAutoColumnConfigurationBuilder<TTable> Property<TProperty>(
         Expression<Func<TTable, TProperty>> propertyExpression)
     {
         var propertyName = GetPropertyName(propertyExpression);
@@ -54,7 +53,7 @@ public class TableConfigurationBuilder<TTable>
         
         _tableConfiguration.Columns.Add(currentColumnConfig);
 
-        return new ColumnConfigurationBuilder<TTable>(currentColumnConfig);
+        return new AutoColumnConfigurationBuilder<TTable>(currentColumnConfig);
     }
 
     public TTable GetInstance()

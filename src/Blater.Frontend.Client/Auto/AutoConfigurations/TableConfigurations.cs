@@ -1,13 +1,13 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Blater.Frontend.Client.Auto.Components.AutoTable.Builders;
-using Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
-using Blater.Frontend.Client.Auto.Components.AutoTable.Models;
+using Blater.Frontend.Client.Auto.AutoBuilders.Configurations.Table;
+using Blater.Frontend.Client.Auto.AutoModels.Configurations.Table;
+using Blater.Frontend.Client.Auto.Interfaces.AutoTable;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;
 using Blater.Models.Bases;
 
-namespace Blater.Frontend.Client.Auto.Components.AutoTable;
+namespace Blater.Frontend.Client.Auto.AutoConfigurations;
 
 [SuppressMessage("Design", "CA1000:Não declarar membros estáticos em tipos genéricos")]
 public static class TableConfigurations<T> where T : BaseDataModel
@@ -37,12 +37,12 @@ public static class TableConfigurations<T> where T : BaseDataModel
         Configurations.Clear();
         
         var models = TypesHelper.AllTypes
-                                .Where(x => x is { IsInterface: false, IsAbstract: false } && x.IsAssignableTo(typeof(ITableConfiguration<T>)));
+                                .Where(x => x is { IsInterface: false, IsAbstract: false } && x.IsAssignableTo(typeof(IAutoTableConfiguration<T>)));
         
         foreach (var modelType in models)
         {
             Console.WriteLine("modelType =>" + modelType.Name);
-            var instance = Activator.CreateInstance(modelType) as ITableConfiguration<T>;
+            var instance = Activator.CreateInstance(modelType) as IAutoTableConfiguration<T>;
 
             if (instance == null)
             {
@@ -51,7 +51,7 @@ public static class TableConfigurations<T> where T : BaseDataModel
 
             var tableConfiguration = new TableConfiguration<T>();
             
-            var configurator = new TableConfigurationBuilder<T>(tableConfiguration);
+            var configurator = new AutoTableConfigurationBuilder<T>(tableConfiguration);
             instance.Configure(configurator);
         }
         

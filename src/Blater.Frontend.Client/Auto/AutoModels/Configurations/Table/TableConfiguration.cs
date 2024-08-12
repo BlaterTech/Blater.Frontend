@@ -1,6 +1,6 @@
 ﻿using Blater.Models.Bases;
 
-namespace Blater.Frontend.Client.Auto.Components.AutoTable.Models;
+namespace Blater.Frontend.Client.Auto.AutoModels.Configurations.Table;
 
 public class TableConfiguration<TTable> where TTable : BaseDataModel
 {

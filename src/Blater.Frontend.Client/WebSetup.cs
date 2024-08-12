@@ -1,6 +1,5 @@
 ﻿using Blater.Frontend.Client.Authentication;
-using Blater.Frontend.Client.Auto.Components;
-using Blater.Frontend.Client.Auto.Components.AutoTable;
+using Blater.Frontend.Client.Auto;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Services;

@@ -1,16 +1,16 @@
-﻿using Blater.Frontend.Client.Auto.Components.AutoTable.Interfaces;
+﻿using Blater.Frontend.Client.Auto.Interfaces.AutoTable;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;
 
-namespace Blater.Frontend.Client.Auto.Components;
+namespace Blater.Frontend.Client.Auto;
 
 public static class AutoBuilder
 {
     private static bool _hotReloadInitialized;
     private static readonly List<Type> GenericBuildableComponents = [];
-    private static readonly Type BaseTableComponentType = typeof(ITableConfiguration<>);
-    private static readonly Type BaseFormComponentType = typeof(ITableConfiguration<>);
+    private static readonly Type BaseTableComponentType = typeof(IAutoTableConfiguration<>);
+    private static readonly Type BaseFormComponentType = typeof(IAutoTableConfiguration<>);
 
     private static void InitializeHotReload()
     {
