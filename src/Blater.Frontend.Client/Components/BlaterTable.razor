@@ -1,4 +1,5 @@
 ﻿@using System.Globalization
+@using Blater.Frontend.Client.Enumerations
 @typeparam T where T : Blater.Models.Bases.BaseDataModel
 
 <MudCard Elevation="0" Class="pa-4 mb-2 mud-height-full">
@@ -72,7 +73,7 @@
         LoadingProgressColor="@LoadingProgressColor">
         <HeaderContent>
             @{
-                foreach (var column in ColumnConfigurations.Where(column => column.DisableColumn))
+                foreach (var column in ColumnConfigurations.Where(column => !column.DisableColumn))
                 {
                     <MudTh>
                         <div class="d-flex align-center justify-center">
@@ -81,7 +82,7 @@
                                 Enabled="@column.DisableFilter">
                                 @(string.IsNullOrWhiteSpace(column.HasColumnName) ? LocalizationService.GetValue($"BlaterTable-Table-{column.PropertyInfo.Name}") : column.HasColumnName)
                             </MudTableSortLabel>
-                            <MudIconButton Icon="@_iconFilter" OnClick="@Filter"/>
+                            <MudIconButton Icon="@_iconFilter" OnClick="@ToggleOpen"/>
                         </div>
                     </MudTh>
                 }
@@ -94,16 +95,13 @@
         </HeaderContent>
         <RowTemplate>
             @{
-                foreach (var column in ColumnConfigurations)
+                foreach (var column in ColumnConfigurations.Where(column => !column.DisableColumn))
                 {
-                    var propName = string.IsNullOrWhiteSpace(column.HasColumnName) ? column.PropertyInfo.Name : column.HasColumnName;
+                    var propName = string.IsNullOrWhiteSpace(column.HasColumnName) ? LocalizationService.GetValue($"BlaterTable-Table-{column.PropertyInfo.Name}") : column.HasColumnName;
                     var propValue = column.PropertyInfo.GetValue(context);
-                    if (column.DisableColumn)
-                    {
-                        <MudTd DataLabel="@propName">@propValue</MudTd>
-                    }
+                    <MudTd DataLabel="@propName">@propValue</MudTd>
                 }
-                
+
                 if (EnabledCustomActions || EnabledDefaultActions)
                 {
                     <MudTd>
@@ -147,3 +145,40 @@
         </PagerContent>
     </MudTable>
 </MudCard>
+
+<MudPopover Open="@_open" Fixed="true">
+    <MudGrid Spacing="2" Justify="Justify.Center">
+        @foreach (var wherePart in _whereParts)
+        {
+            var keyValue = wherePart.Column;
+            var typeValue = wherePart.Operator;
+            var value = wherePart.Value;
+            <MudItem xs="4" Class="d-flex gap-2 align-end justify-center pa-2">
+                <MudIconButton Icon="@Material.Filled.Close" OnClick="@(_ => RemoveWherePart(wherePart))" Size="Size.Small"/>
+                <MudSelect T="string" Label="Column" Clearable="true" Required="true" bind-Value="@keyValue">
+                    @foreach (var columnConfig in ColumnConfigurations.Where(x => !x.DisableFilter))
+                    {
+                        <MudSelectItem Value="@columnConfig.PropertyInfo.Name"/>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="4" Class="pa-2">
+                <MudSelect T="OperatorTypes" Label="Operator" Clearable="true" Required="true" bind-Value="@typeValue">
+                    @foreach (var value in OperatorTypesExtensions.GetValues())
+                    {
+                    <MudSelectItem T="OperatorTypes" Value="@value"/>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="4" Class="pa-2">
+                <MudTextField T="string" bind-Value="@(value.ToString())" Label="Value"/>
+            </MudItem>
+        }
+        <MudItem xs="12" Class="d-flex gap-2 ma-4">
+            <MudButton OnClick="@AddWherePart" Color="Color.Info">+ Add Filter</MudButton>
+            <MudButton OnClick="@ClearWherePart" Color="Color.Info">- Clear</MudButton>
+            <MudSpacer/>
+            <MudButton OnClick="@Filter" Color="Color.Info">Filter</MudButton>
+        </MudItem>
+    </MudGrid>
+</MudPopover>

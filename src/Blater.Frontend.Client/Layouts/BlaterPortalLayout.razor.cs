@@ -16,7 +16,11 @@ public partial class BlaterPortalLayout
     private void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
-        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -41,8 +45,6 @@ public partial class BlaterPortalLayout
                     .Where(x => x.RoleNames.Any(role => BlaterAuthState.RoleNames.Contains(role)))
                     .Where(x => x.Permissions.Any(permission => BlaterAuthState.Permissions.Contains(permission)));
                     */
-
-            StateHasChanged();
         }
     }
 }

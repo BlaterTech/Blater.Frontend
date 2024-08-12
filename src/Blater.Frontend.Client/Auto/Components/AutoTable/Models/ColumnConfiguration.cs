@@ -12,7 +12,7 @@ public class ColumnConfiguration
     public int MaxLength { get; set; }
     public int Order { get; set; }
     public int MergeColumn { get; set; }
-    public bool DisableColumn { get; set; } = true;
-    public bool DisableFilter { get; set; } = true;
-    public bool DisableSortBy { get; set; } = true;
+    public bool DisableColumn { get; set; }
+    public bool DisableFilter { get; set; }
+    public bool DisableSortBy { get; set; }
 }

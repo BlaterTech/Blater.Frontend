@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using Blater.Frontend.Client.Auto.Components.AutoTable;
 using Blater.Frontend.Client.Auto.Components.AutoTable.Models;
+using Blater.Frontend.Client.Enumerations;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Models;
 using Blater.Interfaces;
@@ -271,5 +272,39 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
         {
             StateHasChanged();
         }
+    }
+    
+    private bool _open;
+
+    private void ToggleOpen()
+    {
+        _open = !_open;
+        
+        if (_whereParts.Count == 0)
+        {
+            _whereParts.Add(new WherePart("", OperatorTypes.Contains, ""));
+        }
+    }
+
+    public record WherePart(string Column, OperatorTypes Operator, object Value);
+
+    private List<WherePart> _whereParts = [];
+
+    private void RemoveWherePart(WherePart wherePart)
+    {
+        _whereParts.Remove(wherePart);
+        StateHasChanged();
+    }
+    
+    private void ClearWherePart()
+    {
+        _whereParts.Clear();
+        StateHasChanged();
+    }
+
+    private void AddWherePart()
+    {
+        _whereParts.Add(new WherePart("", OperatorTypes.Contains, ""));
+        StateHasChanged();
     }
 }
