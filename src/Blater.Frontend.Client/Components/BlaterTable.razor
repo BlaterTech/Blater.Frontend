@@ -146,7 +146,14 @@
     </MudTable>
 </MudCard>
 
-<MudPopover Open="@_open" Fixed="true">
+<MudPopover 
+    Open="@_open"
+    Fixed="true" 
+    Class="mud-width-full" 
+    MaxHeight="450"
+    OverflowBehavior="OverflowBehavior.FlipNever" 
+    AnchorOrigin="Origin.CenterCenter" 
+    TransformOrigin="Origin.CenterCenter">
     <MudGrid Spacing="2" Justify="Justify.Center">
         @foreach (var wherePart in _whereParts)
         {
