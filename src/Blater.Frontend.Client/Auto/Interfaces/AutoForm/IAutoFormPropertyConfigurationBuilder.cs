@@ -1,12 +1,10 @@
-﻿using Blater.Models.Bases;
-using MudBlazor;
+﻿using System.Linq.Expressions;
+using Blater.Frontend.Client.Enumerations;
+using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.Interfaces.AutoForm;
 
-public interface IAutoFormPropertyConfigurationBuilder<T, TProperty> : IAutoPropertyConfigurationBuilder<T, TProperty> where T : BaseDataModel
+public interface IAutoFormPropertyConfigurationBuilder<T> where T : BaseDataModel
 {
-    IAutoFormPropertyConfigurationBuilder<T, TProperty> LabelName(string value);
-    IAutoFormPropertyConfigurationBuilder<T, TProperty> Placeholder(string value);
-    IAutoFormPropertyConfigurationBuilder<T, TProperty> HelpMessage(string value);
-    IAutoFormGroupConfigurationBuilder<T, TProperty> Breakpoint(Breakpoint breakpoint, int value);
+    IAutoPropertyConfigurationBuilder<T, TProperty> AddPartner<TProperty>(Expression<Func<T, TProperty>> expression, AutoFormScope value = AutoFormScope.All);
 }

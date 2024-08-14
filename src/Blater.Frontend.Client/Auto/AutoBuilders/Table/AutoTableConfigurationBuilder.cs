@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoConfigurations;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.Auto.Interfaces.AutoTable;
@@ -17,42 +18,46 @@ public class AutoTableConfigurationBuilder<T>
         TableConfigurations<T>.Configurations.Add(typeof(T), tableConfiguration);
     }
 
-    public IAutoTableConfigurationBuilder<T> ToTable(string tableName)
+    public IAutoTableConfigurationBuilder<T> Table(string tableName)
     {
-        _tableConfiguration.ToTable = tableName;
+        _tableConfiguration.Name = tableName;
         return this;
     }
 
     public IAutoTableConfigurationBuilder<T> EnableFixedHeader(bool value = true)
     {
-        _tableConfiguration.EnabledFixedHeader = value;
+        _tableConfiguration.EnableFixedHeader = value;
         return this;
     }
 
     public IAutoTableConfigurationBuilder<T> EnableFixedFooter(bool value = true)
     {
-        _tableConfiguration.EnabledFixedFooter = value;
+        _tableConfiguration.EnableFixedFooter = value;
         return this;
     }
-
-    public IAutoColumnConfigurationBuilder<T, TProperty> Property<TProperty>(Expression<Func<T, TProperty>> propertyExpression)
+    
+    public IAutoTableConfigurationBuilder<T> Column<TProperty>(Expression<Func<T, TProperty>> expression, Action<AutoColumnConfigurationBuilder<T, TProperty>> action)
     {
-        var propertyName = GetPropertyName(propertyExpression);
+        var propertyName = expression.GetPropertyName();
 
         if (string.IsNullOrWhiteSpace(propertyName))
         {
             throw new InvalidOperationException("PropertyName not found");
         }
 
-        var currentColumnConfig = new ColumnConfiguration
+        var currentColumnConfig = new ColumnConfiguration<T>()
         {
             Name = propertyName,
             PropertyInfo = typeof(T).GetProperty(propertyName)!
         };
-        
-        _tableConfiguration.Columns.Add(currentColumnConfig);
 
-        return new AutoColumnConfigurationBuilder<T, TProperty>(currentColumnConfig);
+        _tableConfiguration.Columns.Add(currentColumnConfig);
+        
+        var columnBuilder = new AutoColumnConfigurationBuilder<T, TProperty>(expression, currentColumnConfig);
+        
+        action(columnBuilder);
+        
+        return this;
     }
 
     public T GetInstance()
@@ -78,16 +83,5 @@ public class AutoTableConfigurationBuilder<T>
     public T SetValue(T setter)
     {
         throw new NotImplementedException();
-    }
-
-    private static string GetPropertyName<TProperty>(Expression<Func<T, TProperty>> propertyExpression)
-    {
-        return propertyExpression.Body switch
-        {
-            MemberExpression memberExpression => memberExpression.Member.Name,
-            UnaryExpression { Operand: MemberExpression operand } => operand.Member
-                .Name,
-            _ => throw new ArgumentException("Invalid expression")
-        };
     }
 }

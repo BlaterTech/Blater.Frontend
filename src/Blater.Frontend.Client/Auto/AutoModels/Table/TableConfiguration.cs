@@ -2,10 +2,10 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Table;
 
-public class TableConfiguration<TTable> where TTable : BaseDataModel
+public class TableConfiguration<T> where T : BaseDataModel
 {
-    public string ToTable { get; set; } = $"Blater-AutoTable-{nameof(TTable)}";
-    public bool EnabledFixedHeader { get; set; }
-    public bool EnabledFixedFooter { get; set; }
-    public IList<ColumnConfiguration> Columns { get; } = [];
+    public string Name { get; set; } = $"Blater-AutoTable-{nameof(T)}";
+    public bool EnableFixedHeader { get; set; }
+    public bool EnableFixedFooter { get; set; }
+    public IList<ColumnConfiguration<T>> Columns { get; } = [];
 }

@@ -1,16 +1,10 @@
-﻿using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.AutoModels.Form;
-using Blater.Frontend.Client.Auto.Interfaces;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.Interfaces.AutoForm;
-using Blater.Frontend.Client.Auto.Interfaces.AutoValidation;
 using Blater.Models.Bases;
-using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public abstract class AutoFormConfigurationBuilder<T> :
-    IAutoValidationConfigurationBuilder<T>,
-    IAutoFormConfigurationBuilder<T> where T : BaseDataModel
+public abstract class AutoFormConfigurationBuilder<T> : IAutoFormConfigurationBuilder<T> where T : BaseDataModel
 {
     private readonly FormConfiguration<T> _formConfiguration;
 
@@ -19,19 +13,12 @@ public abstract class AutoFormConfigurationBuilder<T> :
         _formConfiguration = formConfiguration;
     }
 
-    public IRuleBuilderInitial<T, TProperty> RuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
+    public IAutoFormConfigurationBuilder<T> Form(string formName, Action<IAutoFormPropertyConfigurationBuilder<T>> action)
     {
-        _formConfiguration.ModelValidator ??= new InlineValidator<T>();
-
-        return _formConfiguration.ModelValidator.RuleFor(expression);
+        throw new NotImplementedException();
     }
 
-    public IAutoFormPropertyConfigurationBuilder<T, TProperty> Property<TProperty>(Expression<Func<T, TProperty>> expression)
-    {
-        return new AutoFormPropertyConfigurationBuilder<T, TProperty>(expression);
-    }
-
-    public IAutoFormGroupConfigurationBuilder<T, TProperty> Group<TProperty>()
+    public IAutoFormConfigurationBuilder<T> FormGroup(string groupName, Action<IAutoFormGroupConfigurationBuilder<T>> action)
     {
         throw new NotImplementedException();
     }

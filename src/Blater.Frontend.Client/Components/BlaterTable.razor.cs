@@ -163,7 +163,7 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
     private DateRange? _dateRange;
     private string _typeName = typeof(T).Name;
     private TableConfiguration<T> ModelConfiguration { get; set; } = null!;
-    private List<ColumnConfiguration> ColumnConfigurations { get; set; } = null!;
+    private List<ColumnConfiguration<T>> ColumnConfigurations { get; set; } = null!;
     private string Title { get; set; } = string.Empty;
     
     protected override async Task OnInitializedAsync()

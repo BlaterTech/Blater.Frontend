@@ -1,9 +1,6 @@
-﻿using Blater.Frontend.Client.Auto.Interfaces.AutoForm;
-using Blater.Models.Bases;
+﻿namespace Blater.Frontend.Client.Auto.Interfaces.AutoTable;
 
-namespace Blater.Frontend.Client.Auto.Interfaces.AutoTable;
-
-public interface IAutoColumnConfigurationBuilder<T, TProperty> : IAutoPropertyConfigurationBuilder<T, TProperty> where T : BaseDataModel
+public interface IAutoColumnConfigurationBuilder<T, TProperty>
 {
     IAutoColumnConfigurationBuilder<T, TProperty> Name(string value);
     IAutoColumnConfigurationBuilder<T, TProperty> DisableFilter(bool value = false);

@@ -1,8 +1,6 @@
-﻿using System.Reflection;
+﻿namespace Blater.Frontend.Client.Auto.AutoModels.Table;
 
-namespace Blater.Frontend.Client.Auto.AutoModels.Table;
-
-public class ColumnConfiguration : BasePropertyConfiguration
+public class ColumnConfiguration<T> : BasePropertyConfiguration<T>
 {
     public string Name { get; set; } = string.Empty;
     

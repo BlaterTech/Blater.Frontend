@@ -1,10 +1,9 @@
-﻿namespace Blater.Frontend.Client.Auto.AutoModels.Form;
+﻿using Blater.Frontend.Client.Enumerations;
+using MudBlazor;
 
-public class FormPropertyConfiguration<T> : BasePropertyConfiguration
+namespace Blater.Frontend.Client.Auto.AutoModels.Form;
+
+public class FormPropertyConfiguration<T> : BasePropertyConfiguration<T>
 {
-    public string LabelName { get; set; } = $"Blater-AutoLabel-{nameof(T)}";
-    public string Placeholder { get; set; } = $"Blater-AutoPlaceholder-{nameof(T)}";
-    public string HelpMessage { get; set; } = string.Empty;
-    
-    public bool IsReadOnly { get; set; }
+    public AutoFormScope FormScope { get; set; } = AutoFormScope.All;
 }
