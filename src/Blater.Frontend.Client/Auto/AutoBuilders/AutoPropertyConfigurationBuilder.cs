@@ -18,6 +18,11 @@ public class AutoPropertyConfigurationBuilder<T, TProperty>(Expression<Func<T, T
         return this;
     }
 
+    public IAutoPropertyConfigurationBuilder<T, TProperty> Name(string value)
+    {
+        throw new NotImplementedException();
+    }
+
     public IAutoPropertyConfigurationBuilder<T, TProperty> LabelName(string value)
     {
         configuration.LabelName = value;
@@ -82,6 +87,16 @@ public class AutoPropertyConfigurationBuilder<T, TProperty>(Expression<Func<T, T
     {
         configuration.Disable = value;
         return this;
+    }
+
+    public IAutoPropertyConfigurationBuilder<T, TProperty> DisableFilter(bool value = false)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IAutoPropertyConfigurationBuilder<T, TProperty> DisableSortBy(bool value = false)
+    {
+        throw new NotImplementedException();
     }
 
     public IAutoPropertyConfigurationBuilder<T, TProperty> OnValueChanged(EventCallback<TProperty> value)

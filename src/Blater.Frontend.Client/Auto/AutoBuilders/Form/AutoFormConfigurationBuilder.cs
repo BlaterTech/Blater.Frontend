@@ -4,7 +4,7 @@ using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public abstract class AutoFormConfigurationBuilder<T> : IAutoFormConfigurationBuilder<T> where T : BaseDataModel
+public class AutoFormConfigurationBuilder<T> : IAutoFormConfigurationBuilder<T> where T : BaseDataModel
 {
     private readonly FormConfiguration<T> _formConfiguration;
 

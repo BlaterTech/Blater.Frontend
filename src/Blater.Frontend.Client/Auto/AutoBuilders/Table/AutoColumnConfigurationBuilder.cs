@@ -1,30 +1,17 @@
 ﻿using System.Linq.Expressions;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
-using Blater.Frontend.Client.Auto.Interfaces.AutoTable;
+using Blater.Frontend.Client.Auto.Interfaces;
 using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
 public class AutoColumnConfigurationBuilder<T, TProperty>(Expression<Func<T, TProperty>> expression, ColumnConfiguration<T> configuration)
     : AutoPropertyConfigurationBuilder<T, TProperty>(expression, configuration),
-      IAutoColumnConfigurationBuilder<T>
+      IAutoMemberConfigurationBuilder<T>
     where T : BaseDataModel
 {
-    public IAutoColumnConfigurationBuilder<T> Name(string value)
+    public IAutoPropertyConfigurationBuilder<T, TProperty1> AddMember<TProperty1>(Expression<Func<T, TProperty1>> expression)
     {
-        configuration.Name = value;
-        return this;
-    }
-
-    public IAutoColumnConfigurationBuilder<T> DisableFilter(bool value = false)
-    {
-        configuration.DisableFilter = value;
-        return this;
-    }
-
-    public IAutoColumnConfigurationBuilder<T> DisableSortBy(bool value = false)
-    {
-        configuration.DisableSortBy = value;
-        return this;
+        throw new NotImplementedException();
     }
 }

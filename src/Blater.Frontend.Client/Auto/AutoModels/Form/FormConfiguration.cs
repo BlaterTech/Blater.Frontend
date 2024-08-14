@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
-public abstract class FormConfiguration<T> where T : BaseDataModel
+public class FormConfiguration<T> where T : BaseDataModel
 {
     public string Title { get; set; } = $"Blater-AutoForm-{nameof(T)}";
 

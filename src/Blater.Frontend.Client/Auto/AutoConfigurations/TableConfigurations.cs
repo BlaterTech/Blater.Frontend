@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Blater.Frontend.Client.Auto.AutoBuilders.Form;
 using Blater.Frontend.Client.Auto.AutoBuilders.Table;
+using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
+using Blater.Frontend.Client.Auto.Interfaces;
 using Blater.Frontend.Client.Auto.Interfaces.AutoTable;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
@@ -37,12 +40,11 @@ public static class TableConfigurations<T> where T : BaseDataModel
         Configurations.Clear();
         
         var models = TypesHelper.AllTypes
-                                .Where(x => x is { IsInterface: false, IsAbstract: false } && x.IsAssignableTo(typeof(IAutoTableConfiguration<T>)));
+                                .Where(x => x is { IsInterface: false, IsAbstract: false } && x.IsAssignableTo(typeof(IAutoConfiguration<T>)));
         
         foreach (var modelType in models)
         {
-            Console.WriteLine("modelType =>" + modelType.Name);
-            var instance = Activator.CreateInstance(modelType) as IAutoTableConfiguration<T>;
+            var instance = Activator.CreateInstance(modelType) as IAutoConfiguration<T>;
 
             if (instance == null)
             {
@@ -50,9 +52,13 @@ public static class TableConfigurations<T> where T : BaseDataModel
             }
 
             var tableConfiguration = new TableConfiguration<T>();
+            var tableConfigurator = new AutoTableConfigurationBuilder<T>(tableConfiguration);
             
-            var configurator = new AutoTableConfigurationBuilder<T>(tableConfiguration);
-            instance.Configure(configurator);
+            var formConfiguration = new FormConfiguration<T>();
+            var formConfigurator = new AutoFormConfigurationBuilder<T>(formConfiguration);
+            
+            instance.Configure(tableConfigurator);
+            instance.Configure(formConfigurator);
         }
         
         ModelsChanged?.Invoke();

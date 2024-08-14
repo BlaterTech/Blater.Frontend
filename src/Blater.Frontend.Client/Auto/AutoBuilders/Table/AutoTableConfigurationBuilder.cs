@@ -1,7 +1,6 @@
-﻿using System.Linq.Expressions;
-using Blater.Extensions;
-using Blater.Frontend.Client.Auto.AutoConfigurations;
+﻿using Blater.Frontend.Client.Auto.AutoConfigurations;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
+using Blater.Frontend.Client.Auto.Interfaces;
 using Blater.Frontend.Client.Auto.Interfaces.AutoTable;
 using Blater.Models.Bases;
 
@@ -17,11 +16,10 @@ public class AutoTableConfigurationBuilder<T>
         _tableConfiguration = tableConfiguration;
         TableConfigurations<T>.Configurations.Add(typeof(T), tableConfiguration);
     }
-
-    public IAutoTableConfigurationBuilder<T> Table(string value)
+    
+    public IAutoTableConfigurationBuilder<T> Table(string value, Action<IAutoMemberConfigurationBuilder<T>> action)
     {
-        _tableConfiguration.Name = value;
-        return this;
+        throw new NotImplementedException();
     }
 
     public IAutoTableConfigurationBuilder<T> EnableFixedHeader(bool value = true)
@@ -36,7 +34,7 @@ public class AutoTableConfigurationBuilder<T>
         return this;
     }
     
-    public IAutoTableConfigurationBuilder<T> Column<TProperty>(Expression<Func<T, TProperty>> expression, Action<AutoColumnConfigurationBuilder<T, TProperty>> action)
+    /*public IAutoTableConfigurationBuilder<T> Column<TProperty>(Expression<Func<T, TProperty>> expression, Action<AutoColumnConfigurationBuilder<T, TProperty>> action)
     {
         var propertyName = expression.GetPropertyName();
 
@@ -58,7 +56,7 @@ public class AutoTableConfigurationBuilder<T>
         action(columnBuilder);
         
         return this;
-    }
+    }*/
 
     public T GetInstance()
     {

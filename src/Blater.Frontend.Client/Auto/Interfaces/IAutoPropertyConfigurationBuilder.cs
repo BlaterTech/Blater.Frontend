@@ -9,6 +9,7 @@ public interface IAutoPropertyConfigurationBuilder<T, TProperty>
     where T : BaseDataModel
 {
     IAutoPropertyConfigurationBuilder<T, TProperty> Breakpoint(Breakpoint breakpoint, int value);
+    IAutoPropertyConfigurationBuilder<T, TProperty> Name(string value);
     IAutoPropertyConfigurationBuilder<T, TProperty> LabelName(string value);
     IAutoPropertyConfigurationBuilder<T, TProperty> Placeholder(string value);
     IAutoPropertyConfigurationBuilder<T, TProperty> HelpMessage(string value);
@@ -20,6 +21,8 @@ public interface IAutoPropertyConfigurationBuilder<T, TProperty>
     IAutoPropertyConfigurationBuilder<T, TProperty> LocalizationId(string value);
     IAutoPropertyConfigurationBuilder<T, TProperty> ComponentType(string value);
     IAutoPropertyConfigurationBuilder<T, TProperty> Disable(bool value = false);
+    IAutoPropertyConfigurationBuilder<T, TProperty> DisableFilter(bool value = false);
+    IAutoPropertyConfigurationBuilder<T, TProperty> DisableSortBy(bool value = false);
 
     IAutoPropertyConfigurationBuilder<T, TProperty> OnValueChanged(EventCallback<TProperty> value);
     IAutoPropertyConfigurationBuilder<T, TProperty> OnClick(EventCallback<TProperty> value);
