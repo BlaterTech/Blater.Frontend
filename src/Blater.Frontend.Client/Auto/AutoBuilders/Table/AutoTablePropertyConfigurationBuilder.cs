@@ -3,7 +3,7 @@ using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
-public class AutoTablePropertyConfigurationBuilder<T>(ColumnConfiguration configuration)
+public class AutoTablePropertyConfigurationBuilder<T>(TablePropertyConfiguration configuration)
     : AutoPropertyConfigurationBuilder<T>(configuration)
     where T : BaseDataModel
 {

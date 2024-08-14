@@ -5,7 +5,7 @@ using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
-public class AutoTableMemberConfigurationBuilder<T>(ColumnConfiguration configuration)
+public class AutoTableMemberConfigurationBuilder<T>(TablePropertyConfiguration configuration)
     : AutoPropertyConfigurationBuilder<T>(configuration)
     where T : BaseDataModel
 {

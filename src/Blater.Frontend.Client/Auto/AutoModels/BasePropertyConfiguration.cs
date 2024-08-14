@@ -13,7 +13,6 @@ public abstract class BasePropertyConfiguration
     public string LocalizationId { get; set; } = string.Empty;
     public string ComponentType { get; set; } = string.Empty;
     
-    
     public Dictionary<Breakpoint, int> Breakpoints { get; set; } = [];
     
     public int Order { get; set; }

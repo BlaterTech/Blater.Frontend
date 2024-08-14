@@ -1,7 +1,9 @@
-﻿namespace Blater.Frontend.Client.Auto.AutoModels.Form;
+﻿using Blater.Models.Bases;
 
-public class FormGroupConfiguration<T>
+namespace Blater.Frontend.Client.Auto.AutoModels.Form;
+
+public class FormGroupConfiguration<T> where T : BaseDataModel
 {
-    public string Title { get; set; } = $"Blater-AutoFormGroup-{nameof(T)}";
+    public string Title { get; set; } = string.Empty;
     public IList<FormPropertyConfiguration<T>> PropertyConfigurations { get; set; } = [];
 }

@@ -1,16 +1,15 @@
-﻿using Blater.Frontend.Client.Auto.AutoConfigurations;
-using Blater.Frontend.Client.Auto.AutoModels.Table;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
 public class AutoTableConfigurationBuilder<T> where T : BaseDataModel
 {
-    private readonly TableConfiguration<T> _tableConfiguration;
-    public AutoTableConfigurationBuilder(TableConfiguration<T> tableConfiguration)
+    private readonly TableConfiguration _configuration;
+    public AutoTableConfigurationBuilder(TableConfiguration configuration)
     {
-        _tableConfiguration = tableConfiguration;
-        TableConfigurations<T>.Configurations.Add(typeof(T), tableConfiguration);
+        _configuration = configuration;
+        AutoConfigurations<T, TableConfiguration>.Configurations.Add(typeof(T), configuration);
     }
     
     public AutoTableConfigurationBuilder<T> Table(string value, Action<AutoTableMemberConfigurationBuilder<T>> action)
@@ -20,13 +19,13 @@ public class AutoTableConfigurationBuilder<T> where T : BaseDataModel
 
     public AutoTableConfigurationBuilder<T> EnableFixedHeader(bool value = true)
     {
-        _tableConfiguration.EnableFixedHeader = value;
+        _configuration.EnableFixedHeader = value;
         return this;
     }
 
     public AutoTableConfigurationBuilder<T> EnableFixedFooter(bool value = true)
     {
-        _tableConfiguration.EnableFixedFooter = value;
+        _configuration.EnableFixedFooter = value;
         return this;
     }
     

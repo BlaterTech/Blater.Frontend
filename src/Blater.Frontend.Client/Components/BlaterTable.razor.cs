@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.AutoConfigurations;
+using Blater.Frontend.Client.Auto;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.Enumerations;
 using Blater.Frontend.Client.Interfaces;
@@ -162,8 +162,8 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
     private bool _loading;
     private DateRange? _dateRange;
     private string _typeName = typeof(T).Name;
-    private TableConfiguration<T> ModelConfiguration { get; set; } = null!;
-    private List<ColumnConfiguration> ColumnConfigurations { get; set; } = null!;
+    private TableConfiguration ModelConfiguration { get; set; } = null!;
+    private List<TablePropertyConfiguration> ColumnConfigurations { get; set; } = null!;
     private string Title { get; set; } = string.Empty;
     
     protected override async Task OnInitializedAsync()
@@ -171,7 +171,7 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
         _loading = true;
         
         ILocalizationService.LocalizationChanged += UpdateDataGrid;
-        TableConfigurations<T>.ModelsChanged += UpdateDataGrid;
+        AutoConfigurations<T, TableConfiguration>.ModelsChanged += UpdateDataGrid;
         
         if (string.IsNullOrEmpty(Title))
         {
@@ -194,7 +194,7 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
     
     private void UpdateModelConfiguration()
     {
-        var modelConfiguration = TableConfigurations<T>.Configurations.GetValueOrDefault(typeof(T));
+        var modelConfiguration = AutoConfigurations<T, TableConfiguration>.Configurations.GetValueOrDefault(typeof(T));
 
         if (modelConfiguration is null)
         {
