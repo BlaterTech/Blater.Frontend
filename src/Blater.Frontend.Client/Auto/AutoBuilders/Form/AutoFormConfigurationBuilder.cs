@@ -1,10 +1,9 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Form;
-using Blater.Frontend.Client.Auto.Interfaces.AutoForm;
 using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormConfigurationBuilder<T> : IAutoFormConfigurationBuilder<T> where T : BaseDataModel
+public class AutoFormConfigurationBuilder<T> where T : BaseDataModel
 {
     private readonly FormConfiguration<T> _formConfiguration;
 
@@ -13,12 +12,12 @@ public class AutoFormConfigurationBuilder<T> : IAutoFormConfigurationBuilder<T> 
         _formConfiguration = formConfiguration;
     }
 
-    public IAutoFormConfigurationBuilder<T> Form(string formName, Action<IAutoFormPropertyConfigurationBuilder<T>> action)
+    public AutoFormConfigurationBuilder<T> Form(string formName, Action<AutoFormMemberConfigurationBuilder<T>> action)
     {
         throw new NotImplementedException();
     }
 
-    public IAutoFormConfigurationBuilder<T> FormGroup(string groupName, Action<IAutoFormGroupConfigurationBuilder<T>> action)
+    public AutoFormConfigurationBuilder<T> FormGroup(string groupName, Action<AutoFormGroupConfigurationBuilder<T>> action)
     {
         throw new NotImplementedException();
     }
