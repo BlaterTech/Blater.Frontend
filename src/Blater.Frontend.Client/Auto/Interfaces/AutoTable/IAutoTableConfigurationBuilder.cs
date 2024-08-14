@@ -5,16 +5,16 @@ using Blater.Models.Bases;
 namespace Blater.Frontend.Client.Auto.Interfaces.AutoTable;
 
 [SuppressMessage("Naming", "CA1716:Identificadores não devem corresponder a palavras-chave")]
-public interface IAutoTableConfigurationBuilder<TTable> where TTable : BaseDataModel
+public interface IAutoTableConfigurationBuilder<T> where T : BaseDataModel
 {
-    IAutoTableConfigurationBuilder<TTable> ToTable(string tableName);
-    IAutoTableConfigurationBuilder<TTable> EnableFixedHeader(bool value = true);
-    IAutoTableConfigurationBuilder<TTable> EnableFixedFooter(bool value = true);
+    IAutoTableConfigurationBuilder<T> ToTable(string tableName);
+    IAutoTableConfigurationBuilder<T> EnableFixedHeader(bool value = true);
+    IAutoTableConfigurationBuilder<T> EnableFixedFooter(bool value = true);
     
-    IAutoColumnConfigurationBuilder<TTable> Property<TProperty>(Expression<Func<TTable, TProperty>> propertyExpression);
+    IAutoColumnConfigurationBuilder<T, TProperty> Property<TProperty>(Expression<Func<T, TProperty>> propertyExpression);
     
-    TTable GetInstance();
-    TProperty GetPropertyValue<TProperty>(Func<TTable, TProperty> value);
-    TTable SetValue<TProperty>(Func<TTable, TProperty> setter);
-    TTable SetValue(TTable setter);
+    T GetInstance();
+    TProperty GetPropertyValue<TProperty>(Func<T, TProperty> value);
+    T SetValue<TProperty>(Func<T, TProperty> setter);
+    T SetValue(T setter);
 }

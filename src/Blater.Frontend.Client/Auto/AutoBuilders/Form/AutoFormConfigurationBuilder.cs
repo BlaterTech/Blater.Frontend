@@ -1,11 +1,12 @@
 ﻿using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.AutoModels.Configurations.Form;
+using Blater.Frontend.Client.Auto.AutoModels.Form;
+using Blater.Frontend.Client.Auto.Interfaces;
 using Blater.Frontend.Client.Auto.Interfaces.AutoForm;
 using Blater.Frontend.Client.Auto.Interfaces.AutoValidation;
 using Blater.Models.Bases;
 using FluentValidation;
 
-namespace Blater.Frontend.Client.Auto.AutoBuilders.Configurations.Form;
+namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
 public abstract class AutoFormConfigurationBuilder<T> :
     IAutoValidationConfigurationBuilder<T>,
@@ -25,8 +26,13 @@ public abstract class AutoFormConfigurationBuilder<T> :
         return _formConfiguration.ModelValidator.RuleFor(expression);
     }
 
-    public IAutoPropertyConfigurationBuilder<T, TProperty> Property<TProperty>(Expression<Func<T, TProperty>> expression)
+    public IAutoFormPropertyConfigurationBuilder<T, TProperty> Property<TProperty>(Expression<Func<T, TProperty>> expression)
     {
         return new AutoFormPropertyConfigurationBuilder<T, TProperty>(expression);
+    }
+
+    public IAutoFormGroupConfigurationBuilder<T, TProperty> Group<TProperty>()
+    {
+        throw new NotImplementedException();
     }
 }

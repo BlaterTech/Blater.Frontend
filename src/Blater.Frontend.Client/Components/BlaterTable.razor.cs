@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using Blater.Frontend.Client.Auto.AutoConfigurations;
-using Blater.Frontend.Client.Auto.AutoModels.Configurations.Table;
+using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.Enumerations;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Models;

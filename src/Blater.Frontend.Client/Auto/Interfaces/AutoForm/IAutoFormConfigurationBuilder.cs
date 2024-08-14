@@ -7,5 +7,7 @@ namespace Blater.Frontend.Client.Auto.Interfaces.AutoForm;
 [SuppressMessage("Naming", "CA1716:Identificadores não devem corresponder a palavras-chave")]
 public interface IAutoFormConfigurationBuilder<T> where T : BaseDataModel
 {
-    IAutoPropertyConfigurationBuilder<T, TProperty> Property<TProperty>(Expression<Func<T, TProperty>> expression);
+    IAutoFormPropertyConfigurationBuilder<T, TProperty> Property<TProperty>(Expression<Func<T, TProperty>> expression);
+
+    IAutoFormGroupConfigurationBuilder<T, TProperty> Group<TProperty>();
 }

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Blater.Frontend.Client.Auto.AutoBuilders.Configurations.Table;
-using Blater.Frontend.Client.Auto.AutoModels.Configurations.Table;
+using Blater.Frontend.Client.Auto.AutoBuilders.Table;
+using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.Auto.Interfaces.AutoTable;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;

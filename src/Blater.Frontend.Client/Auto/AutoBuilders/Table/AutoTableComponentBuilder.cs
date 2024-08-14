@@ -1,8 +1,8 @@
-﻿using Blater.Frontend.Client.Auto.AutoModels.Configurations.Table;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Models.Bases;
 
-namespace Blater.Frontend.Client.Auto.AutoBuilders;
+namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
 public class AutoTableComponentBuilder<T> : BaseAutoComponentBuilder<T, TableConfiguration<T>> where T : BaseDataModel
 {
