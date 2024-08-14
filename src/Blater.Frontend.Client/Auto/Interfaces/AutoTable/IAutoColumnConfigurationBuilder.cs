@@ -1,8 +1,8 @@
 ﻿namespace Blater.Frontend.Client.Auto.Interfaces.AutoTable;
 
-public interface IAutoColumnConfigurationBuilder<T, TProperty>
+public interface IAutoColumnConfigurationBuilder<T>
 {
-    IAutoColumnConfigurationBuilder<T, TProperty> Name(string value);
-    IAutoColumnConfigurationBuilder<T, TProperty> DisableFilter(bool value = false);
-    IAutoColumnConfigurationBuilder<T, TProperty> DisableSortBy(bool value = false);
+    IAutoColumnConfigurationBuilder<T> Name(string value);
+    IAutoColumnConfigurationBuilder<T> DisableFilter(bool value = false);
+    IAutoColumnConfigurationBuilder<T> DisableSortBy(bool value = false);
 }   

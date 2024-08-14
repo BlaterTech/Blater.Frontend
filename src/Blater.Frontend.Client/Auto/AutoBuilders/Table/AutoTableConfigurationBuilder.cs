@@ -18,9 +18,9 @@ public class AutoTableConfigurationBuilder<T>
         TableConfigurations<T>.Configurations.Add(typeof(T), tableConfiguration);
     }
 
-    public IAutoTableConfigurationBuilder<T> Table(string tableName)
+    public IAutoTableConfigurationBuilder<T> Table(string value)
     {
-        _tableConfiguration.Name = tableName;
+        _tableConfiguration.Name = value;
         return this;
     }
 

@@ -7,22 +7,22 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
 public class AutoColumnConfigurationBuilder<T, TProperty>(Expression<Func<T, TProperty>> expression, ColumnConfiguration<T> configuration)
     : AutoPropertyConfigurationBuilder<T, TProperty>(expression, configuration),
-      IAutoColumnConfigurationBuilder<T, TProperty>
+      IAutoColumnConfigurationBuilder<T>
     where T : BaseDataModel
 {
-    public IAutoColumnConfigurationBuilder<T, TProperty> Name(string value)
+    public IAutoColumnConfigurationBuilder<T> Name(string value)
     {
         configuration.Name = value;
         return this;
     }
 
-    public IAutoColumnConfigurationBuilder<T, TProperty> DisableFilter(bool value = false)
+    public IAutoColumnConfigurationBuilder<T> DisableFilter(bool value = false)
     {
         configuration.DisableFilter = value;
         return this;
     }
 
-    public IAutoColumnConfigurationBuilder<T, TProperty> DisableSortBy(bool value = false)
+    public IAutoColumnConfigurationBuilder<T> DisableSortBy(bool value = false)
     {
         configuration.DisableSortBy = value;
         return this;
