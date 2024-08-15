@@ -10,15 +10,17 @@ public class AutoFormConfigurationBuilder<T> where T : BaseDataModel
     public AutoFormConfigurationBuilder(FormConfiguration<T> formConfiguration)
     {
         _formConfiguration = formConfiguration;
+        AutoConfigurations<T, FormConfiguration<T>>.Configurations.Add(typeof(T), _formConfiguration);
     }
 
     public AutoFormConfigurationBuilder<T> Form(string formName, Action<AutoFormMemberConfigurationBuilder<T>> action)
     {
-        throw new NotImplementedException();
-    }
+        _formConfiguration.Name = formName;
 
-    public AutoFormConfigurationBuilder<T> FormGroup(string groupName, Action<AutoFormGroupConfigurationBuilder<T>> action)
-    {
-        throw new NotImplementedException();
+        var autoFormMemberConfigurationBuilder = new AutoFormMemberConfigurationBuilder<T>(_formConfiguration);
+
+        action(autoFormMemberConfigurationBuilder);
+
+        return this;
     }
 }

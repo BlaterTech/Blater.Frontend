@@ -6,12 +6,10 @@ using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormMemberConfigurationBuilder<T>(FormPropertyConfiguration<T> configuration)  where T : BaseDataModel
+public class AutoFormMemberConfigurationBuilder<T>(FormConfiguration<T> configuration)  where T : BaseDataModel
 {
-    public AutoFormPropertyConfigurationBuilder<T, TProperty> AddMember<TProperty>(Expression<Func<T, TProperty>> expression, AutoFormScope value = AutoFormScope.All)
+    public AutoFormPropertyConfigurationBuilder<T, TProperty> AddFormMember<TProperty>(Expression<Func<T, TProperty>> expression, AutoFormScope value = AutoFormScope.All)
     {
-        configuration.FormScope = value;
-
         var propertyName = expression.GetPropertyName();
 
         if (string.IsNullOrWhiteSpace(propertyName))
@@ -19,8 +17,32 @@ public class AutoFormMemberConfigurationBuilder<T>(FormPropertyConfiguration<T> 
             throw new InvalidOperationException("PropertyName is null");
         }
 
-        configuration.PropertyInfo = typeof(T).GetProperty(propertyName)!;
+        var currentPropertyConfig = new FormPropertyConfiguration<T>
+        {
+            FormScope = value,
+            PropertyInfo = typeof(T).GetProperty(propertyName)!
+        }; 
         
-        return new AutoFormPropertyConfigurationBuilder<T, TProperty>(expression, configuration);
+        configuration.PropertyConfigurations.Add(currentPropertyConfig);
+        
+        return new AutoFormPropertyConfigurationBuilder<T, TProperty>(expression, currentPropertyConfig);
+    }
+    
+    public AutoFormMemberConfigurationBuilder<T> AddGroup(string groupName, AutoFormGroupScope groupScope, Action<AutoFormGroupConfigurationBuilder<T>> action)
+    {
+        var currentGroupConfiguration = new FormGroupConfiguration<T>
+        {
+            Title = groupName,
+            FormGroupScope = groupScope
+        };
+
+        var groupsConfigurations = configuration.GroupsConfigurations ??= new List<FormGroupConfiguration<T>>();
+        groupsConfigurations.Add(currentGroupConfiguration);
+
+        var autoFormGroupConfigBuilder = new AutoFormGroupConfigurationBuilder<T>(currentGroupConfiguration);
+
+        action(autoFormGroupConfigBuilder);
+        
+        return this;
     }
 }

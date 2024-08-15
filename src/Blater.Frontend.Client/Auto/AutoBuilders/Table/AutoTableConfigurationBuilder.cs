@@ -9,7 +9,7 @@ public class AutoTableConfigurationBuilder<T> where T : BaseDataModel
     public AutoTableConfigurationBuilder(TableConfiguration configuration)
     {
         _configuration = configuration;
-        AutoConfigurations<T, TableConfiguration>.Configurations.Add(typeof(T), configuration);
+        AutoConfigurations<T, TableConfiguration>.Configurations.Add(typeof(T), _configuration);
     }
     
     public AutoTableConfigurationBuilder<T> Table(string value, Action<AutoTableMemberConfigurationBuilder<T>> action)
