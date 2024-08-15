@@ -11,7 +11,6 @@ public abstract class BasePropertyConfiguration
     public string CssClass { get; set; } = string.Empty;
     public string CssStyle { get; set; } = string.Empty;
     public string LocalizationId { get; set; } = string.Empty;
-    public string ComponentType { get; set; } = string.Empty;
     
     public Dictionary<Breakpoint, int> Breakpoints { get; set; } = [];
     

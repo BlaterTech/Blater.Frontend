@@ -11,6 +11,8 @@ public class FormPropertyConfiguration<T> : BasePropertyConfiguration
     public string LabelName { get; set; } = string.Empty;
     public string Placeholder { get; set; } = string.Empty;
     
+    public string ComponentType { get; set; } = string.Empty;
+    
     public AbstractValidator<T>? Validator { get; set; }
     
     public bool IsReadOnly { get; set; }

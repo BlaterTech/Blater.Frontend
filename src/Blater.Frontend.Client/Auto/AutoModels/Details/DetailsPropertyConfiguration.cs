@@ -1,6 +1,6 @@
 ﻿namespace Blater.Frontend.Client.Auto.AutoModels.Details;
 
-public class DetailsPropertyConfiguration
+public class DetailsPropertyConfiguration : BasePropertyConfiguration
 {
-    
+    public string ComponentType { get; set; } = string.Empty;
 }

@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Blater.Frontend.Client.Auto.AutoBuilders.Details;
 using Blater.Frontend.Client.Auto.AutoBuilders.Form;
 using Blater.Frontend.Client.Auto.AutoBuilders.Table;
+using Blater.Frontend.Client.Auto.AutoModels.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.Auto.Interfaces;
@@ -62,12 +64,12 @@ public static class AutoConfigurations<T, TConfiguration>
             var formConfiguration = new FormConfiguration<T>();
             var formConfigurator = new AutoFormConfigurationBuilder<T>(formConfiguration);
 
-            //var detailsConfiguration = new FormConfiguration<T>();
-            //var detailsConfigurator = new AutoFormConfigurationBuilder<T>(detailsConfiguration);
+            var detailsConfiguration = new DetailsConfiguration();
+            var detailsConfigurator = new AutoDetailsConfigurationBuilder<T>(detailsConfiguration);
 
             instance.Configure(tableConfigurator);
             instance.Configure(formConfigurator);
-            //instance.Configure(detailsConfigurator);
+            instance.Configure(detailsConfigurator);
         }
 
         ModelsChanged?.Invoke();

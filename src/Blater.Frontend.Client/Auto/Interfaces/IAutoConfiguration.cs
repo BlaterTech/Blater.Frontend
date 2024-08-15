@@ -1,4 +1,5 @@
-﻿using Blater.Frontend.Client.Auto.AutoBuilders.Form;
+﻿using Blater.Frontend.Client.Auto.AutoBuilders.Details;
+using Blater.Frontend.Client.Auto.AutoBuilders.Form;
 using Blater.Frontend.Client.Auto.AutoBuilders.Table;
 using Blater.Models.Bases;
 
@@ -12,6 +13,11 @@ public interface IAutoConfiguration<T> where T : BaseDataModel
     }
 
     void Configure(AutoFormConfigurationBuilder<T> builder)
+    {
+        
+    }
+    
+    void Configure(AutoDetailsConfigurationBuilder<T> builder)
     {
         
     }
