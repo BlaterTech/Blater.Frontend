@@ -8,7 +8,7 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
 public class AutoFormMemberConfigurationBuilder<T>(FormConfiguration<T> configuration)  where T : BaseDataModel
 {
-    public AutoFormPropertyConfigurationBuilder<T, TProperty> AddFormMember<TProperty>(Expression<Func<T, TProperty>> expression, AutoFormScope value = AutoFormScope.All)
+    public AutoFormPropertyConfigurationBuilder<T, TProperty> AddMember<TProperty>(Expression<Func<T, TProperty>> expression, AutoFormScope value = AutoFormScope.All)
     {
         var propertyName = expression.GetPropertyName();
 

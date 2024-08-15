@@ -7,7 +7,7 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
 public class AutoDetailsMemberConfigurationBuilder<T>(DetailsConfiguration configuration) where T : BaseDataModel
 {
-    public AutoDetailsPropertyConfigurationBuilder<T, TProperty> AddDetailsMember<TProperty>(Expression<Func<T, TProperty>> expression)
+    public AutoDetailsPropertyConfigurationBuilder<T, TProperty> AddMember<TProperty>(Expression<Func<T, TProperty>> expression)
     {
         var propertyName = expression.GetPropertyName();
 
