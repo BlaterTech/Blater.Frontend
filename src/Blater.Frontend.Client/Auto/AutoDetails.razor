@@ -1,0 +1,85 @@
+﻿@typeparam T where T : Blater.Models.Bases.BaseDataModel
+
+
+@using Blater.Frontend.Client.Interfaces
+@using Blater.Interfaces
+@using Blater.Models
+@using Microsoft.Extensions.Logging
+
+@if (_loading)
+{
+    
+}
+else
+{
+    if (Id != Guid.Empty)
+    {
+        
+    }
+    else
+    {
+        <p class="text-3xl  text-left text-primary-1000">
+            @*@_title*@
+        </p>
+
+        <!-- Item Not found asMessage -->
+        <div class="flex flex-col justify-center items-center">
+            <p class="text-xl  text-left text-primary-1000">
+                @LocalizationService.GetValue("ItemNotFound")
+            </p>
+        </div>
+    }
+}
+
+
+@code {
+
+    [Parameter]
+    [EditorRequired]
+    public Guid Id { get; set; }
+    
+    [Inject]
+    public ILocalizationService LocalizationService { get; set; } = default!;
+
+    [Inject]
+    public ILogger<AutoDetails<T>> Logger { get; set; } = default!;
+    
+    [Inject]
+    public IBlaterDatabaseStoreT<T> Store { get; set; } = default!;
+
+    private bool _loading = true;
+    private T? _model;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadData();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadData();
+        }
+    }
+
+    private async Task LoadData()
+    {
+        if (Id == Guid.Empty)
+        {
+            return;
+        }
+        
+        var model = await Store.FindOne(new BlaterId("", Id));
+
+        if (model.HandleErrors(out var errors, out var response))
+        {
+            return;
+        }
+
+        _model = response;
+        _loading = false;
+        StateHasChanged();
+    }
+    
+}
