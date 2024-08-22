@@ -32,6 +32,9 @@ public static class WebSetup
            .AddInteractiveServerComponents()
            .AddInteractiveWebAssemblyComponents();
 
+        //Test
+        services.AddRazorPages();
+
         services.AddCascadingAuthenticationState();
         services.AddScoped<IdentityUserAccessor>();
         services.AddScoped<IdentityRedirectManager>();
@@ -60,7 +63,10 @@ public static class WebSetup
         services.AddScoped<CookieHandler>();
 
         services
-           .AddHttpClient<BlaterHttpClient>((_, client) => { client.BaseAddress = new Uri("http://localhost:5296"); })
+           .AddHttpClient<BlaterHttpClient>((_, client) =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5296");
+            })
            .AddHttpMessageHandler<CookieHandler>();
 
         services.AddBlaterDatabase();
@@ -83,6 +89,7 @@ public static class WebSetup
     public static void UseBlaterFrontendServer<TApp>(this WebApplication app, Assembly clientAssembly) where TApp : ComponentBase
     {
         AutoBuilder.Initialize();
+        
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
@@ -91,17 +98,25 @@ public static class WebSetup
         else
         {
             app.UseExceptionHandler("/Error", createScopeForErrors: true);
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
 
         app.UseAntiforgery();
 
         app.UseStaticFiles();
+        //app.MapStaticAssets();
 
         var blaterFrontendAssembly = typeof(Blater.Frontend.WebSetup).Assembly;
         var blaterFrontendClientAssembly = typeof(Blater.Frontend.Client.WebSetup).Assembly;
         var executingAssembly = Assembly.GetEntryAssembly()!;
+        
+        TypesHelper.RoutesAssemblies.Add(executingAssembly);//Executing assembly AKA Server
+        TypesHelper.RoutesAssemblies.Add(clientAssembly);
+        TypesHelper.RoutesAssemblies.Add(blaterFrontendAssembly);
+        TypesHelper.RoutesAssemblies.Add(blaterFrontendClientAssembly);
+        
+        //Test
+        app.MapRazorPages();
 
         app.MapRazorComponents<TApp>()
            .AddInteractiveServerRenderMode()

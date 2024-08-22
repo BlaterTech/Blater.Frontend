@@ -1,7 +1,7 @@
 ﻿@using System.Reflection
 @using Blater.Helpers
 
-<Router AppAssembly="@ExecutingAssembly" AdditionalAssemblies="@AdditionalAssemblies">
+<Router AppAssembly="@ExecutingAssembly" AdditionalAssemblies="@TypesHelper.RoutesAssemblies">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(BlaterMainLayout)">
             <NotAuthorized>
@@ -15,7 +15,4 @@
 @code
 {
     private static readonly Assembly ExecutingAssembly = Assembly.GetEntryAssembly()!;
-    private static readonly Assembly FrontEndAssembly = typeof(WebSetup).Assembly;
-
-    private static readonly List<Assembly> AdditionalAssemblies = [FrontEndAssembly];
 }
