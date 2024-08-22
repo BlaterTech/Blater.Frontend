@@ -5,44 +5,32 @@
     </ItemGroup>
 
     <ItemGroup>
+        <InternalsVisibleTo Include="Blater.*"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Ardalis.SmartEnum" Version="8.0.0" />
         <PackageReference Include="FluentValidation" Version="11.9.2" />
         <!--<PackageReference Include="ExpressionExtensionSQL" Version="1.2.7" />-->
-        <PackageReference Include="MudBlazor" Version="7.4.0" />
+        <PackageReference Include="MudBlazor" Version="7.6.0" />
         
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.7" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.7" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.7"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.7" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.8" />
 
         <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
         <PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
 
         <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta09" PrivateAssets="all" ExcludeAssets="runtime" />
 
-        <PackageReference Include="Serilog" Version="3.1.1" />
+        <PackageReference Include="Serilog" Version="4.0.1" />
 
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.2" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Blater\src\Blater\Blater.csproj" />
       <ProjectReference Include="..\..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoCheckBoxInput.razor" />
-      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoDateTimeInput.razor" />
-      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoDecimalInput.razor" />
-      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoMoneyInput.razor" />
-      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoNumericInput.razor" />
-      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoSelectInput.razor" />
-      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoSwitchInput.razor" />
-      <AdditionalFiles Include="Auto\Components\AutoInputs\AutoTextInput.razor" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Components\Dialogs\FilterDialog.razor" />
-    </ItemGroup>
-    
 </Project>

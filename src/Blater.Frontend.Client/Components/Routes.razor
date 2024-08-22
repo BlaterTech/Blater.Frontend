@@ -14,8 +14,8 @@
 
 @code
 {
-    private static readonly List<Assembly> AdditionalAssemblies = TypesHelper.Assemblies.ToList();
-    
-    private static readonly Assembly ExecutingAssembly =
-        AdditionalAssemblies.FirstOrDefault(x => x.FullName!.Contains("Portal.Client"))!;
+    private static readonly Assembly ExecutingAssembly = Assembly.GetEntryAssembly()!;
+    private static readonly Assembly FrontEndAssembly = typeof(WebSetup).Assembly;
+
+    private static readonly List<Assembly> AdditionalAssemblies = [FrontEndAssembly];
 }

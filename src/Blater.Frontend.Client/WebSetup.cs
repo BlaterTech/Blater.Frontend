@@ -17,12 +17,14 @@ public static class WebSetup
 {
     public static void AddBlaterFrontendClient(this IServiceCollection services)
     {
+        AutoBuilder.Initialize();
+        
         //builder.SetupSerilog();
-
+        
         services.AddAuthorizationCore();
         services.AddCascadingAuthenticationState();
         //services.AddAuthenticationStateDeserialization();
-        services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
+        //services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
 
         services.AddScoped<CookieHandler>();
 
@@ -47,25 +49,5 @@ public static class WebSetup
         services.AddScoped<ILocalizationService, LocalizationService>();
         services.AddScoped<INavigationService, NavigationService>();
         services.AddMudServices();
-    }
-    
-    public static async Task RunBlaterApp(string[]? args = default)
-    {
-        var builder = WebAssemblyHostBuilder.CreateDefault(args ?? []);
-        
-        builder.Services.AddBlaterFrontendClient();
-
-        AutoBuilder.Initialize();
-        
-        var app = builder.Build();
-
-        try
-        {
-            await app.RunAsync();
-        }
-        finally
-        {
-            await app.DisposeAsync();
-        }
     }
 }

@@ -1,3 +1,13 @@
+//Clipboard
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        console.log('Texto copiado para a área de transferência.');
+    }).catch(function(err) {
+        console.error('Erro ao copiar o texto: ', err);
+    });
+}
+
+//Cookie functions
 function WriteCookie(name, value, days) {
     const date = new Date();
     date.setDate(date.getTime() + (days * 24 * 60 * 60 * 1000));

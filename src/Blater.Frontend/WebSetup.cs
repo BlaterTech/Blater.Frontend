@@ -18,13 +18,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MudBlazor.Services;
+// ReSharper disable RedundantNameQualifier
 
 namespace Blater.Frontend;
 
 public static class WebSetup
 {
-    private static readonly List<Assembly> AdditionalAssemblies = TypesHelper.Assemblies.ToList();
-    
     public static void AddBlaterFrontendServer(this IServiceCollection services)
     {
         // Add services to the container.
@@ -61,10 +60,7 @@ public static class WebSetup
         services.AddScoped<CookieHandler>();
 
         services
-           .AddHttpClient<BlaterHttpClient>((_, client) =>
-            {
-                client.BaseAddress = new Uri("http://localhost:5296");
-            })
+           .AddHttpClient<BlaterHttpClient>((_, client) => { client.BaseAddress = new Uri("http://localhost:5296"); })
            .AddHttpMessageHandler<CookieHandler>();
 
         services.AddBlaterDatabase();
@@ -83,8 +79,8 @@ public static class WebSetup
         services.AddScoped<INavigationService, NavigationService>();
         services.AddMudServices();
     }
-    
-    public static void UseBlaterFrontendServer<TApp>(this WebApplication app, Assembly assembly) where TApp : ComponentBase
+
+    public static void UseBlaterFrontendServer<TApp>(this WebApplication app, Assembly clientAssembly) where TApp : ComponentBase
     {
         AutoBuilder.Initialize();
         // Configure the HTTP request pipeline.
@@ -103,32 +99,13 @@ public static class WebSetup
 
         app.UseStaticFiles();
 
-        AdditionalAssemblies.Remove(typeof(TApp).Assembly);
-        
+        var blaterFrontendAssembly = typeof(Blater.Frontend.WebSetup).Assembly;
+        var blaterFrontendClientAssembly = typeof(Blater.Frontend.Client.WebSetup).Assembly;
+        var executingAssembly = Assembly.GetEntryAssembly()!;
+
         app.MapRazorComponents<TApp>()
            .AddInteractiveServerRenderMode()
            .AddInteractiveWebAssemblyRenderMode()
-           .AddAdditionalAssemblies(AdditionalAssemblies.ToArray());
-    }
-    
-    public static async Task RunBlaterApp<TApp>(Assembly assembly, string[]? args = default)  where TApp : ComponentBase
-    {
-        var builder = WebApplication.CreateBuilder(args ?? []);
-        
-        builder.Services.AddBlaterFrontendServer();
-
-        var app = builder.Build();
-        
-        app.UseBlaterFrontendServer<TApp>(assembly);
-        
-        try
-        {
-            await app.RunAsync();
-            await app.WaitForShutdownAsync();
-        }
-        finally
-        {
-            await app.DisposeAsync();
-        }
+           .AddAdditionalAssemblies(blaterFrontendAssembly, blaterFrontendClientAssembly, clientAssembly);
     }
 }

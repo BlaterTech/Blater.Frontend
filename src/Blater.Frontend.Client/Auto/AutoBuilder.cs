@@ -7,18 +7,18 @@ namespace Blater.Frontend.Client.Auto;
 
 public static class AutoBuilder
 {
-    private static bool _hotReloadInitialized;
-    private static readonly List<Type> GenericBuildableComponents = [];
-    private static readonly Type BaseComponentType = typeof(IAutoConfiguration<>);
+    internal static bool HotReloadInitialized;
+    internal static readonly List<Type> GenericBuildableComponents = [];
+    internal static readonly Type BaseComponentType = typeof(IAutoConfiguration<>);
 
     private static void InitializeHotReload()
     {
-        if (_hotReloadInitialized)
+        if (HotReloadInitialized)
         {
             return;
         }
 
-        _hotReloadInitialized = true;
+        HotReloadInitialized = true;
         HotReloadHelper.UpdateApplicationEvent += _ => Initialize();
     }
 

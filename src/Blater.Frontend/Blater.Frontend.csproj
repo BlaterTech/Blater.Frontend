@@ -3,9 +3,13 @@
     <ItemGroup>
         <SupportedPlatform Include="browser"/>
     </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Blater.*"/>
+    </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.7" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.8" />
 
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
 
@@ -14,29 +18,13 @@
         <PackageReference Include="System.Reactive" Version="6.0.1" />
         <PackageReference Include="System.Reactive.Linq" Version="6.0.1" />
         
-        <PackageReference Include="Extensions.MudBlazor.StaticInput" Version="2.1.1" />
+        <PackageReference Include="Extensions.MudBlazor.StaticInput" Version="2.1.2" />
         
         <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta09" PrivateAssets="all" ExcludeAssets="runtime" />
     </ItemGroup>
     
     <ItemGroup>
       <ProjectReference Include="..\Blater.Frontend.Client\Blater.Frontend.Client.csproj" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\img\about.svg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\blater-favicon.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\blater-founder-1.svg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\blater-founder-2.svg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\blater-founder-3.svg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\blater-founder-4.svg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\blater-icon.svg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\blater-logo.svg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\database.svg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\favicon.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\notebook.svg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\random-user.svg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\space-technology.svg" />
     </ItemGroup>
 
 </Project>
