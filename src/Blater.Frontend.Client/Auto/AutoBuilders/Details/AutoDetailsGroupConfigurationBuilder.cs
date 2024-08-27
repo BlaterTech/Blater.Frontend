@@ -5,9 +5,9 @@ using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
-public class AutoDetailsGroupConfigurationBuilder<T>(DetailsGroupConfiguration configuration) where T : BaseDataModel
+public class AutoDetailsGroupConfigurationBuilder(Type type, DetailsGroupConfiguration configuration)
 {
-    public AutoDetailsPropertyConfigurationBuilder<T, TProperty> AddMember<TProperty>(Expression<Func<T, TProperty>> expression)
+    public AutoDetailsPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression)
     {
         var propertyName = expression.GetPropertyName();
 
@@ -18,11 +18,11 @@ public class AutoDetailsGroupConfigurationBuilder<T>(DetailsGroupConfiguration c
 
         var currentPropertyConfig = new DetailsPropertyConfiguration
         {
-            PropertyInfo = typeof(T).GetProperty(propertyName)!
+            PropertyInfo = type.GetProperty(propertyName)!
         };
         
         configuration.PropertyConfigurations.Add(currentPropertyConfig);
 
-        return new AutoDetailsPropertyConfigurationBuilder<T,TProperty>(currentPropertyConfig);
+        return new AutoDetailsPropertyConfigurationBuilder<TProperty>(currentPropertyConfig);
     }
 }

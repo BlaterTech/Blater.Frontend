@@ -1,62 +1,59 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.Interfaces;
-using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders;
 
-public class AutoPropertyConfigurationBuilder<T>(BasePropertyConfiguration configuration) 
-    : IAutoPropertyConfigurationBuilder<T> 
-    where T : BaseDataModel
+public class AutoPropertyConfigurationBuilder(BasePropertyConfiguration configuration) : IAutoPropertyConfigurationBuilder
 {
-    public IAutoPropertyConfigurationBuilder<T> Breakpoint(Breakpoint breakpoint, int value)
+    public IAutoPropertyConfigurationBuilder Breakpoint(Breakpoint breakpoint, int value)
     {
         configuration.Breakpoints.Add(breakpoint, value);
         return this;
     }
 
-    public IAutoPropertyConfigurationBuilder<T> DataFormat(string value)
+    public IAutoPropertyConfigurationBuilder DataFormat(string value)
     {
         configuration.DataFormat = value;
         return this;
     }
 
-    public IAutoPropertyConfigurationBuilder<T> CssClass(string value)
+    public IAutoPropertyConfigurationBuilder CssClass(string value)
     {
         configuration.CssClass = value;
         return this;
     }
 
-    public IAutoPropertyConfigurationBuilder<T> CssStyle(string value)
+    public IAutoPropertyConfigurationBuilder CssStyle(string value)
     {
         configuration.CssStyle = value;
         return this;
     }
 
-    public IAutoPropertyConfigurationBuilder<T> Order(int value)
+    public IAutoPropertyConfigurationBuilder Order(int value)
     {
         configuration.Order = value;
         return this;
     }
 
-    public IAutoPropertyConfigurationBuilder<T> LocalizationId(string value)
+    public IAutoPropertyConfigurationBuilder LocalizationId(string value)
     {
         configuration.LocalizationId = value;
         return this;
     }
 
-    public IAutoPropertyConfigurationBuilder<T> OnValueChanged<TProperty>(EventCallback<TProperty> value)
+    public IAutoPropertyConfigurationBuilder OnValueChanged<TProperty>(EventCallback<TProperty> value)
     {
         throw new NotImplementedException();
     }
 
-    public IAutoPropertyConfigurationBuilder<T> OnClick<TProperty>(EventCallback<TProperty> value)
+    public IAutoPropertyConfigurationBuilder OnClick<TProperty>(EventCallback<TProperty> value)
     {
         throw new NotImplementedException();
     }
 
-    public IAutoPropertyConfigurationBuilder<T> OnParameterSet<TProperty>(EventCallback<TProperty> value)
+    public IAutoPropertyConfigurationBuilder OnParameterSet<TProperty>(EventCallback<TProperty> value)
     {
         throw new NotImplementedException();
     }

@@ -3,10 +3,7 @@ using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.Interfaces;
 
-public interface IAutoConfiguration<T> where T : BaseDataModel
+public interface IAutoConfiguration
 {
-    void Configure(AutoComponentConfigurationBuilder<T> builder)
-    {
-        
-    }
+    void Configure(AutoComponentConfigurationBuilder builder);
 }

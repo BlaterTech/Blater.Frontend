@@ -1,59 +1,61 @@
 ﻿using Blater.Frontend.Client.Auto.AutoBuilders.Details;
 using Blater.Frontend.Client.Auto.AutoBuilders.Form;
 using Blater.Frontend.Client.Auto.AutoBuilders.Table;
+using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
-using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders;
 
-public class AutoComponentConfigurationBuilder<T> where T : BaseDataModel
+public class AutoComponentConfigurationBuilder
 {
-    private readonly DetailsConfiguration _detailsConfiguration;
-    private readonly FormConfiguration<T> _formConfiguration;
-    private readonly TableConfiguration _tableConfiguration;
+    private readonly AutoModelConfiguration _autoModelConfiguration;
 
-    public AutoComponentConfigurationBuilder(DetailsConfiguration detailsConfiguration, FormConfiguration<T> formConfiguration, TableConfiguration tableConfiguration)
+    public AutoComponentConfigurationBuilder(Type modelType)
     {
-        _detailsConfiguration = detailsConfiguration;
-        _formConfiguration = formConfiguration;
-        _tableConfiguration = tableConfiguration;
-        AutoConfigurations<T, DetailsConfiguration>.Configurations.Add(typeof(T), _detailsConfiguration);
-        AutoConfigurations<T, FormConfiguration<T>>.Configurations.Add(typeof(T), _formConfiguration);
-        AutoConfigurations<T, TableConfiguration>.Configurations.Add(typeof(T), _tableConfiguration);
+        _autoModelConfiguration = new AutoModelConfiguration
+        {
+            ModelType = modelType,
+            ModelName = modelType.Name
+        };
+        
+        AutoConfigurations.Configurations.Add(modelType, _autoModelConfiguration);
     }
     
-    public AutoComponentConfigurationBuilder<T> Details(string detailsName, Action<AutoDetailsMemberConfigurationBuilder<T>> action)
+    public void Details(string detailsName, Action<AutoDetailsMemberConfigurationBuilder> action)
     {
-        _detailsConfiguration.Name = detailsName;
+        _autoModelConfiguration.Details = new DetailsConfiguration
+        {
+            Name = detailsName
+        };
 
-        var autoFormMemberConfigurationBuilder = new AutoDetailsMemberConfigurationBuilder<T>(_detailsConfiguration);
+        var autoFormMemberConfigurationBuilder = new AutoDetailsMemberConfigurationBuilder(_autoModelConfiguration.ModelType, _autoModelConfiguration.Details);
 
         action(autoFormMemberConfigurationBuilder);
-
-        return this;
     }
     
-    public AutoComponentConfigurationBuilder<T> Table(string tableName, Action<AutoTableMemberConfigurationBuilder<T>> action)
+    public void Table(string tableName, Action<AutoTableMemberConfigurationBuilder> action)
     {
-        _tableConfiguration.Name = tableName;
+        _autoModelConfiguration.Table = new TableConfiguration
+        {
+            Name = tableName
+        };
 
-        var autoTableMemberConfigurationBuilder = new AutoTableMemberConfigurationBuilder<T>(_tableConfiguration, new TablePropertyConfiguration());
+        var autoTableMemberConfigurationBuilder = new AutoTableMemberConfigurationBuilder(_autoModelConfiguration.ModelType, _autoModelConfiguration.Table);
 
         action(autoTableMemberConfigurationBuilder);
-
-        return this;
     }
     
-    public AutoComponentConfigurationBuilder<T> Form(string formName, Action<AutoFormMemberConfigurationBuilder<T>> action)
+    public void Form(string formName, Action<AutoFormMemberConfigurationBuilder> action)
     {
-        _formConfiguration.Name = formName;
+        _autoModelConfiguration.Form = new FormConfiguration
+        {
+            Name = formName
+        };
 
-        var autoFormMemberConfigurationBuilder = new AutoFormMemberConfigurationBuilder<T>(_formConfiguration);
+        var autoFormMemberConfigurationBuilder = new AutoFormMemberConfigurationBuilder(_autoModelConfiguration.ModelType, _autoModelConfiguration.Form);
 
         action(autoFormMemberConfigurationBuilder);
-
-        return this;
     }
 }

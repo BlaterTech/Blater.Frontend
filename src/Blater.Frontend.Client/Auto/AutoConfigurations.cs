@@ -1,8 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Blater.Frontend.Client.Auto.AutoBuilders;
-using Blater.Frontend.Client.Auto.AutoBuilders.Details;
-using Blater.Frontend.Client.Auto.AutoBuilders.Form;
-using Blater.Frontend.Client.Auto.AutoBuilders.Table;
+﻿using Blater.Frontend.Client.Auto.AutoBuilders;
+using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
@@ -10,19 +7,15 @@ using Blater.Frontend.Client.Auto.Interfaces;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;
-using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto;
 
-[SuppressMessage("Design", "CA1000:Não declarar membros estáticos em tipos genéricos")]
-public static class AutoConfigurations<T, TConfiguration>
-    where T : BaseDataModel
-    where TConfiguration : AutoModels.BaseConfiguration
+public static class AutoConfigurations
 {
     /// <summary>
     ///     Parent Type is the key, and the value is the configuration for the child type.
     /// </summary>
-    public static readonly Dictionary<Type, TConfiguration> Configurations = new();
+    public static readonly Dictionary<Type, AutoModelConfiguration> Configurations = new();
 
     /// <summary>
     ///     Parent Type is the key, and the value is the configuration for the child type.
@@ -48,18 +41,18 @@ public static class AutoConfigurations<T, TConfiguration>
         Configurations.Clear();
 
         var models = TypesHelper.AllTypes
-                                .Where(x => x is { IsInterface: false, IsAbstract: false } && x.IsAssignableTo(typeof(IAutoConfiguration<T>)));
+                                .Where(x => x is { IsInterface: false, IsAbstract: false } && x.IsAssignableTo(typeof(IAutoConfiguration)));
 
         foreach (var modelType in models)
         {
-            var instance = Activator.CreateInstance(modelType) as IAutoConfiguration<T>;
+            var instance = Activator.CreateInstance(modelType) as IAutoConfiguration;
 
             if (instance == null)
             {
                 continue;
             }
             
-            var configurationBuilder = new AutoComponentConfigurationBuilder<T>(new DetailsConfiguration(), new FormConfiguration<T>(), new TableConfiguration());
+            var configurationBuilder = new AutoComponentConfigurationBuilder(modelType);
 
             instance.Configure(configurationBuilder);
         }

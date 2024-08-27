@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using Blater.Frontend.Client.Auto;
+using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.Enumerations;
 using Blater.Frontend.Client.Interfaces;
@@ -162,7 +163,7 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
     private bool _loading;
     private DateRange? _dateRange;
     private string _typeName = typeof(T).Name;
-    private TableConfiguration ModelConfiguration { get; set; } = null!;
+    private AutoModelConfiguration ModelConfiguration { get; set; } = null!;
     private List<TablePropertyConfiguration> ColumnConfigurations { get; set; } = null!;
     private string Title { get; set; } = string.Empty;
     
@@ -171,7 +172,7 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
         _loading = true;
         
         ILocalizationService.LocalizationChanged += UpdateDataGrid;
-        AutoConfigurations<T, TableConfiguration>.ModelsChanged += UpdateDataGrid;
+        AutoConfigurations.ModelsChanged += UpdateDataGrid;
         
         if (string.IsNullOrEmpty(Title))
         {
@@ -194,7 +195,7 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
     
     private void UpdateModelConfiguration()
     {
-        var modelConfiguration = AutoConfigurations<T, TableConfiguration>.Configurations.GetValueOrDefault(typeof(T));
+        var modelConfiguration = AutoConfigurations.Configurations.GetValueOrDefault(typeof(T));
 
         if (modelConfiguration is null)
         {
@@ -204,7 +205,7 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
         
         ModelConfiguration = modelConfiguration;
 
-        ColumnConfigurations = modelConfiguration.Columns.OrderBy(x => x.Order).ToList();
+        ColumnConfigurations = modelConfiguration.Table.Columns.OrderBy(x => x.Order).ToList();
     }
 
     private async Task DateRangeValueChanged(DateRange obj)

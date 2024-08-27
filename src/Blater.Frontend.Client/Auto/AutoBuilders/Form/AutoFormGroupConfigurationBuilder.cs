@@ -6,9 +6,9 @@ using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormGroupConfigurationBuilder<T>(FormGroupConfiguration<T> configuration) where T : BaseDataModel
+public class AutoFormGroupConfigurationBuilder(Type type, FormGroupConfiguration configuration)
 {
-    public AutoFormPropertyConfigurationBuilder<T,TProperty> AddMember<TProperty>(Expression<Func<T, TProperty>> expression, AutoFormScope formScope = AutoFormScope.All)
+    public AutoFormPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression, AutoFormScope formScope = AutoFormScope.All)
     {
         var propertyName = expression.GetPropertyName();
 
@@ -17,14 +17,14 @@ public class AutoFormGroupConfigurationBuilder<T>(FormGroupConfiguration<T> conf
             throw new InvalidOperationException("PropertyName is null");
         }
 
-        var currentPropertyConfig = new FormPropertyConfiguration<T>
+        var currentPropertyConfig = new FormPropertyConfiguration
         {
             FormScope = formScope,
-            PropertyInfo = typeof(T).GetProperty(propertyName)!
+            PropertyInfo = type.GetProperty(propertyName)!
         };
         
         configuration.PropertyConfigurations.Add(currentPropertyConfig);
 
-        return new AutoFormPropertyConfigurationBuilder<T,TProperty>(expression, currentPropertyConfig);
+        return new AutoFormPropertyConfigurationBuilder<TProperty>(currentPropertyConfig);
     }
 }

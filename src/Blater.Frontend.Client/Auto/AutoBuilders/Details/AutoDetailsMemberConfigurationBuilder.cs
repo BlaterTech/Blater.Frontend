@@ -5,9 +5,9 @@ using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
-public class AutoDetailsMemberConfigurationBuilder<T>(DetailsConfiguration configuration) where T : BaseDataModel
+public class AutoDetailsMemberConfigurationBuilder(Type type, DetailsConfiguration configuration)
 {
-    public AutoDetailsPropertyConfigurationBuilder<T, TProperty> AddMember<TProperty>(Expression<Func<T, TProperty>> expression)
+    public AutoDetailsPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression)
     {
         var propertyName = expression.GetPropertyName();
 
@@ -18,15 +18,15 @@ public class AutoDetailsMemberConfigurationBuilder<T>(DetailsConfiguration confi
 
         var currentPropertyConfig = new DetailsPropertyConfiguration
         {
-            PropertyInfo = typeof(T).GetProperty(propertyName)!
+            PropertyInfo = type.GetProperty(propertyName)!
         }; 
         
         configuration.PropertyConfigurations.Add(currentPropertyConfig);
         
-        return new AutoDetailsPropertyConfigurationBuilder<T, TProperty>(currentPropertyConfig);
+        return new AutoDetailsPropertyConfigurationBuilder<TProperty>(currentPropertyConfig);
     }
     
-    public AutoDetailsMemberConfigurationBuilder<T> AddGroup(string groupName, bool disableEditButton, Action<AutoDetailsGroupConfigurationBuilder<T>> action)
+    public AutoDetailsMemberConfigurationBuilder AddGroup(string groupName, bool disableEditButton, Action<AutoDetailsGroupConfigurationBuilder> action)
     {
         var currentGroupConfiguration = new DetailsGroupConfiguration
         {
@@ -37,7 +37,7 @@ public class AutoDetailsMemberConfigurationBuilder<T>(DetailsConfiguration confi
         var groupsConfigurations = configuration.GroupsConfigurations ??= new List<DetailsGroupConfiguration>();
         groupsConfigurations.Add(currentGroupConfiguration);
 
-        var autoDetailsGroupConfigurationBuilder = new AutoDetailsGroupConfigurationBuilder<T>(currentGroupConfiguration);
+        var autoDetailsGroupConfigurationBuilder = new AutoDetailsGroupConfigurationBuilder(type, currentGroupConfiguration);
 
         action(autoDetailsGroupConfigurationBuilder);
         

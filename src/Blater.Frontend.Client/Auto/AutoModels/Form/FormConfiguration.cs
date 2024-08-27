@@ -1,13 +1,9 @@
-﻿using Blater.Models.Bases;
-using FluentValidation;
+﻿namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
-namespace Blater.Frontend.Client.Auto.AutoModels.Form;
-
-public class FormConfiguration<T> : BaseConfiguration where T : BaseDataModel
+public class FormConfiguration
 {
-    public IList<FormGroupConfiguration<T>>? GroupsConfigurations { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public IList<FormGroupConfiguration>? GroupsConfigurations { get; set; }
 
-    public IList<FormPropertyConfiguration<T>> PropertyConfigurations { get; set; } = [];
-    
-    public AbstractValidator<T>? ModelValidator { get; set; }
+    public IList<FormPropertyConfiguration> PropertyConfigurations { get; set; } = [];
 }

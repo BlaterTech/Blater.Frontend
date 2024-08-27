@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
-public class FormPropertyConfiguration<T> : BasePropertyConfiguration
+public class FormPropertyConfiguration : BasePropertyConfiguration
 {
     public AutoFormScope FormScope { get; set; } = AutoFormScope.All;
     
@@ -13,7 +13,7 @@ public class FormPropertyConfiguration<T> : BasePropertyConfiguration
     
     public string ComponentType { get; set; } = string.Empty;
     
-    public AbstractValidator<T>? Validator { get; set; }
+    public AbstractValidator<object>? Validator { get; set; }
     
     public bool IsReadOnly { get; set; }
     public bool Disable { get; set; }

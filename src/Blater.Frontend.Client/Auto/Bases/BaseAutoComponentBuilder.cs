@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Interfaces;
@@ -11,12 +12,10 @@ using Microsoft.Extensions.Logging;
 namespace Blater.Frontend.Client.Auto.Bases;
 
 [SuppressMessage("Performance", "CA1848:Usar os delegados LoggerMessage")]
-public abstract class BaseAutoComponentBuilder<T, TConfiguration> : ComponentBase 
-    where T : BaseDataModel
-    where TConfiguration : AutoModels.BaseConfiguration
+public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : BaseDataModel
 {
     [Inject]
-    public ILogger<BaseAutoComponentBuilder<T, TConfiguration>> Logger { get; set; } = null!;
+    public ILogger<BaseAutoComponentBuilder<T>> Logger { get; set; } = null!;
     
     [Inject]
     public ILocalizationService LocalizationService { get; set; } = null!;
@@ -33,7 +32,7 @@ public abstract class BaseAutoComponentBuilder<T, TConfiguration> : ComponentBas
     [Parameter]
     public Guid? Id { get; set; }
     
-    protected TConfiguration ModelConfiguration { get; set; } = null!;
+    protected AutoModelConfiguration ModelConfiguration { get; set; } = null!;
     
     public bool EditMode { get; private set; }
     
@@ -48,7 +47,7 @@ public abstract class BaseAutoComponentBuilder<T, TConfiguration> : ComponentBas
     
     private void LoadModelConfig()
     {
-        var modelConfiguration = AutoConfigurations<T, TConfiguration>.Configurations.GetValueOrDefault(typeof(T));
+        var modelConfiguration = AutoConfigurations.Configurations.GetValueOrDefault(typeof(T));
 
         if (modelConfiguration is null)
         {
@@ -72,7 +71,7 @@ public abstract class BaseAutoComponentBuilder<T, TConfiguration> : ComponentBas
         
         ILocalizationService.LocalizationChanged += () => { InvokeAsync(StateHasChanged); };
 
-        AutoConfigurations<T, TConfiguration>.ModelsChanged += () =>
+        AutoConfigurations.ModelsChanged += () =>
         {
             LoadModelConfig();
             InvokeAsync(StateHasChanged);

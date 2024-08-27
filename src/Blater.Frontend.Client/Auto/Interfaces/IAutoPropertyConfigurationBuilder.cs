@@ -4,18 +4,17 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.Interfaces;
 
-public interface IAutoPropertyConfigurationBuilder<T>
-    where T : BaseDataModel
+public interface IAutoPropertyConfigurationBuilder
 {
-    IAutoPropertyConfigurationBuilder<T> Breakpoint(Breakpoint breakpoint, int value);
+    IAutoPropertyConfigurationBuilder Breakpoint(Breakpoint breakpoint, int value);
     
-    IAutoPropertyConfigurationBuilder<T> DataFormat(string value);
-    IAutoPropertyConfigurationBuilder<T> CssClass(string value);
-    IAutoPropertyConfigurationBuilder<T> CssStyle(string value);
-    IAutoPropertyConfigurationBuilder<T> Order(int value);
-    IAutoPropertyConfigurationBuilder<T> LocalizationId(string value);
+    IAutoPropertyConfigurationBuilder DataFormat(string value);
+    IAutoPropertyConfigurationBuilder CssClass(string value);
+    IAutoPropertyConfigurationBuilder CssStyle(string value);
+    IAutoPropertyConfigurationBuilder Order(int value);
+    IAutoPropertyConfigurationBuilder LocalizationId(string value);
 
-    IAutoPropertyConfigurationBuilder<T> OnValueChanged<TProperty>(EventCallback<TProperty> value);
-    IAutoPropertyConfigurationBuilder<T> OnClick<TProperty>(EventCallback<TProperty> value);
-    IAutoPropertyConfigurationBuilder<T> OnParameterSet<TProperty>(EventCallback<TProperty> value);
+    IAutoPropertyConfigurationBuilder OnValueChanged<TProperty>(EventCallback<TProperty> value);
+    IAutoPropertyConfigurationBuilder OnClick<TProperty>(EventCallback<TProperty> value);
+    IAutoPropertyConfigurationBuilder OnParameterSet<TProperty>(EventCallback<TProperty> value);
 }

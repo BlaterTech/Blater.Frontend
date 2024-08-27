@@ -3,35 +3,34 @@ using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
-public class AutoTablePropertyConfigurationBuilder<T>(TablePropertyConfiguration configuration)
-    : AutoPropertyConfigurationBuilder<T>(configuration)
-    where T : BaseDataModel
+public class AutoTablePropertyConfigurationBuilder(TablePropertyConfiguration configuration)
+    : AutoPropertyConfigurationBuilder(configuration)
 {
-    public AutoTablePropertyConfigurationBuilder<T> Name(string value)
+    public AutoTablePropertyConfigurationBuilder Name(string value)
     {
         configuration.Name = value;
         return this;
     }
 
-    public AutoTablePropertyConfigurationBuilder<T> DisableColumn(bool value = false)
+    public AutoTablePropertyConfigurationBuilder DisableColumn(bool value = false)
     {
         configuration.DisableColumn = value;
         return this;
     }
 
-    public AutoTablePropertyConfigurationBuilder<T> DisableFilter(bool value = false)
+    public AutoTablePropertyConfigurationBuilder DisableFilter(bool value = false)
     {
         configuration.DisableFilter = value;
         return this;
     }
 
-    public AutoTablePropertyConfigurationBuilder<T> DisableSortBy(bool value = false)
+    public AutoTablePropertyConfigurationBuilder DisableSortBy(bool value = false)
     {
         configuration.DisableSortBy = value;
         return this;
     }
 
-    public AutoTablePropertyConfigurationBuilder<T> ComponentType(string value)
+    public AutoTablePropertyConfigurationBuilder ComponentType(string value)
     {
         configuration.ComponentType = value;
         return this;
