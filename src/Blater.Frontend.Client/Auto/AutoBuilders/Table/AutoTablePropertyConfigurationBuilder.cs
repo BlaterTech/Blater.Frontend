@@ -1,37 +1,40 @@
-﻿using Blater.Frontend.Client.Auto.AutoModels.Table;
+﻿using Blater.Frontend.Client.Auto.AutoModels;
+using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+using Blater.Frontend.Client.Auto.AutoModels.Table;
+using Blater.Frontend.Client.Auto.Interfaces;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
-public class AutoTablePropertyConfigurationBuilder(TablePropertyConfiguration configuration)
-    : AutoPropertyConfigurationBuilder(configuration)
+public class AutoTablePropertyConfigurationBuilder(TablePropertyConfiguration configuration) 
+    : AutoPropertyConfigurationBuilder(configuration), IAutoTablePropertyConfigurationBuilder
 {
-    public AutoTablePropertyConfigurationBuilder Name(string value)
+    public IAutoTablePropertyConfigurationBuilder Name(string value)
     {
         configuration.Name = value;
         return this;
     }
 
-    public AutoTablePropertyConfigurationBuilder DisableColumn(bool value = false)
+    public IAutoTablePropertyConfigurationBuilder DisableColumn(bool value = false)
     {
         configuration.DisableColumn = value;
         return this;
     }
 
-    public AutoTablePropertyConfigurationBuilder DisableFilter(bool value = false)
+    public IAutoTablePropertyConfigurationBuilder DisableFilter(bool value = false)
     {
         configuration.DisableFilter = value;
         return this;
     }
 
-    public AutoTablePropertyConfigurationBuilder DisableSortBy(bool value = false)
+    public IAutoTablePropertyConfigurationBuilder DisableSortBy(bool value = false)
     {
         configuration.DisableSortBy = value;
         return this;
     }
-
-    public AutoTablePropertyConfigurationBuilder ComponentType(string value)
+    
+    public IAutoTablePropertyConfigurationBuilder ComponentType(AutoTableComponentType value)
     {
-        configuration.ComponentType = value;
+        configuration.AutoComponentTypes[AutoComponentDisplayType.Table] = value;
         return this;
     }
 }

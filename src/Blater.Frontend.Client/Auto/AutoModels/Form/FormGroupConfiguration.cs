@@ -1,10 +1,13 @@
-﻿using Blater.Frontend.Client.Enumerations;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+using Blater.Frontend.Client.Enumerations;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
 public class FormGroupConfiguration
 {
     public string Title { get; set; } = string.Empty;
-    public AutoFormGroupScope FormGroupScope { get; set; } = AutoFormGroupScope.All;
-    public IList<FormPropertyConfiguration> PropertyConfigurations { get; set; } = [];
+    public string SubTitle { get; set; } = string.Empty;
+    
+    public AutoFormGroupDisplayType AutoFormGroupDisplayType { get; set; } = AutoFormGroupDisplayType.All;
+    public List<FormPropertyConfiguration> Properties { get; set; } = [];
 }

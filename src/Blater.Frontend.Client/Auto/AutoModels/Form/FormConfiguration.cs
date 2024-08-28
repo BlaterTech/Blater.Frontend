@@ -3,7 +3,11 @@
 public class FormConfiguration
 {
     public string Name { get; set; } = string.Empty;
-    public IList<FormGroupConfiguration>? GroupsConfigurations { get; set; }
 
-    public IList<FormPropertyConfiguration> PropertyConfigurations { get; set; } = [];
+    public int Spacing { get; set; } = 2;
+    
+    public FormAvatarConfiguration FormAvatarConfiguration { get; set; } = new();
+    public FormActionConfiguration FormActionConfiguration { get; set; } = new();
+
+    public IList<FormGroupConfiguration> GroupsConfigurations { get; set; } = [];
 }

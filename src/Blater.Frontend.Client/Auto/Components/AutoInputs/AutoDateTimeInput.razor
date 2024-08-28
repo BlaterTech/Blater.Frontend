@@ -2,6 +2,7 @@
 
 @using System.Globalization
 @using Blater.Frontend.Client.Auto.AutoModels
+@using Blater.Frontend.Client.Auto.AutoModels.Base
 @implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
 
 <div id="auto-datetime-input" class="@ExtraClass">
@@ -25,7 +26,7 @@
 @code
 {
 
-    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoDateTimeInput;
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormComponentInputType.AutoDateTimeComponentInput;
 
     protected override async Task OnInitializedAsync()
     {

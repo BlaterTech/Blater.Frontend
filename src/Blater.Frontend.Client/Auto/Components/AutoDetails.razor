@@ -1,6 +1,5 @@
 ﻿@typeparam T where T : Blater.Models.Bases.BaseDataModel
 
-
 @using Blater.Frontend.Client.Interfaces
 @using Blater.Interfaces
 @using Blater.Models
@@ -18,8 +17,8 @@ else
     }
     else
     {
-        <p class="text-3xl  text-left text-primary-1000">
-            @*@_title*@
+        @*<p class="text-3xl  text-left text-primary-1000">
+            @#1#_title#1#
         </p>
 
         <!-- Item Not found asMessage -->
@@ -27,7 +26,7 @@ else
             <p class="text-xl  text-left text-primary-1000">
                 @LocalizationService.GetValue("ItemNotFound")
             </p>
-        </div>
+        </div>*@
     }
 }
 

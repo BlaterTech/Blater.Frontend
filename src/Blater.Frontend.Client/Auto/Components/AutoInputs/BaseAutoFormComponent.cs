@@ -1,4 +1,4 @@
-﻿using Blater.Frontend.Client.Auto.Bases;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Client.Auto.Components.AutoInputs;

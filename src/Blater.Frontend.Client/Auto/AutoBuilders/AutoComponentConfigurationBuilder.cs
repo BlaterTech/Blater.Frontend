@@ -47,14 +47,14 @@ public class AutoComponentConfigurationBuilder
         action(autoTableMemberConfigurationBuilder);
     }
     
-    public void Form(string formName, Action<AutoFormMemberConfigurationBuilder> action)
+    public void Form(string formName, Action<AutoFormConfigurationBuilder> action)
     {
         _autoModelConfiguration.Form = new FormConfiguration
         {
             Name = formName
         };
 
-        var autoFormMemberConfigurationBuilder = new AutoFormMemberConfigurationBuilder(_autoModelConfiguration.ModelType, _autoModelConfiguration.Form);
+        var autoFormMemberConfigurationBuilder = new AutoFormConfigurationBuilder(_autoModelConfiguration.ModelType, _autoModelConfiguration.Form);
 
         action(autoFormMemberConfigurationBuilder);
     }

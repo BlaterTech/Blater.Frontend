@@ -17,7 +17,7 @@ public class AutoDetailsMemberConfigurationBuilder(Type type, DetailsConfigurati
 
         var currentPropertyConfig = new DetailsPropertyConfiguration
         {
-            PropertyInfo = type.GetProperty(propertyName)!
+            Property = type.GetProperty(propertyName)!
         }; 
         
         configuration.PropertyConfigurations.Add(currentPropertyConfig);

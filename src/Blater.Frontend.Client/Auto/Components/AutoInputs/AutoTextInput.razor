@@ -1,5 +1,6 @@
 ﻿@inherits BaseAutoFormComponent<string>
 @using Blater.Frontend.Client.Auto.AutoModels
+@using Blater.Frontend.Client.Auto.AutoModels.Base
 @implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
 
 <div id="auto-text-input" class="@ExtraClass">
@@ -21,6 +22,6 @@
 
 @code
 {
-    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoTextInput;
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormComponentInputType.AutoTextComponentInput;
 
 }

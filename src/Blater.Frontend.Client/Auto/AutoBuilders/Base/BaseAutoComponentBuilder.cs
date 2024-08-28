@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Blater.Frontend.Client.Auto.AutoModels;
+using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Interfaces;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.Extensions.Logging;
 
-namespace Blater.Frontend.Client.Auto.Bases;
+namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
 [SuppressMessage("Performance", "CA1848:Usar os delegados LoggerMessage")]
 public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : BaseDataModel
@@ -107,4 +108,9 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     }
     
     protected abstract void BuildComponent(EasyRenderTreeBuilder builder);
+
+    protected void CreateGenericComponent(EasyRenderTreeBuilder builder, BasePropertyConfiguration configuration)
+    {
+        var propertyInfo = configuration.Property;
+    }
 }

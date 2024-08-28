@@ -1,5 +1,6 @@
 ﻿@inherits BaseAutoFormComponent<int>
 @using Blater.Frontend.Client.Auto.AutoModels
+@using Blater.Frontend.Client.Auto.AutoModels.Base
 @implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
 
 <div id="auto-numeric-input" class="@ExtraClass">
@@ -23,5 +24,5 @@
 {
 
 
-    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoNumericInput;
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormComponentInputType.AutoNumericComponentInput;
 }

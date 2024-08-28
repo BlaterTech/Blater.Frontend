@@ -78,9 +78,9 @@
                     <MudTh>
                         <div class="d-flex align-center justify-center">
                             <MudTableSortLabel
-                                SortBy="@CreateSortFunc(column.PropertyInfo.Name)"
+                                SortBy="@CreateSortFunc(column.Property.Name)"
                                 Enabled="@column.DisableFilter">
-                                @(string.IsNullOrWhiteSpace(column.Name) ? LocalizationService.GetValue($"BlaterTable-Table-{column.PropertyInfo.Name}") : column.Name)
+                                @(string.IsNullOrWhiteSpace(column.Name) ? LocalizationService.GetValue($"BlaterTable-Table-{column.Property.Name}") : column.Name)
                             </MudTableSortLabel>
                             <MudIconButton Icon="@_iconFilter" OnClick="@ToggleOpen"/>
                         </div>
@@ -97,8 +97,8 @@
             @{
                 foreach (var column in ColumnConfigurations.Where(column => !column.DisableColumn))
                 {
-                    var propName = string.IsNullOrWhiteSpace(column.Name) ? LocalizationService.GetValue($"BlaterTable-Table-{column.PropertyInfo.Name}") : column.Name;
-                    var propValue = column.PropertyInfo.GetValue(context);
+                    var propName = string.IsNullOrWhiteSpace(column.Name) ? LocalizationService.GetValue($"BlaterTable-Table-{column.Property.Name}") : column.Name;
+                    var propValue = column.Property.GetValue(context);
                     <MudTd DataLabel="@propName">@propValue</MudTd>
                 }
 
@@ -165,7 +165,7 @@
                 <MudSelect T="string" Label="Column" Clearable="true" Required="true" bind-Value="@keyValue">
                     @foreach (var columnConfig in ColumnConfigurations.Where(x => !x.DisableFilter))
                     {
-                        <MudSelectItem Value="@columnConfig.PropertyInfo.Name"/>
+                        <MudSelectItem Value="@columnConfig.Property.Name"/>
                     }
                 </MudSelect>
             </MudItem>

@@ -1,5 +1,6 @@
 ﻿@inherits BaseAutoFormComponent<decimal>
 @using Blater.Frontend.Client.Auto.AutoModels
+@using Blater.Frontend.Client.Auto.AutoModels.Base
 @implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
 
 <div id="auto-money-input" class="@ExtraClass">
@@ -24,7 +25,7 @@
 {
 
 
-    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoMoneyInput;
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormComponentInputType.AutoMoneyComponentInput;
 
     private async Task Callback(decimal obj)
     {

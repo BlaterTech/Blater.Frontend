@@ -2,6 +2,7 @@
 using Blater.Frontend.Authentication;
 using Blater.Frontend.Client;
 using Blater.Frontend.Client.Auto;
+using Blater.Frontend.Client.Auto.AutoBuilders;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Services;

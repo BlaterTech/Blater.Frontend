@@ -1,13 +1,13 @@
 ﻿using System.Linq.Expressions;
 using Blater.Extensions;
+using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
-using Blater.Frontend.Client.Enumerations;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormMemberConfigurationBuilder(Type type, FormConfiguration configuration)
+public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguration configuration)
 {
-    public AutoFormPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression, AutoFormScope value = AutoFormScope.All)
+    public AutoFormPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression, AutoFormDisplayType formDisplayType = AutoFormDisplayType.All)
     {
         var propertyName = expression.GetPropertyName();
 
@@ -18,30 +18,12 @@ public class AutoFormMemberConfigurationBuilder(Type type, FormConfiguration con
 
         var currentPropertyConfig = new FormPropertyConfiguration
         {
-            FormScope = value,
-            PropertyInfo = type.GetProperty(propertyName)!
-        }; 
-        
-        configuration.PropertyConfigurations.Add(currentPropertyConfig);
-        
-        return new AutoFormPropertyConfigurationBuilder<TProperty>(currentPropertyConfig);
-    }
-    
-    public AutoFormMemberConfigurationBuilder AddGroup(string groupName, AutoFormGroupScope groupScope, Action<AutoFormGroupConfigurationBuilder> action)
-    {
-        var currentGroupConfiguration = new FormGroupConfiguration
-        {
-            Title = groupName,
-            FormGroupScope = groupScope
+            AutoFormDisplayType = formDisplayType,
+            Property = type.GetProperty(propertyName)!
         };
-
-        var groupsConfigurations = configuration.GroupsConfigurations ??= new List<FormGroupConfiguration>();
-        groupsConfigurations.Add(currentGroupConfiguration);
-
-        var autoFormGroupConfigBuilder = new AutoFormGroupConfigurationBuilder(type, currentGroupConfiguration);
-
-        action(autoFormGroupConfigBuilder);
         
-        return this;
+        configuration.Properties.Add(currentPropertyConfig);
+
+        return new AutoFormPropertyConfigurationBuilder<TProperty>(currentPropertyConfig);
     }
 }

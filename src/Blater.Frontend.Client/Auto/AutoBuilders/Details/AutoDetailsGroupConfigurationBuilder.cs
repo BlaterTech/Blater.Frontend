@@ -17,7 +17,7 @@ public class AutoDetailsGroupConfigurationBuilder(Type type, DetailsGroupConfigu
 
         var currentPropertyConfig = new DetailsPropertyConfiguration
         {
-            PropertyInfo = type.GetProperty(propertyName)!
+            Property = type.GetProperty(propertyName)!
         };
         
         configuration.PropertyConfigurations.Add(currentPropertyConfig);

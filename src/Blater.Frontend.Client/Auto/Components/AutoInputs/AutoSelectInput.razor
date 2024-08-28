@@ -2,6 +2,7 @@
 
 @inherits BaseAutoFormComponent<TItemType>
 @using Blater.Frontend.Client.Auto.AutoModels
+@using Blater.Frontend.Client.Auto.AutoModels.Base
 @using Blater.Frontend.Client.Services
 @implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
 
@@ -23,5 +24,5 @@
 
 
 @code {
-    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormInputType.AutoSelectInput;
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormComponentInputType.AutoSelectComponentInput;
 }
