@@ -1,5 +1,4 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Details;
-using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
 
@@ -13,7 +12,7 @@ public class AutoModelConfiguration
     public TableConfiguration Table { get; set; } = new();
     public FormConfiguration Form { get; set; } = new();
     public DetailsConfiguration Details { get; set; } = new();
-    
+
     /// <summary>
     ///     Shows the toggle on before the card
     /// </summary>

@@ -1,8 +1,5 @@
 ﻿using Blater.Frontend.Client.Auto.AutoBuilders;
 using Blater.Frontend.Client.Auto.AutoModels;
-using Blater.Frontend.Client.Auto.AutoModels.Details;
-using Blater.Frontend.Client.Auto.AutoModels.Form;
-using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.Auto.Interfaces;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
@@ -16,11 +13,7 @@ public static class AutoConfigurations
     ///     Parent Type is the key, and the value is the configuration for the child type.
     /// </summary>
     public static readonly Dictionary<Type, AutoModelConfiguration> Configurations = new();
-
-    /// <summary>
-    ///     Parent Type is the key, and the value is the configuration for the child type.
-    /// </summary>
-    //public static readonly Dictionary<Type, TableConfiguration<T>> Configurations = new();
+    
     static AutoConfigurations()
     {
         BuildAllConfigurations();

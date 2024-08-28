@@ -16,11 +16,7 @@ public class BaseAutoComponent : BaseComponentInput
 
     [Parameter]
     public bool EditMode { get; set; }
-
-    /*[Parameter]
-    [EditorRequired]
-    public AutoComponentConfiguration ComponentConfiguration { get; set; } = null!;*/
-
+    
     [Parameter]
     public bool AllowNullableProperty { get; set; }
 

@@ -1,5 +1,4 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Details;
-using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 

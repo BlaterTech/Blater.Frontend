@@ -1,6 +1,4 @@
-﻿using Blater.Models.Bases;
-
-namespace Blater.Frontend.Client.Auto.AutoModels.Table;
+﻿namespace Blater.Frontend.Client.Auto.AutoModels.Table;
 
 public class TableConfiguration
 {

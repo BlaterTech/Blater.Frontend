@@ -36,15 +36,6 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     
     public bool EditMode { get; private set; }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
     private void LoadModelConfig()
     {
         var modelConfiguration = AutoConfigurations.Configurations.GetValueOrDefault(typeof(T));
