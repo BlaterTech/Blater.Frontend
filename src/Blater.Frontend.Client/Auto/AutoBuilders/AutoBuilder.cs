@@ -58,7 +58,7 @@ public static class AutoBuilder
 
         if (fieldConfigurationDisplayType == null)
         {
-            Log.Error("No field configuration found for property: {ComponentName}", configuration.Property.Name);
+            Log.Error("No display type found for {ComponentName}", displayType);
             return null;
         }
         
