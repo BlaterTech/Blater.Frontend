@@ -1,27 +1,27 @@
 ﻿using System.Linq.Expressions;
 using Blater.Extensions;
+using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Details;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
-public class AutoDetailsGroupConfigurationBuilder(Type type, DetailsGroupConfiguration configuration)
+public class AutoDetailsGroupConfigurationBuilder(Type type, AutoGroupConfiguration configuration)
 {
-    public AutoDetailsPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression)
+    public AutoDetailsMemberConfigurationBuilder AddGroup(string groupName, bool disableEditButton, Action<AutoDetailsGroupConfigurationBuilder> action)
     {
-        var propertyName = expression.GetPropertyName();
-
-        if (string.IsNullOrWhiteSpace(propertyName))
+        var currentGroupConfiguration = new DetailsGroupConfiguration
         {
-            throw new InvalidOperationException("PropertyName is null");
-        }
-
-        var currentPropertyConfig = new DetailsPropertyConfiguration
-        {
-            Property = type.GetProperty(propertyName)!
+            Title = groupName,
+            DisableEditButton = disableEditButton
         };
-        
-        configuration.PropertyConfigurations.Add(currentPropertyConfig);
 
-        return new AutoDetailsPropertyConfigurationBuilder<TProperty>(currentPropertyConfig);
+        var groupsConfigurations = configuration.GroupsConfigurations ??= new List<DetailsGroupConfiguration>();
+        groupsConfigurations.Add(currentGroupConfiguration);
+
+        var autoDetailsGroupConfigurationBuilder = new AutoDetailsGroupConfigurationBuilder(type, currentGroupConfiguration);
+
+        action(autoDetailsGroupConfigurationBuilder);
+        
+        return this;
     }
 }

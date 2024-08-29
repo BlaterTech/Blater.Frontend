@@ -1,26 +1,42 @@
 ﻿using System.Linq.Expressions;
+using Blater.Extensions;
+using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
+using Blater.Frontend.Client.Auto.Interfaces;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
-public class AutoTableMemberConfigurationBuilder(Type type, TableConfiguration tableConfiguration)
+public class AutoTableMemberConfigurationBuilder(Type type, AutoGroupConfiguration configuration)
     : AutoPropertyConfigurationBuilder(new TablePropertyConfiguration())
 {
-    public AutoTableMemberConfigurationBuilder AddMember<TProperty>(Expression<Func<TProperty>> expression)
+    public IAutoTablePropertyConfigurationBuilder AddMember<TProperty>(Expression<Func<TProperty>> expression)
     {
-        var abc = type.IsGenericType;
-        throw new NotImplementedException();
+        var propertyName = expression.GetPropertyName();
+
+        if (string.IsNullOrWhiteSpace(propertyName))
+        {
+            throw new InvalidOperationException("PropertyName is null");
+        }
+
+        var currentPropertyConfig = new TablePropertyConfiguration
+        {
+            Property = type.GetProperty(propertyName)!
+        };
+        
+        configuration.Properties.Add(currentPropertyConfig);
+
+        return new AutoTablePropertyConfigurationBuilder(currentPropertyConfig);
     }
     
     public AutoTableMemberConfigurationBuilder EnableFixedHeader(bool value = true)
     {
-        tableConfiguration.EnableFixedHeader = value;
+        configuration.EnableFixedHeader = value;
         return this;
     }
 
     public AutoTableMemberConfigurationBuilder EnableFixedFooter(bool value = true)
     {
-        tableConfiguration.EnableFixedFooter = value;
+        configuration.EnableFixedFooter = value;
         return this;
     }
 }

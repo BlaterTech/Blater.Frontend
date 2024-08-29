@@ -1,4 +1,4 @@
-﻿using Blater.Frontend.Client.Auto.AutoModels;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 
 namespace Blater.Frontend.Client.Auto.Interfaces;
 

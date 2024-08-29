@@ -49,10 +49,9 @@ public class BlaterAuthorizeView : ComponentBase
         }
         else
         {
-            var renderTreeBuilder = builder;
             var notAuthorized = NotAuthorized;
             var fragment = notAuthorized?.Invoke(_currentAuthenticationState);
-            renderTreeBuilder.AddContent(0, fragment);
+            builder.AddContent(0, fragment);
         }
     }
 

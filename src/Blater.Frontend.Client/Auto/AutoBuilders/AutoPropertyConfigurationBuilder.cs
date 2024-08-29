@@ -1,11 +1,12 @@
-﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
+﻿using Blater.Frontend.Client.Auto.AutoModels;
+using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.Interfaces;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders;
 
-public class AutoPropertyConfigurationBuilder(BasePropertyConfiguration configuration) : IAutoPropertyConfigurationBuilder
+public class AutoPropertyConfigurationBuilder(AutoComponentConfiguration configuration) : IAutoPropertyConfigurationBuilder
 {
     public IAutoPropertyConfigurationBuilder Breakpoint(Breakpoint breakpoint, int value)
     {

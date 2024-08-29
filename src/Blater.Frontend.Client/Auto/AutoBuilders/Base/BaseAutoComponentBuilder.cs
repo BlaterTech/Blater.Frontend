@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
@@ -87,10 +88,11 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         };
 
         //Try to load from database
-        //todo: ajustar para buscar corretamente
+        await Task.Delay(1);
+        //todo: refactor this
         if (EditMode)
         {
-            var databaseModel = await DataRepository.FindOne(BlaterId.Empty);
+            /*var databaseModel = await DataRepository.FindOne(BlaterId.Empty);
 
             if (databaseModel == null)
             {
@@ -98,30 +100,26 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
                 return;
             }
 
-            Model = databaseModel;
+            Model = databaseModel;*/
         }
     }
     
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        try
+        //todo: refactor this
+        var value = Model?.Id ?? BlaterId.New(typeof(T).FullName!.SanitizeString());
+        var seq = 0;
+        builder.OpenComponent<CascadingValue<Guid>>(seq++);
+        builder.AddAttribute(seq++, "Value", value.GuidValue);
+        builder.AddAttribute(seq++, "Name", "ParentId");
+        builder.AddAttribute(seq++, "IsFixed", true);
+        builder.AddAttribute(seq, "ChildContent", (RenderFragment)(cascadingValueBuilder =>
         {
-            builder.OpenComponent<CascadingValue<Guid>>(1);
-            builder.AddAttribute(2, "Value", Model?.Id!);
-            builder.AddAttribute(3, "Name", "ParentId");
-            builder.AddAttribute(4, "IsFixed", true);
-            builder.AddAttribute(5, "ChildContent", (RenderFragment)(cascadingValueBuilder =>
-            {
-                var easyRenderTreeBuilder = new EasyRenderTreeBuilder(cascadingValueBuilder);
-                BuildComponent(easyRenderTreeBuilder);
-            }));
+            var easyRenderTreeBuilder = new EasyRenderTreeBuilder(cascadingValueBuilder);
+            BuildComponent(easyRenderTreeBuilder);
+        }));
 
-            builder.CloseComponent();
-        }
-        catch (Exception e)
-        {
-            Logger.LogError(e, "Failed to build the fields");
-        }
+        builder.CloseComponent();
     }
     
     protected abstract void BuildComponent(EasyRenderTreeBuilder builder);

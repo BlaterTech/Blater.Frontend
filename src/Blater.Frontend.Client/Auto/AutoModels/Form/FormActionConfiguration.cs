@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
-public class FormActionConfiguration
+public class AutoActionConfiguration
 {
     #region Divider
 
@@ -33,5 +33,4 @@ public class FormActionConfiguration
 
 
     #endregion
-
 }

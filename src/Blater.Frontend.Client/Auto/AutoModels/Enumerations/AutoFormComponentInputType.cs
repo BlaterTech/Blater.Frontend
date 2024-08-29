@@ -1,6 +1,6 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
 
-namespace Blater.Frontend.Client.Auto.AutoModels;
+namespace Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 
 public class AutoFormComponentInputType(string name, int value) : BaseAutoComponentTypeEnumeration(name, value)
 {

@@ -2,9 +2,8 @@
 @typeparam TList where TList : List<TIem>
 
 @inherits BaseValueAutoComponent<TList>
-
-@using Blater.Frontend.Client.Auto.AutoModels
 @using Blater.Frontend.Client.Auto.AutoModels.Base
+@using Blater.Frontend.Client.Auto.AutoModels.Enumerations
 @implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
 
 <AutoTable @*T="TIem" Items="@Value"*@/>

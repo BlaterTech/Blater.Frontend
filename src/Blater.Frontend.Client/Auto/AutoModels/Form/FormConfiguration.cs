@@ -6,8 +6,8 @@ public class FormConfiguration
 
     public int Spacing { get; set; } = 2;
     
-    public FormAvatarConfiguration FormAvatarConfiguration { get; set; } = new();
-    public FormActionConfiguration FormActionConfiguration { get; set; } = new();
+    public AutoAvatarConfiguration AutoAvatarConfiguration { get; set; } = new();
+    public AutoActionConfiguration AutoActionConfiguration { get; set; } = new();
 
     public IList<FormGroupConfiguration> GroupsConfigurations { get; set; } = [];
 }

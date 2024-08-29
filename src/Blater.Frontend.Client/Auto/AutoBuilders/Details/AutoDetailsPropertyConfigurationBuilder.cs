@@ -5,13 +5,14 @@ using Blater.Frontend.Client.Auto.Interfaces;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
-public class AutoDetailsPropertyConfigurationBuilder<TProperty>(DetailsPropertyConfiguration configuration)
+public class AutoDetailsPropertyConfigurationBuilder<TProperty>(AutoComponentConfiguration configuration)
     : AutoPropertyConfigurationBuilder(configuration), IAutoDetailsPropertyConfigurationBuilder<TProperty>
 {
-    
+    private readonly AutoComponentConfiguration _configuration = configuration;
+
     public IAutoDetailsPropertyConfigurationBuilder<TProperty> ComponentType(AutoDetailsComponentType value)
     {
-        configuration.AutoComponentTypes[AutoComponentDisplayType.Details] = value;
+        _configuration.AutoComponentTypes[AutoComponentDisplayType.Details] = value;
         return this;
     }
 }

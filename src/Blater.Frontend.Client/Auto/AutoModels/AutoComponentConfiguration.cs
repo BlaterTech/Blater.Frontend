@@ -1,12 +1,14 @@
 ﻿using System.Reflection;
+using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+using FluentValidation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 
-namespace Blater.Frontend.Client.Auto.AutoModels.Base;
+namespace Blater.Frontend.Client.Auto.AutoModels;
 
-public abstract class BasePropertyConfiguration
+public class AutoComponentConfiguration
 {
     public PropertyInfo Property { get; set; } = null!;
     
@@ -21,6 +23,9 @@ public abstract class BasePropertyConfiguration
     
     public bool IsReadOnly { get; set; }
     public bool Disable { get; set; }
+    public bool DisableColumn { get; set; }
+    public bool DisableFilter { get; set; }
+    public bool DisableSortBy { get; set; }
     
     public int Order { get; set; }
     
@@ -30,4 +35,6 @@ public abstract class BasePropertyConfiguration
     public EventCallback<object> OnValueChanged { get; set; }
     public EventCallback<object> OnParameterSet { get; set; }
     public EventCallback<MouseEventArgs> OnClick { get; set; }
+    
+    public AbstractValidator<object>? Validator { get; set; }
 }

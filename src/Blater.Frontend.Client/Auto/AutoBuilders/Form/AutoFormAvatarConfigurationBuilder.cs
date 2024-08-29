@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormAvatarConfigurationBuilder(FormAvatarConfiguration configuration)
+public class AutoFormAvatarConfigurationBuilder(AutoAvatarConfiguration configuration)
 {
     public AutoFormAvatarConfigurationBuilder ContainerPublic(bool value = true)
     {

@@ -1,14 +1,17 @@
 ﻿using System.Linq.Expressions;
-using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
+using Blater.Frontend.Client.Auto.Extensions;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
 public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguration configuration)
 {
     public AutoFormPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression)
-        => AddMember(expression, AutoComponentDisplayType.Form);
+    {
+        AddMember(expression, AutoComponentDisplayType.FormCreate);
+        return AddMember(expression, AutoComponentDisplayType.FormEdit);
+    }
     
     public AutoFormPropertyConfigurationBuilder<TProperty> AddMemberCreateOnly<TProperty>(Expression<Func<TProperty>> expression)
         => AddMember(expression, AutoComponentDisplayType.FormCreate);
@@ -19,21 +22,34 @@ public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguratio
     
     private AutoFormPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression, AutoComponentDisplayType displayType)
     {
-        var propertyName = expression.GetPropertyName();
+        var property = expression.GetPropertyInfoForType(type);
 
-        if (string.IsNullOrWhiteSpace(propertyName))
+        var currentPropertyConfig = configuration.Properties
+                                                 .Select(x =>
+                                                             x.Value.FirstOrDefault(c => c.Property == property))
+                                                 .FirstOrDefault();
+
+        if (currentPropertyConfig != null)
         {
-            throw new InvalidOperationException("PropertyName is null");
+            if (!currentPropertyConfig.AutoComponentTypes.ContainsKey(displayType))
+            {
+                currentPropertyConfig.AutoComponentTypes.Add(displayType, type.GetDefaultAutoFormComponentForType());
+            }
+            
+            return new AutoFormPropertyConfigurationBuilder<TProperty>(currentPropertyConfig);
         }
 
-        var currentPropertyConfig = new FormPropertyConfiguration
+        currentPropertyConfig = new FormPropertyConfiguration
         {
-            DisplayType = displayType,
-            Property = type.GetProperty(propertyName)!,
-            LabelName = $"Auto{displayType.ToString()}-LabelName-{type.Name}"
+            Property = property,
+            LabelName = $"Auto{displayType.ToString()}-LabelName-{type.Name}",
+            AutoComponentTypes =
+            {
+                [displayType] = type.GetDefaultAutoFormComponentForType()
+            }
         };
-        
-        configuration.Properties.Add(currentPropertyConfig);
+
+        configuration.Properties[displayType].Add(currentPropertyConfig);
 
         return new AutoFormPropertyConfigurationBuilder<TProperty>(currentPropertyConfig);
     }

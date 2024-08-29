@@ -1,10 +1,12 @@
 ﻿using System.Linq.Expressions;
 using Blater.Extensions;
+using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Details;
+using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
-public class AutoDetailsMemberConfigurationBuilder(Type type, DetailsConfiguration configuration)
+public class AutoDetailsMemberConfigurationBuilder(Type type, AutoGroupConfiguration configuration)
 {
     public AutoDetailsPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression)
     {
@@ -15,31 +17,19 @@ public class AutoDetailsMemberConfigurationBuilder(Type type, DetailsConfigurati
             throw new InvalidOperationException("PropertyName is null");
         }
 
-        var currentPropertyConfig = new DetailsPropertyConfiguration
+        var currentComponentConfiguration = new AutoComponentConfiguration
         {
             Property = type.GetProperty(propertyName)!
-        }; 
-        
-        configuration.PropertyConfigurations.Add(currentPropertyConfig);
-        
-        return new AutoDetailsPropertyConfigurationBuilder<TProperty>(currentPropertyConfig);
-    }
-    
-    public AutoDetailsMemberConfigurationBuilder AddGroup(string groupName, bool disableEditButton, Action<AutoDetailsGroupConfigurationBuilder> action)
-    {
-        var currentGroupConfiguration = new DetailsGroupConfiguration
-        {
-            Title = groupName,
-            DisableEditButton = disableEditButton
         };
 
-        var groupsConfigurations = configuration.GroupsConfigurations ??= new List<DetailsGroupConfiguration>();
-        groupsConfigurations.Add(currentGroupConfiguration);
+        var containsConfiguration = configuration.Configurations.ContainsKey(AutoComponentDisplayType.Details);
+        if (!containsConfiguration)
+        {
+            configuration.Configurations[AutoComponentDisplayType.Details] = [];
+        }
 
-        var autoDetailsGroupConfigurationBuilder = new AutoDetailsGroupConfigurationBuilder(type, currentGroupConfiguration);
-
-        action(autoDetailsGroupConfigurationBuilder);
+        configuration.Configurations[AutoComponentDisplayType.Details].Add(currentComponentConfiguration);
         
-        return this;
+        return new AutoDetailsPropertyConfigurationBuilder<TProperty>(currentComponentConfiguration);
     }
 }

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Blater.Frontend.Client.Auto.AutoBuilders;
 using Blater.Frontend.Client.Models.Bases;
+using MudBlazor;
 
 namespace Blater.Frontend.Client.Models;
 
@@ -56,6 +57,36 @@ public class Address : BaseFrontendModel
 
     public override void Configure(AutoComponentConfigurationBuilder builder)
     {
-        throw new NotImplementedException();
+        builder.Table("TableName", configurationBuilder =>
+        {
+            configurationBuilder.AddMember(() => ExternalReference);
+        });
+
+        builder.Form("FormName", configurationBuilder =>
+        {
+            configurationBuilder.ConfigureActions(actionConfigurationBuilder =>
+            {
+                actionConfigurationBuilder.TypeCreateEditButton(ButtonType.Submit);
+            });
+            
+            configurationBuilder.AddGroup(groupConfigurationBuilder =>
+            {
+                groupConfigurationBuilder
+                   .AddMember(() => ExternalReference);
+            });
+        });
+
+        builder.Details("DetailsName", configurationBuilder =>
+        {
+            configurationBuilder
+               .AddMember(() => ExternalReference)
+               .Breakpoint(Breakpoint.Lg, 12);
+
+            configurationBuilder.AddGroup("GroupName", false, groupConfigurationBuilder =>
+            {
+                groupConfigurationBuilder
+                   .AddMember(() => ExternalReference);
+            });
+        });
     }
 }
