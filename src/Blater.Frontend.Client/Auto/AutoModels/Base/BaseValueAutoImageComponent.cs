@@ -15,4 +15,7 @@ public class BaseValueAutoImageComponent : BaseValueAutoComponent<string>
 
     [Parameter]
     public bool ContainerPublic { get; set; } = false;
+
+    [Parameter]
+    public string ImageStyle { get; set; } = string.Empty;
 }

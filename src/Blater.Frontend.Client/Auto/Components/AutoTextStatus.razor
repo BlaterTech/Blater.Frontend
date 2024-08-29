@@ -1,0 +1,33 @@
+﻿@inherits BaseValueAutoComponent<bool>
+@using Blater.Frontend.Client.Auto.AutoModels
+@using Blater.Frontend.Client.Auto.AutoModels.Base
+@using Blater.Frontend.Client.Services
+@implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
+
+@inject LocalizationService LocalizationService
+
+<div id="auto-text-status" class="@ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    @if (Value)
+    {
+        <MudText
+            Class="text-sm text-neutral-700"
+            Style="color: #26b050">
+            @LocalizationService.GetValue($"{TypeName}-{true}")
+        </MudText>
+    }
+    else
+    {
+        <MudText Class="text-sm text-neutral-700">@LocalizationService.GetValue($"{TypeName}-{false}")</MudText>
+    }
+</div>
+
+@code
+{
+    public int Priority => 1000;
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoTextStatus;
+}

@@ -1,0 +1,32 @@
+﻿@inherits BaseValueAutoComponent<string>
+@using Blater.Frontend.Client.Auto.AutoModels
+@using Blater.Frontend.Client.Auto.AutoModels.Base
+@implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
+
+<div id="auto-text-link" class="flex flex-col @ExtraClass">
+
+    @*<a class="text-sm text-neutral-700  underline decoration-solid decoration-inherit" 
+       href="@Value"
+       target="_blank">
+        @Value
+    </a>*@
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudLink
+        Href="@Value"
+        Target="_blank"
+        Underline="Underline.Always">
+        @Value
+    </MudLink>
+    \
+</div>
+
+@code {
+
+    public int Priority => 1000;
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoTextLink;
+
+}

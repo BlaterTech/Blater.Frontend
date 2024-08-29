@@ -52,7 +52,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     #endregion
     
     protected AutoModelConfiguration ModelConfiguration { get; set; } = null!;
-    protected bool EditMode { get; private set; }
+    public bool EditMode { get; private set; }
     
     private void LoadModelConfig()
     {

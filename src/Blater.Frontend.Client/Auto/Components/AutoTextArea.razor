@@ -1,0 +1,22 @@
+﻿@inherits BaseValueAutoComponent<string>
+@using Blater.Frontend.Client.Auto.AutoModels
+@using Blater.Frontend.Client.Auto.AutoModels.Base
+@implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
+
+<div id="auto-text-area" class="flex flex-col @ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudText
+        Class="text-sm text-neutral-700">
+        @ValueAsString
+    </MudText>
+</div>
+
+@code {
+
+    public int Priority => 1000;
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoTextArea;
+}

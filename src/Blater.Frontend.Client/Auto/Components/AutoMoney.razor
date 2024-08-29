@@ -1,0 +1,24 @@
+﻿@inherits BaseValueAutoComponent<decimal>
+@using System.Globalization
+@using Blater.Frontend.Client.Auto.AutoModels
+@using Blater.Frontend.Client.Auto.AutoModels.Base
+@implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
+
+<div id="auto-money-table" class="@ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudText
+        Class="text-sm">
+        @(Value.ToString("C", CultureInfo.GetCultureInfo("pt-BR")))
+    </MudText>
+</div>
+
+@code
+{
+    public int Priority => 1000;
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoMoney;
+
+}

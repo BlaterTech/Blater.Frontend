@@ -1,0 +1,85 @@
+@using Blater.Frontend.Client.Interfaces
+@using Blater.Models.Storage
+
+@inject IJSRuntime JsRuntime
+@inject INavigationService NavigationService
+
+
+<div id="auto-file-details" style="@(ExtraStyleDiv)">
+    @foreach (var file in Files)
+    {
+        <MudGrid
+            Class="@ExtraClass"
+            Justify="@Justify">
+            <MudText Class="pa-2 my-2">
+                @file.Name
+            </MudText>
+            <MudIconButton
+                Icon="@Icons.Material.Outlined.Download"
+                Color="Color.Primary"
+                OnClick="() => Download(file)"/>
+            <MudIconButton
+                Icon="@Icons.Material.Outlined.RemoveRedEye"
+                Color="Color.Primary"
+                OnClick="() => View(file)"/>
+            @if (EditMode)
+            {
+                <MudIconButton
+                    Icon="@Icons.Material.Outlined.Delete"
+                    Color="Color.Error"
+                    OnClick="() => Delete(file)"/>
+            }
+        </MudGrid>
+    }
+</div>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public List<StorageFileInfo> Files { get; set; } = null!;
+
+    [Parameter]
+    [EditorRequired]
+    public bool EditMode { get; set; } = false;
+
+    [Parameter]
+    [EditorRequired]
+    public string ContainerName { get; set; } = null!;
+
+    [Parameter]
+    public string? ExtraStyleDiv { get; set; } = "width: 100%";
+
+    [Parameter]
+    public string? ExtraClass { get; set; } = "align-center";
+
+    [Parameter]
+    public Justify Justify { get; set; } = Justify.FlexEnd;
+
+    private async Task Download(StorageFileInfo file)
+    {
+        var url = "";
+        await JsRuntime.InvokeVoidAsync("open", [url]);
+    }
+
+    private async Task Delete(StorageFileInfo file)
+    {
+        await Task.Delay(1);
+        Files.Remove(file);
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task View(StorageFileInfo file)
+    {
+        var base64 = "";
+
+        await JsRuntime.InvokeVoidAsync("openBase64FileInNewTab", [base64, file.GetMimeType()]);
+    }
+    
+}

@@ -13,7 +13,7 @@ public static class AutoComponentsBuilders
     private static bool _hotReloadInitialized;
     private static readonly Dictionary<BaseAutoComponentTypeEnumeration, IAutoBuildableComponent> BuildableComponentsDictionary = new();
     private static readonly List<Type> GenericBuildableComponents = [];
-    private static readonly Type BaseComponentType = typeof(IAutoConfiguration);
+    private static readonly Type BaseComponentType = typeof(IAutoBuildableComponent);
 
     private static void InitializeHotReload()
     {
@@ -31,10 +31,11 @@ public static class AutoComponentsBuilders
         InitializeHotReload();
 
         using var _ = new LogTimer("AutoComponentsBuilders.Initialize");
+        BuildableComponentsDictionary.Clear();
 
         var buildableComponentTypes = TypesHelper.AllTypes
-                                             .Where(x => BaseComponentType.IsAssignableFrom(x) && x is { IsInterface: false, IsAbstract: false })
-                                             .ToList();
+                                                 .Where(x => BaseComponentType.IsAssignableFrom(x) && x is { IsInterface: false, IsAbstract: false })
+                                                 .ToList();
         
         //Simple components
         foreach (var buildableComponentType in buildableComponentTypes.Where(x => !x.IsGenericType))

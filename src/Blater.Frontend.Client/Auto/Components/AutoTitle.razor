@@ -1,0 +1,16 @@
+@implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
+@using Blater.Frontend.Client.Auto.AutoModels
+@using Blater.Frontend.Client.Auto.AutoModels.Base
+@inherits BaseAutoComponent
+
+<div id="auto-text" class="@ExtraClass">
+    <MudText Typo="Typo.h6">@Value</MudText>
+</div>
+
+
+@code {
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoTitle;
+
+    [Parameter]
+    public string? Value { get; set; }
+}

@@ -1,6 +1,5 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
-using Blater.Frontend.Client.Enumerations;
 using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Form;

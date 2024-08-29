@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Blater.Frontend.Client.Auto.AutoBuilders.Base;
-using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.EasyRenderTree;
@@ -128,7 +127,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     private void AfterCreateComponents(RenderTreeBuilder builder)
     {
         var configuration = FormConfiguration.FormActionConfiguration;
-        var seq = 1;
+        var seq = 0;
 
         //Divider
         builder.OpenComponent<MudDivider>(seq++);
