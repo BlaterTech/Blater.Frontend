@@ -7,7 +7,17 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
 public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguration configuration)
 {
-    public AutoFormPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression, AutoFormDisplayType formDisplayType = AutoFormDisplayType.All)
+    public AutoFormPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression)
+        => AddMember(expression, AutoComponentDisplayType.Form);
+    
+    public AutoFormPropertyConfigurationBuilder<TProperty> AddMemberCreateOnly<TProperty>(Expression<Func<TProperty>> expression)
+        => AddMember(expression, AutoComponentDisplayType.FormCreate);
+    
+    public AutoFormPropertyConfigurationBuilder<TProperty> AddMemberEditOnly<TProperty>(Expression<Func<TProperty>> expression)
+        => AddMember(expression, AutoComponentDisplayType.FormEdit);
+    
+    
+    private AutoFormPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression, AutoComponentDisplayType displayType)
     {
         var propertyName = expression.GetPropertyName();
 
@@ -18,8 +28,9 @@ public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguratio
 
         var currentPropertyConfig = new FormPropertyConfiguration
         {
-            AutoFormDisplayType = formDisplayType,
-            Property = type.GetProperty(propertyName)!
+            DisplayType = displayType,
+            Property = type.GetProperty(propertyName)!,
+            LabelName = $"Auto{displayType.ToString()}-LabelName-{type.Name}"
         };
         
         configuration.Properties.Add(currentPropertyConfig);

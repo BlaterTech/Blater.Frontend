@@ -7,14 +7,7 @@ namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
 public class FormPropertyConfiguration : BasePropertyConfiguration
 {
-    public AutoFormDisplayType AutoFormDisplayType { get; set; } = AutoFormDisplayType.All;
-    
-    public string HelpMessage { get; set; } = string.Empty;
-    public string LabelName { get; set; } = string.Empty;
-    public string Placeholder { get; set; } = string.Empty;
+    public AutoComponentDisplayType DisplayType { get; set; } = AutoComponentDisplayType.Form;
     
     public AbstractValidator<object>? Validator { get; set; }
-    
-    public bool IsReadOnly { get; set; }
-    public bool Disable { get; set; }
 }

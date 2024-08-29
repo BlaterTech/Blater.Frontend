@@ -2,8 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Base;
 
-public class BaseComponentInput :
-    ComponentBase
+public class BaseComponentInput : ComponentBase
 {
     [Parameter]
     public bool HasValidationError { get; set; }
@@ -16,9 +15,9 @@ public class BaseComponentInput :
 
     [Parameter]
     public bool Disabled { get; set; }
-
-    [Parameter]
-    public string? Label { get; set; }
     
-    public Guid InputId { get; set; } = Guid.NewGuid();
+    [Parameter]
+    public bool IsReadOnly { get; set; }
+
+    protected Guid InputId { get; private set; } = Guid.NewGuid();
 }

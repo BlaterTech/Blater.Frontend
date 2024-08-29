@@ -8,7 +8,7 @@ using Serilog;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders;
 
-public static class AutoBuilder
+public static class AutoComponentsBuilders
 {
     private static bool _hotReloadInitialized;
     private static readonly Dictionary<BaseAutoComponentTypeEnumeration, IAutoBuildableComponent> BuildableComponentsDictionary = new();

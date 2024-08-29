@@ -89,7 +89,7 @@ public static class WebSetup
 
     public static void UseBlaterFrontendServer<TApp>(this WebApplication app, Assembly clientAssembly) where TApp : ComponentBase
     {
-        AutoBuilder.Initialize();
+        AutoComponentsBuilders.Initialize();
         
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

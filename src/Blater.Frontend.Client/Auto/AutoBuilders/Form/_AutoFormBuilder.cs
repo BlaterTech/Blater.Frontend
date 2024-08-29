@@ -27,7 +27,10 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     [Parameter]
     public bool Processing { get; set; }
     
-    public AutoFormDisplayType DisplayType { get; set; }
+    public override AutoComponentDisplayType DisplayType { get; set; }
+    public override bool HasLabel { get; set; } = true;
+    
+    
     public FormConfiguration FormConfiguration => ModelConfiguration.Form;
 
     private static async Task Upsert()
@@ -39,7 +42,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     {
         await base.OnInitializedAsync();
 
-        DisplayType = EditMode ? AutoFormDisplayType.Edit : AutoFormDisplayType.Create;
+        DisplayType = EditMode ? AutoComponentDisplayType.FormEdit : AutoComponentDisplayType.FormCreate;
     }
 
     protected override void BuildComponent(EasyRenderTreeBuilder builder)
@@ -107,7 +110,10 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
                                 mudItemBuilder.AddAttribute("xs", 12);
                             }
 
-                            mudItemBuilder.AddChildContent(mudItemContentBuilder => { });
+                            mudItemBuilder.AddChildContent(mudItemContentBuilder =>
+                            {
+                                CreateGenericComponent(mudItemContentBuilder, propertyConfiguration);
+                            });
 
                             mudItemBuilder.Close();
                         }

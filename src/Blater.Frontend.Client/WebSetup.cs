@@ -15,7 +15,7 @@ public static class WebSetup
 {
     public static void AddBlaterFrontendClient(this IServiceCollection services)
     {
-        AutoBuilder.Initialize();
+        AutoComponentsBuilders.Initialize();
         
         //builder.SetupSerilog();
         

@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
+using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+using Blater.Frontend.Client.Auto.Extensions;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Interfaces;
@@ -15,6 +17,8 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 [SuppressMessage("Performance", "CA1848:Usar os delegados LoggerMessage")]
 public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : BaseDataModel
 {
+    #region Injections
+
     [Inject]
     public ILogger<BaseAutoComponentBuilder<T>> Logger { get; set; } = null!;
     
@@ -26,16 +30,29 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     [Inject]
     public IBlaterDatabaseRepository<T> DataRepository { get; set; } = null!;
-    
+
+    #endregion
+
+    #region Parameters
+
     [Parameter]
     public T? Model { get; set; }
     
     [Parameter]
     public Guid? Id { get; set; }
+
+    #endregion
+
+    #region AbstractProps
+
+    public abstract AutoComponentDisplayType DisplayType { get; set; }
+    
+    public abstract bool HasLabel { get; set; }
+
+    #endregion
     
     protected AutoModelConfiguration ModelConfiguration { get; set; } = null!;
-    
-    public bool EditMode { get; private set; }
+    protected bool EditMode { get; private set; }
     
     private void LoadModelConfig()
     {
@@ -111,6 +128,39 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     protected void CreateGenericComponent(EasyRenderTreeBuilder builder, BasePropertyConfiguration configuration)
     {
+        var componentBuilder = AutoComponentsBuilders.GetComponentBuilder(configuration, DisplayType);
+        if (componentBuilder is null)
+        {
+            Logger.LogError("Failed to get component builder for {ComponentConfiguration}", configuration);
+            return;
+        }
+        
         var propertyInfo = configuration.Property;
+        var componentBuilderType = componentBuilder.GetType();
+        
+        var componentRenderBuilder = builder.OpenComponent(componentBuilderType);
+        
+        componentRenderBuilder.AddAttribute("ComponentConfiguration", configuration);
+        componentRenderBuilder.AddAttribute("TypeName", propertyInfo.PropertyType.Name);
+        componentRenderBuilder.AddAttribute("Size", configuration.Sizes[DisplayType]);
+        componentRenderBuilder.AddAttribute("ExtraClass", configuration.ExtraClass);
+        componentRenderBuilder.AddAttribute("ExtraStyle", configuration.ExtraStyle);
+        
+        if (HasLabel)
+        {
+            componentRenderBuilder.AddAttribute("LabelName", configuration.LabelName);
+        }
+        
+        var compType = configuration.AutoComponentTypes[DisplayType];
+        if (compType.IsFormInput() && compType.HasValueChanged)
+        {
+            componentRenderBuilder.AddAttribute("EditMode", EditMode);
+            componentRenderBuilder.AddAttribute("ValueChanged", configuration.OnValueChanged);
+            componentRenderBuilder.AddAttribute("PlaceholderText", configuration.Placeholder);
+            componentRenderBuilder.AddAttribute("Disabled", configuration.Disable);
+            componentRenderBuilder.AddAttribute("IsReadOnly", configuration.IsReadOnly);
+        }
+        
+        componentRenderBuilder.Close();
     }
 }

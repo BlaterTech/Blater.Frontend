@@ -8,22 +8,21 @@ public class AutoFormConfigurationBuilder(Type type, FormConfiguration configura
     #region Group
 
     public AutoFormConfigurationBuilder AddGroup(Action<AutoFormMemberConfigurationBuilder> action)
-        => AddGroup($"AutoForm-Title-{type.Name}", $"AutoForm-SubTitle-{type.Name}", AutoFormGroupDisplayType.All, action);
+        => AddGroup(AutoComponentDisplayType.Form, action);
 
-    public AutoFormConfigurationBuilder AddGroup(AutoFormGroupDisplayType groupDisplayType, Action<AutoFormMemberConfigurationBuilder> action)
-        => AddGroup($"AutoForm-Title-{type.Name}", $"AutoForm-SubTitle-{type.Name}", groupDisplayType, action);
+    public AutoFormConfigurationBuilder AddGroupCreateOnly(Action<AutoFormMemberConfigurationBuilder> action)
+        => AddGroup(AutoComponentDisplayType.FormCreate, action);
     
-
-    public AutoFormConfigurationBuilder AddGroup(string title, AutoFormGroupDisplayType groupDisplayType, Action<AutoFormMemberConfigurationBuilder> action)
-        => AddGroup(title, $"AutoForm-SubTitle-{type.Name}", groupDisplayType, action);
-
-    public AutoFormConfigurationBuilder AddGroup(string title, string subTitle, AutoFormGroupDisplayType groupDisplayType, Action<AutoFormMemberConfigurationBuilder> action)
+    public AutoFormConfigurationBuilder AddGroupEditOnly(Action<AutoFormMemberConfigurationBuilder> action)
+        => AddGroup(AutoComponentDisplayType.FormEdit, action);
+    
+    private AutoFormConfigurationBuilder AddGroup(AutoComponentDisplayType displayType, Action<AutoFormMemberConfigurationBuilder> action)
     {
         var currentGroupConfiguration = new FormGroupConfiguration
         {
-            Title = title,
-            SubTitle = subTitle,
-            AutoFormGroupDisplayType = groupDisplayType
+            Title = $"Auto{displayType.ToString()}-Title-{type.Name}",
+            SubTitle = $"Auto{displayType.ToString()}-SubTitle-{type.Name}",
+            DisplayType = displayType
         };
 
         configuration.GroupsConfigurations.Add(currentGroupConfiguration);
@@ -36,7 +35,7 @@ public class AutoFormConfigurationBuilder(Type type, FormConfiguration configura
     }
 
     #endregion
-    
+
     public AutoFormConfigurationBuilder AddAvatar(Action<AutoFormAvatarConfigurationBuilder> action)
     {
         configuration.FormAvatarConfiguration.EnableAvatarModel = true;
@@ -46,7 +45,7 @@ public class AutoFormConfigurationBuilder(Type type, FormConfiguration configura
 
         return this;
     }
-    
+
     public AutoFormConfigurationBuilder ConfigureActions(Action<AutoFormActionConfigurationBuilder> action)
     {
         var autoFormGroupConfigBuilder = new AutoFormActionConfigurationBuilder(configuration.FormActionConfiguration);

@@ -5,8 +5,16 @@ namespace Blater.Frontend.Client.Auto.AutoModels.Base;
 public class BaseAutoComponent : BaseComponentInput
 {
     [Parameter]
-    [EditorRequired]
-    public string ExtraClass { get; set; } = null!;
+    public string? ExtraClass { get; set; }
+    
+    [Parameter]
+    public string? ExtraStyle { get; set; }
+    
+    [Parameter]
+    public string? DataFormat { get; set; }
+    
+    [Parameter]
+    public string? LocalizationId { get; set; }
 
     [Parameter]
     public string TypeName { get; set; } = null!;

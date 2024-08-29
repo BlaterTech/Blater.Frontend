@@ -21,13 +21,13 @@ public class AutoPropertyConfigurationBuilder(BasePropertyConfiguration configur
 
     public IAutoPropertyConfigurationBuilder CssClass(string value)
     {
-        configuration.CssClass = value;
+        configuration.ExtraClass = value;
         return this;
     }
 
     public IAutoPropertyConfigurationBuilder CssStyle(string value)
     {
-        configuration.CssStyle = value;
+        configuration.ExtraStyle = value;
         return this;
     }
 
