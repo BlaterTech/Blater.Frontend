@@ -10,7 +10,7 @@
         Value="@Value"
         Label="@LabelName"
         Variant="@Variant.Filled"
-        ValueChanged="@Callback"
+        ValueChanged="@(async (x) => await NotifyValueChanged(x))"
         Error="@HasValidationError"
                 ErrorText="@ValidationErrorMessage"
                 RequiredError="@ValidationErrorMessage"
@@ -23,13 +23,5 @@
 
 @code
 {
-
-
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormComponentInputType.AutoMoneyComponentInput;
-
-    private async Task Callback(decimal obj)
-    {
-        await NotifyValueChanged(obj);
-    }
-
 }

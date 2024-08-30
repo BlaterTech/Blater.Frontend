@@ -6,13 +6,14 @@
 <div id="auto-checkbox-input" class="@ExtraClass">
     <MudCheckBox
         id="@InputId"
+        T="bool"
         Disabled="@Disabled"
         Value="@Value"
         Label="@LabelName"
         Required="@Required"
         ErrorText="@ValidationErrorMessage"
         RequiredError="@ValidationErrorMessage"
-        ValueChanged="@ValueChanged"
+        ValueChanged="@(async (x) => await NotifyValueChanged(x))"
         Color="Color.Primary">
     </MudCheckBox>
 </div>

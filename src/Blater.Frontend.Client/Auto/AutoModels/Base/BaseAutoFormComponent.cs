@@ -14,7 +14,7 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
     [Parameter]
     public List<string>? ErrorMessages { get; set; }
 
-    public string ValidationErrorSummary => string.Join("", ErrorMessages ?? new List<string>());
+    public string ValidationErrorSummary => string.Join("", ErrorMessages ?? []);
 
     public new bool HasValidationError => ErrorMessages != null && ErrorMessages.Count != 0;
 

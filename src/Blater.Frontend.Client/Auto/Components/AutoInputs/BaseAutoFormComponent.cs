@@ -14,10 +14,10 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
     [Parameter]
     public List<string>? ErrorMessages { get; set; }
 
-    public string ValidationErrorText => string.Join("", ErrorMessages ?? new List<string>());
+    public string ValidationErrorText => string.Join("", ErrorMessages ?? []);
 
     public new bool HasValidationError => ErrorMessages != null && ErrorMessages.Count != 0;
-
+    
     [Parameter]
     public EventCallback<TValue> ValueChanged { get; set; }
 
@@ -26,14 +26,14 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
     /// </summary>
     [Parameter]
     public bool Dirty { get; set; }
-
-    public async Task NotifyValueChanged()
+    
+    protected async Task NotifyValueChanged()
     {
         await ValueChanged.InvokeAsync(Value);
         StateHasChanged();
     }
 
-    public async Task NotifyValueChanged(TValue value)
+    protected async Task NotifyValueChanged(TValue value)
     {
         Dirty = true;
         Value = value;

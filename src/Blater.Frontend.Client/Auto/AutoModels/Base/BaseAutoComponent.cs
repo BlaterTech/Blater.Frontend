@@ -34,4 +34,8 @@ public class BaseAutoComponent : BaseComponentInput
 
     [Parameter]
     public string? PlaceholderText { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public BaseComponentConfiguration ComponentConfiguration { get; set; } = default!;
 }

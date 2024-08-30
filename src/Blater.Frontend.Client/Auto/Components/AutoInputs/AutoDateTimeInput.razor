@@ -14,7 +14,7 @@
         Variant="Variant.Filled"
         Label="@LabelName"
         Value="@Value"
-        ValueChanged="@ValueChanged"
+        ValueChanged="@(async (x) => await NotifyValueChanged(x))"
         Required="@Required"
         Culture="@(new CultureInfo("pt-BR"))"
         Class="@ExtraClass"
@@ -41,9 +41,4 @@
 
 
     public override string ValueAsString => Value.ToString();
-
-    private async Task DateChanged()
-    {
-        await NotifyValueChanged();
-    }
 }

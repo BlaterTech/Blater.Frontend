@@ -24,22 +24,24 @@ public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguratio
     {
         var property = expression.GetPropertyInfoForType(type);
 
-        var currentPropertyConfig = configuration.ComponentConfigurations
-                                                 .Select(x =>
-                                                             x.Value.FirstOrDefault(c => c.Property == property))
-                                                 .FirstOrDefault();
 
-        if (currentPropertyConfig != null)
+        var formComponentConfigurations = configuration.ComponentConfigurations.GetValueOrDefault(displayType);
+
+        FormComponentConfiguration? currentComponentConfig;
+        formComponentConfigurations ??= [];
+        currentComponentConfig = formComponentConfigurations.FirstOrDefault(x => x.Property == property);
+        
+        if (currentComponentConfig != null)
         {
-            if (!currentPropertyConfig.AutoComponentTypes.ContainsKey(displayType))
+            if (!currentComponentConfig.AutoComponentTypes.ContainsKey(displayType))
             {
-                currentPropertyConfig.AutoComponentTypes.Add(displayType, type.GetDefaultAutoFormComponentForType());
+                currentComponentConfig.AutoComponentTypes.Add(displayType, type.GetDefaultAutoFormComponentForType());
             }
             
-            return new AutoFormComponentConfigurationBuilder<TProperty>(currentPropertyConfig);
+            return new AutoFormComponentConfigurationBuilder<TProperty>(currentComponentConfig);
         }
 
-        currentPropertyConfig = new FormComponentConfiguration
+        currentComponentConfig = new FormComponentConfiguration
         {
             Property = property,
             LabelName = $"Auto{displayType.ToString()}-LabelName-{type.Name}",
@@ -48,9 +50,9 @@ public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguratio
                 [displayType] = type.GetDefaultAutoFormComponentForType()
             }
         };
+        formComponentConfigurations.Add(currentComponentConfig);
+        configuration.ComponentConfigurations[displayType] = formComponentConfigurations;
 
-        configuration.ComponentConfigurations[displayType].Add(currentPropertyConfig);
-
-        return new AutoFormComponentConfigurationBuilder<TProperty>(currentPropertyConfig);
+        return new AutoFormComponentConfigurationBuilder<TProperty>(currentComponentConfig);
     }
 }

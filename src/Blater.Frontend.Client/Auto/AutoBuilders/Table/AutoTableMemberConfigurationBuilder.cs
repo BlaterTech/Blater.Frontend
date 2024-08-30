@@ -8,7 +8,7 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
 public class AutoTableMemberConfigurationBuilder(Type type, TableModelConfiguration configuration)
 {
-    public AutoTableComponentConfigurationBuilder AddMember<TProperty>(Expression<Func<TProperty>> expression)
+    public AutoTableComponentConfigurationBuilder<TType> AddMember<TType>(Expression<Func<TType>> expression)
     {
         var propertyName = expression.GetPropertyName();
 
@@ -28,7 +28,7 @@ public class AutoTableMemberConfigurationBuilder(Type type, TableModelConfigurat
         
         configuration.Properties.Add(componentConfiguration);
 
-        return new AutoTableComponentConfigurationBuilder(componentConfiguration);
+        return new AutoTableComponentConfigurationBuilder<TType>(componentConfiguration);
     }
     
     public AutoTableMemberConfigurationBuilder EnableFixedHeader(bool value = true)

@@ -4,10 +4,10 @@ using Blater.Frontend.Client.Auto.Interfaces;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
-public class AutoDetailsComponentConfigurationBuilder<TProperty>(DetailsComponentConfiguration configuration)
-    : AutoComponentConfigurationBuilder(configuration), IAutoDetailsComponentConfigurationBuilder<TProperty>
+public class AutoDetailsComponentConfigurationBuilder<TType>(DetailsComponentConfiguration configuration)
+    : AutoComponentConfigurationBuilder<TType>(configuration), IAutoDetailsComponentConfigurationBuilder<TType>
 {
-    public IAutoDetailsComponentConfigurationBuilder<TProperty> ComponentType(AutoDetailsComponentType value)
+    public IAutoDetailsComponentConfigurationBuilder<TType> ComponentType(AutoDetailsComponentType value)
     {
         configuration.AutoComponentTypes[AutoComponentDisplayType.Details] = value;
         return this;

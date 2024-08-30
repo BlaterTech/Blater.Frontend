@@ -3,17 +3,17 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.Interfaces;
 
-public interface IAutoComponentConfigurationBuilder
+public interface IAutoComponentConfigurationBuilder<TType>
 {
-    IAutoComponentConfigurationBuilder Breakpoint(Breakpoint breakpoint, int value);
+    IAutoComponentConfigurationBuilder<TType> Breakpoint(Breakpoint breakpoint, int value);
     
-    IAutoComponentConfigurationBuilder DataFormat(string value);
-    IAutoComponentConfigurationBuilder CssClass(string value);
-    IAutoComponentConfigurationBuilder CssStyle(string value);
-    IAutoComponentConfigurationBuilder Order(int value);
-    IAutoComponentConfigurationBuilder LocalizationId(string value);
+    IAutoComponentConfigurationBuilder<TType> DataFormat(string value);
+    IAutoComponentConfigurationBuilder<TType> CssClass(string value);
+    IAutoComponentConfigurationBuilder<TType> CssStyle(string value);
+    IAutoComponentConfigurationBuilder<TType> Order(int value);
+    IAutoComponentConfigurationBuilder<TType> LocalizationId(string value);
 
-    IAutoComponentConfigurationBuilder OnValueChanged<TProperty>(EventCallback<TProperty> value);
-    IAutoComponentConfigurationBuilder OnClick<TProperty>(EventCallback<TProperty> value);
-    IAutoComponentConfigurationBuilder OnParameterSet<TProperty>(EventCallback<TProperty> value);
+    IAutoComponentConfigurationBuilder<TType> OnValueChanged(Action<TType> action);
+    IAutoComponentConfigurationBuilder<TType> OnClick(EventCallback<TType> value);
+    IAutoComponentConfigurationBuilder<TType> OnParameterSet(EventCallback<TType> value);
 }

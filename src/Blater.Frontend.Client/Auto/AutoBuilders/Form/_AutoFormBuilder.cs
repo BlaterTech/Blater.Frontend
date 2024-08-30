@@ -35,10 +35,8 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
         await Task.Delay(1);
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await base.OnInitializedAsync();
-
         DisplayType = EditMode ? AutoComponentDisplayType.FormEdit : AutoComponentDisplayType.FormCreate;
     }
 

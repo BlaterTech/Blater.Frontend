@@ -9,7 +9,7 @@
         Disabled="Disabled"
         Class="@ExtraClass"
         Value="@Value"
-        ValueChanged="@Callback"
+        ValueChanged="@(async (x) => await NotifyValueChanged(x))"
         Label="@LabelName"
         Error="@HasValidationError"
         ErrorText="@ValidationErrorMessage"
@@ -23,9 +23,4 @@
 {
     
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormComponentInputType.AutoDecimalComponentInput;
-    
-    private async Task Callback(decimal obj)
-    {
-        await NotifyValueChanged(obj);
-    }
 }

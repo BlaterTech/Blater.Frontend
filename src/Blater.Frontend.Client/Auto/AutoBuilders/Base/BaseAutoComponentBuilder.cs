@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
@@ -140,7 +141,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         
         componentRenderBuilder.AddAttribute("ComponentConfiguration", configuration);
         componentRenderBuilder.AddAttribute("TypeName", propertyInfo.PropertyType.Name);
-        componentRenderBuilder.AddAttribute("Size", configuration.Sizes[DisplayType]);
+        componentRenderBuilder.AddAttribute("Size", configuration.Sizes.GetValueOrDefault(DisplayType));
         componentRenderBuilder.AddAttribute("ExtraClass", configuration.ExtraClass);
         componentRenderBuilder.AddAttribute("ExtraStyle", configuration.ExtraStyle);
         
@@ -149,16 +150,40 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             componentRenderBuilder.AddAttribute("LabelName", configuration.LabelName);
         }
         
-        var compType = configuration.AutoComponentTypes[DisplayType];
+        var compType = configuration.AutoComponentTypes.GetValueOrDefault(DisplayType);
+
+        if (compType == null)
+        {
+            Logger.LogError("Failed to get component type for {ComponentConfiguration}", configuration);
+            return;
+        }
+        
         if (compType.IsFormInput() && compType.HasValueChanged)
         {
             componentRenderBuilder.AddAttribute("EditMode", EditMode);
-            componentRenderBuilder.AddAttribute("ValueChanged", configuration.OnValueChanged);
             componentRenderBuilder.AddAttribute("PlaceholderText", configuration.Placeholder);
             componentRenderBuilder.AddAttribute("Disabled", configuration.Disable);
             componentRenderBuilder.AddAttribute("IsReadOnly", configuration.IsReadOnly);
+            
+            componentRenderBuilder.AddAttribute("ValueChanged", configuration.ValueChanged[propertyInfo.PropertyType]);
         }
         
         componentRenderBuilder.Close();
+    }
+    
+    private static Delegate CreateDelegate(Type targetType, EventCallback<object> originalCallback)
+    {
+        // Cria um delegate genérico que converte o objeto para o tipo necessário e invoca o callback original
+        Action<object> action = async (value) =>
+        {
+            // Converte o valor para o tipo esperado usando InvariantCulture para consistência
+            var convertedValue = Convert.ChangeType(value, targetType, CultureInfo.InvariantCulture);
+
+            // Invoca o callback original com o valor convertido
+            await originalCallback.InvokeAsync(convertedValue);
+        };
+
+        // Cria o delegate do tipo Action<T> onde T é o tipo esperado
+        return Delegate.CreateDelegate(typeof(Action<>).MakeGenericType(targetType), action.Target, action.Method);
     }
 }

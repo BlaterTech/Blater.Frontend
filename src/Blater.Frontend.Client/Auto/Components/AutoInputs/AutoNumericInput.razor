@@ -7,10 +7,11 @@
 
     <MudNumericField
         id="@InputId"
+        T="int"
         Disabled="Disabled"
         Class="@ExtraClass"
         Value="@Value"
-        ValueChanged="@ValueChanged"
+        ValueChanged="@(async (x) => await NotifyValueChanged(x))"
         Label="@LabelName"
         Error="@HasValidationError"
                 ErrorText="@ValidationErrorMessage"
@@ -22,7 +23,5 @@
 
 @code
 {
-
-
     public BaseAutoComponentTypeEnumeration ComponentType => AutoFormComponentInputType.AutoNumericComponentInput;
 }

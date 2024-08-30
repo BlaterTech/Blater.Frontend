@@ -14,7 +14,7 @@
                Variant="Variant.Filled"
                AnchorOrigin="Origin.BottomCenter"
                Value="@Value"
-               ValueChanged="@ValueChanged">
+               ValueChanged="@(async (x) => await NotifyValueChanged(x))">
         @foreach (TItemType value in Enum.GetValues(typeof(TItemType)))
         {
             <MudSelectItem T="TItemType" Value="@value">@LocalizationService.GetValue(value?.ToString() ?? "")</MudSelectItem>
