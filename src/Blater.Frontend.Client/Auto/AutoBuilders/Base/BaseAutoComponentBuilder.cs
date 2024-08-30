@@ -1,11 +1,13 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Reflection;
 using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.Extensions;
 using Blater.Frontend.Client.EasyRenderTree;
+using Blater.Frontend.Client.Extensions;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Interfaces;
 using Blater.Models;
@@ -164,26 +166,60 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             componentRenderBuilder.AddAttribute("PlaceholderText", configuration.Placeholder);
             componentRenderBuilder.AddAttribute("Disabled", configuration.Disable);
             componentRenderBuilder.AddAttribute("IsReadOnly", configuration.IsReadOnly);
+
+            if (configuration.ValueChanged == null)
+            {
+                configuration.ValueChanged = CreateGenericValueChanged(propertyInfo);
+            }
             
-            componentRenderBuilder.AddAttribute("ValueChanged", configuration.ValueChanged[propertyInfo.PropertyType]);
+            componentRenderBuilder.AddAttribute("ValueChanged", configuration.ValueChanged);
         }
         
         componentRenderBuilder.Close();
     }
     
-    private static Delegate CreateDelegate(Type targetType, EventCallback<object> originalCallback)
+    private readonly MethodInfo _makeActionMethod = typeof(BaseAutoComponentBuilder<T>).GetMethod("MakeAction",
+                                                                                                  BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.NonPublic)!;
+    
+    protected object? CreateGenericValueChanged(PropertyInfo propertyInfo)
     {
-        // Cria um delegate genérico que converte o objeto para o tipo necessário e invoca o callback original
-        Action<object> action = async (value) =>
+        var targetType = propertyInfo.PropertyType;
+
+        var genericMethod = EventCallbackExtensions.EventCallbackFactoryCreate.MakeGenericMethod(targetType);
+
+        var makeActionGenericMethod = _makeActionMethod.MakeGenericMethod(targetType);
+        var action = makeActionGenericMethod.Invoke(this, [propertyInfo])!;
+
+        var parameters = new[] { this, action };
+        return genericMethod.Invoke(EventCallback.Factory, parameters);
+    }
+    
+    protected Action<TEntity> MakeAction<TEntity>(PropertyInfo propertyInfo)
+    {
+        return Action;
+
+        void Action(TEntity value)
         {
-            // Converte o valor para o tipo esperado usando InvariantCulture para consistência
-            var convertedValue = Convert.ChangeType(value, targetType, CultureInfo.InvariantCulture);
+            try
+            {
+                if (propertyInfo.SetMethod is null)
+                {
+                    return;
+                }
 
-            // Invoca o callback original com o valor convertido
-            await originalCallback.InvokeAsync(convertedValue);
-        };
+                propertyInfo.SetValue(Model, value);
 
-        // Cria o delegate do tipo Action<T> onde T é o tipo esperado
-        return Delegate.CreateDelegate(typeof(Action<>).MakeGenericType(targetType), action.Target, action.Method);
+                FieldValueChanged(propertyInfo, value);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "Failed to set value to the model");
+            }
+        }
+    }
+    
+    protected virtual void FieldValueChanged(PropertyInfo propertyInfo, object? newValue)
+    {
+        
     }
 }

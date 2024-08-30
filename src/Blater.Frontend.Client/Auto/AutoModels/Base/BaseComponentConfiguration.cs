@@ -28,7 +28,7 @@ public abstract class BaseComponentConfiguration
     public Dictionary<AutoComponentDisplayType, BaseAutoComponentTypeEnumeration> AutoComponentTypes { get; set; } = [];
     public Dictionary<AutoComponentDisplayType, AutoFieldSize> Sizes { get; set; } = [];
 
-    public Dictionary<Type, object> ValueChanged { get; set; } = [];
+    public object? ValueChanged { get; set; }
     public EventCallback<object> OnParameterSet { get; set; }
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 }

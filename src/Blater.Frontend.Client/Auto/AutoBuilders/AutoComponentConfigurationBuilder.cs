@@ -49,7 +49,7 @@ public class AutoComponentConfigurationBuilder<TType>(BaseComponentConfiguration
     {
         var genericMethod = EventCallback.Factory.Create<TType>(this, action.Invoke);
         
-        configuration.ValueChanged[typeof(TType)] = "testando";
+        configuration.ValueChanged = genericMethod;
         
         return this;
     }
