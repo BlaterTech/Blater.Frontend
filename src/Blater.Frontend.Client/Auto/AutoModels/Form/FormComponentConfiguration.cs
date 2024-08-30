@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
-public class FormPropertyConfiguration : BasePropertyConfiguration
+public class FormComponentConfiguration : BaseComponentConfiguration
 {
     public AbstractValidator<object>? Validator { get; set; }
 }

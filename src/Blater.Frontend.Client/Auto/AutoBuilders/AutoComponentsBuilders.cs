@@ -53,7 +53,7 @@ public static class AutoComponentsBuilders
         }
     }
     
-    public static IAutoBuildableComponent? GetComponentBuilder(BasePropertyConfiguration configuration, AutoComponentDisplayType displayType)
+    public static IAutoBuildableComponent? GetComponentBuilder(BaseComponentConfiguration configuration, AutoComponentDisplayType displayType)
     {
         var fieldConfigurationDisplayType = configuration.AutoComponentTypes.GetValueOrDefault(displayType);
 

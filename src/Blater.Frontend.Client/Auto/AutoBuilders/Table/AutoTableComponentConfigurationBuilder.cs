@@ -4,34 +4,34 @@ using Blater.Frontend.Client.Auto.Interfaces;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
-public class AutoTablePropertyConfigurationBuilder(TablePropertyConfiguration configuration) 
-    : AutoPropertyConfigurationBuilder(configuration), IAutoTablePropertyConfigurationBuilder
+public class AutoTableComponentConfigurationBuilder(TableComponentConfiguration configuration) 
+    : AutoComponentConfigurationBuilder(configuration), IAutoTableComponentConfigurationBuilder
 {
-    public IAutoTablePropertyConfigurationBuilder Name(string value)
+    public IAutoTableComponentConfigurationBuilder Name(string value)
     {
         configuration.Name = value;
         return this;
     }
 
-    public IAutoTablePropertyConfigurationBuilder DisableColumn(bool value = false)
+    public IAutoTableComponentConfigurationBuilder DisableColumn(bool value = false)
     {
         configuration.DisableColumn = value;
         return this;
     }
 
-    public IAutoTablePropertyConfigurationBuilder DisableFilter(bool value = false)
+    public IAutoTableComponentConfigurationBuilder DisableFilter(bool value = false)
     {
         configuration.DisableFilter = value;
         return this;
     }
 
-    public IAutoTablePropertyConfigurationBuilder DisableSortBy(bool value = false)
+    public IAutoTableComponentConfigurationBuilder DisableSortBy(bool value = false)
     {
         configuration.DisableSortBy = value;
         return this;
     }
     
-    public IAutoTablePropertyConfigurationBuilder ComponentType(AutoTableComponentType value)
+    public IAutoTableComponentConfigurationBuilder ComponentType(AutoTableComponentType value)
     {
         configuration.AutoComponentTypes[AutoComponentDisplayType.Table] = value;
         return this;

@@ -3,17 +3,17 @@ using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.Interfaces;
 
-public interface IAutoFormPropertyConfigurationBuilder<out TProperty> : IAutoPropertyConfigurationBuilder
+public interface IAutoFormComponentConfigurationBuilder<out TProperty> : IAutoComponentConfigurationBuilder
 {
-    IAutoFormPropertyConfigurationBuilder<TProperty> LabelName(string value);
+    IAutoFormComponentConfigurationBuilder<TProperty> LabelName(string value);
 
-    IAutoFormPropertyConfigurationBuilder<TProperty> Placeholder(string value);
+    IAutoFormComponentConfigurationBuilder<TProperty> Placeholder(string value);
 
-    IAutoFormPropertyConfigurationBuilder<TProperty> HelpMessage(string value);
+    IAutoFormComponentConfigurationBuilder<TProperty> HelpMessage(string value);
 
-    IAutoFormPropertyConfigurationBuilder<TProperty> IsReadOnly(bool value = false);
+    IAutoFormComponentConfigurationBuilder<TProperty> IsReadOnly(bool value = false);
 
-    IAutoFormPropertyConfigurationBuilder<TProperty> ComponentType(AutoFormComponentInputType value);
+    IAutoFormComponentConfigurationBuilder<TProperty> ComponentType(AutoFormComponentInputType value);
 
-    IAutoFormPropertyConfigurationBuilder<TProperty> Validate(Action<IRuleBuilderInitial<object, TProperty>> action);
+    IAutoFormComponentConfigurationBuilder<TProperty> Validate(Action<IRuleBuilderInitial<object, TProperty>> action);
 }

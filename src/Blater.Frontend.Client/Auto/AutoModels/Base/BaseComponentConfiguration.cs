@@ -6,7 +6,7 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Base;
 
-public abstract class BasePropertyConfiguration
+public abstract class BaseComponentConfiguration
 {
     public PropertyInfo Property { get; set; } = null!;
     
@@ -26,6 +26,7 @@ public abstract class BasePropertyConfiguration
     
     public Dictionary<Breakpoint, int> Breakpoints { get; set; } = [];
     public Dictionary<AutoComponentDisplayType, BaseAutoComponentTypeEnumeration> AutoComponentTypes { get; set; } = [];
+    public Dictionary<AutoComponentDisplayType, AutoFieldSize> Sizes { get; set; } = [];
     
     public EventCallback<object> OnValueChanged { get; set; }
     public EventCallback<object> OnParameterSet { get; set; }

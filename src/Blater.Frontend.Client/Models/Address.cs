@@ -55,7 +55,7 @@ public class Address : BaseFrontendModel
     public string ExternalReference { get; set; } = string.Empty;
 
 
-    public override void Configure(AutoComponentConfigurationBuilder builder)
+    public override void Configure(AutoModelConfigurationBuilder builder)
     {
         builder.Table("TableName", configurationBuilder =>
         {
@@ -78,10 +78,6 @@ public class Address : BaseFrontendModel
 
         builder.Details("DetailsName", configurationBuilder =>
         {
-            configurationBuilder
-               .AddMember(() => ExternalReference)
-               .Breakpoint(Breakpoint.Lg, 12);
-
             configurationBuilder.AddGroup("GroupName", false, groupConfigurationBuilder =>
             {
                 groupConfigurationBuilder

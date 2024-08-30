@@ -1,28 +1,28 @@
-﻿using Blater.Frontend.Client.Auto.AutoModels;
-using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormConfigurationBuilder(Type type, AutoGroupConfiguration configuration)
+public class AutoFormGroupConfigurationBuilder(Type type, FormModelConfiguration configuration)
 {
     #region Group
 
-    public AutoFormConfigurationBuilder AddGroup(Action<AutoFormMemberConfigurationBuilder> action)
+    public AutoFormGroupConfigurationBuilder AddGroup(Action<AutoFormMemberConfigurationBuilder> action)
     {
         AddGroup(AutoComponentDisplayType.FormCreate, action);
         return AddGroup(AutoComponentDisplayType.FormEdit, action);
     }
 
-    public AutoFormConfigurationBuilder AddGroupCreateOnly(Action<AutoFormMemberConfigurationBuilder> action)
+    public AutoFormGroupConfigurationBuilder AddGroupCreateOnly(Action<AutoFormMemberConfigurationBuilder> action)
         => AddGroup(AutoComponentDisplayType.FormCreate, action);
     
-    public AutoFormConfigurationBuilder AddGroupEditOnly(Action<AutoFormMemberConfigurationBuilder> action)
+    public AutoFormGroupConfigurationBuilder AddGroupEditOnly(Action<AutoFormMemberConfigurationBuilder> action)
         => AddGroup(AutoComponentDisplayType.FormEdit, action);
     
-    private AutoFormConfigurationBuilder AddGroup(AutoComponentDisplayType displayType, Action<AutoFormMemberConfigurationBuilder> action)
+    private AutoFormGroupConfigurationBuilder AddGroup(AutoComponentDisplayType displayType, Action<AutoFormMemberConfigurationBuilder> action)
     {
-        var formGroupConfiguration = configuration.GroupsConfigurations.FirstOrDefault(x => x.Properties.ContainsKey(displayType));
+        var formGroupConfiguration = configuration.Configurations
+                                                  .FirstOrDefault(x => x.ComponentConfigurations.ContainsKey(displayType));
 
         if (formGroupConfiguration != null)
         {
@@ -37,13 +37,13 @@ public class AutoFormConfigurationBuilder(Type type, AutoGroupConfiguration conf
         {
             Title = $"Auto{displayType.ToString()}-Title-{type.Name}",
             SubTitle = $"Auto{displayType.ToString()}-SubTitle-{type.Name}",
-            Properties =
+            ComponentConfigurations =
             {
                 [displayType] = []
             }
         };
 
-        configuration.GroupsConfigurations.Add(formGroupConfiguration);
+        configuration.Configurations.Add(formGroupConfiguration);
 
         var autoFormGroupConfigBuilder = new AutoFormMemberConfigurationBuilder(type, formGroupConfiguration);
 
@@ -54,7 +54,7 @@ public class AutoFormConfigurationBuilder(Type type, AutoGroupConfiguration conf
 
     #endregion
 
-    public AutoFormConfigurationBuilder AddAvatar(Action<AutoFormAvatarConfigurationBuilder> action)
+    public AutoFormGroupConfigurationBuilder AddAvatar(Action<AutoFormAvatarConfigurationBuilder> action)
     {
         configuration.AutoAvatarConfiguration.EnableAvatarModel = true;
         var autoFormGroupConfigBuilder = new AutoFormAvatarConfigurationBuilder(configuration.AutoAvatarConfiguration);
@@ -64,7 +64,7 @@ public class AutoFormConfigurationBuilder(Type type, AutoGroupConfiguration conf
         return this;
     }
 
-    public AutoFormConfigurationBuilder ConfigureActions(Action<AutoFormActionConfigurationBuilder> action)
+    public AutoFormGroupConfigurationBuilder ConfigureActions(Action<AutoFormActionConfigurationBuilder> action)
     {
         var autoFormGroupConfigBuilder = new AutoFormActionConfigurationBuilder(configuration.AutoActionConfiguration);
 

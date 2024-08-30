@@ -6,5 +6,5 @@ namespace Blater.Frontend.Client.Models.Bases;
 
 public abstract class BaseFrontendModel : BaseDataModel, IAutoConfiguration
 {
-    public abstract void Configure(AutoComponentConfigurationBuilder builder);
+    public abstract void Configure(AutoModelConfigurationBuilder builder);
 }

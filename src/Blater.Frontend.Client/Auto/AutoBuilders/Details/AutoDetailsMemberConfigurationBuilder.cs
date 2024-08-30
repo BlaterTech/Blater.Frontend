@@ -1,14 +1,14 @@
 ﻿using System.Linq.Expressions;
 using Blater.Extensions;
-using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+using Blater.Frontend.Client.Auto.Extensions;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
-public class AutoDetailsMemberConfigurationBuilder(Type type, AutoGroupConfiguration configuration)
+public class AutoDetailsMemberConfigurationBuilder(Type type, DetailsGroupConfiguration configuration)
 {
-    public AutoDetailsPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression)
+    public AutoDetailsComponentConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression)
     {
         var propertyName = expression.GetPropertyName();
 
@@ -17,19 +17,17 @@ public class AutoDetailsMemberConfigurationBuilder(Type type, AutoGroupConfigura
             throw new InvalidOperationException("PropertyName is null");
         }
 
-        var currentComponentConfiguration = new AutoComponentConfiguration
+        var currentDetailsComponentConfiguration = new DetailsComponentConfiguration
         {
-            Property = type.GetProperty(propertyName)!
+            Property = type.GetProperty(propertyName)!,
+            AutoComponentTypes =
+            {
+                [AutoComponentDisplayType.Details] = type.GetDefaultAutoDetailsComponentForType()
+            }
         };
 
-        var containsConfiguration = configuration.Configurations.ContainsKey(AutoComponentDisplayType.Details);
-        if (!containsConfiguration)
-        {
-            configuration.Configurations[AutoComponentDisplayType.Details] = [];
-        }
-
-        configuration.Configurations[AutoComponentDisplayType.Details].Add(currentComponentConfiguration);
+        configuration.Configurations.Add(currentDetailsComponentConfiguration);
         
-        return new AutoDetailsPropertyConfigurationBuilder<TProperty>(currentComponentConfiguration);
+        return new AutoDetailsComponentConfigurationBuilder<TProperty>(currentDetailsComponentConfiguration);
     }
 }

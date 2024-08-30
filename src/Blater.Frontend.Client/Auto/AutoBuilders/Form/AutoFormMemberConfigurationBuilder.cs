@@ -7,24 +7,24 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
 public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguration configuration)
 {
-    public AutoFormPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression)
+    public AutoFormComponentConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression)
     {
         AddMember(expression, AutoComponentDisplayType.FormCreate);
         return AddMember(expression, AutoComponentDisplayType.FormEdit);
     }
     
-    public AutoFormPropertyConfigurationBuilder<TProperty> AddMemberCreateOnly<TProperty>(Expression<Func<TProperty>> expression)
+    public AutoFormComponentConfigurationBuilder<TProperty> AddMemberCreateOnly<TProperty>(Expression<Func<TProperty>> expression)
         => AddMember(expression, AutoComponentDisplayType.FormCreate);
     
-    public AutoFormPropertyConfigurationBuilder<TProperty> AddMemberEditOnly<TProperty>(Expression<Func<TProperty>> expression)
+    public AutoFormComponentConfigurationBuilder<TProperty> AddMemberEditOnly<TProperty>(Expression<Func<TProperty>> expression)
         => AddMember(expression, AutoComponentDisplayType.FormEdit);
     
     
-    private AutoFormPropertyConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression, AutoComponentDisplayType displayType)
+    private AutoFormComponentConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression, AutoComponentDisplayType displayType)
     {
         var property = expression.GetPropertyInfoForType(type);
 
-        var currentPropertyConfig = configuration.Properties
+        var currentPropertyConfig = configuration.ComponentConfigurations
                                                  .Select(x =>
                                                              x.Value.FirstOrDefault(c => c.Property == property))
                                                  .FirstOrDefault();
@@ -36,10 +36,10 @@ public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguratio
                 currentPropertyConfig.AutoComponentTypes.Add(displayType, type.GetDefaultAutoFormComponentForType());
             }
             
-            return new AutoFormPropertyConfigurationBuilder<TProperty>(currentPropertyConfig);
+            return new AutoFormComponentConfigurationBuilder<TProperty>(currentPropertyConfig);
         }
 
-        currentPropertyConfig = new FormPropertyConfiguration
+        currentPropertyConfig = new FormComponentConfiguration
         {
             Property = property,
             LabelName = $"Auto{displayType.ToString()}-LabelName-{type.Name}",
@@ -49,8 +49,8 @@ public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguratio
             }
         };
 
-        configuration.Properties[displayType].Add(currentPropertyConfig);
+        configuration.ComponentConfigurations[displayType].Add(currentPropertyConfig);
 
-        return new AutoFormPropertyConfigurationBuilder<TProperty>(currentPropertyConfig);
+        return new AutoFormComponentConfigurationBuilder<TProperty>(currentPropertyConfig);
     }
 }

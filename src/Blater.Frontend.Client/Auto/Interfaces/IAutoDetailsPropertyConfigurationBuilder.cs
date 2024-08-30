@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.Interfaces;
 
-public interface IAutoDetailsPropertyConfigurationBuilder<TProperty> : IAutoPropertyConfigurationBuilder
+public interface IAutoDetailsComponentConfigurationBuilder<TProperty> : IAutoComponentConfigurationBuilder
 {
-    IAutoDetailsPropertyConfigurationBuilder<TProperty> ComponentType(AutoDetailsComponentType value);
+    IAutoDetailsComponentConfigurationBuilder<TProperty> ComponentType(AutoDetailsComponentType value);
 }

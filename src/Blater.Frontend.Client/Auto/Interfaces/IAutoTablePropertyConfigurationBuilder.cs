@@ -2,15 +2,15 @@
 
 namespace Blater.Frontend.Client.Auto.Interfaces;
 
-public interface IAutoTablePropertyConfigurationBuilder : IAutoPropertyConfigurationBuilder
+public interface IAutoTableComponentConfigurationBuilder : IAutoComponentConfigurationBuilder
 {
-    IAutoTablePropertyConfigurationBuilder Name(string value);
+    IAutoTableComponentConfigurationBuilder Name(string value);
 
-    IAutoTablePropertyConfigurationBuilder DisableColumn(bool value = false);
+    IAutoTableComponentConfigurationBuilder DisableColumn(bool value = false);
 
-    IAutoTablePropertyConfigurationBuilder DisableFilter(bool value = false);
+    IAutoTableComponentConfigurationBuilder DisableFilter(bool value = false);
 
-    IAutoTablePropertyConfigurationBuilder DisableSortBy(bool value = false);
+    IAutoTableComponentConfigurationBuilder DisableSortBy(bool value = false);
 
-    IAutoTablePropertyConfigurationBuilder ComponentType(AutoTableComponentType value);
+    IAutoTableComponentConfigurationBuilder ComponentType(AutoTableComponentType value);
 }

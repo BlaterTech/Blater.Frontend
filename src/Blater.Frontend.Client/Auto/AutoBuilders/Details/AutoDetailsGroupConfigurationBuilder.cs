@@ -1,24 +1,20 @@
-﻿using System.Linq.Expressions;
-using Blater.Extensions;
-using Blater.Frontend.Client.Auto.AutoModels;
-using Blater.Frontend.Client.Auto.AutoModels.Details;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Details;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
-public class AutoDetailsGroupConfigurationBuilder(Type type, AutoGroupConfiguration configuration)
+public class AutoDetailsGroupConfigurationBuilder(Type type, DetailsModelConfiguration configuration)
 {
-    public AutoDetailsMemberConfigurationBuilder AddGroup(string groupName, bool disableEditButton, Action<AutoDetailsGroupConfigurationBuilder> action)
+    public AutoDetailsGroupConfigurationBuilder AddGroup(string? title, bool disableEditButton, Action<AutoDetailsMemberConfigurationBuilder> action)
     {
         var currentGroupConfiguration = new DetailsGroupConfiguration
         {
-            Title = groupName,
+            Title = title ?? $"AutoDetails-Group-Title-{type.Name}",
             DisableEditButton = disableEditButton
         };
 
-        var groupsConfigurations = configuration.GroupsConfigurations ??= new List<DetailsGroupConfiguration>();
-        groupsConfigurations.Add(currentGroupConfiguration);
-
-        var autoDetailsGroupConfigurationBuilder = new AutoDetailsGroupConfigurationBuilder(type, currentGroupConfiguration);
+        configuration.Configurations.Add(currentGroupConfiguration);
+        
+        var autoDetailsGroupConfigurationBuilder = new AutoDetailsMemberConfigurationBuilder(type, currentGroupConfiguration);
 
         action(autoDetailsGroupConfigurationBuilder);
         

@@ -6,40 +6,40 @@ using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormPropertyConfigurationBuilder<TProperty>(FormPropertyConfiguration configuration)
-    : AutoPropertyConfigurationBuilder(configuration), IAutoFormPropertyConfigurationBuilder<TProperty>
+public class AutoFormComponentConfigurationBuilder<TProperty>(FormComponentConfiguration configuration)
+    : AutoComponentConfigurationBuilder(configuration), IAutoFormComponentConfigurationBuilder<TProperty>
 {
-    public IAutoFormPropertyConfigurationBuilder<TProperty> LabelName(string value)
+    public IAutoFormComponentConfigurationBuilder<TProperty> LabelName(string value)
     {
         configuration.LabelName = value;
         return this;
     }
 
-    public IAutoFormPropertyConfigurationBuilder<TProperty> Placeholder(string value)
+    public IAutoFormComponentConfigurationBuilder<TProperty> Placeholder(string value)
     {
         configuration.Placeholder = value;
         return this;
     }
 
-    public IAutoFormPropertyConfigurationBuilder<TProperty> HelpMessage(string value)
+    public IAutoFormComponentConfigurationBuilder<TProperty> HelpMessage(string value)
     {
         configuration.HelpMessage = value;
         return this;
     }
 
-    public IAutoFormPropertyConfigurationBuilder<TProperty> IsReadOnly(bool value = false)
+    public IAutoFormComponentConfigurationBuilder<TProperty> IsReadOnly(bool value = false)
     {
         configuration.IsReadOnly = value;
         return this;
     }
 
-    public IAutoFormPropertyConfigurationBuilder<TProperty> ComponentType(AutoFormComponentInputType value)
+    public IAutoFormComponentConfigurationBuilder<TProperty> ComponentType(AutoFormComponentInputType value)
     {
         configuration.AutoComponentTypes[AutoComponentDisplayType.Form] = value;
         return this;
     }
 
-    public IAutoFormPropertyConfigurationBuilder<TProperty> Validate(Action<IRuleBuilderInitial<object, TProperty>> action)
+    public IAutoFormComponentConfigurationBuilder<TProperty> Validate(Action<IRuleBuilderInitial<object, TProperty>> action)
     {
         var parameter = Expression.Parameter(typeof(object), "x");
         var property = Expression.Property(parameter, configuration.Property);

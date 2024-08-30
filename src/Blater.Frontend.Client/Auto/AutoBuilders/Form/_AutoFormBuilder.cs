@@ -28,7 +28,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     public override bool HasLabel { get; set; } = true;
 
 
-    public FormConfiguration FormConfiguration => ModelConfiguration.Form;
+    public FormModelConfiguration FormModelConfiguration => ModelConfiguration.FormModelConfiguration;
 
     private static async Task Upsert()
     {
@@ -44,7 +44,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     protected override void BuildComponent(EasyRenderTreeBuilder builder)
     {
-        var configuration = FormConfiguration;
+        var configuration = FormModelConfiguration;
         if (configuration.AutoAvatarConfiguration.EnableAvatarModel)
         {
             var avatarConfiguration = configuration.AutoAvatarConfiguration;
@@ -88,9 +88,9 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
                .AddAttribute("Spacing", configuration.Spacing)
                .AddChildContent(gridBuilder =>
                 {
-                    foreach (var groupConfiguration in configuration.GroupsConfigurations)
+                    foreach (var groupConfiguration in configuration.Configurations)
                     {
-                        var propertyConfigurations = groupConfiguration.Properties[DisplayType];
+                        var propertyConfigurations = groupConfiguration.ComponentConfigurations[DisplayType];
                         foreach (var propertyConfiguration in propertyConfigurations)
                         {
                             var mudItemBuilder = gridBuilder.OpenComponent<MudItem>();
@@ -122,7 +122,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     private void AfterCreateComponents(RenderTreeBuilder builder)
     {
-        var configuration = FormConfiguration.AutoActionConfiguration;
+        var configuration = FormModelConfiguration.AutoActionConfiguration;
         var seq = 0;
 
         //Divider
