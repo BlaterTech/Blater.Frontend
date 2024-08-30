@@ -2,6 +2,7 @@
 
 @using Blater.Frontend.Client.Auto.AutoModels.Base
 @using Blater.Frontend.Client.Auto.AutoModels.Enumerations
+@using Serilog
 @implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
 
 <div id="auto-text-input" class="@ExtraClass">
@@ -12,7 +13,7 @@
         Class="@ExtraClass"
         Placeholder="@PlaceholderText"
         Value="@Value"
-        ValueChanged="@(x => NotifyValueChanged(x))"
+        ValueChanged="@(async x => await NotifyValueChanged(x))"
         Label="@LabelName"
         Error="@HasValidationError"
         ErrorText="@ValidationErrorMessage"

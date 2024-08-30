@@ -65,7 +65,7 @@ public static class WebSetup
         services
            .AddHttpClient<BlaterHttpClient>((_, client) =>
             {
-                client.BaseAddress = new Uri("http://localhost:5296");
+                client.BaseAddress = new Uri("http://localhost:5221");
             })
            .AddHttpMessageHandler<CookieHandler>();
 

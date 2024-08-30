@@ -141,11 +141,17 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         
         var componentRenderBuilder = builder.OpenComponent(componentBuilderType);
         
-        componentRenderBuilder.AddAttribute("ComponentConfiguration", configuration);
         componentRenderBuilder.AddAttribute("TypeName", propertyInfo.PropertyType.Name);
         componentRenderBuilder.AddAttribute("Size", configuration.Sizes.GetValueOrDefault(DisplayType));
+        componentRenderBuilder.AddAttribute("ComponentConfiguration", configuration);
         componentRenderBuilder.AddAttribute("ExtraClass", configuration.ExtraClass);
         componentRenderBuilder.AddAttribute("ExtraStyle", configuration.ExtraStyle);
+
+        var propertyValue = propertyInfo.GetValue(Model) ?? propertyInfo.PropertyType.GetDefaultValue();
+        if (propertyValue != null)
+        {
+            componentRenderBuilder.AddAttribute("Value", propertyValue);
+        }
         
         if (HasLabel)
         {

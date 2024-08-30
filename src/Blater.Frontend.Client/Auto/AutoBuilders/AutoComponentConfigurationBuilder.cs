@@ -47,9 +47,11 @@ public class AutoComponentConfigurationBuilder<TType>(BaseComponentConfiguration
 
     public IAutoComponentConfigurationBuilder<TType> OnValueChanged(Action<TType> action)
     {
-        var genericMethod = EventCallback.Factory.Create<TType>(this, action.Invoke);
+        var genericMethod = EventCallback.Factory.Create(this, action);
         
         configuration.ValueChanged = genericMethod;
+        
+        Console.WriteLine($"EventCallback configurado para o tipo: {typeof(TType).Name}, Método: {action.Method.Name}");
         
         return this;
     }

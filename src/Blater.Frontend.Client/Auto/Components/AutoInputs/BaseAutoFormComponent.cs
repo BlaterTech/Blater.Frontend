@@ -1,5 +1,6 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Microsoft.AspNetCore.Components;
+using Serilog;
 
 namespace Blater.Frontend.Client.Auto.Components.AutoInputs;
 
@@ -29,6 +30,7 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
     
     protected async Task NotifyValueChanged()
     {
+        Log.Information("OnValueChanged invoked");
         await ValueChanged.InvokeAsync(Value);
         StateHasChanged();
     }
@@ -37,6 +39,8 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
     {
         Dirty = true;
         Value = value;
+        Console.WriteLine("ASDASd");
+        Log.Information("Value => {Value}", value?.ToString());
         await NotifyValueChanged();
     }
 }

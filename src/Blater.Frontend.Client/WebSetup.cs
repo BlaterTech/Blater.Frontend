@@ -1,10 +1,12 @@
-﻿using Blater.Frontend.Client.Auto.AutoBuilders;
+﻿using Blater.Frontend.Client.Authentication;
+using Blater.Frontend.Client.Auto.AutoBuilders;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Services;
 using Blater.SDK.Extensions;
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 
@@ -21,14 +23,14 @@ public static class WebSetup
         services.AddAuthorizationCore();
         services.AddCascadingAuthenticationState();
         //services.AddAuthenticationStateDeserialization();
-        //services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
+        services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
 
         services.AddScoped<CookieHandler>();
 
         services
                .AddHttpClient<BlaterHttpClient>((_, client) =>
                 {
-                    client.BaseAddress = new Uri("http://localhost:5296");
+                    client.BaseAddress = new Uri("http://localhost:5292");
                 })
                .AddHttpMessageHandler<CookieHandler>();
 
