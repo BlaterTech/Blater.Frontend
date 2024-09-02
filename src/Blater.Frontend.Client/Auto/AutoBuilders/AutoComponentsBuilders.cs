@@ -4,6 +4,7 @@ using Blater.Frontend.Client.Auto.Interfaces;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;
+using Blater.JsonUtilities;
 using Serilog;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders;
@@ -36,7 +37,7 @@ public static class AutoComponentsBuilders
         var buildableComponentTypes = TypesHelper.AllTypes
                                                  .Where(x => BaseComponentType.IsAssignableFrom(x) && x is { IsInterface: false, IsAbstract: false })
                                                  .ToList();
-        
+
         //Simple components
         foreach (var buildableComponentType in buildableComponentTypes.Where(x => !x.IsGenericType))
         {
@@ -44,7 +45,7 @@ public static class AutoComponentsBuilders
             var buildableComponent = (IAutoBuildableComponent)Activator.CreateInstance(buildableComponentType)!;
             BuildableComponentsDictionary.TryAdd(buildableComponent.ComponentType, buildableComponent);
         }
-        
+
         //Get generic components
         foreach (var buildableComponentType in buildableComponentTypes.Where(x => x.IsGenericType))
         {
@@ -52,17 +53,19 @@ public static class AutoComponentsBuilders
             GenericBuildableComponents.Add(buildableComponentType);
         }
     }
-    
+
     public static IAutoBuildableComponent? GetComponentBuilder(BaseComponentConfiguration configuration, AutoComponentDisplayType displayType)
     {
-        var fieldConfigurationDisplayType = configuration.AutoComponentTypes.GetValueOrDefault(displayType);
-
+        var fieldConfigurationDisplayType = configuration.AutoComponentTypes
+                                                         .FirstOrDefault(x => x.Key.HasFlag(displayType))
+                                                         .Value;
+        
         if (fieldConfigurationDisplayType == null)
         {
             Log.Error("No display type found for {ComponentName}", displayType);
             return null;
         }
-        
+
         //Simple component
         if (BuildableComponentsDictionary.TryGetValue(fieldConfigurationDisplayType, out var buildableComponent))
         {

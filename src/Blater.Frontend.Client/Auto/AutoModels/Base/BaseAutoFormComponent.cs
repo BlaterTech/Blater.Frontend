@@ -23,10 +23,10 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
 
     [Parameter]
     public EventCallback<TValue> ValueChanged { get; set; }
-    
+
     [Inject]
     public IJSRuntime JsRuntime { get; set; } = null!;
-    
+
     /// <summary>
     ///  If True it means that the value has been changed by the user
     /// </summary>
@@ -35,9 +35,11 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
 
     protected override void OnInitialized()
     {
-        StateNotifierService<TValue>.StateChanged += x =>
+        StateNotifierService.StateChanged += (x, y) =>
         {
-            Value = x;
+            if (ComponentConfiguration.Property != x || y == null) return;
+            
+            Value = (TValue)y;
             Console.WriteLine($"Oh, new value {Value}");
             StateHasChanged();
         };
@@ -69,7 +71,7 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
 
     public void Dispose()
     {
-        StateNotifierService<TValue>.StateChanged -= _ =>
+        StateNotifierService.StateChanged -= (_, _) =>
         {
             StateHasChanged();
         };

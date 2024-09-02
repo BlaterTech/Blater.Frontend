@@ -66,10 +66,8 @@ public class Address : BaseFrontendModel
             configurationBuilder.AddGroup(groupConfigurationBuilder =>
             {
                 groupConfigurationBuilder
-                   .AddMember(() => ExternalReference, componentConfigurationBuilder =>
-                    {
-                        componentConfigurationBuilder.IsReadOnly(true);
-                    });
+                   .AddMember(() => ExternalReference)
+                   .IsReadOnly(true);
             });
         });
 

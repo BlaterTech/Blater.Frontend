@@ -8,17 +8,14 @@ public class AutoFormGroupConfigurationBuilder(Type type, FormModelConfiguration
     #region Group
 
     public AutoFormGroupConfigurationBuilder AddGroup(Action<AutoFormMemberConfigurationBuilder> action)
-    {
-        AddGroup(AutoComponentDisplayType.FormCreate, action);
-        return AddGroup(AutoComponentDisplayType.FormEdit, action);
-    }
+        => AddGroup(AutoComponentDisplayType.Form, action);
 
     public AutoFormGroupConfigurationBuilder AddGroupCreateOnly(Action<AutoFormMemberConfigurationBuilder> action)
         => AddGroup(AutoComponentDisplayType.FormCreate, action);
-    
+
     public AutoFormGroupConfigurationBuilder AddGroupEditOnly(Action<AutoFormMemberConfigurationBuilder> action)
         => AddGroup(AutoComponentDisplayType.FormEdit, action);
-    
+
     private AutoFormGroupConfigurationBuilder AddGroup(AutoComponentDisplayType displayType, Action<AutoFormMemberConfigurationBuilder> action)
     {
         var formGroupConfiguration = configuration.Configurations
@@ -32,7 +29,7 @@ public class AutoFormGroupConfigurationBuilder(Type type, FormModelConfiguration
 
             return this;
         }
-        
+
         formGroupConfiguration = new FormGroupConfiguration
         {
             Title = $"Auto{displayType.ToString()}-Title-{type.Name}",

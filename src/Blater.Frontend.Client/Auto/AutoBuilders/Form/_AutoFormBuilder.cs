@@ -88,7 +88,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
                 {
                     foreach (var groupConfiguration in configuration.Configurations)
                     {
-                        var propertyConfigurations = groupConfiguration.ComponentConfigurations[DisplayType];
+                        var propertyConfigurations = groupConfiguration.ComponentConfigurations[DisplayType | AutoComponentDisplayType.Form];
                         foreach (var propertyConfiguration in propertyConfigurations)
                         {
                             var mudItemBuilder = gridBuilder.OpenComponent<MudItem>();
@@ -106,7 +106,10 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
                                 mudItemBuilder.AddAttribute("xs", 12);
                             }
 
-                            mudItemBuilder.AddChildContent(mudItemContentBuilder => { CreateGenericComponent(mudItemContentBuilder, propertyConfiguration); });
+                            mudItemBuilder.AddChildContent(mudItemContentBuilder =>
+                            {
+                                CreateGenericComponent(mudItemContentBuilder, propertyConfiguration, DisplayType | AutoComponentDisplayType.Form);
+                            });
 
                             mudItemBuilder.Close();
                         }

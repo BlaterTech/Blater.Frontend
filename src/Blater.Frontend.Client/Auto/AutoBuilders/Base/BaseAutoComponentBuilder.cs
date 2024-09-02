@@ -25,10 +25,10 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     [Inject]
     public ILogger<BaseAutoComponentBuilder<T>> Logger { get; set; } = null!;
-    
+
     [Inject]
     public ILocalizationService LocalizationService { get; set; } = null!;
-    
+
     [Inject]
     public INavigationService NavigationService { get; set; } = null!;
 
@@ -41,7 +41,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     [Parameter]
     public T? Model { get; set; }
-    
+
     [Parameter]
     public Guid? Id { get; set; }
 
@@ -50,14 +50,14 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     #region AbstractProps
 
     public abstract AutoComponentDisplayType DisplayType { get; set; }
-    
+
     public abstract bool HasLabel { get; set; }
 
     #endregion
-    
+
     protected AutoModelConfiguration ModelConfiguration { get; set; } = null!;
     public bool EditMode { get; private set; }
-    
+
     private void LoadModelConfig()
     {
         var modelConfiguration = AutoConfigurations.Configurations.GetValueOrDefault(typeof(T));
@@ -70,7 +70,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         ModelConfiguration = modelConfiguration;
     }
-    
+
     protected override async Task OnInitializedAsync()
     {
         if ((Id != null && Id != Guid.Empty) || (Model != null && Model?.Id != Guid.Empty))
@@ -81,7 +81,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         Model ??= Activator.CreateInstance<T>();
 
         LoadModelConfig();
-        
+
         ILocalizationService.LocalizationChanged += () => { InvokeAsync(StateHasChanged); };
 
         AutoConfigurations.ModelsChanged += () =>
@@ -106,7 +106,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             Model = databaseModel;*/
         }
     }
-    
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         //todo: refactor this
@@ -124,23 +124,23 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         builder.CloseComponent();
     }
-    
+
     protected abstract void BuildComponent(EasyRenderTreeBuilder builder);
 
-    protected void CreateGenericComponent(EasyRenderTreeBuilder builder, BaseComponentConfiguration configuration)
+    protected void CreateGenericComponent(EasyRenderTreeBuilder builder, BaseComponentConfiguration configuration, AutoComponentDisplayType displayType)
     {
-        var componentBuilder = AutoComponentsBuilders.GetComponentBuilder(configuration, DisplayType);
+        var componentBuilder = AutoComponentsBuilders.GetComponentBuilder(configuration, displayType);
         if (componentBuilder is null)
         {
             Logger.LogError("Failed to get component builder for {ComponentConfiguration}", configuration);
             return;
         }
-        
+
         var propertyInfo = configuration.Property;
         var componentBuilderType = componentBuilder.GetType();
-        
+
         var componentRenderBuilder = builder.OpenComponent(componentBuilderType);
-        
+
         componentRenderBuilder.AddAttribute("TypeName", propertyInfo.PropertyType.Name);
         componentRenderBuilder.AddAttribute("Size", configuration.Sizes.GetValueOrDefault(DisplayType));
         componentRenderBuilder.AddAttribute("ComponentConfiguration", configuration);
@@ -152,20 +152,22 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         {
             componentRenderBuilder.AddAttribute("Value", propertyValue);
         }
-        
+
         if (HasLabel)
         {
             componentRenderBuilder.AddAttribute("LabelName", configuration.LabelName);
         }
-        
-        var compType = configuration.AutoComponentTypes.GetValueOrDefault(DisplayType);
+
+        var compType = configuration.AutoComponentTypes
+                                    .FirstOrDefault(x => x.Key.HasFlag(displayType))
+                                    .Value;
 
         if (compType == null)
         {
             Logger.LogError("Failed to get component type for {ComponentConfiguration}", configuration);
             return;
         }
-        
+
         if (compType.IsFormInput() && compType.HasValueChanged)
         {
             componentRenderBuilder.AddAttribute("EditMode", EditMode);
@@ -177,16 +179,16 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             {
                 configuration.ValueChanged = CreateGenericValueChanged(propertyInfo);
             }
-            
+
             componentRenderBuilder.AddAttribute("ValueChanged", configuration.ValueChanged);
         }
-        
+
         componentRenderBuilder.Close();
     }
-    
+
     private readonly MethodInfo _makeActionMethod = typeof(BaseAutoComponentBuilder<T>).GetMethod("MakeAction",
                                                                                                   BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.NonPublic)!;
-    
+
     protected object? CreateGenericValueChanged(PropertyInfo propertyInfo)
     {
         var targetType = propertyInfo.PropertyType;
@@ -199,7 +201,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         var parameters = new[] { this, action };
         return genericMethod.Invoke(EventCallback.Factory, parameters);
     }
-    
+
     protected Action<TEntity> MakeAction<TEntity>(PropertyInfo propertyInfo)
     {
         return Action;
@@ -223,9 +225,8 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             }
         }
     }
-    
+
     protected virtual void FieldValueChanged(PropertyInfo propertyInfo, object? newValue)
     {
-        
     }
 }

@@ -6,7 +6,7 @@ using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormComponentConfigurationBuilder<TType>(FormComponentConfiguration configuration)
+public class AutoFormComponentConfigurationBuilder<TType>(AutoComponentDisplayType type, FormComponentConfiguration configuration)
     : AutoComponentConfigurationBuilder<TType>(configuration), IAutoFormComponentConfigurationBuilder<TType>
 {
     public IAutoFormComponentConfigurationBuilder<TType> LabelName(string value)
@@ -35,7 +35,7 @@ public class AutoFormComponentConfigurationBuilder<TType>(FormComponentConfigura
 
     public IAutoFormComponentConfigurationBuilder<TType> ComponentType(AutoFormComponentInputType value)
     {
-        configuration.AutoComponentTypes[AutoComponentDisplayType.Form] = value;
+        configuration.AutoComponentTypes[type] = value;
         return this;
     }
 
