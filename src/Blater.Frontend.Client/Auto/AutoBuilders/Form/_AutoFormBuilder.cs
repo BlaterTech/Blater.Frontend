@@ -4,6 +4,7 @@ using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Models.Bases;
+using FluentValidation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -81,41 +82,68 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
         void BuildInputs(EasyRenderTreeBuilder inputBuilder)
         {
-            inputBuilder
-               .OpenComponent<MudGrid>()
-               .AddAttribute("Spacing", configuration.Spacing)
-               .AddChildContent(gridBuilder =>
-                {
-                    foreach (var groupConfiguration in configuration.Configurations)
+            var formBuilder = inputBuilder.OpenComponent<MudForm>();
+            formBuilder.AddAttribute("Model", Model);
+            formBuilder.AddAttribute("Validation", ValidateValue);
+            formBuilder.AddAttribute("ValidationDelay", 0);
+            formBuilder.AddChildContent(treeBuilder =>
+            {
+                treeBuilder
+                   .OpenComponent<MudGrid>()
+                   .AddAttribute("Spacing", configuration.Spacing)
+                   .AddChildContent(renderTreeBuilder =>
                     {
-                        var propertyConfigurations = groupConfiguration.ComponentConfigurations[DisplayType | AutoComponentDisplayType.Form];
-                        foreach (var propertyConfiguration in propertyConfigurations)
+                        foreach (var groupConfiguration in configuration.Configurations)
                         {
-                            var mudItemBuilder = gridBuilder.OpenComponent<MudItem>();
-
-                            if (propertyConfiguration.Breakpoints.Count > 0)
-                            {
-                                foreach (var (breakpoint, value) in propertyConfiguration.Breakpoints)
+                            renderTreeBuilder
+                               .OpenComponent<MudGrid>()
+                               .AddAttribute("Spacing", 2)
+                               .AddAttribute("Class", "my-4")
+                               .AddChildContent(groupGridBuilder =>
                                 {
-                                    mudItemBuilder.AddAttribute(breakpoint.ToString(), value);
-                                }
-                            }
-                            else
-                            {
-                                mudItemBuilder.AddAttribute("md", 6);
-                                mudItemBuilder.AddAttribute("xs", 12);
-                            }
+                                    var title = groupGridBuilder.OpenComponent<MudItem>();
+                                    title.AddAttribute(nameof(Breakpoint.Xs), 12);
+                                    title.AddChildContent(titleGroupBuilder =>
+                                    {
+                                        titleGroupBuilder
+                                           .OpenComponent<MudText>()
+                                           .AddAttribute("Typo", Typo.h4)
+                                           .AddAttribute("Color", Color.Inherit)
+                                           .AddChildContent(builderTextContent => builderTextContent.AddContent(groupConfiguration.Title))
+                                           .Close();
+                                    }).Close();
 
-                            mudItemBuilder.AddChildContent(mudItemContentBuilder =>
-                            {
-                                CreateGenericComponent(mudItemContentBuilder, propertyConfiguration, DisplayType | AutoComponentDisplayType.Form);
-                            });
+                                    var propertyConfigurations = groupConfiguration.ComponentConfigurations[DisplayType | AutoComponentDisplayType.Form];
+                                    foreach (var propertyConfiguration in propertyConfigurations)
+                                    {
+                                        var itemBuilder = groupGridBuilder.OpenComponent<MudItem>();
 
-                            mudItemBuilder.Close();
+                                        if (propertyConfiguration.Breakpoints.Count > 0)
+                                        {
+                                            foreach (var (breakpoint, value) in propertyConfiguration.Breakpoints)
+                                            {
+                                                itemBuilder.AddAttribute(breakpoint.ToString(), value);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            itemBuilder.AddAttribute(nameof(Breakpoint.Md), 6);
+                                            itemBuilder.AddAttribute(nameof(Breakpoint.Xs), 12);
+                                        }
+
+                                        itemBuilder.AddChildContent(mudItemContentBuilder =>
+                                        {
+                                            CreateGenericComponent(mudItemContentBuilder, propertyConfiguration,
+                                                                   DisplayType | AutoComponentDisplayType.Form);
+                                        });
+
+                                        itemBuilder.Close();
+                                    }
+                                })
+                               .Close();
                         }
-                    }
-                })
-               .Close();
+                    }).Close();
+            }).Close();
 
             AfterCreateComponents(builder.RenderTreeBuilder);
         }
@@ -179,4 +207,13 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
         builder.CloseElement();
     }
+
+    public Func<object, string, List<FormComponentConfiguration>, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName, configs) =>
+    {
+        var inlineValidators = configs.Select(x => x.InlineValidator).ToList();
+        var autoFormValidator = new AutoFormValidator(inlineValidators!);
+
+        var result = await autoFormValidator.ValidateAsync(ValidationContext<T>.CreateWithOptions((T)model, x => x.IncludeProperties(propertyName)));
+        return result.IsValid ? [] : result.Errors.Select(e => e.ErrorMessage);
+    };
 }

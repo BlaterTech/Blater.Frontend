@@ -18,8 +18,9 @@ public class AutoFormGroupConfigurationBuilder(Type type, FormModelConfiguration
 
     private AutoFormGroupConfigurationBuilder AddGroup(AutoComponentDisplayType displayType, Action<AutoFormMemberConfigurationBuilder> action)
     {
-        var formGroupConfiguration = configuration.Configurations
-                                                  .FirstOrDefault(x => x.ComponentConfigurations.ContainsKey(displayType));
+        var countGroup = configuration.Configurations.Count;
+        var title = $"Auto{displayType.ToString()}Group{countGroup}-Title-{type.Name}";
+        var formGroupConfiguration = configuration.Configurations.FirstOrDefault(x => x.Title == title);
 
         if (formGroupConfiguration != null)
         {
@@ -29,11 +30,10 @@ public class AutoFormGroupConfigurationBuilder(Type type, FormModelConfiguration
 
             return this;
         }
-
+        
         formGroupConfiguration = new FormGroupConfiguration
         {
-            Title = $"Auto{displayType.ToString()}-Title-{type.Name}",
-            SubTitle = $"Auto{displayType.ToString()}-SubTitle-{type.Name}",
+            Title = title,
             ComponentConfigurations =
             {
                 [displayType] = []

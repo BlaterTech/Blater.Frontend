@@ -45,7 +45,7 @@ public class AutoFormComponentConfigurationBuilder<TType>(AutoComponentDisplayTy
         var property = Expression.Property(parameter, configuration.Property);
         var expression = Expression.Lambda<Func<object, TType>>(property, parameter);
         
-        var validator = configuration.Validator ??= new InlineValidator<object>();
+        var validator = configuration.InlineValidator ??= new InlineValidator<object>();
         var rule = validator.RuleFor(expression);
         action(rule);
         
