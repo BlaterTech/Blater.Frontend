@@ -3,6 +3,7 @@ using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.Interfaces;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
+using Blater.Frontend.Client.Services;
 using Blater.Helpers;
 
 namespace Blater.Frontend.Client.Auto;
@@ -45,7 +46,7 @@ public static class AutoConfigurations
                 continue;
             }
             
-            var configurationBuilder = new AutoModelConfigurationBuilder(modelType);
+            var configurationBuilder = new AutoModelConfigurationBuilder(modelType, new StateNotifierService());
 
             instance.Configure(configurationBuilder);
         }

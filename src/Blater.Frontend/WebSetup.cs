@@ -83,6 +83,7 @@ public static class WebSetup
         //services.AddScoped<IBlaterStateStore, BlaterStateStore>();
         services.AddScoped<ILocalizationService, LocalizationService>();
         services.AddScoped<INavigationService, NavigationService>();
+        services.AddScoped<StateNotifierService>();
         services.AddMudServices();
     }
 

@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blater.Frontend.Client.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Base;
 
-public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TValue>
+public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TValue>, IDisposable
 {
     [Parameter]
     public int MinImageWidth { get; set; }
@@ -21,15 +22,22 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
     [Parameter]
     public EventCallback<TValue> ValueChanged { get; set; }
     
-    
     [Inject]
     public IJSRuntime JsRuntime { get; set; } = null!;
+
+    [Inject]
+    protected StateNotifierService StateNotifierService { get; set; } = default!;
 
     /// <summary>
     ///  If True it means that the value has been changed by the user
     /// </summary>
     [Parameter]
     public bool Dirty { get; set; }
+
+    protected override void OnInitialized()
+    {
+        StateNotifierService.StateChanged += StateHasChanged;
+    }
 
     public async Task NotifyValueChanged()
     {
@@ -43,16 +51,21 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
         Value = value;
         await NotifyValueChanged();
     }
-    
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            if (Mask!= null)
+            if (Mask != null)
             {
                 await JsRuntime.InvokeVoidAsync("applyMask", InputId, Mask);
             }
         }
-        return;
+    }
+
+    public void Dispose()
+    {
+        StateNotifierService.StateChanged -= StateHasChanged;
+        GC.SuppressFinalize(this);
     }
 }
