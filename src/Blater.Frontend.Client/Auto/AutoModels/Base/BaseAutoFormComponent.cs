@@ -1,9 +1,11 @@
-﻿using Blater.Frontend.Client.Services;
+﻿using System.Diagnostics.CodeAnalysis;
+using Blater.Frontend.Client.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Base;
 
+[SuppressMessage("ReSharper", "EventUnsubscriptionViaAnonymousDelegate")]
 public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TValue>, IDisposable
 {
     [Parameter]
@@ -24,10 +26,7 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
     
     [Inject]
     public IJSRuntime JsRuntime { get; set; } = null!;
-
-    [Inject]
-    protected StateNotifierService StateNotifierService { get; set; } = default!;
-
+    
     /// <summary>
     ///  If True it means that the value has been changed by the user
     /// </summary>
@@ -36,7 +35,12 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
 
     protected override void OnInitialized()
     {
-        StateNotifierService.StateChanged += StateHasChanged;
+        StateNotifierService<TValue>.StateChanged += x =>
+        {
+            Value = x;
+            Console.WriteLine($"Oh, new value {Value}");
+            StateHasChanged();
+        };
     }
 
     public async Task NotifyValueChanged()
@@ -65,7 +69,10 @@ public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TVa
 
     public void Dispose()
     {
-        StateNotifierService.StateChanged -= StateHasChanged;
+        StateNotifierService<TValue>.StateChanged -= _ =>
+        {
+            StateHasChanged();
+        };
         GC.SuppressFinalize(this);
     }
 }

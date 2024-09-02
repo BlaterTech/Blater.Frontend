@@ -1,10 +1,13 @@
-﻿namespace Blater.Frontend.Client.Services;
+﻿using System.Diagnostics.CodeAnalysis;
 
-public class StateNotifierService
+namespace Blater.Frontend.Client.Services;
+
+[SuppressMessage("Design", "CA1000:Não declarar membros estáticos em tipos genéricos")]
+public static class StateNotifierService<TValue>
 {
     // Evento que notifica mudanças
-    public event Action? StateChanged;
+    public static event Action<TValue>? StateChanged;
 
     // Método para disparar o evento
-    public void NotifyStateChanged() => StateChanged?.Invoke();
+    public static void NotifyStateChanged(TValue value) => StateChanged?.Invoke(value);
 }

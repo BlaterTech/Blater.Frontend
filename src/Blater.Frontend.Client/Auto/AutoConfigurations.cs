@@ -46,7 +46,7 @@ public static class AutoConfigurations
                 continue;
             }
             
-            var configurationBuilder = new AutoModelConfigurationBuilder(modelType, new StateNotifierService());
+            var configurationBuilder = new AutoModelConfigurationBuilder(modelType);
 
             instance.Configure(configurationBuilder);
         }

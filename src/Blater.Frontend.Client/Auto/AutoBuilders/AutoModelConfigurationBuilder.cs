@@ -12,11 +12,8 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders;
 public class AutoModelConfigurationBuilder
 {
     private readonly AutoModelConfiguration _autoModelConfiguration;
-    private readonly StateNotifierService _stateNotifierService;
-
-    public AutoModelConfigurationBuilder(Type modelType, StateNotifierService stateNotifierService)
+    public AutoModelConfigurationBuilder(Type modelType)
     {
-        _stateNotifierService = stateNotifierService;
         _autoModelConfiguration = new AutoModelConfiguration
         {
             ModelType = modelType,
@@ -60,10 +57,5 @@ public class AutoModelConfigurationBuilder
         var autoFormMemberConfigurationBuilder = new AutoFormGroupConfigurationBuilder(_autoModelConfiguration.ModelType, _autoModelConfiguration.FormModelConfiguration);
 
         action(autoFormMemberConfigurationBuilder);
-    }
-
-    public void NotifyStateChanged()
-    {
-        _stateNotifierService.NotifyStateChanged();
     }
 }
