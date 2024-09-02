@@ -10,19 +10,14 @@ public class AutoTableMemberConfigurationBuilder(Type type, TableModelConfigurat
 {
     public AutoTableComponentConfigurationBuilder<TType> AddMember<TType>(Expression<Func<TType>> expression)
     {
-        var propertyName = expression.GetPropertyName();
-
-        if (string.IsNullOrWhiteSpace(propertyName))
-        {
-            throw new InvalidOperationException("PropertyName is null");
-        }
-
+        var property = expression.GetPropertyInfoForType(type);
+        
         var componentConfiguration = new TableComponentConfiguration
         {
-            Property = type.GetProperty(propertyName)!,
+            Property = property,
             AutoComponentTypes =
             {
-                [AutoComponentDisplayType.Table] = type.GetDefaultAutoTableComponentForType()
+                [AutoComponentDisplayType.Table] = property.GetDefaultAutoTableComponentForType()
             }
         };
         

@@ -53,38 +53,41 @@ public static class AutoComponentTypeExtensions
         return property;
     }
     
-    public static AutoFormComponentInputType GetDefaultAutoFormComponentForType(this Type propertyType)
+    public static AutoFormComponentInputType GetDefaultAutoFormComponentForType(this PropertyInfo propertyInfo)
     {
-        return propertyType switch
+        var propType = propertyInfo.PropertyType;
+        return propType switch
         {
-            not null when propertyType == typeof(string) => AutoFormComponentInputType.AutoTextComponentInput,
-            not null when propertyType == typeof(int) || propertyType == typeof(double) || propertyType == typeof(decimal) => AutoFormComponentInputType.AutoNumericComponentInput,
-            not null when propertyType == typeof(DateTime) => AutoFormComponentInputType.AutoDateTimeComponentInput,
-            not null when propertyType == typeof(bool) => AutoFormComponentInputType.AutoSwitchComponentInput,
+            not null when propType == typeof(string) => AutoFormComponentInputType.AutoTextComponentInput,
+            not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoFormComponentInputType.AutoNumericComponentInput,
+            not null when propType == typeof(DateTime) => AutoFormComponentInputType.AutoDateTimeComponentInput,
+            not null when propType == typeof(bool) => AutoFormComponentInputType.AutoSwitchComponentInput,
             _ => AutoFormComponentInputType.AutoTextComponentInput
         };
     }
     
-    public static AutoFormComponentInputType GetDefaultAutoDetailsComponentForType(this Type propertyType)
+    public static AutoFormComponentInputType GetDefaultAutoDetailsComponentForType(this PropertyInfo propertyInfo)
     {
-        return propertyType switch
+        var propType = propertyInfo.PropertyType;
+        return propType switch
         {
-            not null when propertyType == typeof(string) => AutoFormComponentInputType.AutoTextComponentInput,
-            not null when propertyType == typeof(int) || propertyType == typeof(double) || propertyType == typeof(decimal) => AutoFormComponentInputType.AutoNumericComponentInput,
-            not null when propertyType == typeof(DateTime) => AutoFormComponentInputType.AutoDateTimeComponentInput,
-            not null when propertyType == typeof(bool) => AutoFormComponentInputType.AutoSwitchComponentInput,
+            not null when propType == typeof(string) => AutoFormComponentInputType.AutoTextComponentInput,
+            not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoFormComponentInputType.AutoNumericComponentInput,
+            not null when propType == typeof(DateTime) => AutoFormComponentInputType.AutoDateTimeComponentInput,
+            not null when propType == typeof(bool) => AutoFormComponentInputType.AutoSwitchComponentInput,
             _ => AutoFormComponentInputType.AutoTextComponentInput
         };
     }
     
-    public static AutoFormComponentInputType GetDefaultAutoTableComponentForType(this Type propertyType)
+    public static AutoFormComponentInputType GetDefaultAutoTableComponentForType(this PropertyInfo propertyInfo)
     {
-        return propertyType switch
+        var propType = propertyInfo.PropertyType;
+        return propType switch
         {
-            not null when propertyType == typeof(string) => AutoFormComponentInputType.AutoTextComponentInput,
-            not null when propertyType == typeof(int) || propertyType == typeof(double) || propertyType == typeof(decimal) => AutoFormComponentInputType.AutoNumericComponentInput,
-            not null when propertyType == typeof(DateTime) => AutoFormComponentInputType.AutoDateTimeComponentInput,
-            not null when propertyType == typeof(bool) => AutoFormComponentInputType.AutoSwitchComponentInput,
+            not null when propType == typeof(string) => AutoFormComponentInputType.AutoTextComponentInput,
+            not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoFormComponentInputType.AutoNumericComponentInput,
+            not null when propType == typeof(DateTime) => AutoFormComponentInputType.AutoDateTimeComponentInput,
+            not null when propType == typeof(bool) => AutoFormComponentInputType.AutoSwitchComponentInput,
             _ => AutoFormComponentInputType.AutoTextComponentInput
         };
     }

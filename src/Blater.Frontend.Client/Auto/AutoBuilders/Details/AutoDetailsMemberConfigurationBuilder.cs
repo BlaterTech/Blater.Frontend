@@ -10,19 +10,14 @@ public class AutoDetailsMemberConfigurationBuilder(Type type, DetailsGroupConfig
 {
     public AutoDetailsComponentConfigurationBuilder<TProperty> AddMember<TProperty>(Expression<Func<TProperty>> expression)
     {
-        var propertyName = expression.GetPropertyName();
-
-        if (string.IsNullOrWhiteSpace(propertyName))
-        {
-            throw new InvalidOperationException("PropertyName is null");
-        }
+        var property = expression.GetPropertyInfoForType(type);
 
         var currentDetailsComponentConfiguration = new DetailsComponentConfiguration
         {
-            Property = type.GetProperty(propertyName)!,
+            Property = property,
             AutoComponentTypes =
             {
-                [AutoComponentDisplayType.Details] = type.GetDefaultAutoDetailsComponentForType()
+                [AutoComponentDisplayType.Details] = property.GetDefaultAutoDetailsComponentForType()
             }
         };
 

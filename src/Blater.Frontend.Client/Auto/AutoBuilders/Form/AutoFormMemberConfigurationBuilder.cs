@@ -31,7 +31,7 @@ public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguratio
         {
             if (!currentComponentConfig.AutoComponentTypes.ContainsKey(displayType))
             {
-                currentComponentConfig.AutoComponentTypes.Add(displayType, type.GetDefaultAutoFormComponentForType());
+                currentComponentConfig.AutoComponentTypes.Add(displayType, property.GetDefaultAutoFormComponentForType());
             }
 
             return new AutoFormComponentConfigurationBuilder<TType>(displayType, currentComponentConfig);
@@ -43,7 +43,7 @@ public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguratio
             LabelName = $"Auto{displayType.ToString()}-LabelName-{type.Name}",
             AutoComponentTypes =
             {
-                [displayType] = type.GetDefaultAutoFormComponentForType()
+                [displayType] = property.GetDefaultAutoFormComponentForType()
             }
         };
         formComponentConfigurations.Add(currentComponentConfig);
