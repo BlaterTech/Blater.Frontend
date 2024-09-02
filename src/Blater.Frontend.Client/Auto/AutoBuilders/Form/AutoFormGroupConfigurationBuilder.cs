@@ -3,20 +3,20 @@ using Blater.Frontend.Client.Auto.AutoModels.Form;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormGroupConfigurationBuilder(Type type, FormModelConfiguration configuration)
+public class AutoFormGroupConfigurationBuilder<TModel>(Type type, FormModelConfiguration configuration)
 {
     #region Group
 
-    public AutoFormGroupConfigurationBuilder AddGroup(Action<AutoFormMemberConfigurationBuilder> action)
+    public AutoFormGroupConfigurationBuilder<TModel> AddGroup(Action<AutoFormMemberConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.Form, action);
 
-    public AutoFormGroupConfigurationBuilder AddGroupCreateOnly(Action<AutoFormMemberConfigurationBuilder> action)
+    public AutoFormGroupConfigurationBuilder<TModel> AddGroupCreateOnly(Action<AutoFormMemberConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormCreate, action);
 
-    public AutoFormGroupConfigurationBuilder AddGroupEditOnly(Action<AutoFormMemberConfigurationBuilder> action)
+    public AutoFormGroupConfigurationBuilder<TModel> AddGroupEditOnly(Action<AutoFormMemberConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormEdit, action);
 
-    private AutoFormGroupConfigurationBuilder AddGroup(AutoComponentDisplayType displayType, Action<AutoFormMemberConfigurationBuilder> action)
+    private AutoFormGroupConfigurationBuilder<TModel> AddGroup(AutoComponentDisplayType displayType, Action<AutoFormMemberConfigurationBuilder<TModel>> action)
     {
         var countGroup = configuration.Configurations.Count;
         var title = $"Auto{displayType.ToString()}Group{countGroup}-Title-{type.Name}";
@@ -24,7 +24,7 @@ public class AutoFormGroupConfigurationBuilder(Type type, FormModelConfiguration
 
         if (formGroupConfiguration != null)
         {
-            var existentConfiguration = new AutoFormMemberConfigurationBuilder(type, formGroupConfiguration);
+            var existentConfiguration = new AutoFormMemberConfigurationBuilder<TModel>(type, formGroupConfiguration);
 
             action(existentConfiguration);
 
@@ -42,7 +42,7 @@ public class AutoFormGroupConfigurationBuilder(Type type, FormModelConfiguration
 
         configuration.Configurations.Add(formGroupConfiguration);
 
-        var autoFormGroupConfigBuilder = new AutoFormMemberConfigurationBuilder(type, formGroupConfiguration);
+        var autoFormGroupConfigBuilder = new AutoFormMemberConfigurationBuilder<TModel>(type, formGroupConfiguration);
 
         action(autoFormGroupConfigBuilder);
 
@@ -51,7 +51,7 @@ public class AutoFormGroupConfigurationBuilder(Type type, FormModelConfiguration
 
     #endregion
 
-    public AutoFormGroupConfigurationBuilder AddAvatar(Action<AutoFormAvatarConfigurationBuilder> action)
+    public AutoFormGroupConfigurationBuilder<TModel> AddAvatar(Action<AutoFormAvatarConfigurationBuilder> action)
     {
         configuration.AutoAvatarConfiguration.EnableAvatarModel = true;
         var autoFormGroupConfigBuilder = new AutoFormAvatarConfigurationBuilder(configuration.AutoAvatarConfiguration);
@@ -61,7 +61,7 @@ public class AutoFormGroupConfigurationBuilder(Type type, FormModelConfiguration
         return this;
     }
 
-    public AutoFormGroupConfigurationBuilder ConfigureActions(Action<AutoFormActionConfigurationBuilder> action)
+    public AutoFormGroupConfigurationBuilder<TModel> ConfigureActions(Action<AutoFormActionConfigurationBuilder> action)
     {
         var autoFormGroupConfigBuilder = new AutoFormActionConfigurationBuilder(configuration.AutoActionConfiguration);
 

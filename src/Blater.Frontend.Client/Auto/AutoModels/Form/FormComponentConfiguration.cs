@@ -5,5 +5,5 @@ namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
 public class FormComponentConfiguration : BaseComponentConfiguration
 {
-    public InlineValidator<object>? InlineValidator { get; set; }
+    public object? InlineValidator { get; set; }
 }

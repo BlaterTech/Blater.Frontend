@@ -172,7 +172,7 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
         _loading = true;
         
         ILocalizationService.LocalizationChanged += UpdateDataGrid;
-        AutoConfigurations.ModelsChanged += UpdateDataGrid;
+        AutoConfigurations<T>.ModelsChanged += UpdateDataGrid;
         
         if (string.IsNullOrEmpty(Title))
         {
@@ -195,7 +195,7 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
     
     private void UpdateModelConfiguration()
     {
-        var modelConfiguration = AutoConfigurations.Configurations.GetValueOrDefault(typeof(T));
+        var modelConfiguration = AutoConfigurations<T>.Configurations.GetValueOrDefault(typeof(T));
 
         if (modelConfiguration is null)
         {

@@ -5,7 +5,7 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Models;
 
-public class Address : BaseFrontendModel
+public class Address : BaseFrontendModel<Address>
 {
     public Guid OwnerId { get; set; }
 
@@ -55,7 +55,7 @@ public class Address : BaseFrontendModel
     public string ExternalReference { get; set; } = string.Empty;
 
 
-    public override void Configure(AutoModelConfigurationBuilder builder)
+    public override void Configure(AutoModelConfigurationBuilder<Address> builder)
     {
         builder.Table("TableName", configurationBuilder => { configurationBuilder.AddMember(() => ExternalReference); });
 
@@ -66,8 +66,10 @@ public class Address : BaseFrontendModel
             configurationBuilder.AddGroup(groupConfigurationBuilder =>
             {
                 groupConfigurationBuilder
-                   .AddMember(() => ExternalReference)
-                   .IsReadOnly(true);
+                   .AddMember(() => ExternalReference, componentConfigurationBuilder =>
+                    {
+                        componentConfigurationBuilder.IsReadOnly(true);
+                    });
             });
         });
 

@@ -9,7 +9,7 @@ using Blater.Frontend.Client.Services;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders;
 
-public class AutoModelConfigurationBuilder
+public class AutoModelConfigurationBuilder<TModel>
 {
     private readonly AutoModelConfiguration _autoModelConfiguration;
     public AutoModelConfigurationBuilder(Type modelType)
@@ -20,7 +20,7 @@ public class AutoModelConfigurationBuilder
             ModelName = modelType.Name
         };
         
-        AutoConfigurations.Configurations.Add(modelType, _autoModelConfiguration);
+        AutoConfigurations<TModel>.Configurations.Add(modelType, _autoModelConfiguration);
     }
     
     public void Details(string? title, Action<AutoDetailsGroupConfigurationBuilder> action)
@@ -47,14 +47,14 @@ public class AutoModelConfigurationBuilder
         action(autoTableMemberConfigurationBuilder);
     }
     
-    public void Form(string? title, Action<AutoFormGroupConfigurationBuilder> action)
+    public void Form(string? title, Action<AutoFormGroupConfigurationBuilder<TModel>> action)
     {
         _autoModelConfiguration.FormModelConfiguration = new FormModelConfiguration
         {
             Title = title ?? $"AutoForm-Model-{_autoModelConfiguration.ModelName}",
         };
 
-        var autoFormMemberConfigurationBuilder = new AutoFormGroupConfigurationBuilder(_autoModelConfiguration.ModelType, _autoModelConfiguration.FormModelConfiguration);
+        var autoFormMemberConfigurationBuilder = new AutoFormGroupConfigurationBuilder<TModel>(_autoModelConfiguration.ModelType, _autoModelConfiguration.FormModelConfiguration);
 
         action(autoFormMemberConfigurationBuilder);
     }

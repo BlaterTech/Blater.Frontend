@@ -6,47 +6,48 @@ using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormComponentConfigurationBuilder<TType>(AutoComponentDisplayType type, FormComponentConfiguration configuration)
-    : AutoComponentConfigurationBuilder<TType>(configuration), IAutoFormComponentConfigurationBuilder<TType>
+public class AutoFormComponentConfigurationBuilder<TModel, TType>(AutoComponentDisplayType type, FormComponentConfiguration configuration)
+    : AutoComponentConfigurationBuilder<TType>(configuration), IAutoFormComponentConfigurationBuilder<TModel, TType>
 {
-    public IAutoFormComponentConfigurationBuilder<TType> LabelName(string value)
+    public IAutoFormComponentConfigurationBuilder<TModel, TType> LabelName(string value)
     {
         configuration.LabelName = value;
         return this;
     }
 
-    public IAutoFormComponentConfigurationBuilder<TType> Placeholder(string value)
+    public IAutoFormComponentConfigurationBuilder<TModel, TType> Placeholder(string value)
     {
         configuration.Placeholder = value;
         return this;
     }
 
-    public IAutoFormComponentConfigurationBuilder<TType> HelpMessage(string value)
+    public IAutoFormComponentConfigurationBuilder<TModel, TType> HelpMessage(string value)
     {
         configuration.HelpMessage = value;
         return this;
     }
 
-    public IAutoFormComponentConfigurationBuilder<TType> IsReadOnly(bool value = false)
+    public IAutoFormComponentConfigurationBuilder<TModel, TType> IsReadOnly(bool value = false)
     {
         configuration.IsReadOnly = value;
         return this;
     }
 
-    public IAutoFormComponentConfigurationBuilder<TType> ComponentType(AutoFormComponentInputType value)
+    public IAutoFormComponentConfigurationBuilder<TModel, TType> ComponentType(AutoFormComponentInputType value)
     {
         configuration.AutoComponentTypes[type] = value;
         return this;
     }
 
-    public IAutoFormComponentConfigurationBuilder<TType> Validate(Action<IRuleBuilderInitial<object, TType>> action)
+    public IAutoFormComponentConfigurationBuilder<TModel, TType> Validate(Action<IRuleBuilderInitial<TModel, TType>> action)
     {
-        var parameter = Expression.Parameter(typeof(object), "x");
+        var parameter = Expression.Parameter(typeof(TModel), "x");
         var property = Expression.Property(parameter, configuration.Property);
-        var expression = Expression.Lambda<Func<object, TType>>(property, parameter);
-        
-        var validator = configuration.InlineValidator ??= new InlineValidator<object>();
+        var expression = Expression.Lambda<Func<TModel, TType>>(property, parameter);
+
+        var validator = new InlineValidator<TModel>();
         var rule = validator.RuleFor(expression);
+        configuration.InlineValidator = validator;
         action(rule);
         
         return this;

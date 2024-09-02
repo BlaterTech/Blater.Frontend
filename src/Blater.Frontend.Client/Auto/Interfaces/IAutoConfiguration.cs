@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.Interfaces;
 
-public interface IAutoConfiguration
+public interface IAutoConfiguration<TModel>
 {
-    void Configure(AutoModelConfigurationBuilder builder);
+    void Configure(AutoModelConfigurationBuilder<TModel> builder);
 }

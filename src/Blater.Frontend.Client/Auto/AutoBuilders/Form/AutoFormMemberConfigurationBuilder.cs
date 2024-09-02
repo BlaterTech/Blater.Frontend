@@ -6,19 +6,19 @@ using Blater.Frontend.Client.Auto.Interfaces;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguration configuration)
+public class AutoFormMemberConfigurationBuilder<TModel>(Type type, FormGroupConfiguration configuration)
 {
-    public IAutoFormComponentConfigurationBuilder<TType> AddMember<TType>(Expression<Func<TType>> expression)
-        => AddMember(expression, AutoComponentDisplayType.Form);
+    public AutoFormMemberConfigurationBuilder<TModel> AddMember<TType>(Expression<Func<TType>> expression, Action<AutoFormComponentConfigurationBuilder<TModel, TType>> action)
+        => AddMember(expression, AutoComponentDisplayType.Form, action);
 
-    public IAutoFormComponentConfigurationBuilder<TType> AddMemberCreateOnly<TType>(Expression<Func<TType>> expression)
-        => AddMember(expression, AutoComponentDisplayType.FormCreate);
+    public AutoFormMemberConfigurationBuilder<TModel> AddMemberCreateOnly<TType>(Expression<Func<TType>> expression, Action<AutoFormComponentConfigurationBuilder<TModel, TType>> action)
+        => AddMember(expression, AutoComponentDisplayType.FormCreate, action);
 
-    public IAutoFormComponentConfigurationBuilder<TType> AddMemberEditOnly<TType>(Expression<Func<TType>> expression)
-        => AddMember(expression, AutoComponentDisplayType.FormEdit);
+    public AutoFormMemberConfigurationBuilder<TModel> AddMemberEditOnly<TType>(Expression<Func<TType>> expression, Action<AutoFormComponentConfigurationBuilder<TModel, TType>> action)
+        => AddMember(expression, AutoComponentDisplayType.FormEdit, action);
 
 
-    private AutoFormComponentConfigurationBuilder<TType> AddMember<TType>(Expression<Func<TType>> expression, AutoComponentDisplayType displayType)
+    private AutoFormMemberConfigurationBuilder<TModel> AddMember<TType>(Expression<Func<TType>> expression, AutoComponentDisplayType displayType, Action<AutoFormComponentConfigurationBuilder<TModel, TType>> action)
     {
         var property = expression.GetPropertyInfoForType(type);
 
@@ -33,8 +33,12 @@ public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguratio
             {
                 currentComponentConfig.AutoComponentTypes.Add(displayType, property.GetDefaultAutoFormComponentForType());
             }
+            
+            var existentConfiguration = new AutoFormComponentConfigurationBuilder<TModel, TType>(displayType, currentComponentConfig);
 
-            return new AutoFormComponentConfigurationBuilder<TType>(displayType, currentComponentConfig);
+            action(existentConfiguration);
+
+            return this;
         }
 
         currentComponentConfig = new FormComponentConfiguration
@@ -49,6 +53,10 @@ public class AutoFormMemberConfigurationBuilder(Type type, FormGroupConfiguratio
         formComponentConfigurations.Add(currentComponentConfig);
         configuration.ComponentConfigurations[displayType] = formComponentConfigurations;
 
-        return new AutoFormComponentConfigurationBuilder<TType>(displayType, currentComponentConfig);
+        var componentConfigurationBuilder = new AutoFormComponentConfigurationBuilder<TModel, TType>(displayType, currentComponentConfig);
+
+        action(componentConfigurationBuilder);
+
+        return this;
     }
 }

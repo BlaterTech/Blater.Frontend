@@ -210,8 +210,15 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     public Func<object, string, List<FormComponentConfiguration>, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName, configs) =>
     {
-        var inlineValidators = configs.Select(x => x.InlineValidator).ToList();
-        var autoFormValidator = new AutoFormValidator(inlineValidators!);
+        var inlineValidators = configs
+                              .Select(x => x.InlineValidator)
+                              .ToList();
+
+        var abc = inlineValidators
+                 .Select(x => Activator.CreateInstance(x!.GetType()) as InlineValidator<T>)
+                 .ToList();
+        
+        var autoFormValidator = new AutoFormValidator<T>(abc!);
 
         var result = await autoFormValidator.ValidateAsync(ValidationContext<T>.CreateWithOptions((T)model, x => x.IncludeProperties(propertyName)));
         return result.IsValid ? [] : result.Errors.Select(e => e.ErrorMessage);

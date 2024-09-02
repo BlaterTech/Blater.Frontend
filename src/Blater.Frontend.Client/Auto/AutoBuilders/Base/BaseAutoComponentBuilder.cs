@@ -60,7 +60,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     private void LoadModelConfig()
     {
-        var modelConfiguration = AutoConfigurations.Configurations.GetValueOrDefault(typeof(T));
+        var modelConfiguration = AutoConfigurations<T>.Configurations.GetValueOrDefault(typeof(T));
 
         if (modelConfiguration is null)
         {
@@ -84,7 +84,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         ILocalizationService.LocalizationChanged += () => { InvokeAsync(StateHasChanged); };
 
-        AutoConfigurations.ModelsChanged += () =>
+        AutoConfigurations<T>.ModelsChanged += () =>
         {
             LoadModelConfig();
             InvokeAsync(StateHasChanged);
