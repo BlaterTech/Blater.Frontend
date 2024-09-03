@@ -7,6 +7,16 @@ public class AutoFormGroupConfigurationBuilder<TModel>(Type type, FormModelConfi
 {
     #region Group
 
+    public AutoFormGroupConfigurationBuilder<TModel> AddGroupAvatar(Action<AutoFormAvatarConfigurationBuilder> action)
+    {
+        configuration.AutoAvatarConfiguration.EnableAvatarModel = true;
+        var autoFormGroupConfigBuilder = new AutoFormAvatarConfigurationBuilder(configuration.AutoAvatarConfiguration);
+
+        action(autoFormGroupConfigBuilder);
+
+        return this;
+    }
+    
     public AutoFormGroupConfigurationBuilder<TModel> AddGroup(Action<AutoFormMemberConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.Form, action);
 
@@ -51,17 +61,7 @@ public class AutoFormGroupConfigurationBuilder<TModel>(Type type, FormModelConfi
 
     #endregion
 
-    public AutoFormGroupConfigurationBuilder<TModel> AddAvatar(Action<AutoFormAvatarConfigurationBuilder> action)
-    {
-        configuration.AutoAvatarConfiguration.EnableAvatarModel = true;
-        var autoFormGroupConfigBuilder = new AutoFormAvatarConfigurationBuilder(configuration.AutoAvatarConfiguration);
-
-        action(autoFormGroupConfigBuilder);
-
-        return this;
-    }
-
-    public AutoFormGroupConfigurationBuilder<TModel> ConfigureActions(Action<AutoFormActionConfigurationBuilder> action)
+    public AutoFormGroupConfigurationBuilder<TModel> FormActions(Action<AutoFormActionConfigurationBuilder> action)
     {
         var autoFormGroupConfigBuilder = new AutoFormActionConfigurationBuilder(configuration.AutoActionConfiguration);
 

@@ -61,7 +61,7 @@ public class Address : BaseFrontendModel<Address>
 
         builder.Form("FormName", configurationBuilder =>
         {
-            configurationBuilder.ConfigureActions(actionConfigurationBuilder => { actionConfigurationBuilder.TypeCreateEditButton(ButtonType.Submit); });
+            configurationBuilder.FormActions(actionConfigurationBuilder => { actionConfigurationBuilder.TypeCreateEditButton(ButtonType.Submit); });
 
             configurationBuilder.AddGroup(groupConfigurationBuilder =>
             {
