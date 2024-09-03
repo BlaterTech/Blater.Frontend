@@ -19,8 +19,6 @@ public class AutoModelConfigurationBuilder<TModel>
             ModelType = modelType,
             ModelName = modelType.Name
         };
-        
-        AutoConfigurations<TModel>.Configurations.Add(modelType, _autoModelConfiguration);
     }
     
     public void Details(string? title, Action<AutoDetailsGroupConfigurationBuilder> action)

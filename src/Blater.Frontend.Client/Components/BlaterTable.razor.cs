@@ -195,7 +195,11 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
     
     private void UpdateModelConfiguration()
     {
-        var modelConfiguration = AutoConfigurations<T>.Configurations.GetValueOrDefault(typeof(T));
+        //TODO
+        if (Model is AutoTable tableConfig)
+        {
+            
+        }
 
         if (modelConfiguration is null)
         {

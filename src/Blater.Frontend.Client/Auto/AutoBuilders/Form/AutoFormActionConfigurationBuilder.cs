@@ -1,9 +1,10 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Form;
+using Blater.Frontend.Client.Auto.Interfaces;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormActionConfigurationBuilder(AutoFormActionConfiguration configuration)
+public class AutoFormActionConfigurationBuilder(AutoFormActionConfiguration configuration) : IAutoFormActionConfigurationBuilder
 {
     #region Divider
 

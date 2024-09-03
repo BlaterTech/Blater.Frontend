@@ -5,7 +5,6 @@ using FluentValidation;
 
 namespace Blater.Frontend.Client.Models.Bases;
 
-public abstract class BaseFrontendModel<TModel> : BaseDataModel, IAutoConfiguration<TModel>
+public abstract class BaseFrontendModel : BaseDataModel, IAutoConfiguration
 {
-    public abstract void Configure(AutoModelConfigurationBuilder<TModel> builder);
 }

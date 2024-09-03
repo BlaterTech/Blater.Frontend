@@ -1,8 +1,5 @@
-﻿using Blater.Frontend.Client.Auto.AutoBuilders;
+﻿namespace Blater.Frontend.Client.Auto.Interfaces;
 
-namespace Blater.Frontend.Client.Auto.Interfaces;
-
-public interface IAutoConfiguration<TModel>
+public interface IAutoConfiguration
 {
-    void Configure(AutoModelConfigurationBuilder<TModel> builder);
 }

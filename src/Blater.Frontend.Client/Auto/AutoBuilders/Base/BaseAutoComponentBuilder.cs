@@ -58,18 +58,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     protected AutoModelConfiguration ModelConfiguration { get; set; } = null!;
     public bool EditMode { get; private set; }
 
-    private void LoadModelConfig()
-    {
-        var modelConfiguration = AutoConfigurations<T>.Configurations.GetValueOrDefault(typeof(T));
-
-        if (modelConfiguration is null)
-        {
-            Logger.LogWarning("No configuration found for model {ModelName} in the FieldConfigurations", Model!.GetType().Name);
-            return;
-        }
-
-        ModelConfiguration = modelConfiguration;
-    }
+    protected abstract void LoadModelConfig();
 
     protected override async Task OnInitializedAsync()
     {
@@ -84,7 +73,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         ILocalizationService.LocalizationChanged += () => { InvokeAsync(StateHasChanged); };
 
-        AutoConfigurations<T>.ModelsChanged += () =>
+        AutoConfigurations.ModelsChanged += () =>
         {
             LoadModelConfig();
             InvokeAsync(StateHasChanged);

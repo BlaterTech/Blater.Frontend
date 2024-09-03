@@ -2,18 +2,18 @@
 using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
+using Blater.Frontend.Client.Auto.Interfaces.Types;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Models.Bases;
 using FluentValidation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Logging;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-[SuppressMessage("Performance", "CA1848:Usar os delegados LoggerMessage")]
-[SuppressMessage("ReSharper", "AccessToModifiedClosure")]
 public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDataModel
 {
     [Parameter]
@@ -33,12 +33,27 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     private static async Task Upsert()
     {
+
+        
         await Task.Delay(1);
     }
 
     protected override void OnInitialized()
     {
         DisplayType = EditMode ? AutoComponentDisplayType.FormEdit : AutoComponentDisplayType.FormCreate;
+    }
+
+    protected override void LoadModelConfig()
+    {
+        if(Model is IAutoForm<T> autoForm)
+        {
+            ModelConfiguration = autoForm.ModelConfiguration;
+        }
+        else
+        {
+            Logger.LogError("Model {Name} does not implement IAutoForm<{TypeName}>", Model?.GetType().Name, typeof(T).Name);
+            throw new Exception("Model does not implement IAutoForm");
+        }
     }
 
     protected override void BuildComponent(EasyRenderTreeBuilder builder)
@@ -212,10 +227,11 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     public Func<object, string, List<FormComponentConfiguration>, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName, configs) =>
     {
         var inlineValidators = configs
-                              .Select(x => x.GetValidator<T>(propertyName))
+                              .Select(x => x.GetValidator<T>(propertyName)!)
+                              .Where(x => x != null)
                               .ToList();
 
-        var consolidatedValidator = new ConsolidatedValidator<T>(inlineValidators!);
+        var consolidatedValidator = new ConsolidatedValidator<T>(inlineValidators);
         
         var result = await consolidatedValidator.ValidateAsync(ValidationContext<T>.CreateWithOptions((T)model, x => x.IncludeProperties(propertyName)));
         return result.IsValid ? [] : result.Errors.Select(e => e.ErrorMessage);
