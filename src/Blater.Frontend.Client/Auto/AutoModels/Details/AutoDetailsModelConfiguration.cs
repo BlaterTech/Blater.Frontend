@@ -1,6 +1,6 @@
 ﻿namespace Blater.Frontend.Client.Auto.AutoModels.Details;
 
-public class DetailsModelConfiguration
+public class AutoDetailsModelConfiguration<T> 
 {
     public string Title { get; set; } = string.Empty;
     
@@ -8,5 +8,5 @@ public class DetailsModelConfiguration
     
     public bool DisableEditButton { get; set; }
 
-    public List<DetailsGroupConfiguration> Configurations { get; set; } = [];
+    public List<AutoDetailsGroupConfiguration> Configurations { get; set; } = [];
 }

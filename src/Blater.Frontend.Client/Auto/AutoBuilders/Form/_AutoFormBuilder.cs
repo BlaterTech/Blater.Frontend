@@ -46,7 +46,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     {
         if (Model is IAutoFormConfiguration<T> autoForm)
         {
-            ModelConfiguration = autoForm.Configuration;
+            ModelConfiguration = autoForm.GetConfiguration();
         }
         else
         {

@@ -5,7 +5,7 @@ using Blater.Frontend.Client.Auto.Interfaces.Details;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
-public class AutoDetailsComponentConfigurationBuilder<TType>(DetailsComponentConfiguration configuration)
+public class AutoDetailsComponentConfigurationBuilder<TType>(AutoDetailsComponentConfiguration configuration)
     : AutoComponentConfigurationBuilder<TType>(configuration), IAutoDetailsComponentConfigurationBuilder<TType>
 {
     public IAutoDetailsComponentConfigurationBuilder<TType> ComponentType(AutoDetailsComponentType value)

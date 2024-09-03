@@ -2,11 +2,12 @@
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
-public class AutoDetailsGroupConfigurationBuilder(Type type, DetailsModelConfiguration configuration)
+public class AutoDetailsGroupConfigurationBuilder<TModel>(AutoDetailsModelConfiguration<TModel> configuration)
 {
-    public AutoDetailsGroupConfigurationBuilder AddGroup(string? title, bool disableEditButton, Action<AutoDetailsMemberConfigurationBuilder> action)
+    public AutoDetailsGroupConfigurationBuilder<TModel> AddGroup(string? title, bool disableEditButton, Action<AutoDetailsMemberConfigurationBuilder> action)
     {
-        var currentGroupConfiguration = new DetailsGroupConfiguration
+        var type = typeof(TModel);
+        var currentGroupConfiguration = new AutoDetailsGroupConfiguration
         {
             Title = title ?? $"AutoDetails-Group-Title-{type.Name}",
             DisableEditButton = disableEditButton

@@ -5,7 +5,7 @@ using Blater.Frontend.Client.Auto.Interfaces.Table;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
-public class AutoTableComponentConfigurationBuilder<TType>(TableComponentConfiguration configuration) 
+public class AutoTableComponentConfigurationBuilder<TType>(AutoTableComponentConfiguration configuration) 
     : AutoComponentConfigurationBuilder<TType>(configuration), IAutoTableComponentConfigurationBuilder<TType>
 {
     public IAutoTableComponentConfigurationBuilder<TType> Name(string value)

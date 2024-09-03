@@ -5,13 +5,14 @@ using Blater.Frontend.Client.Auto.Extensions;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
-public class AutoTableMemberConfigurationBuilder(Type type, TableModelConfiguration configuration)
+public class AutoTableMemberConfigurationBuilder<TModel>(AutoTableModelConfiguration<TModel> configuration)
 {
     public AutoTableComponentConfigurationBuilder<TType> AddMember<TType>(Expression<Func<TType>> expression)
     {
+        var type = typeof(TModel);
         var property = expression.GetPropertyInfoForType(type);
         
-        var componentConfiguration = new TableComponentConfiguration
+        var componentConfiguration = new AutoTableComponentConfiguration
         {
             Property = property,
             AutoComponentTypes =
@@ -25,13 +26,13 @@ public class AutoTableMemberConfigurationBuilder(Type type, TableModelConfigurat
         return new AutoTableComponentConfigurationBuilder<TType>(componentConfiguration);
     }
     
-    public AutoTableMemberConfigurationBuilder EnableFixedHeader(bool value = true)
+    public AutoTableMemberConfigurationBuilder<TModel> EnableFixedHeader(bool value = true)
     {
         configuration.EnableFixedHeader = value;
         return this;
     }
 
-    public AutoTableMemberConfigurationBuilder EnableFixedFooter(bool value = true)
+    public AutoTableMemberConfigurationBuilder<TModel> EnableFixedFooter(bool value = true)
     {
         configuration.EnableFixedFooter = value;
         return this;

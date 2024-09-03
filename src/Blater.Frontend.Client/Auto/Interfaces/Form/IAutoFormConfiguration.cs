@@ -8,5 +8,5 @@ public interface IAutoFormConfiguration<T> where T : BaseDataModel
 {
     void ConfigureForm(AutoFormConfigurationBuilder<T> builder);
     
-    AutoFormModelConfiguration<T> Configuration { get; }
+    AutoFormModelConfiguration<T> GetConfiguration();
 }
