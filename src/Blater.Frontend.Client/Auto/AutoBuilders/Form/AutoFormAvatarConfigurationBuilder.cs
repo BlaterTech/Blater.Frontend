@@ -2,36 +2,36 @@
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormAvatarConfigurationBuilder(AutoAvatarConfiguration configuration)
+public class AutoFormAvatarConfigurationBuilder(AutoAvatarModelConfiguration modelConfiguration)
 {
     public AutoFormAvatarConfigurationBuilder ContainerPublic(bool value = true)
     {
-        configuration.ContainerPublic = value;
+        modelConfiguration.ContainerPublic = value;
         return this;
     }
 
     public AutoFormAvatarConfigurationBuilder ContainerPrefix(string value)
     {
-        configuration.ContainerPrefix = value;
+        modelConfiguration.ContainerPrefix = value;
         return this;
     }
 
     public AutoFormAvatarConfigurationBuilder AvatarUrl(string value)
     {
-        configuration.AvatarUrl = value;
+        modelConfiguration.AvatarUrl = value;
         return this;
     }
 
 
     public AutoFormAvatarConfigurationBuilder ExtraClass(string value)
     {
-        configuration.ExtraClass = value;
+        modelConfiguration.ExtraClass = value;
         return this;
     }
 
     public AutoFormAvatarConfigurationBuilder ExtraStyle(string value)
     {
-        configuration.ExtraStyle = value;
+        modelConfiguration.ExtraStyle = value;
         return this;
     }
 }

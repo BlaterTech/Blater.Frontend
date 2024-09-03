@@ -1,5 +1,9 @@
-﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+﻿using System.Linq.Expressions;
+using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
+using Blater.Frontend.Client.Auto.Extensions;
+using Blater.Frontend.Client.Auto.Interfaces;
+using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
@@ -9,8 +13,8 @@ public class AutoFormGroupConfigurationBuilder<TModel>(Type type, FormModelConfi
 
     public AutoFormGroupConfigurationBuilder<TModel> AddGroupAvatar(Action<AutoFormAvatarConfigurationBuilder> action)
     {
-        configuration.AutoAvatarConfiguration.EnableAvatarModel = true;
-        var autoFormGroupConfigBuilder = new AutoFormAvatarConfigurationBuilder(configuration.AutoAvatarConfiguration);
+        configuration.AutoAvatarModelConfiguration.EnableAvatarModel = true;
+        var autoFormGroupConfigBuilder = new AutoFormAvatarConfigurationBuilder(configuration.AutoAvatarModelConfiguration);
 
         action(autoFormGroupConfigBuilder);
 
@@ -61,9 +65,9 @@ public class AutoFormGroupConfigurationBuilder<TModel>(Type type, FormModelConfi
 
     #endregion
 
-    public AutoFormGroupConfigurationBuilder<TModel> FormActions(Action<AutoFormActionConfigurationBuilder> action)
+    public AutoFormGroupConfigurationBuilder<TModel> Actions(Action<AutoFormActionConfigurationBuilder> action)
     {
-        var autoFormGroupConfigBuilder = new AutoFormActionConfigurationBuilder(configuration.AutoActionConfiguration);
+        var autoFormGroupConfigBuilder = new AutoFormActionConfigurationBuilder(configuration.AutoFormActionConfiguration);
 
         action(autoFormGroupConfigBuilder);
 

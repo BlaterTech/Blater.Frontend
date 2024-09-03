@@ -29,7 +29,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     public override bool HasLabel { get; set; } = true;
 
 
-    public FormModelConfiguration FormModelConfiguration => ModelConfiguration.FormModelConfiguration;
+    public FormModelConfiguration FormModelConfiguration => ModelConfiguration.FormConfiguration;
 
     private static async Task Upsert()
     {
@@ -44,9 +44,9 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     protected override void BuildComponent(EasyRenderTreeBuilder builder)
     {
         var configuration = FormModelConfiguration;
-        if (configuration.AutoAvatarConfiguration.EnableAvatarModel)
+        if (configuration.AutoAvatarModelConfiguration.EnableAvatarModel)
         {
-            var avatarConfiguration = configuration.AutoAvatarConfiguration;
+            var avatarConfiguration = configuration.AutoAvatarModelConfiguration;
             builder
                .OpenElement("div")
                .AddAttribute("id", "form-with-avatar")
@@ -151,7 +151,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     private void AfterCreateComponents(RenderTreeBuilder builder)
     {
-        var configuration = FormModelConfiguration.AutoActionConfiguration;
+        var configuration = FormModelConfiguration.AutoFormActionConfiguration;
         var seq = 0;
 
         //Divider
@@ -207,20 +207,17 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
         builder.CloseElement();
     }
-
+    
+    
     public Func<object, string, List<FormComponentConfiguration>, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName, configs) =>
     {
         var inlineValidators = configs
-                              .Select(x => x.InlineValidator)
+                              .Select(x => x.GetValidator<T>(propertyName))
                               .ToList();
 
-        var abc = inlineValidators
-                 .Select(x => Activator.CreateInstance(x!.GetType()) as InlineValidator<T>)
-                 .ToList();
+        var consolidatedValidator = new ConsolidatedValidator<T>(inlineValidators!);
         
-        var autoFormValidator = new AutoFormValidator<T>(abc!);
-
-        var result = await autoFormValidator.ValidateAsync(ValidationContext<T>.CreateWithOptions((T)model, x => x.IncludeProperties(propertyName)));
+        var result = await consolidatedValidator.ValidateAsync(ValidationContext<T>.CreateWithOptions((T)model, x => x.IncludeProperties(propertyName)));
         return result.IsValid ? [] : result.Errors.Select(e => e.ErrorMessage);
     };
 }

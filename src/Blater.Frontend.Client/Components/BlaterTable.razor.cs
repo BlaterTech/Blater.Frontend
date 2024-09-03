@@ -205,7 +205,7 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
         
         ModelConfiguration = modelConfiguration;
 
-        ColumnConfigurations = modelConfiguration.TableModelConfiguration.Properties.OrderBy(x => x.Order).ToList();
+        ColumnConfigurations = modelConfiguration.TableConfiguration.Properties.OrderBy(x => x.Order).ToList();
     }
 
     private async Task DateRangeValueChanged(DateRange obj)

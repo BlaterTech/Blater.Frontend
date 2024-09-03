@@ -3,7 +3,7 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormActionConfigurationBuilder(AutoActionConfiguration configuration)
+public class AutoFormActionConfigurationBuilder(AutoFormActionConfiguration configuration)
 {
     #region Divider
 

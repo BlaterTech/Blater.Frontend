@@ -47,7 +47,7 @@ public class AutoFormComponentConfigurationBuilder<TModel, TType>(AutoComponentD
 
         var validator = new InlineValidator<TModel>();
         var rule = validator.RuleFor(expression);
-        configuration.InlineValidator = validator;
+        configuration.SetValidator(configuration.Property, validator);
         action(rule);
         
         return this;

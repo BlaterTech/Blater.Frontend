@@ -9,9 +9,9 @@ public class AutoModelConfiguration
     public required Type ModelType { get; set; }
     public required string ModelName { get; set; }
 
-    public FormModelConfiguration FormModelConfiguration { get; set; } = new();
-    public DetailsModelConfiguration DetailsModelConfiguration { get; set; } = new();
-    public TableModelConfiguration TableModelConfiguration { get; set; } = new();
+    public FormModelConfiguration FormConfiguration { get; set; } = new();
+    public DetailsModelConfiguration DetailsConfiguration { get; set; } = new();
+    public TableModelConfiguration TableConfiguration { get; set; } = new();
     
     /// <summary>
     ///     Shows the toggle on before the card

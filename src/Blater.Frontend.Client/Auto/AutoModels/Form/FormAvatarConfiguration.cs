@@ -1,6 +1,6 @@
 ﻿namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
-public class AutoAvatarConfiguration
+public class AutoAvatarModelConfiguration
 {
     public bool EnableAvatarModel { get; set; }
     public bool ContainerPublic { get; set; } = true;

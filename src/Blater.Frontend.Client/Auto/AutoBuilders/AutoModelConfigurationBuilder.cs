@@ -25,36 +25,36 @@ public class AutoModelConfigurationBuilder<TModel>
     
     public void Details(string? title, Action<AutoDetailsGroupConfigurationBuilder> action)
     {
-        _autoModelConfiguration.DetailsModelConfiguration = new DetailsModelConfiguration
+        _autoModelConfiguration.DetailsConfiguration = new DetailsModelConfiguration
         {
             Title = title ?? $"AutoDetails-Model-{_autoModelConfiguration.ModelName}",
         };
 
-        var autoFormMemberConfigurationBuilder = new AutoDetailsGroupConfigurationBuilder(_autoModelConfiguration.ModelType, _autoModelConfiguration.DetailsModelConfiguration);
+        var autoFormMemberConfigurationBuilder = new AutoDetailsGroupConfigurationBuilder(_autoModelConfiguration.ModelType, _autoModelConfiguration.DetailsConfiguration);
 
         action(autoFormMemberConfigurationBuilder);
     }
     
     public void Table(string? title, Action<AutoTableMemberConfigurationBuilder> action)
     {
-        _autoModelConfiguration.TableModelConfiguration = new TableModelConfiguration
+        _autoModelConfiguration.TableConfiguration = new TableModelConfiguration
         {
             Title = title ?? $"AutoTable-Model-{_autoModelConfiguration.ModelName}",
         };
 
-        var autoTableMemberConfigurationBuilder = new AutoTableMemberConfigurationBuilder(_autoModelConfiguration.ModelType, _autoModelConfiguration.TableModelConfiguration);
+        var autoTableMemberConfigurationBuilder = new AutoTableMemberConfigurationBuilder(_autoModelConfiguration.ModelType, _autoModelConfiguration.TableConfiguration);
 
         action(autoTableMemberConfigurationBuilder);
     }
     
     public void Form(string? title, Action<AutoFormGroupConfigurationBuilder<TModel>> action)
     {
-        _autoModelConfiguration.FormModelConfiguration = new FormModelConfiguration
+        _autoModelConfiguration.FormConfiguration = new FormModelConfiguration
         {
             Title = title ?? $"AutoForm-Model-{_autoModelConfiguration.ModelName}",
         };
 
-        var autoFormMemberConfigurationBuilder = new AutoFormGroupConfigurationBuilder<TModel>(_autoModelConfiguration.ModelType, _autoModelConfiguration.FormModelConfiguration);
+        var autoFormMemberConfigurationBuilder = new AutoFormGroupConfigurationBuilder<TModel>(_autoModelConfiguration.ModelType, _autoModelConfiguration.FormConfiguration);
 
         action(autoFormMemberConfigurationBuilder);
     }
