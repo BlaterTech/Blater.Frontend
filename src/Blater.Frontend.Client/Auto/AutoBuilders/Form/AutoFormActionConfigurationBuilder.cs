@@ -1,5 +1,6 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.Interfaces;
+using Blater.Frontend.Client.Auto.Interfaces.Form;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
@@ -8,13 +9,13 @@ public class AutoFormActionConfigurationBuilder(AutoFormActionConfiguration conf
 {
     #region Divider
 
-    public AutoFormActionConfigurationBuilder DividerType(DividerType value)
+    public IAutoFormActionConfigurationBuilder DividerType(DividerType value)
     {
         configuration.DividerType = value;
         return this;
     }
 
-    public AutoFormActionConfigurationBuilder DividerExtraClass(string value)
+    public IAutoFormActionConfigurationBuilder DividerExtraClass(string value)
     {
         configuration.DividerExtraClass = value;
         return this;
@@ -24,7 +25,7 @@ public class AutoFormActionConfigurationBuilder(AutoFormActionConfiguration conf
 
     #region Actions
 
-    public AutoFormActionConfigurationBuilder ActionExtraClass(string value)
+    public IAutoFormActionConfigurationBuilder ActionExtraClass(string value)
     {
         configuration.ActionExtraClass = value;
         return this;
@@ -32,19 +33,19 @@ public class AutoFormActionConfigurationBuilder(AutoFormActionConfiguration conf
 
     #region CancelButton
 
-    public AutoFormActionConfigurationBuilder VariantCancelButton(Variant value)
+    public IAutoFormActionConfigurationBuilder VariantCancelButton(Variant value)
     {
         configuration.VariantCancelButton = value;
         return this;
     }
 
-    public AutoFormActionConfigurationBuilder ColorCancelButton(Color value)
+    public IAutoFormActionConfigurationBuilder ColorCancelButton(Color value)
     {
         configuration.ColorCancelButton = value;
         return this;
     }
     
-    public AutoFormActionConfigurationBuilder CancelButtonExtraClass(string value)
+    public IAutoFormActionConfigurationBuilder CancelButtonExtraClass(string value)
     {
         configuration.CancelButtonExtraClass = value;
         return this;
@@ -54,25 +55,25 @@ public class AutoFormActionConfigurationBuilder(AutoFormActionConfiguration conf
 
     #region Create/Edit Button
 
-    public AutoFormActionConfigurationBuilder VariantCreateEditButton(Variant value)
+    public IAutoFormActionConfigurationBuilder VariantCreateEditButton(Variant value)
     {
         configuration.VariantCreateEditButton = value;
         return this;
     }
 
-    public AutoFormActionConfigurationBuilder ColorCreateEditButton(Color value)
+    public IAutoFormActionConfigurationBuilder ColorCreateEditButton(Color value)
     {
         configuration.ColorCreateEditButton = value;
         return this;
     }
     
-    public AutoFormActionConfigurationBuilder TypeCreateEditButton(ButtonType value)
+    public IAutoFormActionConfigurationBuilder TypeCreateEditButton(ButtonType value)
     {
         configuration.TypeCreateEditButton = value;
         return this;
     }
     
-    public AutoFormActionConfigurationBuilder CreateEditButtonExtraClass(string value)
+    public IAutoFormActionConfigurationBuilder CreateEditButtonExtraClass(string value)
     {
         configuration.CreateEditButtonExtraClass = value;
         return this;

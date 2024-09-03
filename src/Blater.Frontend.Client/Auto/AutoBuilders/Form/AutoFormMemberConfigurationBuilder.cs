@@ -2,11 +2,10 @@
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.Extensions;
-using Blater.Frontend.Client.Auto.Interfaces;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormMemberConfigurationBuilder<TModel>(Type type, FormGroupConfiguration configuration)
+public class AutoFormMemberConfigurationBuilder<TModel>(Type type, AutoFormGroupConfiguration configuration)
 {
     public AutoFormMemberConfigurationBuilder<TModel> AddMember<TType>(Expression<Func<TType>> expression, Action<AutoFormComponentConfigurationBuilder<TModel, TType>> action)
         => AddMember(expression, AutoComponentDisplayType.Form, action);
@@ -41,7 +40,7 @@ public class AutoFormMemberConfigurationBuilder<TModel>(Type type, FormGroupConf
             return this;
         }
 
-        currentComponentConfig = new FormComponentConfiguration
+        currentComponentConfig = new AutoFormComponentConfiguration
         {
             Property = property,
             LabelName = $"Auto{displayType.ToString()}-LabelName-{type.Name}",

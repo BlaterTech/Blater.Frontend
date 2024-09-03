@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Blater.Frontend.Client.Auto.AutoModels.Base;
+namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
-public class BaseValueAutoComponent<TValue> : BaseAutoComponent
+public class BaseAutoValueComponent<TValue> : BaseAutoAutoComponent
 {
     [Parameter]
     [EditorRequired]

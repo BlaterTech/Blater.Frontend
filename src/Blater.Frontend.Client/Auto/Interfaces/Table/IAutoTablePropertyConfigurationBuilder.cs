@@ -1,6 +1,6 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 
-namespace Blater.Frontend.Client.Auto.Interfaces;
+namespace Blater.Frontend.Client.Auto.Interfaces.Table;
 
 public interface IAutoTableComponentConfigurationBuilder<TType> : IAutoComponentConfigurationBuilder<TType>
 {

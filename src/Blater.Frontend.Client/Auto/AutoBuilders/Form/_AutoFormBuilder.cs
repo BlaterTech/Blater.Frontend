@@ -1,8 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Blater.Frontend.Client.Auto.AutoBuilders.Base;
+﻿using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
-using Blater.Frontend.Client.Auto.Interfaces.Types;
+using Blater.Frontend.Client.Auto.AutoModels.Validator;
+using Blater.Frontend.Client.Auto.Interfaces.Form;
+using Blater.Frontend.Client.Auto.Interfaces.Validator;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Models.Bases;
 using FluentValidation;
@@ -28,13 +29,11 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
 
-
-    public FormModelConfiguration FormModelConfiguration => ModelConfiguration.FormConfiguration;
+    private AutoFormModelConfiguration<T> ModelConfiguration { get; set; } = new();
+    private AutoValidatorConfiguration<T> ValidatorConfiguration { get; set; } = new();
 
     private static async Task Upsert()
     {
-
-        
         await Task.Delay(1);
     }
 
@@ -45,23 +44,32 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     protected override void LoadModelConfig()
     {
-        if(Model is IAutoForm<T> autoForm)
+        if (Model is IAutoFormConfiguration<T> autoForm)
         {
-            ModelConfiguration = autoForm.ModelConfiguration;
+            ModelConfiguration = autoForm.Configuration;
         }
         else
         {
-            Logger.LogError("Model {Name} does not implement IAutoForm<{TypeName}>", Model?.GetType().Name, typeof(T).Name);
-            throw new Exception("Model does not implement IAutoForm");
+            Logger.LogError("Model {Name} does not implement IAutoFormConfiguration<{TypeName}>", Model?.GetType().Name, typeof(T).Name);
+            throw new Exception("Model does not implement IAutoFormConfiguration");
+        }
+
+        if (Model is IAutoValidatorConfiguration<T> autoValidator)
+        {
+        }
+        else
+        {
+            Logger.LogError("Model {Name} does not implement IAutoValidatorConfiguration<{TypeName}>", Model?.GetType().Name, typeof(T).Name);
+            throw new Exception("Model does not implement IAutoValidatorConfiguration");
         }
     }
 
     protected override void BuildComponent(EasyRenderTreeBuilder builder)
     {
-        var configuration = FormModelConfiguration;
-        if (configuration.AutoAvatarModelConfiguration.EnableAvatarModel)
+        var configuration = ModelConfiguration;
+        var avatarConfiguration = configuration.AvatarConfiguration[DisplayType | AutoComponentDisplayType.Form];
+        if (avatarConfiguration.EnableAvatarModel)
         {
-            var avatarConfiguration = configuration.AutoAvatarModelConfiguration;
             builder
                .OpenElement("div")
                .AddAttribute("id", "form-with-avatar")
@@ -105,10 +113,10 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
             {
                 treeBuilder
                    .OpenComponent<MudGrid>()
-                   .AddAttribute("Spacing", configuration.Spacing)
+                   .AddAttribute("Spacing", configuration.GridConfigurations[DisplayType | AutoComponentDisplayType.Form].Spacing)
                    .AddChildContent(renderTreeBuilder =>
                     {
-                        foreach (var groupConfiguration in configuration.Configurations)
+                        foreach (var groupConfiguration in configuration.GroupConfigurations)
                         {
                             renderTreeBuilder
                                .OpenComponent<MudGrid>()
@@ -166,7 +174,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     private void AfterCreateComponents(RenderTreeBuilder builder)
     {
-        var configuration = FormModelConfiguration.AutoFormActionConfiguration;
+        var configuration = ModelConfiguration.ActionConfiguration[DisplayType | AutoComponentDisplayType.Form];
         var seq = 0;
 
         //Divider
@@ -222,18 +230,12 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
         builder.CloseElement();
     }
-    
-    
-    public Func<object, string, List<FormComponentConfiguration>, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName, configs) =>
-    {
-        var inlineValidators = configs
-                              .Select(x => x.GetValidator<T>(propertyName)!)
-                              .Where(x => x != null)
-                              .ToList();
 
-        var consolidatedValidator = new ConsolidatedValidator<T>(inlineValidators);
-        
-        var result = await consolidatedValidator.ValidateAsync(ValidationContext<T>.CreateWithOptions((T)model, x => x.IncludeProperties(propertyName)));
+
+    public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
+    {
+        var validator = ValidatorConfiguration.Validators[DisplayType | AutoComponentDisplayType.Form];
+        var result = await validator.ValidateAsync(ValidationContext<T>.CreateWithOptions((T)model, x => x.IncludeProperties(propertyName)));
         return result.IsValid ? [] : result.Errors.Select(e => e.ErrorMessage);
     };
 }

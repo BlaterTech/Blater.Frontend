@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Blater.Frontend.Client.Auto.AutoModels.Base;
+namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
 public class BaseAutoFormImageComponent : BaseAutoFormComponent<string>
 {

@@ -1,11 +1,10 @@
 using System.ComponentModel.DataAnnotations;
-using Blater.Frontend.Client.Auto.AutoBuilders;
 using Blater.Frontend.Client.Models.Bases;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Models;
 
-public class Address : BaseFrontendModel<Address>
+public class Address : BaseFrontendModel
 {
     public Guid OwnerId { get; set; }
 
@@ -53,33 +52,5 @@ public class Address : BaseFrontendModel<Address>
     [MinLength(6)]
     [MaxLength(50)]
     public string ExternalReference { get; set; } = string.Empty;
-
-
-    public override void Configure(AutoModelConfigurationBuilder<Address> builder)
-    {
-        builder.Table("TableName", configurationBuilder => { configurationBuilder.AddMember(() => ExternalReference); });
-
-        builder.Form("FormName", configurationBuilder =>
-        {
-            configurationBuilder.Actions(actionConfigurationBuilder => { actionConfigurationBuilder.TypeCreateEditButton(ButtonType.Submit); });
-
-            configurationBuilder.AddGroup(groupConfigurationBuilder =>
-            {
-                groupConfigurationBuilder
-                   .AddMember(() => ExternalReference, componentConfigurationBuilder =>
-                    {
-                        componentConfigurationBuilder.IsReadOnly(true);
-                    });
-            });
-        });
-
-        builder.Details("DetailsName", configurationBuilder =>
-        {
-            configurationBuilder.AddGroup("GroupName", false, groupConfigurationBuilder =>
-            {
-                groupConfigurationBuilder
-                   .AddMember(() => ExternalReference);
-            });
-        });
-    }
+    
 }

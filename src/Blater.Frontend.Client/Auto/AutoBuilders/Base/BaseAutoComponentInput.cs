@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Blater.Frontend.Client.Auto.AutoModels.Base;
+namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
-public class BaseComponentInput : ComponentBase
+public class BaseAutoComponentInput : ComponentBase
 {
     [Parameter]
     public bool HasValidationError { get; set; }

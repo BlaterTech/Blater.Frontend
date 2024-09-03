@@ -2,11 +2,12 @@
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.Interfaces;
+using Blater.Frontend.Client.Auto.Interfaces.Form;
 using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormComponentConfigurationBuilder<TModel, TType>(AutoComponentDisplayType type, FormComponentConfiguration configuration)
+public class AutoFormComponentConfigurationBuilder<TModel, TType>(AutoComponentDisplayType type, AutoFormComponentConfiguration configuration)
     : AutoComponentConfigurationBuilder<TType>(configuration), IAutoFormComponentConfigurationBuilder<TModel, TType>
 {
     public IAutoFormComponentConfigurationBuilder<TModel, TType> LabelName(string value)
@@ -36,20 +37,6 @@ public class AutoFormComponentConfigurationBuilder<TModel, TType>(AutoComponentD
     public IAutoFormComponentConfigurationBuilder<TModel, TType> ComponentType(AutoFormComponentInputType value)
     {
         configuration.AutoComponentTypes[type] = value;
-        return this;
-    }
-
-    public IAutoFormComponentConfigurationBuilder<TModel, TType> Validate(Action<IRuleBuilderInitial<TModel, TType>> action)
-    {
-        var parameter = Expression.Parameter(typeof(TModel), "x");
-        var property = Expression.Property(parameter, configuration.Property);
-        var expression = Expression.Lambda<Func<TModel, TType>>(property, parameter);
-
-        var validator = new InlineValidator<TModel>();
-        var rule = validator.RuleFor(expression);
-        configuration.SetValidator(configuration.Property, validator);
-        action(rule);
-        
         return this;
     }
 }

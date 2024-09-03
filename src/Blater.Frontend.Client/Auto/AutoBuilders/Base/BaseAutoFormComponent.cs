@@ -3,10 +3,10 @@ using Blater.Frontend.Client.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blater.Frontend.Client.Auto.AutoModels.Base;
+namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
 [SuppressMessage("ReSharper", "EventUnsubscriptionViaAnonymousDelegate")]
-public abstract class BaseAutoFormComponent<TValue> : BaseValueAutoComponent<TValue>, IDisposable
+public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TValue>, IDisposable
 {
     [Parameter]
     public int MinImageWidth { get; set; }

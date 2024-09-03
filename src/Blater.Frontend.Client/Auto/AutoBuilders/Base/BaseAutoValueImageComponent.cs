@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Blater.Frontend.Client.Auto.AutoModels.Base;
+namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
-public class BaseValueAutoImageComponent : BaseValueAutoComponent<string>
+public class BaseAutoValueImageComponent : BaseAutoValueComponent<string>
 {
     [Parameter]
     public int MinImageWidth { get; set; }

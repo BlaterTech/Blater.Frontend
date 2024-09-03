@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Reflection;
 using Blater.Extensions;
-using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.Extensions;
@@ -35,6 +33,9 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     [Inject]
     public IBlaterDatabaseRepository<T> DataRepository { get; set; } = null!;
 
+    [Inject]
+    public AutoConfigurations Configurations { get; set; } = null!;
+    
     #endregion
 
     #region Parameters
@@ -54,8 +55,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     public abstract bool HasLabel { get; set; }
 
     #endregion
-
-    protected AutoModelConfiguration ModelConfiguration { get; set; } = null!;
+    
     public bool EditMode { get; private set; }
 
     protected abstract void LoadModelConfig();

@@ -1,7 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿/*using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using Blater.Frontend.Client.Auto;
-using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.Enumerations;
 using Blater.Frontend.Client.Interfaces;
@@ -172,7 +171,7 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
         _loading = true;
         
         ILocalizationService.LocalizationChanged += UpdateDataGrid;
-        AutoConfigurations<T>.ModelsChanged += UpdateDataGrid;
+        AutoConfigurations.ModelsChanged += UpdateDataGrid;
         
         if (string.IsNullOrEmpty(Title))
         {
@@ -312,4 +311,4 @@ public partial class BlaterTable<T> : ComponentBase where T : BaseDataModel
         _whereParts.Add(new WherePart("", OperatorTypes.Contains, ""));
         StateHasChanged();
     }
-}
+}*/

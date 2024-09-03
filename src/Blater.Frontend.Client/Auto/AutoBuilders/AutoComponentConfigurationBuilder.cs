@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Reflection;
-using Blater.Frontend.Client.Auto.AutoModels.Base;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.Interfaces;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;

@@ -1,7 +1,7 @@
 @typeparam TIem where TIem : Blater.Models.Bases.BaseDataModel
 @typeparam TList where TList : List<TIem>
 
-@inherits BaseValueAutoComponent<TList>
+@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoValueComponent<TList>
 @using Blater.Frontend.Client.Auto.AutoModels.Base
 @using Blater.Frontend.Client.Auto.AutoModels.Enumerations
 @implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent

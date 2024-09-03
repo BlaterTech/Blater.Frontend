@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.Auto.Extensions;
@@ -21,7 +20,7 @@ public class AutoTableMemberConfigurationBuilder(Type type, TableModelConfigurat
             }
         };
         
-        configuration.Properties.Add(componentConfiguration);
+        configuration.Configurations.Add(componentConfiguration);
 
         return new AutoTableComponentConfigurationBuilder<TType>(componentConfiguration);
     }

@@ -1,9 +1,10 @@
-﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
+using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Microsoft.AspNetCore.Components;
 
-namespace Blater.Frontend.Client.Auto.AutoModels.Base;
+namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
-public class BaseAutoComponent : BaseComponentInput
+public class BaseAutoAutoComponent : BaseAutoComponentInput
 {
     [Parameter]
     public string? ExtraClass { get; set; }

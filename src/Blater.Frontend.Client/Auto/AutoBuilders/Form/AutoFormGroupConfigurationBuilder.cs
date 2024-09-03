@@ -1,25 +1,22 @@
-﻿using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
-using Blater.Frontend.Client.Auto.Extensions;
-using Blater.Frontend.Client.Auto.Interfaces;
-using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormGroupConfigurationBuilder<TModel>(Type type, FormModelConfiguration configuration)
+public class AutoFormGroupConfigurationBuilder<TModel>(AutoFormModelConfiguration<TModel> configuration)
 {
+    private static Type ModelType => typeof(TModel);
+
     #region Group
 
     public AutoFormGroupConfigurationBuilder<TModel> AddGroupAvatar(Action<AutoFormAvatarConfigurationBuilder> action)
-    {
-        configuration.AutoAvatarModelConfiguration.EnableAvatarModel = true;
-        var autoFormGroupConfigBuilder = new AutoFormAvatarConfigurationBuilder(configuration.AutoAvatarModelConfiguration);
+        => AddGroupAvatar(AutoComponentDisplayType.Form, action);
 
-        action(autoFormGroupConfigBuilder);
+    public AutoFormGroupConfigurationBuilder<TModel> AddGroupAvatarCreateOnly(Action<AutoFormAvatarConfigurationBuilder> action)
+        => AddGroupAvatar(AutoComponentDisplayType.FormCreate, action);
 
-        return this;
-    }
+    public AutoFormGroupConfigurationBuilder<TModel> AddGroupAvatarEditOnly(Action<AutoFormAvatarConfigurationBuilder> action)
+        => AddGroupAvatar(AutoComponentDisplayType.FormEdit, action);
     
     public AutoFormGroupConfigurationBuilder<TModel> AddGroup(Action<AutoFormMemberConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.Form, action);
@@ -30,22 +27,37 @@ public class AutoFormGroupConfigurationBuilder<TModel>(Type type, FormModelConfi
     public AutoFormGroupConfigurationBuilder<TModel> AddGroupEditOnly(Action<AutoFormMemberConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormEdit, action);
 
+    #endregion
+
+    #region Actions
+
+    public AutoFormGroupConfigurationBuilder<TModel> Actions(Action<AutoFormActionConfigurationBuilder> action)
+        => Actions(AutoComponentDisplayType.Form, action);
+
+    public AutoFormGroupConfigurationBuilder<TModel> ActionsCreateOnly(Action<AutoFormActionConfigurationBuilder> action)
+        => Actions(AutoComponentDisplayType.FormCreate, action);
+
+    public AutoFormGroupConfigurationBuilder<TModel> ActionsEditOnly(Action<AutoFormActionConfigurationBuilder> action)
+        => Actions(AutoComponentDisplayType.FormEdit, action);
+
+    #endregion
+    
     private AutoFormGroupConfigurationBuilder<TModel> AddGroup(AutoComponentDisplayType displayType, Action<AutoFormMemberConfigurationBuilder<TModel>> action)
     {
-        var countGroup = configuration.Configurations.Count;
-        var title = $"Auto{displayType.ToString()}Group{countGroup}-Title-{type.Name}";
-        var formGroupConfiguration = configuration.Configurations.FirstOrDefault(x => x.Title == title);
+        var countGroup = configuration.GroupConfigurations.Count;
+        var title = $"Auto{displayType.ToString()}Group{countGroup}-Title-{ModelType.Name}";
+        var formGroupConfiguration = configuration.GroupConfigurations.FirstOrDefault(x => x.Title == title);
 
         if (formGroupConfiguration != null)
         {
-            var existentConfiguration = new AutoFormMemberConfigurationBuilder<TModel>(type, formGroupConfiguration);
+            var existentConfiguration = new AutoFormMemberConfigurationBuilder<TModel>(ModelType, formGroupConfiguration);
 
             action(existentConfiguration);
 
             return this;
         }
         
-        formGroupConfiguration = new FormGroupConfiguration
+        formGroupConfiguration = new AutoFormGroupConfiguration
         {
             Title = title,
             ComponentConfigurations =
@@ -54,22 +66,53 @@ public class AutoFormGroupConfigurationBuilder<TModel>(Type type, FormModelConfi
             }
         };
 
-        configuration.Configurations.Add(formGroupConfiguration);
+        configuration.GroupConfigurations.Add(formGroupConfiguration);
 
-        var autoFormGroupConfigBuilder = new AutoFormMemberConfigurationBuilder<TModel>(type, formGroupConfiguration);
+        var autoFormGroupConfigBuilder = new AutoFormMemberConfigurationBuilder<TModel>(ModelType, formGroupConfiguration);
 
         action(autoFormGroupConfigBuilder);
 
         return this;
     }
-
-    #endregion
-
-    public AutoFormGroupConfigurationBuilder<TModel> Actions(Action<AutoFormActionConfigurationBuilder> action)
+    
+    private AutoFormGroupConfigurationBuilder<TModel> AddGroupAvatar(AutoComponentDisplayType displayType, Action<AutoFormAvatarConfigurationBuilder> action)
     {
-        var autoFormGroupConfigBuilder = new AutoFormActionConfigurationBuilder(configuration.AutoFormActionConfiguration);
+        if (configuration.AvatarConfiguration.TryGetValue(displayType, out var autoFormActionConfiguration))
+        {
+            var existentFormGroupConfiguration = new AutoFormAvatarConfigurationBuilder(autoFormActionConfiguration);
+
+            action(existentFormGroupConfiguration);
+            
+            return this;
+        }
+
+        autoFormActionConfiguration = new AutoAvatarModelConfiguration();
+        configuration.AvatarConfiguration.TryAdd(displayType, autoFormActionConfiguration);
+
+        var autoFormGroupConfigBuilder = new AutoFormAvatarConfigurationBuilder(autoFormActionConfiguration);
 
         action(autoFormGroupConfigBuilder);
+            
+        return this;
+    }
+
+    private AutoFormGroupConfigurationBuilder<TModel> Actions(AutoComponentDisplayType displayType, Action<AutoFormActionConfigurationBuilder> action)
+    {
+        if (configuration.ActionConfiguration.TryGetValue(displayType, out var actionConfiguration))
+        {
+            var existentFormActionConfiguration = new AutoFormActionConfigurationBuilder(actionConfiguration);
+
+            action(existentFormActionConfiguration);
+            
+            return this;
+        }
+        
+        actionConfiguration = new AutoFormActionConfiguration();
+        configuration.ActionConfiguration.TryAdd(displayType, actionConfiguration);
+        
+        var formActionConfiguration = new AutoFormActionConfigurationBuilder(actionConfiguration);
+
+        action(formActionConfiguration);
 
         return this;
     }

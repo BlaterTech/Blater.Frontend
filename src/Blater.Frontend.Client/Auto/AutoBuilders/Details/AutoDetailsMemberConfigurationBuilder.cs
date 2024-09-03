@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoModels.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.Extensions;

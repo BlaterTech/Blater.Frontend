@@ -1,11 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Blater.Frontend.Client.Auto.AutoBuilders;
-using Blater.Frontend.Client.Auto.AutoModels;
+﻿using Blater.Frontend.Client.Auto.AutoBuilders.Form;
 using Blater.Frontend.Client.Auto.Interfaces;
-using Blater.Frontend.Client.Auto.Interfaces.Types;
+using Blater.Frontend.Client.Auto.Interfaces.Form;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
-using Blater.Frontend.Client.Services;
 using Blater.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,7 +15,7 @@ public class AutoConfigurations
     public AutoConfigurations(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-        
+
         BuildAllConfigurations();
 
         HotReloadHelper.UpdateApplicationEvent += HotReloadHelperOnUpdateApplicationEvent;
@@ -48,18 +45,18 @@ public class AutoConfigurations
         {
             // Create instance of model type, and inject services
             var instance = ActivatorUtilities.CreateInstance(_serviceProvider, modelType);
-            
+
             // Check if model type has interface IAutoForm<T>
-            if (modelType.IsAssignableTo(typeof(IAutoForm<>)))
+            if (modelType.IsAssignableTo(typeof(IAutoFormConfiguration<>)))
             {
                 //Get ConfigureForm method and invoke it
                 var method = modelType.GetMethod("ConfigureForm");
                 //Create instance of AutoModelConfigurationBuilder<T> using reflection and modelType
-                var builder = Activator.CreateInstance(typeof(AutoModelConfigurationBuilder<>).MakeGenericType(modelType));
+                var builder = Activator.CreateInstance(typeof(AutoFormConfigurationBuilder<>).MakeGenericType(modelType));
                 //Invoke method with instance and builder
                 method?.Invoke(instance, [builder]);
             }
-            
+
             /*if (modelType.IsAssignableTo(typeof(IAutoForm<>)))
             {
                 //Get ConfigureForm method and invoke it
@@ -69,7 +66,7 @@ public class AutoConfigurations
                 //Invoke method with instance and builder
                 method?.Invoke(instance, [builder]);
             }*/
-            
+
             Configurations.Add(modelType, instance);
         }
 

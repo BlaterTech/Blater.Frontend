@@ -1,6 +1,7 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.Interfaces;
+using Blater.Frontend.Client.Auto.Interfaces.Details;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
