@@ -4,5 +4,5 @@ public class AutoDetailsGroupConfiguration
 {
     public string Title { get; set; } = string.Empty;
     public bool DisableEditButton { get; set; }
-    public List<AutoDetailsComponentConfiguration> Configurations { get; set; } = [];
+    public List<AutoDetailsAutoComponentConfiguration> Configurations { get; set; } = [];
 }

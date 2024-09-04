@@ -7,36 +7,37 @@ using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
-public class AutoFormComponentConfigurationBuilder<TModel, TType>(AutoComponentDisplayType type, AutoFormComponentConfiguration configuration)
-    : AutoComponentConfigurationBuilder<TType>(configuration), IAutoFormComponentConfigurationBuilder<TModel, TType>
+public class AutoFormComponentConfigurationBuilder<TType>(AutoFormAutoComponentConfiguration configuration)
+    : AutoComponentConfigurationBuilder<TType>(configuration), 
+      IAutoFormComponentConfigurationBuilder<TType>
 {
-    public IAutoFormComponentConfigurationBuilder<TModel, TType> LabelName(string value)
+    public IAutoFormComponentConfigurationBuilder<TType> LabelName(string value)
     {
         configuration.LabelName = value;
         return this;
     }
 
-    public IAutoFormComponentConfigurationBuilder<TModel, TType> Placeholder(string value)
+    public IAutoFormComponentConfigurationBuilder<TType> Placeholder(string value)
     {
         configuration.Placeholder = value;
         return this;
     }
 
-    public IAutoFormComponentConfigurationBuilder<TModel, TType> HelpMessage(string value)
+    public IAutoFormComponentConfigurationBuilder<TType> HelpMessage(string value)
     {
         configuration.HelpMessage = value;
         return this;
     }
 
-    public IAutoFormComponentConfigurationBuilder<TModel, TType> IsReadOnly(bool value = false)
+    public IAutoFormComponentConfigurationBuilder<TType> IsReadOnly(bool value = false)
     {
         configuration.IsReadOnly = value;
         return this;
     }
 
-    public IAutoFormComponentConfigurationBuilder<TModel, TType> ComponentType(AutoFormComponentInputType value)
+    public IAutoFormComponentConfigurationBuilder<TType> ComponentType(AutoFormComponentInputType value)
     {
-        configuration.AutoComponentTypes[type] = value;
+        configuration.AutoComponentType = value;
         return this;
     }
 }

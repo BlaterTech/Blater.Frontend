@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Blater.Extensions;
+using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.Extensions;
@@ -116,106 +117,54 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     protected abstract void BuildComponent(EasyRenderTreeBuilder builder);
 
-    protected void CreateGenericComponent(EasyRenderTreeBuilder builder, BaseComponentConfiguration configuration, AutoComponentDisplayType displayType)
+    protected void CreateGenericComponent(EasyRenderTreeBuilder builder, BaseAutoComponentConfiguration componentConfiguration)
     {
-        var componentBuilder = AutoComponentsBuilders.GetComponentBuilder(configuration, displayType);
+        var componentBuilder = AutoComponentsBuilders.GetComponentBuilder(componentConfiguration);
         if (componentBuilder is null)
         {
-            Logger.LogError("Failed to get component builder for {ComponentConfiguration}", configuration);
+            Logger.LogError("Failed to get component builder for {ComponentConfiguration}", componentConfiguration);
             return;
         }
 
-        var propertyInfo = configuration.Property;
+        var propertyInfo = componentConfiguration.Property;
         var componentBuilderType = componentBuilder.GetType();
 
         var componentRenderBuilder = builder.OpenComponent(componentBuilderType);
 
-        componentRenderBuilder.AddAttribute("TypeName", propertyInfo.PropertyType.Name);
-        componentRenderBuilder.AddAttribute("Size", configuration.Sizes.GetValueOrDefault(DisplayType));
-        componentRenderBuilder.AddAttribute("ComponentConfiguration", configuration);
-        componentRenderBuilder.AddAttribute("ExtraClass", configuration.ExtraClass);
-        componentRenderBuilder.AddAttribute("ExtraStyle", configuration.ExtraStyle);
+        componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.TypeName}", propertyInfo.PropertyType.Name);
+        componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.Size}", componentConfiguration.Size);
+        componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.ComponentConfiguration}", componentConfiguration);
+        componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.ExtraClass}", componentConfiguration.ExtraClass);
+        componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.ExtraStyle}", componentConfiguration.ExtraStyle);
 
         var propertyValue = propertyInfo.GetValue(Model) ?? propertyInfo.PropertyType.GetDefaultValue();
         if (propertyValue != null)
         {
-            componentRenderBuilder.AddAttribute("Value", propertyValue);
+            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.Value}", propertyValue);
         }
 
         if (HasLabel)
         {
-            componentRenderBuilder.AddAttribute("LabelName", configuration.LabelName);
+            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.LabelName}", componentConfiguration.LabelName);
         }
 
-        var compType = configuration.AutoComponentTypes
-                                    .FirstOrDefault(x => x.Key.HasFlag(displayType))
-                                    .Value;
+        var compType = componentConfiguration.AutoComponentType;
 
         if (compType == null)
         {
-            Logger.LogError("Failed to get component type for {ComponentConfiguration}", configuration);
+            Logger.LogError("Failed to get component type for {ComponentConfiguration}", componentConfiguration);
             return;
         }
 
         if (compType.IsFormInput() && compType.HasValueChanged)
         {
-            componentRenderBuilder.AddAttribute("EditMode", EditMode);
-            componentRenderBuilder.AddAttribute("PlaceholderText", configuration.Placeholder);
-            componentRenderBuilder.AddAttribute("Disabled", configuration.Disable);
-            componentRenderBuilder.AddAttribute("IsReadOnly", configuration.IsReadOnly);
-
-            if (configuration.ValueChanged == null)
-            {
-                configuration.ValueChanged = CreateGenericValueChanged(propertyInfo);
-            }
-
-            componentRenderBuilder.AddAttribute("ValueChanged", configuration.ValueChanged);
+            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.EditMode}", EditMode);
+            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.PlaceholderText}", componentConfiguration.Placeholder);
+            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.Disabled}", componentConfiguration.Disable);
+            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.IsReadOnly}", componentConfiguration.IsReadOnly);
+            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.ValueChanged}", componentConfiguration.OnValueChanged);
         }
 
         componentRenderBuilder.Close();
-    }
-
-    private readonly MethodInfo _makeActionMethod = typeof(BaseAutoComponentBuilder<T>).GetMethod("MakeAction",
-                                                                                                  BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.NonPublic)!;
-
-    protected object? CreateGenericValueChanged(PropertyInfo propertyInfo)
-    {
-        var targetType = propertyInfo.PropertyType;
-
-        var genericMethod = EventCallbackExtensions.EventCallbackFactoryCreate.MakeGenericMethod(targetType);
-
-        var makeActionGenericMethod = _makeActionMethod.MakeGenericMethod(targetType);
-        var action = makeActionGenericMethod.Invoke(this, [propertyInfo])!;
-
-        var parameters = new[] { this, action };
-        return genericMethod.Invoke(EventCallback.Factory, parameters);
-    }
-
-    protected Action<TEntity> MakeAction<TEntity>(PropertyInfo propertyInfo)
-    {
-        return Action;
-
-        void Action(TEntity value)
-        {
-            try
-            {
-                if (propertyInfo.SetMethod is null)
-                {
-                    return;
-                }
-
-                propertyInfo.SetValue(Model, value);
-
-                FieldValueChanged(propertyInfo, value);
-            }
-            catch (Exception e)
-            {
-                Logger.LogError(e, "Failed to set value to the model");
-            }
-        }
-    }
-
-    protected virtual void FieldValueChanged(PropertyInfo propertyInfo, object? newValue)
-    {
     }
 }

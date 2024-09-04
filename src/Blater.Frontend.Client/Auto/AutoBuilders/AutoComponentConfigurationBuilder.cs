@@ -5,7 +5,7 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders;
 
-public class AutoComponentConfigurationBuilder<TType>(BaseComponentConfiguration configuration) : IAutoComponentConfigurationBuilder<TType>
+public class AutoComponentConfigurationBuilder<TType>(BaseAutoComponentConfiguration configuration) : IAutoComponentConfigurationBuilder<TType>
 {
     public IAutoComponentConfigurationBuilder<TType> Breakpoint(Breakpoint breakpoint, int value)
     {
@@ -42,24 +42,24 @@ public class AutoComponentConfigurationBuilder<TType>(BaseComponentConfiguration
         configuration.LocalizationId = value;
         return this;
     }
-
+    
     public IAutoComponentConfigurationBuilder<TType> OnValueChanged(Action<TType> action)
     {
         var genericMethod = EventCallback.Factory.Create(this, action);
         
-        configuration.ValueChanged = genericMethod;
+        configuration.OnValueChanged = genericMethod;
         
         Console.WriteLine($"EventCallback configurado para o tipo: {typeof(TType).Name}, Método: {action.Method.Name}");
         
         return this;
     }
 
-    public IAutoComponentConfigurationBuilder<TType> OnClick(EventCallback<TType> value)
+    public IAutoComponentConfigurationBuilder<TType> OnClick(Action<TType> value)
     {
         throw new NotImplementedException();
     }
 
-    public IAutoComponentConfigurationBuilder<TType> OnParameterSet(EventCallback<TType> value)
+    public IAutoComponentConfigurationBuilder<TType> OnParameterSet(Action<TType> value)
     {
         throw new NotImplementedException();
     }

@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Table;
 
-public class AutoTableComponentConfiguration : BaseComponentConfiguration
+public class AutoTableAutoComponentConfiguration : BaseAutoComponentConfiguration
 {
     public bool DisableColumn { get; set; }
     public bool DisableFilter { get; set; }

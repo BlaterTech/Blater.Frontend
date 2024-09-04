@@ -35,12 +35,11 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
 
     protected override void OnInitialized()
     {
-        StateNotifierService.StateChanged += (x, y) =>
+        StateNotifierService.StateChanged += x =>
         {
-            if (ComponentConfiguration.Property != x || y == null) return;
+            if (x == null) return;
             
-            Value = (TValue)y;
-            Console.WriteLine($"Oh, new value {Value}");
+            Value = (TValue)x;
             StateHasChanged();
         };
     }
@@ -71,7 +70,7 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
 
     public void Dispose()
     {
-        StateNotifierService.StateChanged -= (_, _) =>
+        StateNotifierService.StateChanged -= _ =>
         {
             StateHasChanged();
         };

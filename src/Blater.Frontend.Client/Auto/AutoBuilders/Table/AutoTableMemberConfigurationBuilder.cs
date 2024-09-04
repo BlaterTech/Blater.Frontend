@@ -12,13 +12,10 @@ public class AutoTableMemberConfigurationBuilder<TModel>(AutoTableModelConfigura
         var type = typeof(TModel);
         var property = expression.GetPropertyInfoForType(type);
         
-        var componentConfiguration = new AutoTableComponentConfiguration
+        var componentConfiguration = new AutoTableAutoComponentConfiguration
         {
             Property = property,
-            AutoComponentTypes =
-            {
-                [AutoComponentDisplayType.Table] = property.GetDefaultAutoTableComponentForType()
-            }
+            AutoComponentType = property.GetDefaultAutoTableComponentForType()
         };
         
         configuration.Configurations.Add(componentConfiguration);

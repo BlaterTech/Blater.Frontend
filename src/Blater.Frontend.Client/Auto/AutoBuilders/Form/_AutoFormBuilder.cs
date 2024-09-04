@@ -29,7 +29,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
 
-    private AutoFormModelConfiguration<T> ModelConfiguration { get; set; } = new();
+    private AutoFormConfiguration Configuration { get; set; } = new();
     private AutoValidatorConfiguration<T> ValidatorConfiguration { get; set; } = new();
 
     private static async Task Upsert()
@@ -44,9 +44,10 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     protected override void LoadModelConfig()
     {
-        if (Model is IAutoFormConfiguration<T> autoForm)
+        if (Model is IAutoFormConfiguration autoForm)
         {
-            ModelConfiguration = autoForm.GetConfiguration();
+            
+            Configuration = autoForm.Configuration;
         }
         else
         {
@@ -66,7 +67,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     protected override void BuildComponent(EasyRenderTreeBuilder builder)
     {
-        var configuration = ModelConfiguration;
+        var configuration = Configuration;
         var avatarConfiguration = configuration.AvatarConfiguration[DisplayType | AutoComponentDisplayType.Form];
         if (avatarConfiguration.EnableAvatarModel)
         {
@@ -156,8 +157,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
                                         itemBuilder.AddChildContent(mudItemContentBuilder =>
                                         {
-                                            CreateGenericComponent(mudItemContentBuilder, propertyConfiguration,
-                                                                   DisplayType | AutoComponentDisplayType.Form);
+                                            CreateGenericComponent(mudItemContentBuilder, propertyConfiguration);
                                         });
 
                                         itemBuilder.Close();
@@ -174,7 +174,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     private void AfterCreateComponents(RenderTreeBuilder builder)
     {
-        var configuration = ModelConfiguration.ActionConfiguration[DisplayType | AutoComponentDisplayType.Form];
+        var configuration = Configuration.ActionConfiguration[DisplayType | AutoComponentDisplayType.Form];
         var seq = 0;
 
         //Divider

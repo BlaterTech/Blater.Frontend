@@ -1,12 +1,10 @@
 ﻿using System.Reflection;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Base;
 
-public abstract class BaseComponentConfiguration
+public abstract class BaseAutoComponentConfiguration : BaseAutoEventConfiguration
 {
     public PropertyInfo Property { get; set; } = null!;
 
@@ -25,10 +23,6 @@ public abstract class BaseComponentConfiguration
     public int Order { get; set; }
 
     public Dictionary<Breakpoint, int> Breakpoints { get; set; } = [];
-    public Dictionary<AutoComponentDisplayType, BaseAutoComponentTypeEnumeration> AutoComponentTypes { get; set; } = [];
-    public Dictionary<AutoComponentDisplayType, AutoFieldSize> Sizes { get; set; } = [];
-
-    public object? ValueChanged { get; set; }
-    public EventCallback<object> OnParameterSet { get; set; }
-    public EventCallback<MouseEventArgs> OnClick { get; set; }
+    public BaseAutoComponentTypeEnumeration? AutoComponentType { get; set; }
+    public AutoFieldSize Size { get; set; }
 }

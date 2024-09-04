@@ -53,15 +53,13 @@ public static class AutoComponentsBuilders
         }
     }
 
-    public static IAutoBuildableComponent? GetComponentBuilder(BaseComponentConfiguration configuration, AutoComponentDisplayType displayType)
+    public static IAutoBuildableComponent? GetComponentBuilder(BaseAutoComponentConfiguration configuration)
     {
-        var fieldConfigurationDisplayType = configuration.AutoComponentTypes
-                                                         .FirstOrDefault(x => x.Key.HasFlag(displayType))
-                                                         .Value;
+        var fieldConfigurationDisplayType = configuration.AutoComponentType;
         
         if (fieldConfigurationDisplayType == null)
         {
-            Log.Error("No display type found for {ComponentName}", displayType);
+            Log.Error("No display type found");
             return null;
         }
 

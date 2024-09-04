@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
-public class AutoFormModelConfiguration<TModel>
+public class AutoFormConfiguration
 {
     public string Title { get; set; } = string.Empty;
     

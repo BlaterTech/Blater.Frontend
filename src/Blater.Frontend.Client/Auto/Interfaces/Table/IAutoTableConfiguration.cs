@@ -4,7 +4,7 @@ using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.Interfaces.Table;
 
-public interface IAutoTableConfiguration<T> where T : BaseDataModel
+public interface IAutoTableConfiguration
 {
-    void ConfigureTable(AutoTableConfigurationBuilder<T> builder);
+    void ConfigureTable(AutoTableConfigurationBuilder builder);
 }

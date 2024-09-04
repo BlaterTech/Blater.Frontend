@@ -2,6 +2,6 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Details;
 
-public class AutoDetailsComponentConfiguration : BaseComponentConfiguration
+public class AutoDetailsAutoComponentConfiguration : BaseAutoComponentConfiguration
 {
 }

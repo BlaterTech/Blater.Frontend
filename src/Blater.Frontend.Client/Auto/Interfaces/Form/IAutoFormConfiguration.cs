@@ -1,12 +1,10 @@
 ﻿using Blater.Frontend.Client.Auto.AutoBuilders.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
-using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Auto.Interfaces.Form;
 
-public interface IAutoFormConfiguration<T> where T : BaseDataModel
+public interface IAutoFormConfiguration
 {
-    void ConfigureForm(AutoFormConfigurationBuilder<T> builder);
-    
-    AutoFormModelConfiguration<T> GetConfiguration();
+    AutoFormConfiguration Configuration { get; set; }
+    void Configure(AutoFormConfigurationBuilder builder);
 }

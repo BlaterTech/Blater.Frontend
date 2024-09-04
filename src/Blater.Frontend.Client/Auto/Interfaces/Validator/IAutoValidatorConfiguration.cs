@@ -5,5 +5,5 @@ namespace Blater.Frontend.Client.Auto.Interfaces.Validator;
 
 public interface IAutoValidatorConfiguration<T>
 {
-    void ConfigureValidator(AutoValidatorBuilder<T> builder);
+    void Configure(AutoValidatorBuilder<T> builder);
 }

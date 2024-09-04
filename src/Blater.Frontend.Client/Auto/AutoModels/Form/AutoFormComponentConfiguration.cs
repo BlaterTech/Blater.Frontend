@@ -4,6 +4,6 @@ using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
-public class AutoFormComponentConfiguration : BaseComponentConfiguration
+public class AutoFormAutoComponentConfiguration : BaseAutoComponentConfiguration
 {
 }
