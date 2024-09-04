@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
-public class BaseAutoAutoComponent : BaseAutoComponentInput
+public class BaseAutoComponent : BaseAutoComponentInput
 {
     [Parameter]
     public string? ExtraClass { get; set; }

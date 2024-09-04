@@ -1,4 +1,8 @@
-﻿using Blater.Frontend.Client.Auto.Interfaces;
+﻿using Blater.Frontend.Client.Auto.AutoBuilders.Details;
+using Blater.Frontend.Client.Auto.AutoBuilders.Form;
+using Blater.Frontend.Client.Auto.AutoBuilders.Table;
+using Blater.Frontend.Client.Auto.AutoBuilders.Valitador;
+using Blater.Frontend.Client.Auto.Interfaces;
 using Blater.Frontend.Client.Auto.Interfaces.Details;
 using Blater.Frontend.Client.Auto.Interfaces.Form;
 using Blater.Frontend.Client.Auto.Interfaces.Table;
@@ -46,29 +50,40 @@ public class AutoConfigurations
 
         foreach (var modelType in models)
         {
+            Console.WriteLine($"Configuration model {modelType.Name}");
             // Create instance of model type, and inject services
             var instance = ActivatorUtilities.CreateInstance(_serviceProvider, modelType);
 
-            ConfigureGenericModel(instance, modelType, typeof(IAutoFormConfiguration));
-            ConfigureGenericModel(instance, modelType, typeof(IAutoDetailsConfiguration));
-            ConfigureGenericModel(instance, modelType, typeof(IAutoTableConfiguration));
-            ConfigureGenericModel(instance, modelType, typeof(IAutoValidatorConfiguration<>));
-            
+            ConfigureModel(instance, modelType, typeof(IAutoFormConfiguration), typeof(AutoFormConfigurationBuilder));
+            ConfigureModel(instance, modelType, typeof(IAutoDetailsConfiguration), typeof(AutoDetailsConfigurationBuilder));
+            ConfigureModel(instance, modelType, typeof(IAutoTableConfiguration), typeof(AutoTableConfigurationBuilder));
+            ConfigureModel(instance, modelType, typeof(IAutoValidatorConfiguration<>), typeof(AutoValidatorBuilder<>), true);
+
             Configurations.Add(modelType, instance);
         }
 
         ModelsChanged?.Invoke();
     }
 
-    void ConfigureGenericModel(object instance, Type modelType, Type configurationType)
+    private static void ConfigureModel(object instance, Type modelType, Type configurationType, Type builderType, bool isGenericType = false)
     {
         if (!modelType.IsAssignableTo(configurationType)) return;
 
-        var method = modelType.GetMethod("Configure");
+        var method = modelType.GetMethod("Configure", [builderType]);
         if (method == null) return;
 
-        var builder = Activator.CreateInstance(configurationType.MakeGenericType(modelType));
-
+        object? builder;
+        if (isGenericType)
+        {
+            // Cria uma instância do tipo genérico do builder
+            var genericBuilderType = builderType.MakeGenericType(modelType);
+            builder = Activator.CreateInstance(genericBuilderType, modelType, instance);
+        }
+        else
+        {
+            // Cria uma instância do builder com parâmetros
+            builder = Activator.CreateInstance(builderType, modelType, instance);
+        }
         // Invoke the Configure method on the instance with the builder
         method.Invoke(instance, [builder]);
     }

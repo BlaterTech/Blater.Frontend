@@ -7,18 +7,20 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
 public class AutoDetailsMemberConfigurationBuilder(Type type, AutoDetailsGroupConfiguration configuration)
 {
-    public AutoDetailsComponentConfigurationBuilder<TType> AddMember<TType>(Expression<Func<TType>> expression)
+    public AutoDetailsMemberConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoDetailsAutoComponentConfiguration componentConfiguration)
     {
         var property = expression.GetPropertyInfoForType(type);
-
-        var currentDetailsComponentConfiguration = new AutoDetailsAutoComponentConfiguration
-        {
-            Property = property,
-            AutoComponentType = property.GetDefaultAutoDetailsComponentForType()
-        };
-
-        configuration.Configurations.Add(currentDetailsComponentConfiguration);
         
-        return new AutoDetailsComponentConfigurationBuilder<TType>(currentDetailsComponentConfiguration);
+        var index = configuration.Configurations.IndexOf(componentConfiguration);
+        if (index != -1)
+        {
+            configuration.Configurations[index] = componentConfiguration;
+            return this;
+        }
+
+        componentConfiguration.Property = property;
+        componentConfiguration.AutoComponentType ??= property.GetDefaultAutoDetailsComponentForType();
+        configuration.Configurations.Add(componentConfiguration);
+        return this;
     }
 }

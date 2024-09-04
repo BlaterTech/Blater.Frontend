@@ -1,4 +1,5 @@
 ﻿using Blater.Frontend.Client.Authentication;
+using Blater.Frontend.Client.Auto;
 using Blater.Frontend.Client.Auto.AutoBuilders;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
@@ -43,6 +44,7 @@ public static class WebSetup
         //services.AddSingleton<ICookieService, CookieService>();
         services.AddBlazoredLocalStorage();
         services.AddBlazoredSessionStorage();
+        services.AddSingleton<AutoConfigurations>();
         //services.AddScoped<IBlaterMemoryCache, BlaterMemoryCache>();
         //services.AddScoped<IBlaterStateStore, BlaterStateStore>();
         services.AddScoped<ILocalizationService, LocalizationService>();

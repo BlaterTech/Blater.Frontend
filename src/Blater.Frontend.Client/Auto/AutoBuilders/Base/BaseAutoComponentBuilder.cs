@@ -61,6 +61,21 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     protected abstract void LoadModelConfig();
 
+    protected TConfig FindModelConfig<TConfig>()
+    {
+        var modelType = typeof(T);
+        if(Configurations.Configurations.TryGetValue(modelType, out var value))
+        {
+            if (value is TConfig configValue)
+            {
+                return configValue;
+            }
+        }
+        
+        Logger.LogError("Model {Name} does not implement IAutoFormConfiguration<{TypeName}>", modelType.Name, modelType.Name);
+        throw new InvalidCastException("Model does not implement IAutoFormConfiguration");
+    }
+    
     protected override async Task OnInitializedAsync()
     {
         if ((Id != null && Id != Guid.Empty) || (Model != null && Model?.Id != Guid.Empty))
@@ -131,21 +146,21 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         var componentRenderBuilder = builder.OpenComponent(componentBuilderType);
 
-        componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.TypeName}", propertyInfo.PropertyType.Name);
-        componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.Size}", componentConfiguration.Size);
-        componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.ComponentConfiguration}", componentConfiguration);
-        componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.ExtraClass}", componentConfiguration.ExtraClass);
-        componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.ExtraStyle}", componentConfiguration.ExtraStyle);
+        componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.TypeName)}", propertyInfo.PropertyType.Name);
+        componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.Size)}", componentConfiguration.Size);
+        componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.AutoComponentConfiguration)}", componentConfiguration);
+        componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.ExtraClass)}", componentConfiguration.ExtraClass);
+        componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.ExtraStyle)}", componentConfiguration.ExtraStyle);
 
         var propertyValue = propertyInfo.GetValue(Model) ?? propertyInfo.PropertyType.GetDefaultValue();
         if (propertyValue != null)
         {
-            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.Value}", propertyValue);
+            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.Value)}", propertyValue);
         }
 
         if (HasLabel)
         {
-            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.LabelName}", componentConfiguration.LabelName);
+            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.LabelName)}", componentConfiguration.LabelName);
         }
 
         var compType = componentConfiguration.AutoComponentType;
@@ -158,11 +173,11 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         if (compType.IsFormInput() && compType.HasValueChanged)
         {
-            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.EditMode}", EditMode);
-            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.PlaceholderText}", componentConfiguration.Placeholder);
-            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.Disabled}", componentConfiguration.Disable);
-            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.IsReadOnly}", componentConfiguration.IsReadOnly);
-            componentRenderBuilder.AddAttribute($"{ParameterAutoComponent.ValueChanged}", componentConfiguration.OnValueChanged);
+            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.EditMode)}", EditMode);
+            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.PlaceholderText)}", componentConfiguration.Placeholder);
+            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.Disabled)}", componentConfiguration.Disable);
+            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.IsReadOnly)}", componentConfiguration.IsReadOnly);
+            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.ValueChanged)}", componentConfiguration.OnValueChanged);
         }
 
         componentRenderBuilder.Close();

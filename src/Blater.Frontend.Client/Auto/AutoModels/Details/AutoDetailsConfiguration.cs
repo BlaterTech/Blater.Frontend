@@ -1,6 +1,6 @@
 ﻿namespace Blater.Frontend.Client.Auto.AutoModels.Details;
 
-public class AutoDetailsModelConfiguration<T> 
+public class AutoDetailsConfiguration
 {
     public string Title { get; set; } = string.Empty;
     

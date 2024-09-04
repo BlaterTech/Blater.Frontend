@@ -11,5 +11,5 @@ public class AutoFormConfiguration
     public Dictionary<AutoComponentDisplayType, AutoAvatarModelConfiguration> AvatarConfiguration { get; set; } = [];
     public Dictionary<AutoComponentDisplayType, AutoFormActionConfiguration> ActionConfiguration { get; set; } = [];
     
-    public List<AutoFormGroupConfiguration> GroupConfigurations { get; set; } = [];
+    public Dictionary<AutoComponentDisplayType, List<AutoFormGroupConfiguration>> GroupConfigurations { get; set; } = [];
 }

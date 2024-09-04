@@ -17,117 +17,92 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
         }
         else
         {
-            throw new Exception("Instance is not IAutoFormConfiguration");
+            throw new InvalidCastException("Instance is not IAutoFormConfiguration");
         }
     }
     
     #region Group
 
-    public IAutoFormConfigurationBuilder AddGroupAvatar(Action<AutoFormAvatarConfigurationBuilder> action)
-        => AddGroupAvatar(AutoComponentDisplayType.Form, action);
+    public IAutoFormConfigurationBuilder AddGroupAvatar(AutoAvatarModelConfiguration avatarConfiguration)
+        => AddGroupAvatar(AutoComponentDisplayType.Form, avatarConfiguration);
 
-    public IAutoFormConfigurationBuilder AddGroupAvatarCreateOnly(Action<AutoFormAvatarConfigurationBuilder> action)
-        => AddGroupAvatar(AutoComponentDisplayType.FormCreate, action);
+    public IAutoFormConfigurationBuilder AddGroupAvatarCreateOnly(AutoAvatarModelConfiguration avatarConfiguration)
+        => AddGroupAvatar(AutoComponentDisplayType.FormCreate, avatarConfiguration);
 
-    public IAutoFormConfigurationBuilder AddGroupAvatarEditOnly(Action<AutoFormAvatarConfigurationBuilder> action)
-        => AddGroupAvatar(AutoComponentDisplayType.FormEdit, action);
+    public IAutoFormConfigurationBuilder AddGroupAvatarEditOnly(AutoAvatarModelConfiguration avatarConfiguration)
+        => AddGroupAvatar(AutoComponentDisplayType.FormEdit, avatarConfiguration);
     
-    public IAutoFormConfigurationBuilder AddGroup(Action<AutoFormMemberConfigurationBuilder> action)
-        => AddGroup(AutoComponentDisplayType.Form, action);
+    public IAutoFormMemberConfigurationBuilder AddGroup(AutoFormGroupConfiguration groupConfiguration)
+        => AddGroup(AutoComponentDisplayType.Form, groupConfiguration);
 
-    public IAutoFormConfigurationBuilder AddGroupCreateOnly(Action<AutoFormMemberConfigurationBuilder> action)
-        => AddGroup(AutoComponentDisplayType.FormCreate, action);
+    public IAutoFormMemberConfigurationBuilder AddGroupCreateOnly(AutoFormGroupConfiguration groupConfiguration)
+        => AddGroup(AutoComponentDisplayType.FormCreate, groupConfiguration);
 
-    public IAutoFormConfigurationBuilder AddGroupEditOnly(Action<AutoFormMemberConfigurationBuilder> action)
-        => AddGroup(AutoComponentDisplayType.FormEdit, action);
+    public IAutoFormMemberConfigurationBuilder AddGroupEditOnly(AutoFormGroupConfiguration groupConfiguration)
+        => AddGroup(AutoComponentDisplayType.FormEdit, groupConfiguration);
 
     #endregion
 
     #region Actions
 
-    public IAutoFormConfigurationBuilder Actions(Action<AutoFormActionConfigurationBuilder> action)
-        => Actions(AutoComponentDisplayType.Form, action);
+    public IAutoFormConfigurationBuilder Actions(AutoFormActionConfiguration actionConfiguration)
+        => Actions(AutoComponentDisplayType.Form, actionConfiguration);
 
-    public IAutoFormConfigurationBuilder ActionsCreateOnly(Action<AutoFormActionConfigurationBuilder> action)
-        => Actions(AutoComponentDisplayType.FormCreate, action);
+    public IAutoFormConfigurationBuilder ActionsCreateOnly(AutoFormActionConfiguration actionConfiguration)
+        => Actions(AutoComponentDisplayType.FormCreate, actionConfiguration);
 
-    public IAutoFormConfigurationBuilder ActionsEditOnly(Action<AutoFormActionConfigurationBuilder> action)
-        => Actions(AutoComponentDisplayType.FormEdit, action);
+    public IAutoFormConfigurationBuilder ActionsEditOnly(AutoFormActionConfiguration actionConfiguration)
+        => Actions(AutoComponentDisplayType.FormEdit, actionConfiguration);
 
     #endregion
     
-    private AutoFormConfigurationBuilder AddGroup(AutoComponentDisplayType displayType, Action<AutoFormMemberConfigurationBuilder> action)
+    private AutoFormMemberConfigurationBuilder AddGroup(AutoComponentDisplayType displayType, AutoFormGroupConfiguration groupConfiguration)
     {
-        var countGroup = _configuration.GroupConfigurations.Count;
-        var title = $"Auto{displayType.ToString()}Group{countGroup}-Title-{_type.Name}";
-        var formGroupConfiguration = _configuration.GroupConfigurations.FirstOrDefault(x => x.Title == title);
-
-        if (formGroupConfiguration != null)
+        if (_configuration.GroupConfigurations.TryGetValue(displayType, out var value))
         {
-            var existentConfiguration = new AutoFormMemberConfigurationBuilder(_type, formGroupConfiguration);
-
-            action(existentConfiguration);
-
-            return this;
-        }
-        
-        formGroupConfiguration = new AutoFormGroupConfiguration
-        {
-            Title = title,
-            ComponentConfigurations =
+            var index = value.IndexOf(groupConfiguration);
+            if (index != -1)
             {
-                [displayType] = []
+                value[index] = groupConfiguration;
             }
-        };
+            _configuration.GroupConfigurations[displayType] = value;
+            return new AutoFormMemberConfigurationBuilder(_type, groupConfiguration);
+        }
 
-        _configuration.GroupConfigurations.Add(formGroupConfiguration);
+        value ??= [];
+        value.Add(groupConfiguration);
+        _configuration.GroupConfigurations[displayType] = value;
 
-        var autoFormGroupConfigBuilder = new AutoFormMemberConfigurationBuilder(_type, formGroupConfiguration);
-
-        action(autoFormGroupConfigBuilder);
-
-        return this;
+        return new AutoFormMemberConfigurationBuilder(_type, groupConfiguration);
     }
     
-    private AutoFormConfigurationBuilder AddGroupAvatar(AutoComponentDisplayType displayType, Action<AutoFormAvatarConfigurationBuilder> action)
+    private AutoFormConfigurationBuilder AddGroupAvatar(AutoComponentDisplayType displayType, AutoAvatarModelConfiguration avatarConfiguration)
     {
-        if (_configuration.AvatarConfiguration.TryGetValue(displayType, out var autoFormActionConfiguration))
+        if (_configuration.AvatarConfiguration.TryGetValue(displayType, out var value))
         {
-            var existentFormGroupConfiguration = new AutoFormAvatarConfigurationBuilder(autoFormActionConfiguration);
-
-            action(existentFormGroupConfiguration);
-            
+            value = avatarConfiguration;
+            _configuration.AvatarConfiguration[displayType] = value;
             return this;
         }
 
-        autoFormActionConfiguration = new AutoAvatarModelConfiguration();
-        _configuration.AvatarConfiguration.TryAdd(displayType, autoFormActionConfiguration);
-
-        var autoFormGroupConfigBuilder = new AutoFormAvatarConfigurationBuilder(autoFormActionConfiguration);
-
-        action(autoFormGroupConfigBuilder);
-            
+        value = avatarConfiguration;
+        _configuration.AvatarConfiguration.TryAdd(displayType, value);
+        
         return this;
     }
 
-    private AutoFormConfigurationBuilder Actions(AutoComponentDisplayType displayType, Action<AutoFormActionConfigurationBuilder> action)
+    private AutoFormConfigurationBuilder Actions(AutoComponentDisplayType displayType, AutoFormActionConfiguration actionConfiguration)
     {
-        if (_configuration.ActionConfiguration.TryGetValue(displayType, out var actionConfiguration))
+        if (_configuration.ActionConfiguration.TryGetValue(displayType, out var value))
         {
-            var existentFormActionConfiguration = new AutoFormActionConfigurationBuilder(actionConfiguration);
-
-            action(existentFormActionConfiguration);
-            
+            value = actionConfiguration;
+            _configuration.ActionConfiguration[displayType] = value;
             return this;
         }
-        
-        actionConfiguration = new AutoFormActionConfiguration();
-        _configuration.ActionConfiguration.TryAdd(displayType, actionConfiguration);
-        
-        var formActionConfiguration = new AutoFormActionConfigurationBuilder(actionConfiguration);
 
-        action(formActionConfiguration);
-
+        value = actionConfiguration;
+        _configuration.ActionConfiguration.TryAdd(displayType, value);
+        
         return this;
     }
 }

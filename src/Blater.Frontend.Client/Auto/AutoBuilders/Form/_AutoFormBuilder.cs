@@ -1,10 +1,12 @@
-﻿using Blater.Frontend.Client.Auto.AutoBuilders.Base;
+﻿using Blater.Extensions;
+using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Validator;
 using Blater.Frontend.Client.Auto.Interfaces.Form;
 using Blater.Frontend.Client.Auto.Interfaces.Validator;
 using Blater.Frontend.Client.EasyRenderTree;
+using Blater.JsonUtilities;
 using Blater.Models.Bases;
 using FluentValidation;
 using Microsoft.AspNetCore.Components;
@@ -44,32 +46,20 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     protected override void LoadModelConfig()
     {
-        if (Model is IAutoFormConfiguration autoForm)
-        {
-            
-            Configuration = autoForm.Configuration;
-        }
-        else
-        {
-            Logger.LogError("Model {Name} does not implement IAutoFormConfiguration<{TypeName}>", Model?.GetType().Name, typeof(T).Name);
-            throw new Exception("Model does not implement IAutoFormConfiguration");
-        }
-
-        if (Model is IAutoValidatorConfiguration<T> autoValidator)
-        {
-        }
-        else
-        {
-            Logger.LogError("Model {Name} does not implement IAutoValidatorConfiguration<{TypeName}>", Model?.GetType().Name, typeof(T).Name);
-            throw new Exception("Model does not implement IAutoValidatorConfiguration");
-        }
+        var autoForm = FindModelConfig<IAutoFormConfiguration>();
+        Configuration = autoForm.Configuration;
     }
 
     protected override void BuildComponent(EasyRenderTreeBuilder builder)
     {
         var configuration = Configuration;
-        var avatarConfiguration = configuration.AvatarConfiguration[DisplayType | AutoComponentDisplayType.Form];
-        if (avatarConfiguration.EnableAvatarModel)
+        var avatarConfiguration = configuration
+                                 .AvatarConfiguration
+                                 .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
+
+        Console.WriteLine(avatarConfiguration.ToJson());
+        
+        if (avatarConfiguration is { EnableAvatarModel: true })
         {
             builder
                .OpenElement("div")
@@ -112,12 +102,20 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
             formBuilder.AddAttribute("ValidationDelay", 0);
             formBuilder.AddChildContent(treeBuilder =>
             {
+                var gridConfiguration = configuration
+                                       .GridConfigurations
+                                       .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
+                
                 treeBuilder
                    .OpenComponent<MudGrid>()
-                   .AddAttribute("Spacing", configuration.GridConfigurations[DisplayType | AutoComponentDisplayType.Form].Spacing)
+                   .AddAttribute("Spacing", gridConfiguration?.Spacing)
                    .AddChildContent(renderTreeBuilder =>
                     {
-                        foreach (var groupConfiguration in configuration.GroupConfigurations)
+                        var groupConfiguration = configuration
+                                                .GroupConfigurations
+                                                .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
+                        
+                        foreach (var value in groupConfiguration ?? [])
                         {
                             renderTreeBuilder
                                .OpenComponent<MudGrid>()
@@ -133,11 +131,15 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
                                            .OpenComponent<MudText>()
                                            .AddAttribute("Typo", Typo.h4)
                                            .AddAttribute("Color", Color.Inherit)
-                                           .AddChildContent(builderTextContent => builderTextContent.AddContent(groupConfiguration.Title))
+                                           .AddChildContent(builderTextContent => builderTextContent.AddContent(value.Title))
                                            .Close();
                                     }).Close();
 
-                                    var propertyConfigurations = groupConfiguration.ComponentConfigurations[DisplayType | AutoComponentDisplayType.Form];
+                                    var propertyConfigurations = value
+                                                                .ComponentConfigurations
+                                                                .FirstOrDefault(x => x.Key.HasFlag(DisplayType | AutoComponentDisplayType.Form))
+                                                                .Value;
+
                                     foreach (var propertyConfiguration in propertyConfigurations)
                                     {
                                         var itemBuilder = groupGridBuilder.OpenComponent<MudItem>();
@@ -155,10 +157,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
                                             itemBuilder.AddAttribute(nameof(Breakpoint.Xs), 12);
                                         }
 
-                                        itemBuilder.AddChildContent(mudItemContentBuilder =>
-                                        {
-                                            CreateGenericComponent(mudItemContentBuilder, propertyConfiguration);
-                                        });
+                                        itemBuilder.AddChildContent(mudItemContentBuilder => { CreateGenericComponent(mudItemContentBuilder, propertyConfiguration); });
 
                                         itemBuilder.Close();
                                     }
@@ -174,35 +173,37 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     private void AfterCreateComponents(RenderTreeBuilder builder)
     {
-        var configuration = Configuration.ActionConfiguration[DisplayType | AutoComponentDisplayType.Form];
+        var configuration = Configuration
+                           .ActionConfiguration
+                           .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);;
         var seq = 0;
 
         //Divider
         builder.OpenComponent<MudDivider>(seq++);
-        builder.AddAttribute(seq++, "DividerType", configuration.DividerType);
-        builder.AddAttribute(seq++, "Class", $"my-6 {configuration.DividerExtraClass}");
+        builder.AddAttribute(seq++, "DividerType", configuration?.DividerType);
+        builder.AddAttribute(seq++, "Class", $"my-6 {configuration?.DividerExtraClass}");
         builder.CloseComponent();
 
         //Action buttons
         builder.OpenElement(seq++, "div");
         builder.AddAttribute(seq++, "id", "action-buttons");
-        builder.AddAttribute(seq++, "class", $"d-flex justify-end gap-4 mt-4 {configuration.ActionExtraClass}");
+        builder.AddAttribute(seq++, "class", $"d-flex justify-end gap-4 mt-4 {configuration?.ActionExtraClass}");
 
         //Add cancel button
         builder.OpenComponent<MudButton>(seq++);
-        builder.AddAttribute(seq++, "Variant", configuration.VariantCancelButton);
-        builder.AddAttribute(seq++, "Color", configuration.ColorCancelButton);
-        builder.AddAttribute(seq++, "Class", configuration.CancelButtonExtraClass);
+        builder.AddAttribute(seq++, "Variant", configuration?.VariantCancelButton);
+        builder.AddAttribute(seq++, "Color", configuration?.ColorCancelButton);
+        builder.AddAttribute(seq++, "Class", configuration?.CancelButtonExtraClass);
         builder.AddAttribute(seq++, "OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, async _ => await NavigationService.GoBack()));
         builder.AddAttribute(seq++, "ChildContent", (RenderFragment)(buttonBuilder => { buttonBuilder.AddContent(seq++, LocalizationService.GetValue("CancelButton")); }));
         builder.CloseComponent();
 
         //Add save or edit button
         builder.OpenComponent<MudButton>(seq++);
-        builder.AddAttribute(seq++, "Variant", configuration.VariantCreateEditButton);
-        builder.AddAttribute(seq++, "Color", configuration.ColorCreateEditButton);
-        builder.AddAttribute(seq++, "ButtonType", configuration.TypeCreateEditButton);
-        builder.AddAttribute(seq++, "Class", configuration.CreateEditButtonExtraClass);
+        builder.AddAttribute(seq++, "Variant", configuration?.VariantCreateEditButton);
+        builder.AddAttribute(seq++, "Color", configuration?.ColorCreateEditButton);
+        builder.AddAttribute(seq++, "ButtonType", configuration?.TypeCreateEditButton);
+        builder.AddAttribute(seq++, "Class", configuration?.CreateEditButtonExtraClass);
         builder.AddAttribute(seq++, "OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, async _ => await Upsert()));
         builder.AddAttribute(seq++, "Disabled", Processing);
         builder.AddAttribute(seq++, "ChildContent",
@@ -234,7 +235,15 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
     public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
     {
-        var validator = ValidatorConfiguration.Validators[DisplayType | AutoComponentDisplayType.Form];
+        var validator = ValidatorConfiguration
+                       .Validators
+                       .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
+
+        if (validator == null)
+        {
+            throw new InvalidOperationException($"Not found validator configuration by {model}");
+        }
+        
         var result = await validator.ValidateAsync(ValidationContext<T>.CreateWithOptions((T)model, x => x.IncludeProperties(propertyName)));
         return result.IsValid ? [] : result.Errors.Select(e => e.ErrorMessage);
     };

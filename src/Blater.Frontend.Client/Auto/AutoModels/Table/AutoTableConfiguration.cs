@@ -1,6 +1,6 @@
 ﻿namespace Blater.Frontend.Client.Auto.AutoModels.Table;
 
-public class AutoTableModelConfiguration<T>
+public class AutoTableConfiguration
 {
     public string Title { get; set; } = string.Empty;
     public bool EnableFixedHeader { get; set; }

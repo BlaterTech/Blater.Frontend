@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Blater.Frontend.Authentication;
 using Blater.Frontend.Client;
+using Blater.Frontend.Client.Auto;
 using Blater.Frontend.Client.Auto.AutoBuilders;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
@@ -74,7 +75,7 @@ public static class WebSetup
         services.AddBlaterKeyValue();
         services.AddBlaterAuthStores();
         services.AddBlaterAuthRepositories();
-
+        services.AddSingleton<AutoConfigurations>();
         services.AddHttpContextAccessor();
         //services.AddScoped<ICookieService, CookieService>();
         services.AddBlazoredLocalStorage();

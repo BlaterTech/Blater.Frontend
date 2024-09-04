@@ -10,10 +10,11 @@ public abstract class BaseAutoComponentConfiguration : BaseAutoEventConfiguratio
 
     public string Name { get; set; } = string.Empty;
     public string DataFormat { get; set; } = string.Empty;
+    public string Mask { get; set; } = string.Empty;
     public string ExtraClass { get; set; } = string.Empty;
     public string ExtraStyle { get; set; } = string.Empty;
     public string LocalizationId { get; set; } = string.Empty;
-    public string LabelName { get; set; } = string.Empty;
+    public required string LabelName { get; set; }
     public string Placeholder { get; set; } = string.Empty;
     public string HelpMessage { get; set; } = string.Empty;
 
