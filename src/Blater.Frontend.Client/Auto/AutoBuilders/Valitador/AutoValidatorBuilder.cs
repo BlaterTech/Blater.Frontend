@@ -20,22 +20,22 @@ public class AutoValidatorBuilder<T> : IAutoValidatorBuilder<T>
         }
     }
 
-    public IAutoValidatorBuilder<T> TableValidate(AbstractValidator<T> validator)
+    public IAutoValidatorBuilder<T> TableValidate(ModelValidator<T> validator)
         => Validate(AutoComponentDisplayType.Table, validator);
 
-    public IAutoValidatorBuilder<T> DetailsValidate(AbstractValidator<T> validator)
+    public IAutoValidatorBuilder<T> DetailsValidate(ModelValidator<T> validator)
         => Validate(AutoComponentDisplayType.Details, validator);
 
-    public IAutoValidatorBuilder<T> FormValidate(AbstractValidator<T> validator)
+    public IAutoValidatorBuilder<T> FormValidate(ModelValidator<T> validator)
         => Validate(AutoComponentDisplayType.Form, validator);
 
-    public IAutoValidatorBuilder<T> FormCreateOnlyValidate(AbstractValidator<T> validator)
+    public IAutoValidatorBuilder<T> FormCreateOnlyValidate(ModelValidator<T> validator)
         => Validate(AutoComponentDisplayType.FormCreate, validator);
 
-    public IAutoValidatorBuilder<T> FormEditOnlyValidate(AbstractValidator<T> validator)
+    public IAutoValidatorBuilder<T> FormEditOnlyValidate(ModelValidator<T> validator)
         => Validate(AutoComponentDisplayType.FormEdit, validator);
 
-    public IAutoValidatorBuilder<T> Validate(AutoComponentDisplayType displayType, AbstractValidator<T> validator)
+    public IAutoValidatorBuilder<T> Validate(AutoComponentDisplayType displayType, ModelValidator<T> validator)
     {
         if (_configuration.Validators.TryGetValue(displayType, out _))
         {

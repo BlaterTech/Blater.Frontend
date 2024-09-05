@@ -1,4 +1,5 @@
-﻿using Blater.Frontend.Client.Auto.AutoBuilders.Details;
+﻿using System.Reflection;
+using Blater.Frontend.Client.Auto.AutoBuilders.Details;
 using Blater.Frontend.Client.Auto.AutoBuilders.Form;
 using Blater.Frontend.Client.Auto.AutoBuilders.Table;
 using Blater.Frontend.Client.Auto.AutoBuilders.Valitador;
@@ -11,6 +12,7 @@ using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Blater.Frontend.Client.Auto;
 
@@ -55,7 +57,7 @@ public class AutoConfigurations
             ConfigureModel(instance, modelType, typeof(IAutoFormConfiguration), typeof(AutoFormConfigurationBuilder));
             ConfigureModel(instance, modelType, typeof(IAutoDetailsConfiguration), typeof(AutoDetailsConfigurationBuilder));
             ConfigureModel(instance, modelType, typeof(IAutoTableConfiguration), typeof(AutoTableConfigurationBuilder));
-            ConfigureModel(instance, modelType, typeof(IAutoValidatorConfiguration<>), typeof(AutoValidatorBuilder<>), true);
+            ConfigureGenericModel(instance, modelType, typeof(IAutoValidatorConfiguration<>), typeof(AutoValidatorBuilder<>));
 
             Configurations.Add(modelType, instance);
         }
@@ -63,23 +65,44 @@ public class AutoConfigurations
         ModelsChanged?.Invoke();
     }
 
-    private static void ConfigureModel(object instance, Type modelType, Type configurationType, Type builderType, bool isGenericType = false)
+    private void ConfigureModel(object instance, Type modelType, Type configurationType, Type builderType)
     {
-        if (!modelType.IsAssignableTo(configurationType)) return;
+        if (!modelType.IsAssignableTo(configurationType))
+        {
+            Log.Information("ModelType {ModelType} is not AssignableTo {ConfigurationType}", modelType.Name, configurationType.Name);
+            return;
+        }
 
         var method = modelType.GetMethod("Configure", [builderType]);
-        if (method == null) return;
+        if (method == null)
+        {
+            Log.Information("Method Configure not found in BuilderType {BuilderType}", builderType.Name);
+            throw new InvalidOperationException($"Method Configure not found in BuilderType {builderType.Name}");
+        }
 
-        object? builder;
-        if (isGenericType)
+        var builder = Activator.CreateInstance(builderType, modelType, instance);
+        
+        method.Invoke(instance, [builder]);
+    }
+    
+    private void ConfigureGenericModel(object instance, Type modelType, Type configurationType, Type builderType)
+    {
+        var genericInterface = configurationType.MakeGenericType(modelType);
+        if (!modelType.IsAssignableTo(genericInterface))
         {
-            var genericBuilderType = builderType.MakeGenericType(modelType);
-            builder = Activator.CreateInstance(genericBuilderType, instance);
+            Log.Information("ModelType {ModelType} is not AssignableTo {ConfigurationType}", modelType.Name, configurationType.Name);
+            return;
         }
-        else
+
+        var genericBuilderType = builderType.MakeGenericType(modelType);
+        var method = modelType.GetMethod("Configure", [genericBuilderType]);
+        if (method == null)
         {
-            builder = Activator.CreateInstance(builderType, modelType, instance);
+            Log.Information("Method Configure not found in BuilderType {BuilderType}", builderType.Name);
+            throw new InvalidOperationException($"Method Configure not found in BuilderType {builderType.Name}");
         }
+        
+        var builder = Activator.CreateInstance(genericBuilderType, instance);
         
         method.Invoke(instance, [builder]);
     }

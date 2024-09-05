@@ -4,6 +4,7 @@ using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Validator;
 using Blater.Frontend.Client.Auto.Interfaces.Types.Form;
+using Blater.Frontend.Client.Auto.Interfaces.Types.Validator;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.JsonUtilities;
 using Blater.Models.Bases;
@@ -45,12 +46,9 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     protected override void LoadModelConfig()
     {
         var autoForm = FindModelConfig<IAutoFormConfiguration>();
+        var autoValidator = FindModelConfig<IAutoValidatorConfiguration<T>>();
         Configuration = autoForm.FormConfiguration;
-
-        if (Model is IAutoFormConfiguration formConfiguration)
-        {
-            Configuration = formConfiguration.FormConfiguration;
-        }
+        ValidatorConfiguration = autoValidator.ValidatorConfiguration;
     }
 
     protected override void BuildComponent(EasyRenderTreeBuilder builder)
@@ -99,10 +97,14 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
         void BuildInputs(EasyRenderTreeBuilder inputBuilder)
         {
+            var formValidator = ValidatorConfiguration.Validators.GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
             var formBuilder = inputBuilder.OpenComponent<MudForm>();
             formBuilder.AddAttribute("Model", Model);
-            formBuilder.AddAttribute("Validation", ValidateValue);
-            formBuilder.AddAttribute("ValidationDelay", 0);
+            if (formValidator != null)
+            {
+                formBuilder.AddAttribute("Validation", formValidator.ValidateValue);
+                formBuilder.AddAttribute("ValidationDelay", 0);   
+            }
             formBuilder.AddChildContent(treeBuilder =>
             {
                 var gridConfiguration = configuration
@@ -176,7 +178,6 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
         var configuration = Configuration
                            .ActionConfiguration
                            .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
-        ;
         var seq = 0;
 
         //Divider
@@ -232,20 +233,4 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
 
         builder.CloseElement();
     }
-
-
-    public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
-    {
-        var validator = ValidatorConfiguration
-                       .Validators
-                       .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
-
-        if (validator == null)
-        {
-            throw new InvalidOperationException($"Not found validator configuration by {model}");
-        }
-
-        var result = await validator.ValidateAsync(ValidationContext<T>.CreateWithOptions((T)model, x => x.IncludeProperties(propertyName)));
-        return result.IsValid ? [] : result.Errors.Select(e => e.ErrorMessage);
-    };
 }
