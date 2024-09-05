@@ -35,8 +35,7 @@
             Value = DateTime.UtcNow;
         }
 
-        await NotifyValueChanged();
-        await base.OnInitializedAsync();
+        await NotifyValueChanged(Value);
     }
 
 

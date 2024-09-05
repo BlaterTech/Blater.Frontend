@@ -1,17 +1,21 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
+using System.Reflection;
+using Blater.Frontend.Client.Auto.Extensions;
+using Blater.Helpers;
 
 namespace Blater.Frontend.Client.Services;
 
-[SuppressMessage("Usage", "CA2211:Campos não constantes não devem ser visíveis")]
 public static class StateNotifierService
 {
-    public static event Action<object?>? StateChanged;
+    public static event Action<PropertyInfo, object?>? StateChanged;
     
     public static void NotifyStateChanged<TProperty>(Expression<Func<TProperty>> expression)
     {
+        var typeName = GetClassNameFromExpression(expression);
+        var modelType = typeName.GetTypeFromName();
+        var propertyInfo = expression.GetPropertyInfoForType(modelType);
         var value = GetPropertyValueFromExpression(expression);
-        StateChanged?.Invoke(value);
+        StateChanged?.Invoke(propertyInfo, value);
     }
     
     private static string GetClassNameFromExpression<TProperty>(Expression<Func<TProperty>> expression)

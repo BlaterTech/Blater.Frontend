@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Blater.Frontend.Client.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -22,7 +23,7 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
     public new bool HasValidationError => ErrorMessages != null && ErrorMessages.Count != 0;
 
     [Parameter]
-    public EventCallback<TValue> ValueChanged { get; set; }
+    public EventCallback<TValue> OnValueChanged { get; set; }
 
     [Inject]
     public IJSRuntime JsRuntime { get; set; } = null!;
@@ -35,26 +36,17 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
 
     protected override void OnInitialized()
     {
-        StateNotifierService.StateChanged += x =>
-        {
-            if (x == null) return;
-            
-            Value = (TValue)x;
-            StateHasChanged();
-        };
+        StateNotifierService.StateChanged += OnStateChanged;
     }
 
-    public async Task NotifyValueChanged()
+    protected async Task NotifyValueChanged(TValue value)
     {
-        await ValueChanged.InvokeAsync(Value);
-        StateHasChanged();
-    }
-
-    public async Task NotifyValueChanged(TValue value)
-    {
+        Console.WriteLine("PropertyName => " + TypeName);
+        Console.WriteLine("Value => " + value);
         Dirty = true;
         Value = value;
-        await NotifyValueChanged();
+        await OnValueChanged.InvokeAsync(Value);
+        StateHasChanged();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -67,13 +59,20 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
             }
         }
     }
-
+    
     public void Dispose()
     {
-        StateNotifierService.StateChanged -= _ =>
-        {
-            StateHasChanged();
-        };
+        StateNotifierService.StateChanged -= OnStateChanged;
         GC.SuppressFinalize(this);
+    }
+    
+    private void OnStateChanged(PropertyInfo propertyInfo, object? value)
+    {
+        if (propertyInfo.Name == AutoComponentConfiguration.Property.Name && value != null)
+        {
+            Value = (TValue)value;
+            Console.WriteLine("Value => " + value);
+            InvokeAsync(StateHasChanged);
+        }
     }
 }

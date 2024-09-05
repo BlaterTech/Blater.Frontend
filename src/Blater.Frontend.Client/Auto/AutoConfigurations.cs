@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Blater.Frontend.Client.Auto.AutoBuilders.Details;
+﻿using Blater.Frontend.Client.Auto.AutoBuilders.Details;
 using Blater.Frontend.Client.Auto.AutoBuilders.Form;
 using Blater.Frontend.Client.Auto.AutoBuilders.Table;
 using Blater.Frontend.Client.Auto.AutoBuilders.Valitador;

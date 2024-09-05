@@ -8,7 +8,6 @@ using Blater.Frontend.Client.Auto.Interfaces.Types.Validator;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.JsonUtilities;
 using Blater.Models.Bases;
-using FluentValidation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;

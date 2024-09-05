@@ -8,6 +8,7 @@ using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Frontend.Client.Extensions;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Interfaces;
+using Blater.JsonUtilities;
 using Blater.Models;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
@@ -145,7 +146,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         var componentRenderBuilder = builder.OpenComponent(componentBuilderType);
 
-        componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.TypeName)}", propertyInfo.PropertyType.Name);
+        componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.TypeName)}", propertyInfo.Name);
         componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.Size)}", componentConfiguration.Size);
         componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.AutoComponentConfiguration)}", componentConfiguration);
         componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.ExtraClass)}", componentConfiguration.ExtraClass);
@@ -177,9 +178,13 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.Disabled)}", componentConfiguration.Disable);
             componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.IsReadOnly)}", componentConfiguration.IsReadOnly);
 
-            componentConfiguration.OnValueChanged ??= CreateGenericValueChanged(componentConfiguration.Property);
-            
-            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.ValueChanged)}", componentConfiguration.OnValueChanged);
+            if (componentConfiguration.OnValueChanged == null)
+            {
+                Console.WriteLine("CreateGenericValueChanged by Property => " + componentConfiguration.Property.Name);
+                componentConfiguration.OnValueChanged = CreateGenericValueChanged(componentConfiguration.Property);
+            }
+
+            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.OnValueChanged)}", componentConfiguration.OnValueChanged);
         }
 
         componentRenderBuilder.Close();
@@ -215,17 +220,12 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
                 }
 
                 propertyInfo.SetValue(Model, value);
-
-                FieldValueChanged(propertyInfo, value);
+                Console.WriteLine($"SetValue in Model {Model!.GetType()}, Value {value}, Property {propertyInfo.Name}");
             }
             catch (Exception e)
             {
                 Logger.LogError(e, "Failed to set value to the model");
             }
         }
-    }
-    
-    protected virtual void FieldValueChanged(PropertyInfo propertyInfo, object? newValue)
-    {
     }
 }
