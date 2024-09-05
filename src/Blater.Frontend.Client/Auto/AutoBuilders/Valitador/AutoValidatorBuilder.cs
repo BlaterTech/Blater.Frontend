@@ -5,17 +5,51 @@ using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Valitador;
 
-public class AutoValidatorBuilder<T>(AutoValidatorConfiguration<T> configuration) : IAutoValidatorBuilder<T>
+public class AutoValidatorBuilder<T> : IAutoValidatorBuilder<T>
 {
-    public IAutoValidatorBuilder<T> Validate(AutoValidatorConfiguration<T> validator)
+    private readonly AutoValidatorConfiguration<T> _configuration;
+    private readonly IAutoValidatorConfiguration<T> _autoValidator;
+    public AutoValidatorBuilder(object instance)
     {
-        configuration = validator;
-        return this;
+        if (instance is IAutoValidatorConfiguration<T> configuration)
+        {
+            _autoValidator = configuration;
+            _configuration = configuration.ValidatorConfiguration;
+        }
+        else
+        {
+            throw new InvalidCastException($"Instance is not IAutoValidatorConfiguration<{typeof(T).Name}>");
+        }
     }
-    
+
+    public IAutoValidatorBuilder<T> TableValidate(AbstractValidator<T> validator)
+        => Validate(AutoComponentDisplayType.Table, validator);
+
+    public IAutoValidatorBuilder<T> DetailsValidate(AbstractValidator<T> validator)
+        => Validate(AutoComponentDisplayType.Details, validator);
+
+    public IAutoValidatorBuilder<T> FormValidate(AbstractValidator<T> validator)
+        => Validate(AutoComponentDisplayType.Form, validator);
+
+    public IAutoValidatorBuilder<T> FormCreateOnlyValidate(AbstractValidator<T> validator)
+        => Validate(AutoComponentDisplayType.FormCreate, validator);
+
+    public IAutoValidatorBuilder<T> FormEditOnlyValidate(AbstractValidator<T> validator)
+        => Validate(AutoComponentDisplayType.FormEdit, validator);
+
     public IAutoValidatorBuilder<T> Validate(AutoComponentDisplayType displayType, AbstractValidator<T> validator)
     {
-        configuration.Validators.TryAdd(displayType, validator);
+        if (_configuration.Validators.TryGetValue(displayType, out _))
+        {
+            _configuration.Validators[displayType] = validator;
+        }
+        else
+        {
+            _configuration.Validators.TryAdd(displayType, validator);
+        }
+
+        _autoValidator.ValidatorConfiguration = _configuration;
+
         return this;
     }
 }

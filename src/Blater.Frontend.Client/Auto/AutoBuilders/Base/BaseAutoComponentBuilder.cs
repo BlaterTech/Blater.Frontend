@@ -35,7 +35,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     public IBlaterDatabaseRepository<T> DataRepository { get; set; } = null!;
 
     [Inject]
-    public AutoConfigurations Configurations { get; set; } = null!;
+    public AutoConfigurations AutoConfigurations { get; set; } = null!;
     
     #endregion
 
@@ -64,7 +64,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     protected TConfig FindModelConfig<TConfig>()
     {
         var modelType = typeof(T);
-        if(Configurations.Configurations.TryGetValue(modelType, out var value))
+        if(AutoConfigurations.Configurations.TryGetValue(modelType, out var value))
         {
             if (value is TConfig configValue)
             {

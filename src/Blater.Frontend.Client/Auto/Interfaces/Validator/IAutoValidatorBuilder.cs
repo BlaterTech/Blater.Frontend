@@ -1,11 +1,14 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
-using Blater.Frontend.Client.Auto.AutoModels.Validator;
 using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.Interfaces.Validator;
 
 public interface IAutoValidatorBuilder<T>
 {
-    IAutoValidatorBuilder<T> Validate(AutoValidatorConfiguration<T> validator);
+    IAutoValidatorBuilder<T> TableValidate(AbstractValidator<T> validator);
+    IAutoValidatorBuilder<T> DetailsValidate(AbstractValidator<T> validator);
+    IAutoValidatorBuilder<T> FormValidate(AbstractValidator<T> validator);
+    IAutoValidatorBuilder<T> FormCreateOnlyValidate(AbstractValidator<T> validator);
+    IAutoValidatorBuilder<T> FormEditOnlyValidate(AbstractValidator<T> validator);
     IAutoValidatorBuilder<T> Validate(AutoComponentDisplayType displayType, AbstractValidator<T> validator);
 }

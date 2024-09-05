@@ -47,7 +47,12 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     protected override void LoadModelConfig()
     {
         var autoForm = FindModelConfig<IAutoFormConfiguration>();
-        Configuration = autoForm.Configuration;
+        Configuration = autoForm.FormConfiguration;
+
+        if (Model is IAutoFormConfiguration formConfiguration)
+        {
+            Configuration = formConfiguration.FormConfiguration;
+        }
     }
 
     protected override void BuildComponent(EasyRenderTreeBuilder builder)
@@ -58,7 +63,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
                                  .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
 
         Console.WriteLine(avatarConfiguration.ToJson());
-        
+
         if (avatarConfiguration is { EnableAvatarModel: true })
         {
             builder
@@ -105,7 +110,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
                 var gridConfiguration = configuration
                                        .GridConfigurations
                                        .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
-                
+
                 treeBuilder
                    .OpenComponent<MudGrid>()
                    .AddAttribute("Spacing", gridConfiguration?.Spacing)
@@ -114,7 +119,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
                         var groupConfiguration = configuration
                                                 .GroupConfigurations
                                                 .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
-                        
+
                         foreach (var value in groupConfiguration ?? [])
                         {
                             renderTreeBuilder
@@ -135,10 +140,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
                                            .Close();
                                     }).Close();
 
-                                    var propertyConfigurations = value
-                                                                .ComponentConfigurations
-                                                                .FirstOrDefault(x => x.Key.HasFlag(DisplayType | AutoComponentDisplayType.Form))
-                                                                .Value;
+                                    var propertyConfigurations = value.ComponentConfigurations;
 
                                     foreach (var propertyConfiguration in propertyConfigurations)
                                     {
@@ -175,7 +177,8 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     {
         var configuration = Configuration
                            .ActionConfiguration
-                           .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);;
+                           .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
+        ;
         var seq = 0;
 
         //Divider
@@ -243,7 +246,7 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
         {
             throw new InvalidOperationException($"Not found validator configuration by {model}");
         }
-        
+
         var result = await validator.ValidateAsync(ValidationContext<T>.CreateWithOptions((T)model, x => x.IncludeProperties(propertyName)));
         return result.IsValid ? [] : result.Errors.Select(e => e.ErrorMessage);
     };

@@ -7,20 +7,23 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
 {
     private readonly AutoFormConfiguration _configuration;
+    private readonly IAutoFormConfiguration _formConfiguration;
     private readonly Type _type;
+
     public AutoFormConfigurationBuilder(Type type, object instance)
     {
         _type = type;
         if (instance is IAutoFormConfiguration configuration)
         {
-            _configuration = configuration.Configuration;
+            _formConfiguration = configuration;
+            _configuration = configuration.FormConfiguration;
         }
         else
         {
             throw new InvalidCastException("Instance is not IAutoFormConfiguration");
         }
     }
-    
+
     #region Group
 
     public IAutoFormConfigurationBuilder AddGroupAvatar(AutoAvatarModelConfiguration avatarConfiguration)
@@ -31,7 +34,7 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
 
     public IAutoFormConfigurationBuilder AddGroupAvatarEditOnly(AutoAvatarModelConfiguration avatarConfiguration)
         => AddGroupAvatar(AutoComponentDisplayType.FormEdit, avatarConfiguration);
-    
+
     public IAutoFormMemberConfigurationBuilder AddGroup(AutoFormGroupConfiguration groupConfiguration)
         => AddGroup(AutoComponentDisplayType.Form, groupConfiguration);
 
@@ -55,39 +58,44 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
         => Actions(AutoComponentDisplayType.FormEdit, actionConfiguration);
 
     #endregion
-    
+
     private AutoFormMemberConfigurationBuilder AddGroup(AutoComponentDisplayType displayType, AutoFormGroupConfiguration groupConfiguration)
     {
-        if (_configuration.GroupConfigurations.TryGetValue(displayType, out var value))
+        if (!_configuration.GroupConfigurations.TryGetValue(displayType, out var value))
         {
-            var index = value.IndexOf(groupConfiguration);
-            if (index != -1)
-            {
-                value[index] = groupConfiguration;
-            }
-            _configuration.GroupConfigurations[displayType] = value;
-            return new AutoFormMemberConfigurationBuilder(_type, groupConfiguration);
+            value ??= [];
+            _configuration.GroupConfigurations.TryAdd(displayType, value);
         }
 
-        value ??= [];
-        value.Add(groupConfiguration);
-        _configuration.GroupConfigurations[displayType] = value;
+        var index = value.IndexOf(groupConfiguration);
+        if (index != -1)
+        {
+            value[index] = groupConfiguration;
+        }
+        else
+        {
+            value.Add(groupConfiguration);
+        }
 
+        _configuration.GroupConfigurations[displayType] = value;
+        
+        _formConfiguration.FormConfiguration = _configuration;
         return new AutoFormMemberConfigurationBuilder(_type, groupConfiguration);
     }
-    
+
     private AutoFormConfigurationBuilder AddGroupAvatar(AutoComponentDisplayType displayType, AutoAvatarModelConfiguration avatarConfiguration)
     {
         if (_configuration.AvatarConfiguration.TryGetValue(displayType, out var value))
         {
+            _configuration.AvatarConfiguration[displayType] = avatarConfiguration;
+        }
+        else
+        {
             value = avatarConfiguration;
-            _configuration.AvatarConfiguration[displayType] = value;
-            return this;
+            _configuration.AvatarConfiguration.TryAdd(displayType, value);
         }
 
-        value = avatarConfiguration;
-        _configuration.AvatarConfiguration.TryAdd(displayType, value);
-        
+        _formConfiguration.FormConfiguration = _configuration;
         return this;
     }
 
@@ -95,14 +103,15 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
     {
         if (_configuration.ActionConfiguration.TryGetValue(displayType, out var value))
         {
+            _configuration.ActionConfiguration[displayType] = actionConfiguration;
+        }
+        else
+        {
             value = actionConfiguration;
-            _configuration.ActionConfiguration[displayType] = value;
-            return this;
+            _configuration.ActionConfiguration.TryAdd(displayType, value);
         }
 
-        value = actionConfiguration;
-        _configuration.ActionConfiguration.TryAdd(displayType, value);
-        
+        _formConfiguration.FormConfiguration = _configuration;
         return this;
     }
 }
