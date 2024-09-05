@@ -3,6 +3,6 @@ using Blater.Models.Bases;
 
 namespace Blater.Frontend.Client.Models.Bases;
 
-public abstract class BaseFrontendModel : BaseDataModel, IAutoConfiguration
+public abstract class BaseFrontendModel : BaseDataModel, IBaseAutoConfiguration
 {
 }

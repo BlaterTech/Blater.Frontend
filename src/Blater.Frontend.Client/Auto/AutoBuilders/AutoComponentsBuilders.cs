@@ -1,5 +1,4 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
-using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.Interfaces;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;

@@ -3,10 +3,10 @@ using Blater.Frontend.Client.Auto.AutoBuilders.Form;
 using Blater.Frontend.Client.Auto.AutoBuilders.Table;
 using Blater.Frontend.Client.Auto.AutoBuilders.Valitador;
 using Blater.Frontend.Client.Auto.Interfaces;
-using Blater.Frontend.Client.Auto.Interfaces.Details;
-using Blater.Frontend.Client.Auto.Interfaces.Form;
-using Blater.Frontend.Client.Auto.Interfaces.Table;
-using Blater.Frontend.Client.Auto.Interfaces.Validator;
+using Blater.Frontend.Client.Auto.Interfaces.Types.Details;
+using Blater.Frontend.Client.Auto.Interfaces.Types.Form;
+using Blater.Frontend.Client.Auto.Interfaces.Types.Table;
+using Blater.Frontend.Client.Auto.Interfaces.Types.Validator;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;
@@ -45,13 +45,11 @@ public class AutoConfigurations
         Configurations.Clear();
 
         var models = TypesHelper.AllTypes
-                                .Where(x => x is { IsInterface: false, IsAbstract: false } && x.IsAssignableTo(typeof(IAutoConfiguration)))
+                                .Where(x => x is { IsInterface: false, IsAbstract: false } && x.IsAssignableTo(typeof(IBaseAutoConfiguration)))
                                 .ToList();
 
         foreach (var modelType in models)
         {
-            Console.WriteLine($"Configuration model {modelType.Name}");
-            // Create instance of model type, and inject services
             var instance = ActivatorUtilities.CreateInstance(_serviceProvider, modelType);
 
             ConfigureModel(instance, modelType, typeof(IAutoFormConfiguration), typeof(AutoFormConfigurationBuilder));
@@ -75,16 +73,14 @@ public class AutoConfigurations
         object? builder;
         if (isGenericType)
         {
-            // Cria uma instância do tipo genérico do builder
             var genericBuilderType = builderType.MakeGenericType(modelType);
-            builder = Activator.CreateInstance(genericBuilderType, modelType, instance);
+            builder = Activator.CreateInstance(genericBuilderType, instance);
         }
         else
         {
-            // Cria uma instância do builder com parâmetros
             builder = Activator.CreateInstance(builderType, modelType, instance);
         }
-        // Invoke the Configure method on the instance with the builder
+        
         method.Invoke(instance, [builder]);
     }
 }

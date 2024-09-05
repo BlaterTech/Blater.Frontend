@@ -1,6 +1,6 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Validator;
-using Blater.Frontend.Client.Auto.Interfaces.Validator;
+using Blater.Frontend.Client.Auto.Interfaces.Types.Validator;
 using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Valitador;
@@ -8,17 +8,15 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Valitador;
 public class AutoValidatorBuilder<T> : IAutoValidatorBuilder<T>
 {
     private readonly AutoValidatorConfiguration<T> _configuration;
-    private readonly IAutoValidatorConfiguration<T> _autoValidator;
     public AutoValidatorBuilder(object instance)
     {
         if (instance is IAutoValidatorConfiguration<T> configuration)
         {
-            _autoValidator = configuration;
             _configuration = configuration.ValidatorConfiguration;
         }
         else
         {
-            throw new InvalidCastException($"Instance is not IAutoValidatorConfiguration<{typeof(T).Name}>");
+            throw new InvalidCastException($"Instance is not implement IAutoValidatorConfiguration<{typeof(T).Name}>");
         }
     }
 
@@ -47,9 +45,7 @@ public class AutoValidatorBuilder<T> : IAutoValidatorBuilder<T>
         {
             _configuration.Validators.TryAdd(displayType, validator);
         }
-
-        _autoValidator.ValidatorConfiguration = _configuration;
-
+        
         return this;
     }
 }

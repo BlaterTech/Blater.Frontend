@@ -2,7 +2,7 @@
 
 public class AutoDetailsConfiguration
 {
-    public string Title { get; set; } = string.Empty;
+    public required string Title { get; set; }
     
     public string SubTitle { get; set; } = string.Empty;
     

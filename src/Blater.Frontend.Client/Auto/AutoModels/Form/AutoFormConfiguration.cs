@@ -1,11 +1,10 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
-using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
 public class AutoFormConfiguration
 {
-    public string Title { get; set; } = string.Empty;
+    public required string Title { get; set; }
     
     public Dictionary<AutoComponentDisplayType, AutoGridConfiguration> GridConfigurations { get; set; } = [];
     public Dictionary<AutoComponentDisplayType, AutoAvatarModelConfiguration> AvatarConfiguration { get; set; } = [];

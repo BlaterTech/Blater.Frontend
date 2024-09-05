@@ -1,13 +1,12 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
-using Blater.Frontend.Client.Auto.Interfaces.Form;
+using Blater.Frontend.Client.Auto.Interfaces.Types.Form;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 
 public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
 {
     private readonly AutoFormConfiguration _configuration;
-    private readonly IAutoFormConfiguration _formConfiguration;
     private readonly Type _type;
 
     public AutoFormConfigurationBuilder(Type type, object instance)
@@ -15,12 +14,11 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
         _type = type;
         if (instance is IAutoFormConfiguration configuration)
         {
-            _formConfiguration = configuration;
             _configuration = configuration.FormConfiguration;
         }
         else
         {
-            throw new InvalidCastException("Instance is not IAutoFormConfiguration");
+            throw new InvalidCastException("Instance is not implement IAutoFormConfiguration");
         }
     }
 
@@ -79,7 +77,6 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
 
         _configuration.GroupConfigurations[displayType] = value;
         
-        _formConfiguration.FormConfiguration = _configuration;
         return new AutoFormMemberConfigurationBuilder(_type, groupConfiguration);
     }
 
@@ -94,8 +91,7 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
             value = avatarConfiguration;
             _configuration.AvatarConfiguration.TryAdd(displayType, value);
         }
-
-        _formConfiguration.FormConfiguration = _configuration;
+        
         return this;
     }
 
@@ -110,8 +106,7 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
             value = actionConfiguration;
             _configuration.ActionConfiguration.TryAdd(displayType, value);
         }
-
-        _formConfiguration.FormConfiguration = _configuration;
+        
         return this;
     }
 }

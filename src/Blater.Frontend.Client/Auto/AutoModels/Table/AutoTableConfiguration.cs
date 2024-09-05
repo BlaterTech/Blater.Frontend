@@ -2,7 +2,7 @@
 
 public class AutoTableConfiguration
 {
-    public string Title { get; set; } = string.Empty;
+    public required string Title { get; set; }
     public bool EnableFixedHeader { get; set; }
     public bool EnableFixedFooter { get; set; }
     public List<AutoTableAutoComponentConfiguration> Configurations { get; set; } = [];

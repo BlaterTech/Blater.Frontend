@@ -1,6 +1,4 @@
-﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
-
-namespace Blater.Frontend.Client.Auto.AutoModels.Form;
+﻿namespace Blater.Frontend.Client.Auto.AutoModels.Form;
 
 public class AutoFormGroupConfiguration
 {

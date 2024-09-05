@@ -1,13 +1,13 @@
 ﻿using System.Linq.Expressions;
 using Blater.Frontend.Client.Auto.AutoModels.Details;
-using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.Extensions;
+using Blater.Frontend.Client.Auto.Interfaces.Types.Details;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
-public class AutoDetailsMemberConfigurationBuilder(Type type, AutoDetailsGroupConfiguration configuration)
+public class AutoDetailsMemberConfigurationBuilder(Type type, AutoDetailsGroupConfiguration configuration) : IAutoDetailsMemberConfigurationBuilder
 {
-    public AutoDetailsMemberConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoDetailsAutoComponentConfiguration componentConfiguration)
+    public IAutoDetailsMemberConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoDetailsAutoComponentConfiguration componentConfiguration)
     {
         var property = expression.GetPropertyInfoForType(type);
         

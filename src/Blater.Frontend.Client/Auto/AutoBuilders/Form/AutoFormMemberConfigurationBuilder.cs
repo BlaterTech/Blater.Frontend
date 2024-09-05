@@ -1,8 +1,7 @@
 ﻿using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.Extensions;
-using Blater.Frontend.Client.Auto.Interfaces.Form;
+using Blater.Frontend.Client.Auto.Interfaces.Types.Form;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
 

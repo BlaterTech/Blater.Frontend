@@ -1,27 +1,44 @@
 ﻿using System.Linq.Expressions;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.Auto.Extensions;
+using Blater.Frontend.Client.Auto.Interfaces.Types.Table;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Table;
 
-public class AutoTableConfigurationBuilder(Type type, AutoTableConfiguration configuration)
+public class AutoTableConfigurationBuilder : IAutoTableConfigurationBuilder
 {
-    public AutoTableConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoTableAutoComponentConfiguration componentConfiguration)
-    {
-        var property = expression.GetPropertyInfoForType(type);
+    private readonly AutoTableConfiguration _configuration;
+    private readonly Type _type;
 
-        var index = configuration.Configurations.IndexOf(componentConfiguration);
+    public AutoTableConfigurationBuilder(Type type, object instance)
+    {
+        _type = type;
+        if (instance is IAutoTableConfiguration configuration)
+        {
+            _configuration = configuration.TableConfiguration;
+        }
+        else
+        {
+            throw new InvalidCastException("Instance is not implement IAutoTableConfiguration");
+        }
+    }
+
+    public IAutoTableConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoTableAutoComponentConfiguration componentConfiguration)
+    {
+        var property = expression.GetPropertyInfoForType(_type);
+
+        var index = _configuration.Configurations.IndexOf(componentConfiguration);
         if (index != -1)
         {
-            configuration.Configurations[index] = componentConfiguration;
-            return this;
+            _configuration.Configurations[index] = componentConfiguration;
         }
-
-        componentConfiguration.Property = property;
-        componentConfiguration.AutoComponentType ??= property.GetDefaultAutoTableComponentForType();
+        else
+        {
+            componentConfiguration.Property = property;
+            componentConfiguration.AutoComponentType ??= property.GetDefaultAutoTableComponentForType();
+            _configuration.Configurations.Add(componentConfiguration);
+        }
         
-        configuration.Configurations.Add(componentConfiguration);
-
         return this;
     }
 }

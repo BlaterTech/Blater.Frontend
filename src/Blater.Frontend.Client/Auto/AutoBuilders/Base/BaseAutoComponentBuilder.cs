@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Blater.Extensions;
-using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.Extensions;
@@ -177,9 +176,56 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.PlaceholderText)}", componentConfiguration.Placeholder);
             componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.Disabled)}", componentConfiguration.Disable);
             componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.IsReadOnly)}", componentConfiguration.IsReadOnly);
+
+            componentConfiguration.OnValueChanged ??= CreateGenericValueChanged(componentConfiguration.Property);
+            
             componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.ValueChanged)}", componentConfiguration.OnValueChanged);
         }
 
         componentRenderBuilder.Close();
+    }
+    
+    private readonly MethodInfo _makeActionMethod = typeof(BaseAutoComponentBuilder<T>).GetMethod("MakeAction",
+                                                                                                  BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.NonPublic)!;
+    
+    protected object? CreateGenericValueChanged(PropertyInfo propertyInfo)
+    {
+        var targetType = propertyInfo.PropertyType;
+
+        var genericMethod = EventCallbackExtensions.EventCallbackFactoryCreate.MakeGenericMethod(targetType);
+
+        var makeActionGenericMethod = _makeActionMethod.MakeGenericMethod(targetType);
+        var action = makeActionGenericMethod.Invoke(this, [propertyInfo])!;
+
+        var parameters = new[] { this, action };
+        return genericMethod.Invoke(EventCallback.Factory, parameters);
+    }
+    
+    protected Action<TEntity> MakeAction<TEntity>(PropertyInfo propertyInfo)
+    {
+        return Action;
+
+        void Action(TEntity value)
+        {
+            try
+            {
+                if (propertyInfo.SetMethod is null)
+                {
+                    return;
+                }
+
+                propertyInfo.SetValue(Model, value);
+
+                FieldValueChanged(propertyInfo, value);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "Failed to set value to the model");
+            }
+        }
+    }
+    
+    protected virtual void FieldValueChanged(PropertyInfo propertyInfo, object? newValue)
+    {
     }
 }

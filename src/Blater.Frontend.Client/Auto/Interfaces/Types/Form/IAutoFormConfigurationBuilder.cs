@@ -1,6 +1,6 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Form;
 
-namespace Blater.Frontend.Client.Auto.Interfaces.Form;
+namespace Blater.Frontend.Client.Auto.Interfaces.Types.Form;
 
 public interface IAutoFormConfigurationBuilder
 {

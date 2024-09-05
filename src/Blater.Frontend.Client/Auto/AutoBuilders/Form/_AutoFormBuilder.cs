@@ -3,8 +3,7 @@ using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Validator;
-using Blater.Frontend.Client.Auto.Interfaces.Form;
-using Blater.Frontend.Client.Auto.Interfaces.Validator;
+using Blater.Frontend.Client.Auto.Interfaces.Types.Form;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.JsonUtilities;
 using Blater.Models.Bases;
@@ -12,7 +11,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.Extensions.Logging;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Form;
@@ -31,8 +29,8 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
 
-    private AutoFormConfiguration Configuration { get; set; } = new();
-    private AutoValidatorConfiguration<T> ValidatorConfiguration { get; set; } = new();
+    private AutoFormConfiguration Configuration { get; set; } = default!;
+    private AutoValidatorConfiguration<T> ValidatorConfiguration { get; set; } = default!;
 
     private static async Task Upsert()
     {

@@ -33,4 +33,8 @@
       <ProjectReference Include="..\..\..\Blater\src\Blater\Blater.csproj" />
       <ProjectReference Include="..\..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Auto\Interfaces\Types\" />
+    </ItemGroup>
 </Project>

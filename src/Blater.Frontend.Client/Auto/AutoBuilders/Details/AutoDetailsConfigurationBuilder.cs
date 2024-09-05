@@ -1,19 +1,38 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Details;
+using Blater.Frontend.Client.Auto.Interfaces.Types.Details;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
-public class AutoDetailsConfigurationBuilder(Type type, AutoDetailsConfiguration configuration)
+public class AutoDetailsConfigurationBuilder : IAutoDetailsConfigurationBuilder
 {
-    public AutoDetailsMemberConfigurationBuilder AddGroup(AutoDetailsGroupConfiguration detailsGroupConfiguration)
+    private readonly AutoDetailsConfiguration _configuration;
+    private readonly Type _type;
+
+    public AutoDetailsConfigurationBuilder(Type type, object instance)
     {
-        var index = configuration.Configurations.IndexOf(detailsGroupConfiguration);
+        _type = type;
+        if (instance is IAutoDetailsConfiguration configuration)
+        {
+            _configuration = configuration.DetailsConfiguration;
+        }
+        else
+        {
+            throw new InvalidCastException("Instance is not implement IAutoDetailsConfiguration");
+        }
+    }
+
+    public IAutoDetailsMemberConfigurationBuilder AddGroup(AutoDetailsGroupConfiguration detailsGroupConfiguration)
+    {
+        var index = _configuration.Configurations.IndexOf(detailsGroupConfiguration);
         if (index != -1)
         {
-            configuration.Configurations[index] = detailsGroupConfiguration;
-            return new AutoDetailsMemberConfigurationBuilder(type, detailsGroupConfiguration);
+            _configuration.Configurations[index] = detailsGroupConfiguration;
         }
-        
-        configuration.Configurations.Add(detailsGroupConfiguration);
-        return new AutoDetailsMemberConfigurationBuilder(type, detailsGroupConfiguration);
+        else
+        {
+            _configuration.Configurations.Add(detailsGroupConfiguration);
+        }
+
+        return new AutoDetailsMemberConfigurationBuilder(_type, detailsGroupConfiguration);
     }
 }

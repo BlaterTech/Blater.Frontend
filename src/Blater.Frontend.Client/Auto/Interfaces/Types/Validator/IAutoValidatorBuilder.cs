@@ -1,7 +1,7 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using FluentValidation;
 
-namespace Blater.Frontend.Client.Auto.Interfaces.Validator;
+namespace Blater.Frontend.Client.Auto.Interfaces.Types.Validator;
 
 public interface IAutoValidatorBuilder<T>
 {
