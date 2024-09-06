@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 using Blater.Frontend.Client.Services;
 using Microsoft.AspNetCore.Components;
@@ -6,7 +6,6 @@ using Microsoft.JSInterop;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
-[SuppressMessage("ReSharper", "EventUnsubscriptionViaAnonymousDelegate")]
 public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TValue>, IDisposable
 {
     [Parameter]
@@ -17,6 +16,12 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
 
     [Parameter]
     public List<string>? ErrorMessages { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public object For { get; set; } = default!;
+
+    public Expression<Func<TValue>> ForExpression { get; set; } = default!;
 
     public string ValidationErrorSummary => string.Join("", ErrorMessages ?? []);
 
@@ -37,6 +42,11 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
     protected override void OnInitialized()
     {
         StateNotifierService.StateChanged += OnStateChanged;
+
+        if (For is Expression<Func<TValue>> expression)
+        {
+            ForExpression = expression;
+        }
     }
 
     protected async Task NotifyValueChanged(TValue value)

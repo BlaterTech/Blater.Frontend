@@ -1,5 +1,6 @@
 ﻿@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoFormComponent<string>
 
+@using System.Linq.Expressions
 @using Blater.Frontend.Client.Auto.AutoModels.Base
 @using Blater.Frontend.Client.Auto.AutoModels.Enumerations
 @implements Blater.Frontend.Client.Auto.Interfaces.IAutoBuildableComponent
@@ -9,6 +10,8 @@
         id="@InputId"
         T="string"
         Disabled="Disabled"
+        Immediate="true"
+        For="@ForExpression"
         Class="@ExtraClass"
         Placeholder="@PlaceholderText"
         Value="@Value"

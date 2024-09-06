@@ -57,8 +57,6 @@ public class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseData
                                  .AvatarConfiguration
                                  .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
 
-        Console.WriteLine(avatarConfiguration.ToJson());
-
         if (avatarConfiguration is { EnableAvatarModel: true })
         {
             builder

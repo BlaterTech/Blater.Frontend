@@ -40,7 +40,7 @@ public class AutoConfigurations
         BuildAllConfigurations();
     }
 
-    public void BuildAllConfigurations()
+    private void BuildAllConfigurations()
     {
         using var _ = new LogTimer("Building all model configurations");
         Configurations.Clear();
@@ -64,7 +64,7 @@ public class AutoConfigurations
         ModelsChanged?.Invoke();
     }
 
-    private void ConfigureModel(object instance, Type modelType, Type configurationType, Type builderType)
+    private static void ConfigureModel(object instance, Type modelType, Type configurationType, Type builderType)
     {
         if (!modelType.IsAssignableTo(configurationType))
         {
@@ -84,7 +84,7 @@ public class AutoConfigurations
         method.Invoke(instance, [builder]);
     }
     
-    private void ConfigureGenericModel(object instance, Type modelType, Type configurationType, Type builderType)
+    private static void ConfigureGenericModel(object instance, Type modelType, Type configurationType, Type builderType)
     {
         var genericInterface = configurationType.MakeGenericType(modelType);
         if (!modelType.IsAssignableTo(genericInterface))

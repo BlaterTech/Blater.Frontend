@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Reflection;
 using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
@@ -146,21 +147,21 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         var componentRenderBuilder = builder.OpenComponent(componentBuilderType);
 
-        componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.TypeName)}", propertyInfo.Name);
-        componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.Size)}", componentConfiguration.Size);
-        componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.AutoComponentConfiguration)}", componentConfiguration);
-        componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.ExtraClass)}", componentConfiguration.ExtraClass);
-        componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.ExtraStyle)}", componentConfiguration.ExtraStyle);
+        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.TypeName), propertyInfo.Name);
+        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Size), componentConfiguration.Size);
+        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.AutoComponentConfiguration), componentConfiguration);
+        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.ExtraClass), componentConfiguration.ExtraClass);
+        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.ExtraStyle), componentConfiguration.ExtraStyle);
 
         var propertyValue = propertyInfo.GetValue(Model) ?? propertyInfo.PropertyType.GetDefaultValue();
         if (propertyValue != null)
         {
-            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.Value)}", propertyValue);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Value), propertyValue);
         }
 
         if (HasLabel)
         {
-            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.LabelName)}", componentConfiguration.LabelName);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.LabelName), componentConfiguration.LabelName);
         }
 
         var compType = componentConfiguration.AutoComponentType;
@@ -173,10 +174,13 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         if (compType.IsFormInput() && compType.HasValueChanged)
         {
-            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.EditMode)}", EditMode);
-            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.PlaceholderText)}", componentConfiguration.Placeholder);
-            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.Disabled)}", componentConfiguration.Disable);
-            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.IsReadOnly)}", componentConfiguration.IsReadOnly);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.EditMode), EditMode);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.PlaceholderText), componentConfiguration.Placeholder);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Disabled), componentConfiguration.Disable);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.IsReadOnly), componentConfiguration.IsReadOnly);
+            
+            var forValue = CreateGenericExpression(componentConfiguration.Property);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.For), forValue);
 
             if (componentConfiguration.OnValueChanged == null)
             {
@@ -184,10 +188,28 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
                 componentConfiguration.OnValueChanged = CreateGenericValueChanged(componentConfiguration.Property);
             }
 
-            componentRenderBuilder.AddAttribute($"{nameof(BaseAutoFormComponent<T>.OnValueChanged)}", componentConfiguration.OnValueChanged);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), componentConfiguration.OnValueChanged);
         }
 
         componentRenderBuilder.Close();
+    }
+
+
+    protected object CreateGenericExpression(PropertyInfo propertyInfo)
+    {
+        var targetType = propertyInfo.DeclaringType!;
+        var parameter = Expression.Parameter(targetType, "model");
+
+        // Cria a expressão da propriedade
+        var property = Expression.Property(parameter, propertyInfo);
+
+        // Define o tipo da expressão lambda: Expression<Func<T>>
+        var lambdaType = typeof(Func<>).MakeGenericType(targetType, propertyInfo.PropertyType);
+
+        // Cria a expressão lambda com o tipo dinâmico Expression<Func<T>>
+        var lambda = Expression.Lambda(lambdaType, property, parameter);
+
+        return lambda;
     }
     
     private readonly MethodInfo _makeActionMethod = typeof(BaseAutoComponentBuilder<T>).GetMethod("MakeAction",
