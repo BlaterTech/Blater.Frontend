@@ -15,6 +15,7 @@ using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.Extensions.Logging;
+using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
@@ -33,7 +34,10 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     public INavigationService NavigationService { get; set; } = null!;
 
     [Inject]
-    public IBlaterDatabaseRepository<T> DataRepository { get; set; } = null!;
+    public IBlaterDatabaseStoreT<T> DataRepository { get; set; } = null!;
+    
+    [Inject]
+    public ISnackbar Snackbar { get; set; } = null!;
 
     [Inject]
     public AutoConfigurations AutoConfigurations { get; set; } = null!;

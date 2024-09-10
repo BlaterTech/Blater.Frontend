@@ -3,9 +3,9 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Models;
 
-public class CustomDataGridAction<T> where T : BaseDataModel
+public class CustomAutoTableAction
 {
-    public Action<T> OnValueChanged { get; set; } = null!;
+    public object? OnValueChanged { get; set; }
     
     public Color? Color { get; set; }
     
