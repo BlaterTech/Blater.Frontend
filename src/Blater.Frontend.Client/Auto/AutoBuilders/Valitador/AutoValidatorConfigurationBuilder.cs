@@ -4,10 +4,10 @@ using Blater.Frontend.Client.Auto.Interfaces.Types.Validator;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Valitador;
 
-public class AutoValidatorBuilder<T> : IAutoValidatorBuilder<T>
+public class AutoValidatorConfigurationBuilder<T> : IAutoValidatorBuilder<T>
 {
     private readonly AutoValidatorConfiguration<T> _configuration;
-    public AutoValidatorBuilder(object instance)
+    public AutoValidatorConfigurationBuilder(object instance)
     {
         if (instance is IAutoValidatorConfiguration<T> configuration)
         {
