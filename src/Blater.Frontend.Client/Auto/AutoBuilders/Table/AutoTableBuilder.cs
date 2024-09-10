@@ -133,9 +133,10 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
 
     private RenderFragment BuildHeaderContent(EasyRenderTreeBuilder builder)
     {
-        var columns = TableConfiguration.Configurations
-                                        .Where(x => !x.DisableColumn)
-                                        .ToList();
+        var columns = TableConfiguration
+                     .Configurations
+                     .Where(x => !x.DisableColumn)
+                     .ToList();
         foreach (var column in columns)
         {
             builder
@@ -151,10 +152,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
                                .OpenComponent<MudTableSortLabel<T>>()
                                .AddAttribute(nameof(MudTableSortLabel<T>.SortBy), CreateSortFunc(column.Property.Name))
                                .AddAttribute(nameof(MudTableSortLabel<T>.Enabled), column.DisableColumn)
-                               .AddChildContent(easyRenderTreeBuilder =>
-                                {
-                                    easyRenderTreeBuilder.AddContent("");
-                                })
+                               .AddChildContent(easyRenderTreeBuilder => { easyRenderTreeBuilder.AddContent(""); })
                                .Close();
                             renderTreeBuilder
                                .OpenComponent<MudIconButton>()
@@ -192,14 +190,14 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
         _dateRange = obj;
         await Task.Delay(1);
     }
-    
+
     private static Func<T, object> CreateSortFunc(string propName)
     {
         var param = Expression.Parameter(typeof(T), "p");
         var body = Expression.Convert(Expression.Property(param, propName), typeof(object));
         return Expression.Lambda<Func<T, object>>(body, param).Compile();
     }
-    
+
     private async Task Filter()
     {
         await Task.Delay(1);
@@ -209,7 +207,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
     private void ToggleOpen()
     {
         _open = !_open;
-        
+
         /*if (_whereParts.Count == 0)
         {
             _whereParts.Add(new WherePart("", OperatorTypes.Contains, ""));
