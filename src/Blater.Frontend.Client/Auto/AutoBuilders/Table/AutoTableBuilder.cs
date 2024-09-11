@@ -108,14 +108,61 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
     {
         builder
            .OpenComponent<MudCard>()
+           .AddAttribute(nameof(MudCard.Elevation), 0)
+           .AddAttribute(nameof(MudCard.Class), "pa-4 mb-2 mud-height-full")
+           .AddChildContent(treeBuilder =>
+            {
+                treeBuilder
+                   .OpenComponent<MudGrid>()
+                   .AddAttribute(nameof(MudGrid.Spacing), 0)
+                   .AddChildContent(renderTreeBuilder =>
+                    {
+                        renderTreeBuilder
+                           .OpenComponent<MudItem>()
+                           .AddAttribute(nameof(MudItem.xs), 12)
+                           .AddAttribute(nameof(MudItem.Class), "d-flex")
+                           .AddChildContent(easyRenderTreeBuilder =>
+                            {
+                                easyRenderTreeBuilder
+                                   .OpenComponent<MudText>()
+                                   .AddAttribute(nameof(MudText.Typo), Typo.h5)
+                                   .AddChildContent(builder1 => { builder1.AddContent(TableConfiguration.Title); })
+                                   .Close();
+
+                                easyRenderTreeBuilder
+                                   .OpenComponent<MudSpacer>()
+                                   .Close();
+
+                                if (TableConfiguration.EnabledCreateButton)
+                                {
+                                    easyRenderTreeBuilder
+                                       .OpenComponent<MudButton>()
+                                       .AddAttribute(nameof(MudButton.Color), Color.Primary)
+                                       .AddAttribute(nameof(MudButton.OnClick), OnCreate)
+                                       .AddAttribute(nameof(MudButton.Variant), Variant.Filled)
+                                       .AddAttribute(nameof(MudButton.StartIcon), Icons.Material.Filled.Add)
+                                       .AddAttribute(nameof(MudButton.Size), Size.Medium)
+                                       .Close();
+                                }
+                            })
+                           .Close();
+                    })
+                   .Close();
+            })
+           .Close();
+
+        builder
+           .OpenComponent<MudCard>()
+           .AddAttribute(nameof(MudCard.Elevation), 0)
+           .AddAttribute(nameof(MudCard.Class), "pa-4")
            .AddChildContent(cardBuilder =>
             {
-                BuildHeaderComponent(cardBuilder);
+                BuildFormFilterComponent(cardBuilder);
                 BuildTableComponent(cardBuilder);
             })
            .Close();
 
-        BuildHeaderComponent(builder);
+        BuildFormFilterComponent(builder);
     }
 
     #region Popover
@@ -144,7 +191,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
                             var column = wherePart.Column;
                             var operatorType = wherePart.Operator;
                             var value = wherePart.Value;
-                            
+
                             renderTreeBuilder
                                .OpenComponent<MudItem>()
                                .AddAttribute(nameof(MudItem.xs), 4)
@@ -166,8 +213,8 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
                                        .AddChildContent(builder1 =>
                                         {
                                             var columnConfigurationsFilter = ColumnConfigurations
-                                                              .Where(x => !x.DisableFilter)
-                                                              .ToList();
+                                                                            .Where(x => !x.DisableFilter)
+                                                                            .ToList();
                                             foreach (var columnConfig in columnConfigurationsFilter)
                                             {
                                                 builder1
@@ -179,7 +226,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
                                        .Close();
                                 })
                                .Close();
-                            
+
                             renderTreeBuilder
                                .OpenComponent<MudItem>()
                                .AddAttribute(nameof(MudItem.xs), 4)
@@ -205,7 +252,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
                                        .Close();
                                 })
                                .Close();
-                            
+
                             renderTreeBuilder
                                .OpenComponent<MudItem>()
                                .AddAttribute(nameof(MudItem.xs), 4)
@@ -220,7 +267,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
                                 })
                                .Close();
                         }
-                        
+
                         renderTreeBuilder
                            .OpenComponent<MudItem>()
                            .AddAttribute(nameof(MudItem.xs), 12)
@@ -231,19 +278,13 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
                                    .OpenComponent<MudButton>()
                                    .AddAttribute(nameof(MudButton.Color), Color.Info)
                                    .AddAttribute(nameof(MudButton.OnClick), EventCallback.Factory.Create<EventArgs>(this, _ => AddWherePart()))
-                                   .AddChildContent(builder1 =>
-                                    {
-                                        builder1.AddContent("+ Add Filter");
-                                    })
+                                   .AddChildContent(builder1 => { builder1.AddContent("+ Add Filter"); })
                                    .Close();
                                 easyRenderTreeBuilder
                                    .OpenComponent<MudButton>()
                                    .AddAttribute(nameof(MudButton.Color), Color.Info)
                                    .AddAttribute(nameof(MudButton.OnClick), EventCallback.Factory.Create<EventArgs>(this, _ => ClearWherePart()))
-                                   .AddChildContent(builder1 =>
-                                    {
-                                        builder1.AddContent("- Clear");
-                                    })
+                                   .AddChildContent(builder1 => { builder1.AddContent("- Clear"); })
                                    .Close();
                                 easyRenderTreeBuilder
                                    .OpenComponent<MudSpacer>()
@@ -252,10 +293,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
                                    .OpenComponent<MudButton>()
                                    .AddAttribute(nameof(MudButton.Color), Color.Info)
                                    .AddAttribute(nameof(MudButton.OnClick), EventCallback.Factory.Create<EventArgs>(this, async _ => await Filter()))
-                                   .AddChildContent(builder1 =>
-                                    {
-                                        builder1.AddContent("Filter");
-                                    })
+                                   .AddChildContent(builder1 => { builder1.AddContent("Filter"); })
                                    .Close();
                             })
                            .Close();
@@ -267,7 +305,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
 
     #endregion
 
-    private void BuildHeaderComponent(EasyRenderTreeBuilder builder)
+    private void BuildFormFilterComponent(EasyRenderTreeBuilder builder)
     {
         builder
            .OpenElement("form")
@@ -514,7 +552,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
             _whereParts.Add(new WherePart("", OperatorTypes.Contains, ""));
         }
     }
-    
+
     public record WherePart(string Column, OperatorTypes Operator, object Value);
 
     private List<WherePart> _whereParts = [];
@@ -524,7 +562,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
         _whereParts.Remove(wherePart);
         StateHasChanged();
     }
-    
+
     private void ClearWherePart()
     {
         _whereParts.Clear();

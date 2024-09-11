@@ -8,6 +8,7 @@ public class AutoTableConfiguration
     public required string Title { get; set; }
 
     public bool EnableDefaultAction { get; set; } = true;
+    public bool EnabledCreateButton { get; set; } = true;
     public bool EnableCustomAction { get; set; }
     public bool EnableFixedHeader { get; set; }
     public bool EnableFixedFooter { get; set; }
