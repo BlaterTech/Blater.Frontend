@@ -1,6 +1,8 @@
-﻿@*@using System.Globalization
+﻿@using System.Globalization
 @using Blater.Frontend.Client.Enumerations
-@using Blater.Frontend.Client.Services
+
+@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoComponentBuilder<T>
+
 @typeparam T where T : Blater.Models.Bases.BaseDataModel
 
 <MudCard Elevation="0" Class="pa-4 mb-2 mud-height-full">
@@ -10,7 +12,7 @@
                 @LocalizationService.GetValue($"BlaterTable-Title-{_typeName}")
             </MudText>
             <MudSpacer/>
-            @if (EnabledCreateButton)
+            @if (TableConfiguration.EnableCreateButton)
             {
                 <MudIconButton
                     Color="Color.Primary"
@@ -60,18 +62,18 @@
         @ref="_mudTable"
         Items="@Items"
         Breakpoint="Breakpoint.Sm"
-        Striped="@EnabledStriped"
-        MultiSelection="@EnabledMultiSelection"
-        SelectOnRowClick="@EnabledSelectOnRowClick"
-        SelectionChangeable="@EnabledSelectionChangeable"
+        Striped="@TableConfiguration.EnableStriped"
+        MultiSelection="@TableConfiguration.EnableMultiSelection"
+        SelectOnRowClick="@TableConfiguration.EnableSelectOnRowClick"
+        SelectionChangeable="@TableConfiguration.EnableSelectionChangeable"
         SelectedItemsChanged="@OnSelectedItemsChanged"
         SelectedItemChanged="@OnSelectedItemChanged"
         OnRowClick="@OnRowClick"
-        FixedHeader="@EnabledFixedHeader"
-        FixedFooter="@EnabledFixedFooter"
-        Height="@(EnabledFixedHeader || EnabledFixedFooter ? "70vh" : "")"
-        Loading="@_loading"
-        LoadingProgressColor="@LoadingProgressColor">
+        FixedHeader="@TableConfiguration.EnableFixedHeader"
+        FixedFooter="@TableConfiguration.EnableFixedFooter"
+        Height="@(TableConfiguration.EnableFixedHeader || TableConfiguration.EnableFixedFooter ? "70vh" : "")"
+        Loading="@TableConfiguration.Loading"
+        LoadingProgressColor="@TableConfiguration.LoadingProgressColor">
         <HeaderContent>
             @{
                 foreach (var column in ColumnConfigurations.Where(column => !column.DisableColumn))
@@ -83,12 +85,12 @@
                                 Enabled="@column.DisableFilter">
                                 @(string.IsNullOrWhiteSpace(column.Name) ? LocalizationService.GetValue($"BlaterTable-Table-{column.Property.Name}") : column.Name)
                             </MudTableSortLabel>
-                            <MudIconButton Icon="@_iconFilter" OnClick="@ToggleOpen"/>
+                            <MudIconButton Icon="@_iconFilter" OnClick="@FilterOpen"/>
                         </div>
                     </MudTh>
                 }
 
-                if (EnabledCustomActions || EnabledDefaultActions)
+                if (TableConfiguration.EnableCustomAction || TableConfiguration.EnableDefaultAction)
                 {
                     <MudTh/>
                 }
@@ -103,11 +105,11 @@
                     <MudTd DataLabel="@propName">@propValue</MudTd>
                 }
 
-                if (EnabledCustomActions || EnabledDefaultActions)
+                if (TableConfiguration.EnableCustomAction || TableConfiguration.EnableDefaultAction)
                 {
                     <MudTd>
                         <div class="d-flex align-center justify-center gap-2">
-                            @if (EnabledDefaultActions)
+                            @if (TableConfiguration.EnableDefaultAction)
                             {
                                 <MudIconButton
                                     Icon="@Material.Outlined.RemoveRedEye"
@@ -122,14 +124,14 @@
                                     Color="@(context.Enabled ? Color.Primary : Color.Error)"
                                     OnClick="@(() => OnDisabledChanged.InvokeAsync(context))"/>
                             }
-                            @if (EnabledCustomActions)
+                            @if (TableConfiguration.EnableCustomAction)
                             {
-                                foreach (var item in CustomDataGridActions)
+                                foreach (var item in TableConfiguration.CustomAutoTableActions)
                                 {
                                     <MudIconButton
                                         Icon="@item.Icon"
                                         Color="@(item.Color ?? Color.Primary)"
-                                        OnClick="@(() => item.OnValueChanged(context))"/>
+                                        OnClick="@item.OnValueChanged"/>
                                 }
                             }
                         </div>
@@ -172,9 +174,9 @@
             </MudItem>
             <MudItem xs="4" Class="pa-2">
                 <MudSelect T="OperatorTypes" Label="Operator" Clearable="true" Required="true" bind-Value="@typeValue">
-                    @foreach (var value in OperatorTypesExtensions.GetValues())
+                    @foreach (var operatorType in OperatorTypesExtensions.GetValues())
                     {
-                    <MudSelectItem T="OperatorTypes" Value="@value"/>
+                    <MudSelectItem T="OperatorTypes" Value="@operatorType"/>
                     }
                 </MudSelect>
             </MudItem>
@@ -189,4 +191,4 @@
             <MudButton OnClick="@Filter" Color="Color.Info">Filter</MudButton>
         </MudItem>
     </MudGrid>
-</MudPopover>*@
+</MudPopover>
