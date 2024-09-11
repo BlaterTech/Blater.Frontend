@@ -16,7 +16,6 @@ public class AutoTableConfiguration
     public bool EnableSelectOnRowClick { get; set; }
     public bool EnableSelectionChangeable { get; set; }
     public bool EnableStriped { get; set; }
-    public bool Loading { get; set; }
 
     public Color LoadingProgressColor { get; set; } = Color.Primary;
     

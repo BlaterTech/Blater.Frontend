@@ -11,16 +11,16 @@ public class AutoDetailsMemberConfigurationBuilder(Type type, AutoDetailsGroupCo
     {
         var property = expression.GetPropertyInfoForType(type);
         
-        var index = configuration.Configurations.IndexOf(componentConfiguration);
+        var index = configuration.Components.IndexOf(componentConfiguration);
         if (index != -1)
         {
-            configuration.Configurations[index] = componentConfiguration;
+            configuration.Components[index] = componentConfiguration;
             return this;
         }
 
         componentConfiguration.Property = property;
         componentConfiguration.AutoComponentType ??= property.GetDefaultAutoDetailsComponentForType();
-        configuration.Configurations.Add(componentConfiguration);
+        configuration.Components.Add(componentConfiguration);
         return this;
     }
 }

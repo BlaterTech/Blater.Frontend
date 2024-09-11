@@ -1,3 +1,155 @@
 ﻿@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoComponentBuilder<T>
 @typeparam T where T : BaseDataModel
 
+@if (Loading)
+{
+    <MudProgressCircular
+        Color="Color.Primary"
+        Indeterminate="true"/>
+}
+else
+{
+    <MudGrid>
+        @if (Id == Guid.Empty)
+        {
+            <MudItem
+                xs="12">
+                <MudText
+                    Typo="Typo.h4">
+                    @DetailsConfiguration.Title
+                </MudText>
+            </MudItem>
+            <MudItem
+                xs="12">
+                <MudText
+                    Typo="Typo.h5">
+                    @LocalizationService.GetValue("ItemNotFound")
+                </MudText>
+            </MudItem>
+        }
+        else
+        {
+            if (DetailsConfiguration.AvatarConfiguration is { EnableAvatarModel: true })
+            {
+                <MudItem
+                    xs="12">
+                    <MudCard
+                        Style="background-image: linear-gradient(to bottom, transparent 50%, var(--mud-palette-surface) 50%), url('https://liporstoragepulic.blob.core.windows.net/images/15518074_5594016 1.png');"
+                        Class="@($"pa-4 d-flex justify-center align-center flex-column gap-2 {DetailsConfiguration.AvatarConfiguration.ExtraClass}")">
+
+                        <MudAvatar
+                            Elevation="25"
+                            Style="width: 128px;
+         height: 128px;
+          border-radius: 50%;
+           border: 2px solid #FFFFFF;
+            background-color: #FFFFFF;"
+                            Class="z-10"
+                            Size="Size.Large">
+                            <MudImage 
+                                Src="@DetailsConfiguration.AvatarConfiguration.AvatarUrl"/>
+                        </MudAvatar>
+
+                        <MudText
+                            Typo="Typo.h5"
+                            Align="Align.Center">
+                            @DetailsConfiguration.AvatarConfiguration.Title
+                        </MudText>
+                        <MudText
+                            Typo="Typo.h6"
+                            Align="Align.Center">
+                            @DetailsConfiguration.AvatarConfiguration.SubTitle
+                        </MudText>
+                    </MudCard>
+                </MudItem>
+            }
+
+            <MudItem
+                xs="12">
+                <MudCard
+                    Class="@($"my-4 pa-4 {DetailsConfiguration.ExtraClass}")">
+                    <MudGrid
+                        Spacing="2">
+                        @foreach (var group in DetailsConfiguration.Groups)
+                        {
+                            <MudItem xs="12">
+                                <MudText Typo="Typo.h6">@group.Title</MudText>
+                                @if (group.EnableEditButton)
+                                {
+                                    <MudSpacer/>
+                                    <MudIconButton
+                                        Variant="Variant.Filled"
+                                        Color="Color.Primary"
+                                        OnClick="@(async () => await EditCallback.InvokeAsync(Model))"/>
+                                }
+                            </MudItem>
+                            <MudItem
+                                xs="12">
+                                <MudSimpleTable
+                                    Style="overflow-x: auto;"
+                                    Hover="true"
+                                    Elevation="0"
+                                    Striped="true">
+                                    <thead/>
+                                    <tbody>
+                                    @foreach (var component in group.Components
+                                                                    .Where(x => x is { SeparateCard: false, SeparateComponent: false }))
+                                    {
+                                        @RenderComponents(component)
+                                    }
+                                    </tbody>
+                                </MudSimpleTable>
+                            </MudItem>
+                        }
+                    </MudGrid>
+                </MudCard>
+            </MudItem>
+
+            foreach (var separateCard in DetailsConfiguration
+                                        .Groups
+                                        .SelectMany(x => x.Components
+                                                          .Where(c => c.SeparateCard)))
+            {
+                <MudItem
+                    xs="12">
+                    <MudCard
+                        Class="my-4 pa-4">
+                        @RenderComponents(separateCard, false)
+                    </MudCard>
+                </MudItem>
+            }
+
+            foreach (var separateCard in DetailsConfiguration
+                                        .Groups
+                                        .SelectMany(x => x.Components
+                                                          .Where(c => c.SeparateComponent)))
+            {
+                <MudItem
+                    xs="12">
+                    <div class="my-4">
+                        @RenderComponents(separateCard, false)
+                    </div>
+                </MudItem>
+            }
+
+            <MudItem
+                xs="12">
+                @if (DetailsConfiguration.EnableBackButton)
+                {
+                    <MudDivider
+                        DividerType="DividerType.FullWidth"
+                        Class="my-6"/>
+
+                    <div
+                        class="flex justify-start gap-4 mt-4">
+                        <MudButton
+                            Variant="Variant.Filled"
+                            OnClick="@(async () => await NavigationService.GoBack())">
+                            @LocalizationService.GetValue("BackButton")
+                        </MudButton>
+                    </div>
+                }
+            </MudItem>
+        }
+    </MudGrid>
+}

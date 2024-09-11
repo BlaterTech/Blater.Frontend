@@ -23,14 +23,14 @@ public class AutoDetailsConfigurationBuilder : IAutoDetailsConfigurationBuilder
 
     public IAutoDetailsMemberConfigurationBuilder AddGroup(AutoDetailsGroupConfiguration detailsGroupConfiguration)
     {
-        var index = _configuration.Configurations.IndexOf(detailsGroupConfiguration);
+        var index = _configuration.Groups.IndexOf(detailsGroupConfiguration);
         if (index != -1)
         {
-            _configuration.Configurations[index] = detailsGroupConfiguration;
+            _configuration.Groups[index] = detailsGroupConfiguration;
         }
         else
         {
-            _configuration.Configurations.Add(detailsGroupConfiguration);
+            _configuration.Groups.Add(detailsGroupConfiguration);
         }
 
         return new AutoDetailsMemberConfigurationBuilder(_type, detailsGroupConfiguration);

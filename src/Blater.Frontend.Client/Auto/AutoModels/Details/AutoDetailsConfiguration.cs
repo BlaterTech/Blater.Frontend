@@ -1,12 +1,13 @@
-﻿namespace Blater.Frontend.Client.Auto.AutoModels.Details;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Form;
+
+namespace Blater.Frontend.Client.Auto.AutoModels.Details;
 
 public class AutoDetailsConfiguration
 {
     public required string Title { get; set; }
-    
-    public string SubTitle { get; set; } = string.Empty;
-    
-    public bool DisableEditButton { get; set; }
+    public string? ExtraClass { get; set; }
+    public bool EnableBackButton { get; set; } = true;
 
-    public List<AutoDetailsGroupConfiguration> Configurations { get; set; } = [];
+    public AutoAvatarModelConfiguration? AvatarConfiguration { get; set; }
+    public List<AutoDetailsGroupConfiguration> Groups { get; set; } = [];
 }

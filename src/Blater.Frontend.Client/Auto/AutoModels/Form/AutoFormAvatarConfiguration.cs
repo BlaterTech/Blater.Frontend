@@ -8,4 +8,6 @@ public class AutoAvatarModelConfiguration
     public string ContainerPrefix { get; set; } = "avatar";
     public string ExtraClass { get; set; } = string.Empty;
     public string ExtraStyle { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
+    public string SubTitle { get; set; } = string.Empty;
 }

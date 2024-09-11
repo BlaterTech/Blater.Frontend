@@ -39,6 +39,9 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
     
     [Parameter]
     public List<T> Items { get; set; } = [];
+    
+    [Parameter]
+    public bool Loading { get; set; }
 
     #region Events
 

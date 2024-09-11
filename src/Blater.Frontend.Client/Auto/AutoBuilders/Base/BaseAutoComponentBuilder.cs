@@ -49,6 +49,13 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     #endregion
 
+    #region Events
+
+    [Parameter]
+    public EventCallback<T> EditCallback { get; set; }
+
+    #endregion
+
     #region AbstractProps
 
     public abstract AutoComponentDisplayType DisplayType { get; set; }
