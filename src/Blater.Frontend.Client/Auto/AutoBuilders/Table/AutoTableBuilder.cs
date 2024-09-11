@@ -5,6 +5,7 @@ using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.Auto.Interfaces.Types.Table;
 using Blater.Frontend.Client.EasyRenderTree;
+using Blater.Frontend.Client.Enumerations;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
@@ -92,7 +93,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
     private readonly string _typeName = typeof(T).Name;
     private readonly MudTable<T> _mudTable = null!;
     private readonly int[] _qtdPageSize = [10, 25, 50, 100];
-    
+
     private bool _open;
     private string _iconFilter = Icons.Material.Outlined.FilterAlt;
     private DateRange? _dateRange;
@@ -109,13 +110,164 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
            .OpenComponent<MudCard>()
            .AddChildContent(cardBuilder =>
             {
-                BuildFilterComponent(cardBuilder);
+                BuildHeaderComponent(cardBuilder);
                 BuildTableComponent(cardBuilder);
+            })
+           .Close();
+
+        BuildHeaderComponent(builder);
+    }
+
+    #region Popover
+
+    private void BuildFilterComponent(EasyRenderTreeBuilder builder)
+    {
+        builder
+           .OpenComponent<MudPopover>()
+           .AddAttribute(nameof(MudPopover.Open), _open)
+           .AddAttribute(nameof(MudPopover.Fixed), true)
+           .AddAttribute(nameof(MudPopover.Class), "mud-width-full")
+           .AddAttribute(nameof(MudPopover.MaxHeight), 450)
+           .AddAttribute(nameof(MudPopover.OverflowBehavior), OverflowBehavior.FlipNever)
+           .AddAttribute(nameof(MudPopover.AnchorOrigin), Origin.CenterCenter)
+           .AddAttribute(nameof(MudPopover.TransformOrigin), Origin.CenterCenter)
+           .AddChildContent(treeBuilder =>
+            {
+                treeBuilder
+                   .OpenComponent<MudGrid>()
+                   .AddAttribute(nameof(MudGrid.Spacing), 2)
+                   .AddAttribute(nameof(MudGrid.Justify), Justify.Center)
+                   .AddChildContent(renderTreeBuilder =>
+                    {
+                        foreach (var wherePart in _whereParts)
+                        {
+                            var column = wherePart.Column;
+                            var operatorType = wherePart.Operator;
+                            var value = wherePart.Value;
+                            
+                            renderTreeBuilder
+                               .OpenComponent<MudItem>()
+                               .AddAttribute(nameof(MudItem.xs), 4)
+                               .AddAttribute(nameof(MudItem.Class), "d-flex gap-2 align-end justify-center pa-2")
+                               .AddChildContent(easyRenderTreeBuilder =>
+                                {
+                                    easyRenderTreeBuilder
+                                       .OpenComponent<MudIconButton>()
+                                       .AddAttribute(nameof(MudIconButton.Icon), Icons.Material.Filled.Close)
+                                       .AddAttribute(nameof(MudIconButton.Size), Size.Small)
+                                       .AddAttribute(nameof(MudIconButton.OnClick), EventCallback.Factory.Create<EventArgs>(this, _ => RemoveWherePart(wherePart)))
+                                       .Close();
+                                    easyRenderTreeBuilder
+                                       .OpenComponent<MudSelect<string>>()
+                                       .AddAttribute(nameof(MudSelect<string>.Label), "Column")
+                                       .AddAttribute(nameof(MudSelect<string>.Clearable), true)
+                                       .AddAttribute(nameof(MudSelect<string>.Required), true)
+                                       .AddAttribute("bind-Value", column)
+                                       .AddChildContent(builder1 =>
+                                        {
+                                            var columnConfigurationsFilter = ColumnConfigurations
+                                                              .Where(x => !x.DisableFilter)
+                                                              .ToList();
+                                            foreach (var columnConfig in columnConfigurationsFilter)
+                                            {
+                                                builder1
+                                                   .OpenComponent<MudSelectItem<string>>()
+                                                   .AddAttribute(nameof(MudSelectItem<string>.Value), columnConfig.Property.Name)
+                                                   .Close();
+                                            }
+                                        })
+                                       .Close();
+                                })
+                               .Close();
+                            
+                            renderTreeBuilder
+                               .OpenComponent<MudItem>()
+                               .AddAttribute(nameof(MudItem.xs), 4)
+                               .AddAttribute(nameof(MudItem.Class), "pa-2")
+                               .AddChildContent(easyRenderTreeBuilder =>
+                                {
+                                    easyRenderTreeBuilder
+                                       .OpenComponent<MudSelect<OperatorTypes>>()
+                                       .AddAttribute(nameof(MudSelect<OperatorTypes>.Label), "Operator")
+                                       .AddAttribute(nameof(MudSelect<OperatorTypes>.Clearable), true)
+                                       .AddAttribute(nameof(MudSelect<OperatorTypes>.Required), true)
+                                       .AddAttribute("bind-Value", operatorType)
+                                       .AddChildContent(builder1 =>
+                                        {
+                                            foreach (var operatorTypeValue in OperatorTypesExtensions.GetValues())
+                                            {
+                                                builder1
+                                                   .OpenComponent<MudSelectItem<OperatorTypes>>()
+                                                   .AddAttribute(nameof(MudSelectItem<OperatorTypes>.Value), operatorTypeValue)
+                                                   .Close();
+                                            }
+                                        })
+                                       .Close();
+                                })
+                               .Close();
+                            
+                            renderTreeBuilder
+                               .OpenComponent<MudItem>()
+                               .AddAttribute(nameof(MudItem.xs), 4)
+                               .AddAttribute(nameof(MudItem.Class), "pa-2")
+                               .AddChildContent(easyRenderTreeBuilder =>
+                                {
+                                    easyRenderTreeBuilder
+                                       .OpenComponent<MudTextField<string>>()
+                                       .AddAttribute(nameof(MudTextField<string>.Label), "Value")
+                                       .AddAttribute("bind-Value", value.ToString())
+                                       .Close();
+                                })
+                               .Close();
+                        }
+                        
+                        renderTreeBuilder
+                           .OpenComponent<MudItem>()
+                           .AddAttribute(nameof(MudItem.xs), 12)
+                           .AddAttribute(nameof(MudItem.Class), "d-flex gap-2 ma-4")
+                           .AddChildContent(easyRenderTreeBuilder =>
+                            {
+                                easyRenderTreeBuilder
+                                   .OpenComponent<MudButton>()
+                                   .AddAttribute(nameof(MudButton.Color), Color.Info)
+                                   .AddAttribute(nameof(MudButton.OnClick), EventCallback.Factory.Create<EventArgs>(this, _ => AddWherePart()))
+                                   .AddChildContent(builder1 =>
+                                    {
+                                        builder1.AddContent("+ Add Filter");
+                                    })
+                                   .Close();
+                                easyRenderTreeBuilder
+                                   .OpenComponent<MudButton>()
+                                   .AddAttribute(nameof(MudButton.Color), Color.Info)
+                                   .AddAttribute(nameof(MudButton.OnClick), EventCallback.Factory.Create<EventArgs>(this, _ => ClearWherePart()))
+                                   .AddChildContent(builder1 =>
+                                    {
+                                        builder1.AddContent("- Clear");
+                                    })
+                                   .Close();
+                                easyRenderTreeBuilder
+                                   .OpenComponent<MudSpacer>()
+                                   .Close();
+                                easyRenderTreeBuilder
+                                   .OpenComponent<MudButton>()
+                                   .AddAttribute(nameof(MudButton.Color), Color.Info)
+                                   .AddAttribute(nameof(MudButton.OnClick), EventCallback.Factory.Create<EventArgs>(this, async _ => await Filter()))
+                                   .AddChildContent(builder1 =>
+                                    {
+                                        builder1.AddContent("Filter");
+                                    })
+                                   .Close();
+                            })
+                           .Close();
+                    })
+                   .Close();
             })
            .Close();
     }
 
-    private void BuildFilterComponent(EasyRenderTreeBuilder builder)
+    #endregion
+
+    private void BuildHeaderComponent(EasyRenderTreeBuilder builder)
     {
         builder
            .OpenElement("form")
@@ -181,6 +333,8 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
            .Close();
     }
 
+    #region Table
+
     private void BuildTableComponent(EasyRenderTreeBuilder builder)
     {
         builder
@@ -199,13 +353,13 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
            .AddAttribute(nameof(MudTable<T>.FixedFooter), TableConfiguration.EnableFixedFooter)
            .AddAttribute(nameof(MudTable<T>.Height), TableConfiguration.EnableFixedFooter || TableConfiguration.EnableFixedHeader ? "70vh" : "")
            .AddAttribute(nameof(MudTable<T>.LoadingProgressColor), TableConfiguration.LoadingProgressColor)
-           .AddAttribute(nameof(MudTable<T>.HeaderContent), BuildHeaderContent(builder))
-           .AddAttribute(nameof(MudTable<T>.RowTemplate), (RenderFragment<T>)(context => BuildRowContent(builder, context)))
-           .AddAttribute(nameof(MudTable<T>.PagerContent), BuildPagerContent(builder))
+           .AddAttribute(nameof(MudTable<T>.HeaderContent), BuildTableThContent(builder))
+           .AddAttribute(nameof(MudTable<T>.RowTemplate), (RenderFragment<T>)(context => BuildTableTdContent(builder, context)))
+           .AddAttribute(nameof(MudTable<T>.PagerContent), BuildTablePagerContent(builder))
            .Close();
     }
 
-    private RenderFragment BuildHeaderContent(EasyRenderTreeBuilder builder)
+    private RenderFragment BuildTableThContent(EasyRenderTreeBuilder builder)
     {
         foreach (var column in ColumnConfigurations)
         {
@@ -227,7 +381,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
                             renderTreeBuilder
                                .OpenComponent<MudIconButton>()
                                .AddAttribute(nameof(MudIconButton.Icon), _iconFilter)
-                               .AddAttribute(nameof(MudIconButton.OnClick), EventCallback.Factory.Create<EventArgs>(this, ToggleOpen))
+                               .AddAttribute(nameof(MudIconButton.OnClick), EventCallback.Factory.Create<EventArgs>(this, FilterOpen))
                                .Close();
                         })
                        .Close();
@@ -245,7 +399,7 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
         return treeBuilder => treeBuilder.AddContent(0, builder);
     }
 
-    private RenderFragment BuildRowContent(EasyRenderTreeBuilder builder, T context)
+    private RenderFragment BuildTableTdContent(EasyRenderTreeBuilder builder, T context)
     {
         foreach (var column in ColumnConfigurations)
         {
@@ -317,18 +471,20 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
         return treeBuilder => treeBuilder.AddContent(0, builder);
     }
 
-    private RenderFragment BuildPagerContent(EasyRenderTreeBuilder builder)
+    private RenderFragment BuildTablePagerContent(EasyRenderTreeBuilder builder)
     {
         builder
            .OpenComponent<MudTablePager>()
            .AddAttribute(nameof(MudTablePager.PageSizeOptions), _qtdPageSize)
            .AddAttribute(nameof(MudTablePager.RowsPerPageString), "Rows per page:")
            .AddAttribute(nameof(MudTablePager.InfoFormat), "{first_item}-{last_item} of {all_items}")
-           .AddAttribute(nameof(MudTablePager.AllItemsText),"All")
+           .AddAttribute(nameof(MudTablePager.AllItemsText), "All")
            .AddAttribute(nameof(MudTablePager.HorizontalAlignment), HorizontalAlignment.Right)
            .Close();
         return treeBuilder => treeBuilder.AddContent(0, builder);
     }
+
+    #endregion
 
     private async Task DateRangeValueChanged(DateRange obj)
     {
@@ -349,13 +505,35 @@ public class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDat
         _iconFilter = Icons.Material.Filled.FilterAlt;
     }
 
-    private void ToggleOpen()
+    private void FilterOpen()
     {
         _open = !_open;
 
-        /*if (_whereParts.Count == 0)
+        if (_whereParts.Count == 0)
         {
             _whereParts.Add(new WherePart("", OperatorTypes.Contains, ""));
-        }*/
+        }
+    }
+    
+    public record WherePart(string Column, OperatorTypes Operator, object Value);
+
+    private List<WherePart> _whereParts = [];
+
+    private void RemoveWherePart(WherePart wherePart)
+    {
+        _whereParts.Remove(wherePart);
+        StateHasChanged();
+    }
+    
+    private void ClearWherePart()
+    {
+        _whereParts.Clear();
+        StateHasChanged();
+    }
+
+    private void AddWherePart()
+    {
+        _whereParts.Add(new WherePart("", OperatorTypes.Contains, ""));
+        StateHasChanged();
     }
 }
