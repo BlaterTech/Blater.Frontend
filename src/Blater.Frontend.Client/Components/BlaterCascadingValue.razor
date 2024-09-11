@@ -1,0 +1,23 @@
+﻿@using Blater.Models
+
+@typeparam T where T : Blater.Models.Bases.BaseDataModel
+
+@{
+    <CascadingValue
+        TValue="Guid"
+        Name="ParentId"
+        Value="@Id.GuidValue"
+        IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+}
+
+@code {
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    [Parameter]
+    [EditorRequired]
+    public BlaterId Id { get; set; } = BlaterId.Empty;
+}

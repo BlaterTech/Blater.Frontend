@@ -5,190 +5,194 @@
 
 @typeparam T where T : Blater.Models.Bases.BaseDataModel
 
-<MudCard Elevation="0" Class="pa-4 mb-2 mud-height-full">
-    <MudGrid Spacing="0">
-        <MudItem xs="12" Class="d-flex">
-            <MudText Typo="Typo.h5">
-                @LocalizationService.GetValue($"BlaterTable-Title-{_typeName}")
-            </MudText>
-            <MudSpacer/>
-            @if (TableConfiguration.EnableCreateButton)
-            {
-                <MudIconButton
-                    Color="Color.Primary"
-                    OnClick="@OnCreate"
-                    Variant="Variant.Filled"
-                    Icon="@Material.Filled.Add"
-                    Size="Size.Medium">
-                </MudIconButton>
-            }
-        </MudItem>
-    </MudGrid>
-</MudCard>
-
-<MudCard Elevation="0" Class="pa-4">
-    <form @onsubmit="Filter">
-        <MudGrid Spacing="1">
-            <MudItem xs="12">
+<BlaterCascadingValue
+    T="T"
+    Id="@CascadingValue">
+    <MudCard Elevation="0" Class="pa-4 mb-2 mud-height-full">
+        <MudGrid Spacing="0">
+            <MudItem xs="12" Class="d-flex">
                 <MudText Typo="Typo.h5">
-                    @LocalizationService.GetValue($"BlaterTable-FilterValues")
+                    @LocalizationService.GetValue($"BlaterTable-Title-{_typeName}")
                 </MudText>
-            </MudItem>
-            <MudItem xs="12" lg="8">
-                <MudDateRangePicker
-                    Variant="Variant.Filled"
-                    Clearable="true"
-                    Culture="@(new CultureInfo("pt-BR"))"
-                    Label="@LocalizationService.GetValue("BlaterTable-Date-Range-Label")"
-                    DateRangeChanged="@(x => DateRangeValueChanged(x))"
-                    DateRange="@(_dateRange ?? new DateRange())"/>
                 <MudSpacer/>
-            </MudItem>
-            <MudItem xs="12" lg="4">
-                <MudDateRangePicker
-                    Variant="Variant.Filled"
-                    Clearable="true"
-                    Culture="@(new CultureInfo("pt-BR"))"
-                    Label="@LocalizationService.GetValue("BlaterTable-Date-Range-Label")"
-                    DateRangeChanged="@(x => DateRangeValueChanged(x))"
-                    DateRange="@(_dateRange ?? new DateRange())"/>
-                <MudSpacer/>
+                @if (TableConfiguration.EnableCreateButton)
+                {
+                    <MudIconButton
+                        Color="Color.Primary"
+                        OnClick="@OnCreate"
+                        Variant="Variant.Filled"
+                        Icon="@Material.Filled.Add"
+                        Size="Size.Medium">
+                    </MudIconButton>
+                }
             </MudItem>
         </MudGrid>
-    </form>
+    </MudCard>
 
-    <MudTable
-        T="T"
-        @ref="_mudTable"
-        Items="@Items"
-        Breakpoint="Breakpoint.Sm"
-        Striped="@TableConfiguration.EnableStriped"
-        MultiSelection="@TableConfiguration.EnableMultiSelection"
-        SelectOnRowClick="@TableConfiguration.EnableSelectOnRowClick"
-        SelectionChangeable="@TableConfiguration.EnableSelectionChangeable"
-        SelectedItemsChanged="@OnSelectedItemsChanged"
-        SelectedItemChanged="@OnSelectedItemChanged"
-        OnRowClick="@OnRowClick"
-        FixedHeader="@TableConfiguration.EnableFixedHeader"
-        FixedFooter="@TableConfiguration.EnableFixedFooter"
-        Height="@(TableConfiguration.EnableFixedHeader || TableConfiguration.EnableFixedFooter ? "70vh" : "")"
-        Loading="@TableConfiguration.Loading"
-        LoadingProgressColor="@TableConfiguration.LoadingProgressColor">
-        <HeaderContent>
-            @{
-                foreach (var column in ColumnConfigurations.Where(column => !column.DisableColumn))
-                {
-                    <MudTh>
-                        <div class="d-flex align-center justify-center">
-                            <MudTableSortLabel
-                                SortBy="@CreateSortFunc(column.Property.Name)"
-                                Enabled="@column.DisableFilter">
-                                @(string.IsNullOrWhiteSpace(column.Name) ? LocalizationService.GetValue($"BlaterTable-Table-{column.Property.Name}") : column.Name)
-                            </MudTableSortLabel>
-                            <MudIconButton Icon="@_iconFilter" OnClick="@FilterOpen"/>
-                        </div>
-                    </MudTh>
-                }
+    <MudCard Elevation="0" Class="pa-4">
+        <form @onsubmit="Filter">
+            <MudGrid Spacing="1">
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h5">
+                        @LocalizationService.GetValue($"BlaterTable-FilterValues")
+                    </MudText>
+                </MudItem>
+                <MudItem xs="12" lg="8">
+                    <MudDateRangePicker
+                        Variant="Variant.Filled"
+                        Clearable="true"
+                        Culture="@(new CultureInfo("pt-BR"))"
+                        Label="@LocalizationService.GetValue("BlaterTable-Date-Range-Label")"
+                        DateRangeChanged="@(x => DateRangeValueChanged(x))"
+                        DateRange="@(_dateRange ?? new DateRange())"/>
+                    <MudSpacer/>
+                </MudItem>
+                <MudItem xs="12" lg="4">
+                    <MudDateRangePicker
+                        Variant="Variant.Filled"
+                        Clearable="true"
+                        Culture="@(new CultureInfo("pt-BR"))"
+                        Label="@LocalizationService.GetValue("BlaterTable-Date-Range-Label")"
+                        DateRangeChanged="@(x => DateRangeValueChanged(x))"
+                        DateRange="@(_dateRange ?? new DateRange())"/>
+                    <MudSpacer/>
+                </MudItem>
+            </MudGrid>
+        </form>
 
-                if (TableConfiguration.EnableCustomAction || TableConfiguration.EnableDefaultAction)
-                {
-                    <MudTh/>
-                }
-            }
-        </HeaderContent>
-        <RowTemplate>
-            @{
-                foreach (var column in ColumnConfigurations.Where(column => !column.DisableColumn))
-                {
-                    var propName = string.IsNullOrWhiteSpace(column.Name) ? LocalizationService.GetValue($"BlaterTable-Table-{column.Property.Name}") : column.Name;
-                    var propValue = column.Property.GetValue(context);
-                    <MudTd DataLabel="@propName">@propValue</MudTd>
-                }
+        <MudTable
+            T="T"
+            @ref="_mudTable"
+            Items="@Items"
+            Breakpoint="Breakpoint.Sm"
+            Striped="@TableConfiguration.EnableStriped"
+            MultiSelection="@TableConfiguration.EnableMultiSelection"
+            SelectOnRowClick="@TableConfiguration.EnableSelectOnRowClick"
+            SelectionChangeable="@TableConfiguration.EnableSelectionChangeable"
+            SelectedItemsChanged="@OnSelectedItemsChanged"
+            SelectedItemChanged="@OnSelectedItemChanged"
+            OnRowClick="@OnRowClick"
+            FixedHeader="@TableConfiguration.EnableFixedHeader"
+            FixedFooter="@TableConfiguration.EnableFixedFooter"
+            Height="@(TableConfiguration.EnableFixedHeader || TableConfiguration.EnableFixedFooter ? "70vh" : "")"
+            Loading="@TableConfiguration.Loading"
+            LoadingProgressColor="@TableConfiguration.LoadingProgressColor">
+            <HeaderContent>
+                @{
+                    foreach (var column in ColumnConfigurations.Where(column => !column.DisableColumn))
+                    {
+                        <MudTh>
+                            <div class="d-flex align-center justify-center">
+                                <MudTableSortLabel
+                                    SortBy="@CreateSortFunc(column.Property.Name)"
+                                    Enabled="@column.DisableFilter">
+                                    @(string.IsNullOrWhiteSpace(column.Name) ? LocalizationService.GetValue($"BlaterTable-Table-{column.Property.Name}") : column.Name)
+                                </MudTableSortLabel>
+                                <MudIconButton Icon="@_iconFilter" OnClick="@FilterOpen"/>
+                            </div>
+                        </MudTh>
+                    }
 
-                if (TableConfiguration.EnableCustomAction || TableConfiguration.EnableDefaultAction)
-                {
-                    <MudTd>
-                        <div class="d-flex align-center justify-center gap-2">
-                            @if (TableConfiguration.EnableDefaultAction)
-                            {
-                                <MudIconButton
-                                    Icon="@Material.Outlined.RemoveRedEye"
-                                    Color="Color.Primary"
-                                    OnClick="@(() => OnDetails.InvokeAsync(context))"/>
-                                <MudIconButton
-                                    Icon="@Material.Outlined.Edit"
-                                    Color="Color.Primary"
-                                    OnClick="@(() => OnEditChanged.InvokeAsync(context))"/>
-                                <MudIconButton
-                                    Icon="@(context.Enabled ? Material.Outlined.LockOpen : Material.Outlined.Lock)"
-                                    Color="@(context.Enabled ? Color.Primary : Color.Error)"
-                                    OnClick="@(() => OnDisabledChanged.InvokeAsync(context))"/>
-                            }
-                            @if (TableConfiguration.EnableCustomAction)
-                            {
-                                foreach (var item in TableConfiguration.CustomAutoTableActions)
+                    if (TableConfiguration.EnableCustomAction || TableConfiguration.EnableDefaultAction)
+                    {
+                        <MudTh/>
+                    }
+                }
+            </HeaderContent>
+            <RowTemplate>
+                @{
+                    foreach (var column in ColumnConfigurations.Where(column => !column.DisableColumn))
+                    {
+                        var propName = string.IsNullOrWhiteSpace(column.Name) ? LocalizationService.GetValue($"BlaterTable-Table-{column.Property.Name}") : column.Name;
+                        var propValue = column.Property.GetValue(context);
+                        <MudTd DataLabel="@propName">@propValue</MudTd>
+                    }
+
+                    if (TableConfiguration.EnableCustomAction || TableConfiguration.EnableDefaultAction)
+                    {
+                        <MudTd>
+                            <div class="d-flex align-center justify-center gap-2">
+                                @if (TableConfiguration.EnableDefaultAction)
                                 {
                                     <MudIconButton
-                                        Icon="@item.Icon"
-                                        Color="@(item.Color ?? Color.Primary)"
-                                        OnClick="@item.OnValueChanged"/>
+                                        Icon="@Material.Outlined.RemoveRedEye"
+                                        Color="Color.Primary"
+                                        OnClick="@(() => OnDetails.InvokeAsync(context))"/>
+                                    <MudIconButton
+                                        Icon="@Material.Outlined.Edit"
+                                        Color="Color.Primary"
+                                        OnClick="@(() => OnEditChanged.InvokeAsync(context))"/>
+                                    <MudIconButton
+                                        Icon="@(context.Enabled ? Material.Outlined.LockOpen : Material.Outlined.Lock)"
+                                        Color="@(context.Enabled ? Color.Primary : Color.Error)"
+                                        OnClick="@(() => OnDisabledChanged.InvokeAsync(context))"/>
                                 }
-                            }
-                        </div>
-                    </MudTd>
+                                @if (TableConfiguration.EnableCustomAction)
+                                {
+                                    foreach (var item in TableConfiguration.CustomAutoTableActions)
+                                    {
+                                        <MudIconButton
+                                            Icon="@item.Icon"
+                                            Color="@(item.Color ?? Color.Primary)"
+                                            OnClick="@item.OnValueChanged"/>
+                                    }
+                                }
+                            </div>
+                        </MudTd>
+                    }
                 }
-            }
-        </RowTemplate>
-        <PagerContent>
-            <MudTablePager PageSizeOptions="@(new[] { 10, 25, 50, 100 })"
-                           RowsPerPageString="@("Rows per page:")"
-                           InfoFormat="@("{first_item}-{last_item} of {all_items}")"
-                           AllItemsText="@("All")"
-                           HorizontalAlignment="@HorizontalAlignment.Right"/>
-        </PagerContent>
-    </MudTable>
-</MudCard>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager PageSizeOptions="@(new[] { 10, 25, 50, 100 })"
+                               RowsPerPageString="@("Rows per page:")"
+                               InfoFormat="@("{first_item}-{last_item} of {all_items}")"
+                               AllItemsText="@("All")"
+                               HorizontalAlignment="@HorizontalAlignment.Right"/>
+            </PagerContent>
+        </MudTable>
+    </MudCard>
 
-<MudPopover 
-    Open="@_open"
-    Fixed="true" 
-    Class="mud-width-full" 
-    MaxHeight="450"
-    OverflowBehavior="OverflowBehavior.FlipNever" 
-    AnchorOrigin="Origin.CenterCenter" 
-    TransformOrigin="Origin.CenterCenter">
-    <MudGrid Spacing="2" Justify="Justify.Center">
-        @foreach (var wherePart in _whereParts)
-        {
-            var keyValue = wherePart.Column;
-            var typeValue = wherePart.Operator;
-            var value = wherePart.Value;
-            <MudItem xs="4" Class="d-flex gap-2 align-end justify-center pa-2">
-                <MudIconButton Icon="@Material.Filled.Close" OnClick="@(_ => RemoveWherePart(wherePart))" Size="Size.Small"/>
-                <MudSelect T="string" Label="Column" Clearable="true" Required="true" bind-Value="@keyValue">
-                    @foreach (var columnConfig in ColumnConfigurations.Where(x => !x.DisableFilter))
-                    {
-                        <MudSelectItem Value="@columnConfig.Property.Name"/>
-                    }
-                </MudSelect>
+    <MudPopover
+        Open="@_open"
+        Fixed="true"
+        Class="mud-width-full"
+        MaxHeight="450"
+        OverflowBehavior="OverflowBehavior.FlipNever"
+        AnchorOrigin="Origin.CenterCenter"
+        TransformOrigin="Origin.CenterCenter">
+        <MudGrid Spacing="2" Justify="Justify.Center">
+            @foreach (var wherePart in _whereParts)
+            {
+                var keyValue = wherePart.Column;
+                var typeValue = wherePart.Operator;
+                var wherePartValue = wherePart.Value;
+                <MudItem xs="4" Class="d-flex gap-2 align-end justify-center pa-2">
+                    <MudIconButton Icon="@Material.Filled.Close" OnClick="@(_ => RemoveWherePart(wherePart))" Size="Size.Small"/>
+                    <MudSelect T="string" Label="Column" Clearable="true" Required="true" bind-Value="@keyValue">
+                        @foreach (var columnConfig in ColumnConfigurations.Where(x => !x.DisableFilter))
+                        {
+                            <MudSelectItem Value="@columnConfig.Property.Name"/>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="4" Class="pa-2">
+                    <MudSelect T="OperatorTypes" Label="Operator" Clearable="true" Required="true" bind-Value="@typeValue">
+                        @foreach (var operatorType in OperatorTypesExtensions.GetValues())
+                        {
+                            <MudSelectItem T="OperatorTypes" Value="@operatorType"/>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="4" Class="pa-2">
+                    <MudTextField T="string" bind-Value="@(wherePartValue.ToString())" Label="Value"/>
+                </MudItem>
+            }
+            <MudItem xs="12" Class="d-flex gap-2 ma-4">
+                <MudButton OnClick="@AddWherePart" Color="Color.Info">+ Add Filter</MudButton>
+                <MudButton OnClick="@ClearWherePart" Color="Color.Info">- Clear</MudButton>
+                <MudSpacer/>
+                <MudButton OnClick="@Filter" Color="Color.Info">Filter</MudButton>
             </MudItem>
-            <MudItem xs="4" Class="pa-2">
-                <MudSelect T="OperatorTypes" Label="Operator" Clearable="true" Required="true" bind-Value="@typeValue">
-                    @foreach (var operatorType in OperatorTypesExtensions.GetValues())
-                    {
-                    <MudSelectItem T="OperatorTypes" Value="@operatorType"/>
-                    }
-                </MudSelect>
-            </MudItem>
-            <MudItem xs="4" Class="pa-2">
-                <MudTextField T="string" bind-Value="@(value.ToString())" Label="Value"/>
-            </MudItem>
-        }
-        <MudItem xs="12" Class="d-flex gap-2 ma-4">
-            <MudButton OnClick="@AddWherePart" Color="Color.Info">+ Add Filter</MudButton>
-            <MudButton OnClick="@ClearWherePart" Color="Color.Info">- Clear</MudButton>
-            <MudSpacer/>
-            <MudButton OnClick="@Filter" Color="Color.Info">Filter</MudButton>
-        </MudItem>
-    </MudGrid>
-</MudPopover>
+        </MudGrid>
+    </MudPopover>
+</BlaterCascadingValue>

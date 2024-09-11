@@ -3,7 +3,6 @@ using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
 using Blater.Frontend.Client.Auto.Interfaces.Types.Table;
-using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Frontend.Client.Enumerations;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
@@ -100,10 +99,6 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
     {
         var autoTable = FindModelConfig<IAutoTableConfiguration>();
         TableConfiguration = autoTable.TableConfiguration;
-    }
-
-    protected override void BuildComponent(EasyRenderTreeBuilder builder)
-    {
     }
     
     private async Task DateRangeValueChanged(DateRange obj)

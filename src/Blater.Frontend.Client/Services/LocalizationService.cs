@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Blater.Frontend.Client.Services;
 
-[SuppressMessage("Performance", "CA1848:Usar os delegados LoggerMessage")]
+
 [SuppressMessage("Naming", "CA1727:Usar o PascalCase nos espaços reservados nomeados")]
 [SuppressMessage("Globalization", "CA1310:Especificar StringComparison para garantir a exatidão")]
 public class LocalizationService : ILocalizationService, IDisposable
