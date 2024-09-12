@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Blater.Enumerations;
+using Blater.Frontend.Client.Auto.AutoModels.Base;
+using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Logging;
@@ -8,9 +10,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Blater.Frontend.Client.Services;
 
-
-[SuppressMessage("Naming", "CA1727:Usar o PascalCase nos espaços reservados nomeados")]
-[SuppressMessage("Globalization", "CA1310:Especificar StringComparison para garantir a exatidão")]
 public class LocalizationService : ILocalizationService, IDisposable
 {
     private static readonly Dictionary<string, string> Dictionary = new();
@@ -101,7 +100,7 @@ public class LocalizationService : ILocalizationService, IDisposable
                 return value;
             }
 
-            _logger.LogWarning("|{id}| does not exists in {Language}", id, SelectedLanguageData?.Language);
+            _logger.LogWarning("|{Id}| does not exists in {Language}", id, SelectedLanguageData?.Language);
             return $"|{id}| does not exists in {SelectedLanguageData?.Language}";
         }
         catch (Exception e)
@@ -109,6 +108,21 @@ public class LocalizationService : ILocalizationService, IDisposable
             _logger.LogError(e, "Error getting translation for {Id}", id);
             return $"|{id}| does not exists in {SelectedLanguageData?.Language}";
         }
+    }
+
+    public string GetLabelNameValue(Type modelType, BaseAutoComponentConfiguration configuration, AutoComponentDisplayType displayType)
+    {
+        string value;
+        if (string.IsNullOrWhiteSpace(configuration.LabelName))
+        {
+            value = GetValue($"Blater-Auto{displayType}-{modelType.Name}-{configuration.Property.Name}");
+        }
+        else
+        {
+            value = configuration.LabelName;
+        }
+
+        return value;
     }
 
     public string GetValue(object obj)
