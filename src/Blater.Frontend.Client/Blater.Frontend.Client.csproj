@@ -35,6 +35,19 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Auto\AutoBuilders\Types\" />
       <Folder Include="Auto\AutoInterfaces\Types\" />
+      <Folder Include="Auto\AutoModels\Types\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Auto\AutoBuilders\Types\Details\AutoDetailsBuilder.razor" />
+      <AdditionalFiles Include="Auto\AutoBuilders\Types\Form\AutoFormBuilder.razor" />
+      <AdditionalFiles Include="Auto\AutoBuilders\Types\Table\AutoTableBuilder.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Auto\AutoBuilders\Details\AutoDetailsBuilder.razor" />
+      <UpToDateCheckInput Remove="Auto\AutoBuilders\Details\Tabs\AutoDetailsTabsBuilder.razor" />
     </ItemGroup>
 </Project>

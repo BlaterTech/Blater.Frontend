@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.AutoModels.Table;
+using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 

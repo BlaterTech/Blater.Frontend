@@ -1,7 +1,7 @@
-﻿using Blater.Frontend.Client.Auto.AutoBuilders.Details;
-using Blater.Frontend.Client.Auto.AutoBuilders.Form;
-using Blater.Frontend.Client.Auto.AutoBuilders.Table;
-using Blater.Frontend.Client.Auto.AutoBuilders.Valitador;
+﻿using Blater.Frontend.Client.Auto.AutoBuilders.Types.Details;
+using Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
+using Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
+using Blater.Frontend.Client.Auto.AutoBuilders.Types.Valitador;
 using Blater.Frontend.Client.Auto.AutoInterfaces;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;

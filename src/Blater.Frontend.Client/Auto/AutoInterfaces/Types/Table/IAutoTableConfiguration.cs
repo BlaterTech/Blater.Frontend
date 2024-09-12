@@ -1,5 +1,5 @@
-﻿using Blater.Frontend.Client.Auto.AutoBuilders.Table;
-using Blater.Frontend.Client.Auto.AutoModels.Table;
+﻿using Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
+using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 

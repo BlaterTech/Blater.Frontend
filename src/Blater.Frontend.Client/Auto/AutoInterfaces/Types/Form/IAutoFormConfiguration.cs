@@ -1,5 +1,5 @@
-﻿using Blater.Frontend.Client.Auto.AutoBuilders.Form;
-using Blater.Frontend.Client.Auto.AutoModels.Form;
+﻿using Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
+using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 
