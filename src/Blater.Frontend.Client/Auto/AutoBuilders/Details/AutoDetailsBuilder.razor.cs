@@ -6,6 +6,7 @@ using Blater.Frontend.Client.Auto.Interfaces.Types.Table;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 
