@@ -110,21 +110,6 @@ public class LocalizationService : ILocalizationService, IDisposable
         }
     }
 
-    public string GetLabelNameValue(Type modelType, BaseAutoComponentConfiguration configuration, AutoComponentDisplayType displayType)
-    {
-        string value;
-        if (string.IsNullOrWhiteSpace(configuration.LabelName))
-        {
-            value = GetValue($"Blater-Auto{displayType}-{modelType.Name}-{configuration.Property.Name}");
-        }
-        else
-        {
-            value = configuration.LabelName;
-        }
-
-        return value;
-    }
-
     public string GetValue(object obj)
     {
         var typeName = obj.GetType().Name;

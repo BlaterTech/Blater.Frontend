@@ -1,8 +1,9 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
+using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Details;
 
-public class AutoDetailsAutoComponentConfiguration : BaseAutoComponentConfiguration
+public class AutoDetailsAutoComponentConfiguration : BaseAutoComponentConfiguration<AutoDetailsComponentType>
 {
     public string? Title { get; set; }
     public bool SeparateCard { get; set; }

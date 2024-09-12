@@ -10,17 +10,19 @@ public class AutoDetailsMemberConfigurationBuilder(Type type, AutoDetailsGroupCo
     public IAutoDetailsMemberConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoDetailsAutoComponentConfiguration componentConfiguration)
     {
         var property = expression.GetPropertyInfoForType(type);
-        
+
         var index = configuration.Components.IndexOf(componentConfiguration);
         if (index != -1)
         {
             configuration.Components[index] = componentConfiguration;
-            return this;
+        }
+        else
+        {
+            componentConfiguration.Property = property;
+            componentConfiguration.AutoComponentType ??= property.GetDefaultAutoDetailsComponentForType();
+            configuration.Components.Add(componentConfiguration);
         }
 
-        componentConfiguration.Property = property;
-        componentConfiguration.AutoComponentType ??= property.GetDefaultAutoDetailsComponentForType();
-        configuration.Components.Add(componentConfiguration);
         return this;
     }
 }

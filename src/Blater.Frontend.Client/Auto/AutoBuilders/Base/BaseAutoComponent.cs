@@ -38,5 +38,5 @@ public class BaseAutoComponent : BaseAutoComponentInput
 
     [Parameter]
     [EditorRequired]
-    public BaseAutoComponentConfiguration AutoComponentConfiguration { get; set; } = default!;
+    public BaseAutoComponentConfiguration<BaseAutoComponentTypeEnumeration> AutoComponentConfiguration { get; set; } = default!;
 }

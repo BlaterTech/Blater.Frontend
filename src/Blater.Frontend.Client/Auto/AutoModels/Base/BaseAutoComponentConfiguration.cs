@@ -4,10 +4,12 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Base;
 
-public abstract class BaseAutoComponentConfiguration : BaseAutoEventConfiguration
+public abstract class BaseAutoComponentConfiguration<TComponentType>
+    : BaseAutoEventConfiguration
+    where TComponentType : BaseAutoComponentTypeEnumeration
 {
     public PropertyInfo Property { get; set; } = null!;
-    
+
     public string DataFormat { get; set; } = string.Empty;
     public string Mask { get; set; } = string.Empty;
     public string ExtraClass { get; set; } = string.Empty;
@@ -23,6 +25,6 @@ public abstract class BaseAutoComponentConfiguration : BaseAutoEventConfiguratio
     public int Order { get; set; }
 
     public Dictionary<Breakpoint, int> Breakpoints { get; set; } = [];
-    public BaseAutoComponentTypeEnumeration? AutoComponentType { get; set; }
+    public TComponentType? AutoComponentType { get; set; }
     public AutoFieldSize Size { get; set; }
 }
