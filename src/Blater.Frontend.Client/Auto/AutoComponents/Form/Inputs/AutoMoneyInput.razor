@@ -10,7 +10,7 @@
         Value="@Value"
         Label="@LabelName"
         Variant="@Variant.Filled"
-        ValueChanged="@(async (x) => await NotifyValueChanged(x))"
+        ValueChanged="@(async x => await NotifyValueChanged(x))"
         Error="@HasValidationError"
                 ErrorText="@ValidationErrorMessage"
                 RequiredError="@ValidationErrorMessage"

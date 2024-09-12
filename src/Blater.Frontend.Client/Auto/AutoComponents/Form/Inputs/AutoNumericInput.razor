@@ -11,7 +11,7 @@
         Disabled="Disabled"
         Class="@ExtraClass"
         Value="@Value"
-        ValueChanged="@(async (x) => await NotifyValueChanged(x))"
+        ValueChanged="@(async x => await NotifyValueChanged(x))"
         Label="@LabelName"
         Error="@HasValidationError"
                 ErrorText="@ValidationErrorMessage"

@@ -16,12 +16,5 @@
 
     public int Priority => 1000;
 
-    private string _date = "";
-
-    protected override void OnInitialized()
-    {
-        _date = Value == DateTime.MinValue ? "Indefinido" : Value.ToString("dd/MM/yyyy");
-    }
-
     public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoDate;
 }

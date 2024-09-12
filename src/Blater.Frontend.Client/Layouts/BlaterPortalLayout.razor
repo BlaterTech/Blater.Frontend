@@ -9,7 +9,7 @@
             @{
                 var blaterUserToken = context.User.GetUserAuthenticated();
                 <MudAppBar Elevation="1">
-                    <MudIconButton Icon="@Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())"/>
+                    <MudIconButton Icon="@Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(e => DrawerToggle())"/>
                     <MudSpacer/>
 
                     <MudIconButton

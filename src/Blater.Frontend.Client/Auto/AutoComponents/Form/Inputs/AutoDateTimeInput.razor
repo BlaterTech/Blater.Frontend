@@ -14,7 +14,7 @@
         Variant="Variant.Filled"
         Label="@LabelName"
         Value="@Value"
-        ValueChanged="@(async (x) => await NotifyValueChanged(x))"
+        ValueChanged="@(async x => await NotifyValueChanged(x))"
         Required="@Required"
         Culture="@(new CultureInfo("pt-BR"))"
         Class="@ExtraClass"

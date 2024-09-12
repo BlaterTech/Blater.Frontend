@@ -13,7 +13,7 @@
         Required="@Required"
         ErrorText="@ValidationErrorMessage"
         RequiredError="@ValidationErrorMessage"
-        ValueChanged="@(async (x) => await NotifyValueChanged(x))"
+        ValueChanged="@(async x => await NotifyValueChanged(x))"
         Color="Color.Primary">
     </MudCheckBox>
 </div>
