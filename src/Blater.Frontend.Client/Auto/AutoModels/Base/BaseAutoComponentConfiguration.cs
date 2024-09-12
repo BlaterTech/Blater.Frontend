@@ -7,8 +7,7 @@ namespace Blater.Frontend.Client.Auto.AutoModels.Base;
 public abstract class BaseAutoComponentConfiguration : BaseAutoEventConfiguration
 {
     public PropertyInfo Property { get; set; } = null!;
-
-    public string Name { get; set; } = string.Empty;
+    
     public string DataFormat { get; set; } = string.Empty;
     public string Mask { get; set; } = string.Empty;
     public string ExtraClass { get; set; } = string.Empty;

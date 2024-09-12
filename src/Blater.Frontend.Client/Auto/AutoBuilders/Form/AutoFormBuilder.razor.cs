@@ -88,7 +88,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
                        .OpenComponent<MudText>()
                        .AddAttribute(nameof(MudText.Typo), Typo.h4)
                        .AddAttribute(nameof(MudText.Color), Color.Inherit)
-                       .AddChildContent(builderTextContent => builderTextContent.AddContent(groupConfiguration.Title))
+                       .AddChildContent(builderTextContent => builderTextContent.AddContent(ComponentLocalizationService.GetTitleValue(groupConfiguration.Title)))
                        .Close();
                 })
                .Close();

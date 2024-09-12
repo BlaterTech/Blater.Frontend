@@ -12,7 +12,7 @@
         <MudGrid Spacing="0">
             <MudItem xs="12" Class="d-flex">
                 <MudText Typo="Typo.h5">
-                    @LocalizationService.GetValue($"BlaterTable-Title-{_typeName}")
+                    @ComponentLocalizationService.GetTitleValue(TableConfiguration.Title)
                 </MudText>
                 <MudSpacer/>
                 @if (TableConfiguration.EnableCreateButton)
@@ -86,7 +86,7 @@
                                 <MudTableSortLabel
                                     SortBy="@CreateSortFunc(column.Property.Name)"
                                     Enabled="@column.DisableFilter">
-                                    @(string.IsNullOrWhiteSpace(column.Name) ? LocalizationService.GetValue($"BlaterTable-Table-{column.Property.Name}") : column.Name)
+                                    @ComponentLocalizationService.GetLabelNameValue(column.LabelName, column.Property))
                                 </MudTableSortLabel>
                                 <MudIconButton Icon="@_iconFilter" OnClick="@FilterOpen"/>
                             </div>
@@ -103,7 +103,7 @@
                 @{
                     foreach (var column in ColumnConfigurations.Where(column => !column.DisableColumn))
                     {
-                        var propName = string.IsNullOrWhiteSpace(column.Name) ? LocalizationService.GetValue($"BlaterTable-Table-{column.Property.Name}") : column.Name;
+                        var propName = ComponentLocalizationService.GetLabelNameValue(column.LabelName, column.Property);
                         var propValue = column.Property.GetValue(context);
                         <MudTd DataLabel="@propName">@propValue</MudTd>
                     }
