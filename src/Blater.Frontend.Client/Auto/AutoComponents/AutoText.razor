@@ -1,0 +1,18 @@
+@typeparam TItemType where TItemType : IConvertible
+@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoValueComponent<TItemType>
+@using Blater.Frontend.Client.Auto.AutoModels.Base
+@using Blater.Frontend.Client.Auto.AutoModels.Enumerations
+@implements Blater.Frontend.Client.Auto.AutoInterfaces.IAutoBuildableComponent
+
+<div id="auto-text" class="@ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudText>@ValueAsString</MudText>
+</div>
+
+
+@code {
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoText;
+}

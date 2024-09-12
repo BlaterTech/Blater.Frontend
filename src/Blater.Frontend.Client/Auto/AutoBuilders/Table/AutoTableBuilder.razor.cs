@@ -1,8 +1,8 @@
 ﻿using System.Linq.Expressions;
 using Blater.Frontend.Client.Auto.AutoBuilders.Base;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Table;
-using Blater.Frontend.Client.Auto.Interfaces.Types.Table;
 using Blater.Frontend.Client.Enumerations;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;

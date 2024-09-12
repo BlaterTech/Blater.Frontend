@@ -25,7 +25,7 @@
                                 xs="12">
                                 <MudText
                                     Typo="Typo.h4">
-                                    @DetailsConfiguration.Title
+                                    @ComponentLocalizationService.GetTitleValue(DetailsConfiguration.Title)
                                 </MudText>
                             </MudItem>
                             <MudItem
@@ -66,12 +66,12 @@
                             <MudText
                                 Typo="Typo.h5"
                                 Align="Align.Center">
-                                @DetailsConfiguration.AvatarConfiguration.Title
+                                @ComponentLocalizationService.GetTitleValue(DetailsConfiguration.AvatarConfiguration.Title)
                             </MudText>
                             <MudText
                                 Typo="Typo.h6"
                                 Align="Align.Center">
-                                @DetailsConfiguration.AvatarConfiguration.SubTitle
+                                @ComponentLocalizationService.GetSubTitleValue(DetailsConfiguration.AvatarConfiguration.SubTitle)
                             </MudText>
                         </MudCard>
                     </MudItem>
@@ -86,7 +86,7 @@
                             @foreach (var group in DetailsConfiguration.Groups)
                             {
                                 <MudItem xs="12" Class="d-flex">
-                                    <MudText Typo="Typo.h6">@group.Title</MudText>
+                                    <MudText Typo="Typo.h6">@ComponentLocalizationService.GetTitleValue(group.Title)</MudText>
                                     @if (group.EnableEditButton)
                                     {
                                         <MudSpacer/>

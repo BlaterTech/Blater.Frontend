@@ -1,5 +1,5 @@
-﻿using Blater.Frontend.Client.Auto.AutoModels.Details;
-using Blater.Frontend.Client.Auto.Interfaces.Types.Details;
+﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
+using Blater.Frontend.Client.Auto.AutoModels.Details;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 

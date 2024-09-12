@@ -1,0 +1,24 @@
+﻿@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoFormComponent<bool>
+@using Blater.Frontend.Client.Auto.AutoModels.Base
+@using Blater.Frontend.Client.Auto.AutoModels.Enumerations
+@implements Blater.Frontend.Client.Auto.AutoInterfaces.IAutoBuildableComponent
+
+<div id="auto-checkbox-input" class="@ExtraClass">
+    <MudCheckBox
+        id="@InputId"
+        T="bool"
+        Disabled="@Disabled"
+        Value="@Value"
+        Label="@LabelName"
+        Required="@Required"
+        ErrorText="@ValidationErrorMessage"
+        RequiredError="@ValidationErrorMessage"
+        ValueChanged="@(async (x) => await NotifyValueChanged(x))"
+        Color="Color.Primary">
+    </MudCheckBox>
+</div>
+
+@code
+{
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoFormComponentInputType.AutoCheckBoxComponentInput;
+}

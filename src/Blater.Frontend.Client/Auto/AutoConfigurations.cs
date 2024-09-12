@@ -2,11 +2,11 @@
 using Blater.Frontend.Client.Auto.AutoBuilders.Form;
 using Blater.Frontend.Client.Auto.AutoBuilders.Table;
 using Blater.Frontend.Client.Auto.AutoBuilders.Valitador;
-using Blater.Frontend.Client.Auto.Interfaces;
-using Blater.Frontend.Client.Auto.Interfaces.Types.Details;
-using Blater.Frontend.Client.Auto.Interfaces.Types.Form;
-using Blater.Frontend.Client.Auto.Interfaces.Types.Table;
-using Blater.Frontend.Client.Auto.Interfaces.Types.Validator;
+using Blater.Frontend.Client.Auto.AutoInterfaces;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Validator;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;

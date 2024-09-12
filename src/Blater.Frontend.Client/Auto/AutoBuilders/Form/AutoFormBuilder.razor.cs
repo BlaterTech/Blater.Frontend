@@ -1,11 +1,11 @@
 ﻿using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoBuilders.Base;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Validator;
 using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Validator;
-using Blater.Frontend.Client.Auto.Interfaces.Types.Form;
-using Blater.Frontend.Client.Auto.Interfaces.Types.Validator;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;

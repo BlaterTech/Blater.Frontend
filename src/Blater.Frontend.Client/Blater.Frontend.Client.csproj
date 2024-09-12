@@ -35,6 +35,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Auto\Interfaces\Types\" />
+      <Folder Include="Auto\AutoInterfaces\Types\" />
     </ItemGroup>
 </Project>

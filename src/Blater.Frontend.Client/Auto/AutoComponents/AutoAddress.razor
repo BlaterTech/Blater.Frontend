@@ -1,0 +1,23 @@
+﻿@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoValueComponent<Blater.Frontend.Client.Models.Address>
+@using Blater.Frontend.Client.Auto.AutoModels.Base
+@using Blater.Frontend.Client.Auto.AutoModels.Enumerations
+@implements Blater.Frontend.Client.Auto.AutoInterfaces.IAutoBuildableComponent
+
+<div id="auto-address" class="@ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudText>@Address</MudText>
+</div>
+
+@code {
+
+    public int Priority => 1000;
+
+    private string Address => $"{Value.Street} {Value.Number}, {Value.District} - {Value.PostalCode} - {Value.City}, {Value.State}";
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoAddress;
+
+
+}

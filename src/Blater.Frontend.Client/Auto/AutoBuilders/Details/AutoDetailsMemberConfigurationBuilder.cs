@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
+using Blater.Frontend.Client.Auto.AutoExtensions;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Details;
-using Blater.Frontend.Client.Auto.Extensions;
-using Blater.Frontend.Client.Auto.Interfaces.Types.Details;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Details;
 

@@ -1,0 +1,53 @@
+﻿@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoValueComponent<StatusTags>
+
+@using Blater.Enumerations
+@using Blater.Frontend.Client.Auto.AutoModels.Base
+@using Blater.Frontend.Client.Auto.AutoModels.Enumerations
+@implements Blater.Frontend.Client.Auto.AutoInterfaces.IAutoBuildableComponent
+
+<div id="auto-badge" class="@ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudChip T="string" Color="BadgeType">@TextType</MudChip>
+
+</div>
+
+@code {
+
+    private Color BadgeType => Value switch
+    {
+        StatusTags.Available  => Color.Success,
+        StatusTags.Loading    => Color.Error,
+        StatusTags.Processing => Color.Warning,
+        StatusTags.InUse      => Color.Success,
+        StatusTags.Active     => Color.Default,
+        StatusTags.Overdue    => Color.Error,
+        StatusTags.Pending    => Color.Default,
+        StatusTags.InProgress => Color.Warning,
+        StatusTags.Concluded  => Color.Success,
+        StatusTags.Unknown    => Color.Default,
+        _                     => throw new ArgumentOutOfRangeException()
+    };
+
+
+    private string TextType => Value switch
+    {
+        StatusTags.Available  => "Disponível",
+        StatusTags.Loading    => "Carregando",
+        StatusTags.Processing => "Em processamento",
+        StatusTags.InUse      => "Em uso",
+        StatusTags.Active     => "Ativo",
+        StatusTags.Overdue    => "Vencido",
+        StatusTags.Pending    => "Pendente",
+        StatusTags.InProgress => "Em andamento",
+        StatusTags.Concluded  => "Concluído",
+        StatusTags.Unknown    => "Desconhecido",
+        _                     => throw new ArgumentOutOfRangeException()
+    };
+
+    public int Priority => 1000;
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoBadge;
+}

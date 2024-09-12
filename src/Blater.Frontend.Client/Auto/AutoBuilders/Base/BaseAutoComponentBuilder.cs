@@ -1,8 +1,9 @@
 ﻿using System.Reflection;
 using Blater.Extensions;
+using Blater.Frontend.Client.Auto.AutoExtensions;
+using Blater.Frontend.Client.Auto.AutoInterfaces;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
-using Blater.Frontend.Client.Auto.Extensions;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Frontend.Client.Extensions;
 using Blater.Frontend.Client.Interfaces;
@@ -36,6 +37,9 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     [Inject]
     public AutoConfigurations AutoConfigurations { get; set; } = null!;
+    
+    [Inject]
+    public IAutoComponentLocalizationService<T> ComponentLocalizationService { get; set; } = null!;
     
     #endregion
 
@@ -95,6 +99,8 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         LoadModelConfig();
 
+        ComponentLocalizationService.DisplayType = DisplayType;
+
         ILocalizationService.LocalizationChanged += () => { InvokeAsync(StateHasChanged); };
 
         AutoConfigurations.ModelsChanged += () =>
@@ -148,7 +154,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         if (HasLabel)
         {
-            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.LabelName), componentConfiguration.LabelName);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.LabelName), ComponentLocalizationService.GetLabelNameValue(componentConfiguration.LabelName, componentConfiguration.Property));
         }
 
         var compType = componentConfiguration.AutoComponentType;
@@ -162,7 +168,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         if (compType.IsFormInput() && compType.HasValueChanged)
         {
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.EditMode), EditMode);
-            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.PlaceholderText), componentConfiguration.Placeholder);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.PlaceholderText), ComponentLocalizationService.GetPlaceholderValue(componentConfiguration.Placeholder, componentConfiguration.Property));
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Disabled), componentConfiguration.Disable);
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.IsReadOnly), componentConfiguration.IsReadOnly);
             

@@ -1,0 +1,27 @@
+﻿@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoValueComponent<DateTime>
+@using Blater.Frontend.Client.Auto.AutoModels.Base
+@using Blater.Frontend.Client.Auto.AutoModels.Enumerations
+@implements Blater.Frontend.Client.Auto.AutoInterfaces.IAutoBuildableComponent
+
+<div id="auto-date" class="@ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudText>@Value.ToString("dd/MM/yyyy")</MudText>
+</div>
+
+
+@code {
+
+    public int Priority => 1000;
+
+    private string _date = "";
+
+    protected override void OnInitialized()
+    {
+        _date = Value == DateTime.MinValue ? "Indefinido" : Value.ToString("dd/MM/yyyy");
+    }
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoDate;
+}

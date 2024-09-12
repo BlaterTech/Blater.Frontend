@@ -1,0 +1,29 @@
+@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoValueComponent<List<Blater.Models.Storage.StorageFileInfo>>
+@using Blater.Frontend.Client.Auto.AutoModels.Base
+@using Blater.Frontend.Client.Auto.AutoModels.Enumerations
+@implements Blater.Frontend.Client.Auto.AutoInterfaces.IAutoBuildableComponent
+
+<FileDetails
+    EditMode="@EditMode"
+    ContainerName="@ParentId.ToString()"
+    Files="@Value"
+/>
+
+@code
+{
+    public int Priority => 1000;
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoFileDetails;
+    
+    [CascadingParameter(Name = "ParentId")]
+    public Guid? ParentId { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public bool ShowFiles { get; set; }
+    
+    [Parameter]
+    public int MaxFileCount { get; set; } = int.MaxValue;
+    
+    [Parameter]
+    public string? TitleType { get; set; }
+}

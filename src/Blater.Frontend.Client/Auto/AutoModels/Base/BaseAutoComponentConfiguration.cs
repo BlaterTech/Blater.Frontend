@@ -14,7 +14,7 @@ public abstract class BaseAutoComponentConfiguration : BaseAutoEventConfiguratio
     public string ExtraClass { get; set; } = string.Empty;
     public string ExtraStyle { get; set; } = string.Empty;
     public string LocalizationId { get; set; } = string.Empty;
-    public required string LabelName { get; set; }
+    public string LabelName { get; set; } = string.Empty;
     public string Placeholder { get; set; } = string.Empty;
     public string HelpMessage { get; set; } = string.Empty;
 

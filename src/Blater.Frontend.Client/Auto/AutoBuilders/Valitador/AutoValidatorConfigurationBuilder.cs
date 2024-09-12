@@ -1,6 +1,6 @@
-﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Validator;
+using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Validator;
-using Blater.Frontend.Client.Auto.Interfaces.Types.Validator;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Valitador;
 

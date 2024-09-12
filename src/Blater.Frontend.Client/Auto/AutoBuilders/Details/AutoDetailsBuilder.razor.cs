@@ -1,8 +1,7 @@
 ﻿using Blater.Frontend.Client.Auto.AutoBuilders.Base;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
-using Blater.Frontend.Client.Auto.Interfaces.Types.Details;
-using Blater.Frontend.Client.Auto.Interfaces.Types.Table;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
@@ -45,8 +44,7 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
                                     {
                                         tdBuilder
                                            .AddContent(
-                                                LocalizationService.GetValue(
-                                                    $"Details-{typeof(T).Name}-{componentConfiguration.Property.Name}"));
+                                                ComponentLocalizationService.GetLabelNameValue(componentConfiguration.LabelName, componentConfiguration.Property));
                                     })
                                    .Close();
                                 if (!string.IsNullOrEmpty(componentConfiguration.ExtraStyle))
