@@ -41,64 +41,68 @@
                 Rounded="true"
                 ApplyEffectsToContainer="true"
                 AlwaysShowScrollButtons="true"
-                PanelClass="pa-6">
+                PanelClass="">
                 @foreach (var tab in DetailsTabsConfiguration.PanelConfigurations)
                 {
-                    <MudTabPanel Text="@ComponentLocalizationService.GetTitleValue(tab.Title)">
+                    <MudTabPanel 
+                        Text="@ComponentLocalizationService.GetTitleValue(tab.Title)"
+                        Icon="@(tab.Icon?.ToString() ?? "")">
                         @foreach (var group in tab.GroupConfigurations)
                         {
-                            <MudGrid>
-                                <MudItem
-                                    xs="12"
-                                    Class="d-flex">
-                                    <MudText
-                                        Typo="Typo.h6">
-                                        @ComponentLocalizationService.GetGroupNameValue(group.Title)
-                                    </MudText>
-                                    @if (group.EnableEditButton)
-                                    {
+                            <MudCard Class="pa-6 mt-1">
+                                <MudGrid>
+                                    <MudItem
+                                        xs="12"
+                                        Class="d-flex">
+                                        <MudText
+                                            Typo="Typo.h6">
+                                            @ComponentLocalizationService.GetGroupNameValue(group.Title)
+                                        </MudText>
+                                        @if (group.EnableEditButton)
+                                        {
                                         <MudSpacer/>
                                         <MudIconButton
                                             Variant="Variant.Filled"
                                             Color="Color.Primary"
                                             Icon="@Material.Outlined.Edit"
                                             OnClick="@(async () => await EditCallback.InvokeAsync(Model))"/>
-                                    }
-                                </MudItem>
-                                <MudItem
-                                    xs="12">
-                                    <MudSimpleTable
-                                        Style="overflow-x: auto;"
-                                        Elevation="0"
-                                        Striped="true">
-                                        <thead>
-                                        @{
+                                        }
+                                    </MudItem>
+                                    <MudItem
+                                        xs="12">
+                                        <MudSimpleTable
+                                            Style="overflow-x: auto;"
+                                            Elevation="0"
+                                            Striped="true">
+                                            <thead>
+                                            @{
                                             var heads = group.Components
-                                                             .Where(x => !string.IsNullOrWhiteSpace(x.HeadTitle))
-                                                             .ToList();
+                                            .Where(x => !string.IsNullOrWhiteSpace(x.HeadTitle))
+                                            .ToList();
 
                                             if (heads.Count > 0)
                                             {
-                                                <tr>
-                                                    @foreach (var head in heads)
-                                                    {
-                                                        <th>@head.HeadTitle</th>
-                                                    }
-                                                </tr>
+                                            <tr>
+                                                @foreach (var head in heads)
+                                                {
+                                                <th>@head.HeadTitle</th>
+                                                }
+                                            </tr>
                                             }
-                                        }
-                                        </thead>
-                                        <tbody>
-                                        @{
+                                            }
+                                            </thead>
+                                            <tbody>
+                                            @{
                                             foreach (var component in group.Components)
                                             {
-                                                @RenderComponents(component)
+                                            @RenderComponents(component)
                                             }
-                                        }
-                                        </tbody>
-                                    </MudSimpleTable>
-                                </MudItem>
-                            </MudGrid>
+                                            }
+                                            </tbody>
+                                        </MudSimpleTable>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudCard>
                         }
                     </MudTabPanel>
                 }
