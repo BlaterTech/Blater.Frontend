@@ -21,7 +21,7 @@ public class AutoDetailsTabsConfigurationBuilder : IAutoDetailsTabsConfiguration
         }
     }
 
-    public IAutoDetailsTabsGroupConfigurationBuilder AddPanel(AutoDetailsTabsPanelConfiguration tabsPanelConfiguration)
+    public IAutoDetailsTabsConfigurationBuilder AddPanel(AutoDetailsTabsPanelConfiguration tabsPanelConfiguration, Action<IAutoDetailsTabsGroupConfigurationBuilder> action)
     {
         var index = _configuration.PanelConfigurations.IndexOf(tabsPanelConfiguration);
         if (index != -1)
@@ -32,7 +32,11 @@ public class AutoDetailsTabsConfigurationBuilder : IAutoDetailsTabsConfiguration
         {
             _configuration.PanelConfigurations.Add(tabsPanelConfiguration);
         }
+        
+        var builder = new AutoDetailsTabsGroupConfigurationBuilder(_type, tabsPanelConfiguration);
+        
+        action.Invoke(builder);
 
-        return new AutoDetailsTabsGroupConfigurationBuilder(_type, tabsPanelConfiguration);
+        return this;
     }
 }
