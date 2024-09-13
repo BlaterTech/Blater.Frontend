@@ -1,19 +1,24 @@
-﻿@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoComponentBuilder<T>
-@typeparam T where T : Blater.Models.Bases.BaseDataModel
+﻿@inherits BaseAutoComponentBuilder<T>
+@typeparam T where T : BaseDataModel
 
 <BlaterCascadingValue
     T="T"
     Id="@CascadingValue">
-    <MudCard Elevation="0" Class="pa-4 mb-2 mud-height-full">
-        <MudText Typo="Typo.h5">
-            @ComponentLocalizationService.GetTitleValue(Configuration.Title)
-        </MudText>
-    </MudCard>
+   @if (EnablePrincipalTitle)
+   {
+       <MudCard Elevation="0" Class="pa-4 mb-2 mud-height-full">
+           <MudText Typo="Typo.h5">
+               @ComponentLocalizationService.GetTitleValue(Configuration.Title)
+           </MudText>
+       </MudCard>
+   }
 
     <MudCard
         Elevation="0"
         Class="pa-4">
         <MudForm
+            @ref="@_form"
+            @bind-IsValid="@IsValid"
             Model="@Model"
             Validation="@ModelValidator?.ValidateValue"
             ValidationDelay="0">
@@ -42,39 +47,42 @@
             </MudGrid>
         </MudForm>
 
-        <MudDivider
-            DividerType="@ActionConfiguration.DividerType"
-            Class="@($"my-6 {ActionConfiguration.DividerExtraClass}")"/>
-        <div
-            id="action-buttons"
-            class="@($"d-flex justify-end gap-4 mt-4 {ActionConfiguration.ActionExtraClass}")">
-            <MudButton
-                Variant="@ActionConfiguration.VariantCancelButton"
-                Color="@ActionConfiguration.ColorCancelButton"
-                Class="@ActionConfiguration.CancelButtonExtraClass"
-                OnClick="@(async () => await NavigationService.GoBack())">
-                @LocalizationService.GetValue("CancelButton")
-            </MudButton>
-            <MudButton
-                Variant="@ActionConfiguration.VariantCreateEditButton"
-                Color="@ActionConfiguration.ColorCreateEditButton"
-                ButtonType="@ActionConfiguration.TypeCreateEditButton"
-                Class="@ActionConfiguration.CreateEditButtonExtraClass"
-                OnClick="@Upsert"
-                Disabled="@Processing">
-                @if (Processing)
-                {
-                    <MudProgressCircular
-                        Class="ms-n1"
-                        Size="Size.Small"
-                        Indeterminate="@true"/>
-                    <MudText
-                        Class="ms-2">
-                        @LocalizationService.GetValue("Processing")
-                    </MudText>
-                }
-                @LocalizationService.GetValue(EditMode ? "EditButton" : "SaveButton")
-            </MudButton>
-        </div>
+        @if (EnableActionsButtons)
+        {
+            <MudDivider
+                DividerType="@ActionConfiguration.DividerType"
+                Class="@($"my-6 {ActionConfiguration.DividerExtraClass}")"/>
+            <div
+                id="action-buttons"
+                class="@($"d-flex justify-end gap-4 mt-4 {ActionConfiguration.ActionExtraClass}")">
+                <MudButton
+                    Variant="@ActionConfiguration.VariantCancelButton"
+                    Color="@ActionConfiguration.ColorCancelButton"
+                    Class="@ActionConfiguration.CancelButtonExtraClass"
+                    OnClick="@(async () => await NavigationService.GoBack())">
+                    @LocalizationService.GetValue("CancelButton")
+                </MudButton>
+                <MudButton
+                    Variant="@ActionConfiguration.VariantCreateEditButton"
+                    Color="@ActionConfiguration.ColorCreateEditButton"
+                    ButtonType="@ActionConfiguration.TypeCreateEditButton"
+                    Class="@ActionConfiguration.CreateEditButtonExtraClass"
+                    OnClick="@Upsert"
+                    Disabled="@Processing">
+                    @if (Processing)
+                    {
+                        <MudProgressCircular
+                            Class="ms-n1"
+                            Size="Size.Small"
+                            Indeterminate="@true"/>
+                        <MudText
+                            Class="ms-2">
+                            @LocalizationService.GetValue("Processing")
+                        </MudText>
+                    }
+                    @LocalizationService.GetValue(EditMode ? "EditButton" : "SaveButton")
+                </MudButton>
+            </div>
+        }
     </MudCard>
 </BlaterCascadingValue>

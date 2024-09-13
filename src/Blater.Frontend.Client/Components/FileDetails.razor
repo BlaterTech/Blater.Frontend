@@ -15,17 +15,17 @@
                 @file.Name
             </MudText>
             <MudIconButton
-                Icon="@Icons.Material.Outlined.Download"
+                Icon="@Material.Outlined.Download"
                 Color="Color.Primary"
                 OnClick="() => Download(file)"/>
             <MudIconButton
-                Icon="@Icons.Material.Outlined.RemoveRedEye"
+                Icon="@Material.Outlined.RemoveRedEye"
                 Color="Color.Primary"
                 OnClick="() => View(file)"/>
             @if (EditMode)
             {
                 <MudIconButton
-                    Icon="@Icons.Material.Outlined.Delete"
+                    Icon="@Material.Outlined.Delete"
                     Color="Color.Error"
                     OnClick="() => Delete(file)"/>
             }

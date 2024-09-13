@@ -24,18 +24,34 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
     [Parameter]
     public bool Processing { get; set; }
 
+    [Parameter]
+    public bool EnablePrincipalTitle { get; set; } = true;
+    
+    [Parameter]
+    public bool EnableActionsButtons { get; set; } = true;
+    
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
 
+    MudForm _form = null!;
     private AutoFormConfiguration Configuration { get; set; } = default!;
     private AutoAvatarModelConfiguration? AvatarModelConfiguration { get; set; }
     private ModelValidator<T>? ModelValidator { get; set; }
     private AutoGridConfiguration? GridConfiguration { get; set; }
     private AutoFormActionConfiguration ActionConfiguration { get; set; } = new();
 
+    private bool IsValid { get; set; }
+    
     private static async Task Upsert()
     {
         await Task.Delay(1);
+    }
+
+    protected async Task<bool> Validate()
+    {
+        await _form.Validate();
+
+        return IsValid;
     }
 
     protected override void OnInitialized()

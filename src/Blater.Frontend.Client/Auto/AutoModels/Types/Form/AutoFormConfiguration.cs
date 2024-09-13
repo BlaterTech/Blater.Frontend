@@ -2,9 +2,9 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
-public class AutoFormConfiguration
+public class AutoFormConfiguration(string title)
 {
-    public required string Title { get; set; }
+    public string Title { get; set; } = title;
     
     public Dictionary<AutoComponentDisplayType, AutoGridConfiguration> GridConfigurations { get; set; } = [];
     public Dictionary<AutoComponentDisplayType, AutoAvatarModelConfiguration> AvatarConfiguration { get; set; } = [];

@@ -2,12 +2,9 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form.Timeline;
 
-public class AutoFormTimelineConfiguration
+public class AutoFormTimelineConfiguration(string title)
 {
-    public required string Title { get; set; }
-    
-    public Dictionary<AutoComponentDisplayType, AutoGridConfiguration> GridConfigurations { get; set; } = [];
-    public Dictionary<AutoComponentDisplayType, AutoFormTimelineActionConfiguration> ActionConfiguration { get; set; } = [];
-    
-    public Dictionary<AutoComponentDisplayType, List<AutoFormTimelineGroupConfiguration>> GroupConfigurations { get; set; } = [];
+    public string Title { get; set; } = title;
+
+    public Dictionary<AutoComponentDisplayType, List<AutoFormTimelineStepConfiguration>> Steps { get; set; } = [];
 }

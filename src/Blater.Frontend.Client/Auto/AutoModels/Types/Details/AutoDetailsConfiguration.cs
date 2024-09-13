@@ -2,9 +2,9 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Details;
 
-public class AutoDetailsConfiguration
+public class AutoDetailsConfiguration(string title)
 {
-    public required string Title { get; set; }
+    public string Title { get; set; } = title;
     public string? ExtraClass { get; set; }
     public bool EnableBackButton { get; set; } = true;
 

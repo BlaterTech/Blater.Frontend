@@ -3,9 +3,9 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 
-public class AutoTableConfiguration
+public class AutoTableConfiguration(string title)
 {
-    public required string Title { get; set; }
+    public string Title { get; set; } = title;
 
     public bool EnableDefaultAction { get; set; } = true;
     public bool EnableCreateButton { get; set; } = true;
