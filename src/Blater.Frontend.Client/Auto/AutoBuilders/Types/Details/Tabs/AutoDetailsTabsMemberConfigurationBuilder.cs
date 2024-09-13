@@ -19,7 +19,7 @@ public class AutoDetailsTabsMemberConfigurationBuilder(Type type, AutoDetailsTab
         else
         {
             componentConfiguration.Property = property;
-            componentConfiguration.AutoComponentType ??= property.GetDefaultAutoDetailsComponentForType();
+            componentConfiguration.AutoComponentType ??= property.GetDefaultComponentForType();
             configuration.Components.Add(componentConfiguration);
         }
 

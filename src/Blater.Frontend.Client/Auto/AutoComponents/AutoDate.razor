@@ -1,7 +1,6 @@
-﻿@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoValueComponent<DateTime>
-@using Blater.Frontend.Client.Auto.AutoModels.Base
+﻿@inherits BaseAutoValueComponent<DateTime>
 @using Blater.Frontend.Client.Auto.AutoModels.Enumerations
-@implements Blater.Frontend.Client.Auto.AutoInterfaces.IAutoBuildableComponent
+@implements IAutoBuildableComponent
 
 <div id="auto-date" class="@ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))
@@ -13,8 +12,7 @@
 
 
 @code {
-
     public int Priority => 1000;
 
-    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoDate;
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoDate;
 }

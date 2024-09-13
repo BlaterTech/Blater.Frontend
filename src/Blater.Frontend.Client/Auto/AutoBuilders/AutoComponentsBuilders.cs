@@ -52,8 +52,7 @@ public static class AutoComponentsBuilders
         }
     }
 
-    public static IAutoBuildableComponent? GetComponentBuilder<TComponentType>(BaseAutoComponentConfiguration<TComponentType> configuration)
-    where TComponentType : BaseAutoComponentTypeEnumeration
+    public static IAutoBuildableComponent? GetComponentBuilder(BaseAutoComponentConfiguration configuration)
     {
         var fieldConfigurationDisplayType = configuration.AutoComponentType;
         

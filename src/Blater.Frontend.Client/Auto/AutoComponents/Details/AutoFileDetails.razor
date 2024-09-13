@@ -12,7 +12,7 @@
 @code
 {
     public int Priority => 1000;
-    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoFileDetails;
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoFileDetails;
     
     [CascadingParameter(Name = "ParentId")]
     public Guid? ParentId { get; set; }

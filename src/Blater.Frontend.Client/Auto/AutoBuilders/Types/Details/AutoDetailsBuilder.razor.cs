@@ -1,5 +1,6 @@
 ﻿using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
+using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Details;
 using Blater.Frontend.Client.EasyRenderTree;
@@ -25,7 +26,7 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
         DetailsConfiguration = autoDetails.DetailsConfiguration;
     }
 
-    private RenderFragment RenderComponents(AutoDetailsAutoComponentConfiguration componentConfiguration, bool isTable = true) => builder =>
+    protected RenderFragment RenderComponents(BaseAutoComponentConfiguration componentConfiguration, bool isTable = true) => builder =>
     {
         var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
 
@@ -35,7 +36,7 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
                        .OpenElement("tr")
                        .AddContent(trBuilder =>
                         {
-                            if (componentConfiguration.AutoComponentType != AutoDetailsComponentType.AutoTitle)
+                            if (componentConfiguration.AutoComponentType != AutoComponentType.AutoTitle)
                             {
                                 trBuilder
                                    .OpenElement("td")

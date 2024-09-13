@@ -35,7 +35,7 @@ public class AutoTableConfigurationBuilder : IAutoTableConfigurationBuilder
         else
         {
             componentConfiguration.Property = property;
-            componentConfiguration.AutoComponentType ??= property.GetDefaultAutoTableComponentForType();
+            componentConfiguration.AutoComponentType ??= property.GetDefaultComponentForType();
             _configuration.Configurations.Add(componentConfiguration);
         }
         

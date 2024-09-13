@@ -1,15 +1,14 @@
-﻿@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoValueComponent<int>
-@using Blater.Frontend.Client.Auto.AutoModels.Base
+﻿@inherits BaseAutoValueComponent<int>
+
 @using Blater.Frontend.Client.Auto.AutoModels.Enumerations
-@implements Blater.Frontend.Client.Auto.AutoInterfaces.IAutoBuildableComponent
+@implements IAutoBuildableComponent
 
 <div id="auto-numeric" class="@ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))
     {
         <MudText>@LabelName</MudText>
     }
-    <MudText
-        Class="text-sm text-neutral-700">
+    <MudText>
         @Value
     </MudText>
 
@@ -19,5 +18,5 @@
 @code {
     public int Priority => 1000;
 
-    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoNumeric;
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoNumeric;
 }

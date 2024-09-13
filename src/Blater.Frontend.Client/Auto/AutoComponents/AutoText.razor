@@ -4,16 +4,16 @@
 @using Blater.Frontend.Client.Auto.AutoModels.Enumerations
 @implements Blater.Frontend.Client.Auto.AutoInterfaces.IAutoBuildableComponent
 
-<div id="auto-section-text" class="@ExtraClass">
+<div id="auto-text-table" class="@ExtraClass">
     @if (!string.IsNullOrEmpty(LabelName))
     {
         <MudText>@LabelName</MudText>
     }
+    <MudText>@Value</MudText>
 </div>
-
 
 @code {
     public int Priority => 1000;
-    public BaseAutoComponentTypeEnumeration ComponentType => AutoTableComponentType.AutoSectionText;
 
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoText;
 }

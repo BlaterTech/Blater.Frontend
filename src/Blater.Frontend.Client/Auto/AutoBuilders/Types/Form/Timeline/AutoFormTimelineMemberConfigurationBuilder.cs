@@ -10,20 +10,17 @@ public class AutoFormTimelineMemberConfigurationBuilder(Type type, AutoFormTimel
     public IAutoFormTimelineMemberConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoFormAutoComponentConfiguration componentConfiguration)
     {
         var property = expression.GetPropertyInfoForType(type);
-
-        var currentComponentConfig = configuration.ComponentConfigurations.FirstOrDefault(x => x.Property == property);
-
-        if (currentComponentConfig != null && currentComponentConfig.AutoComponentType == null)
+        
+        var index = configuration.ComponentConfigurations.IndexOf(componentConfiguration);
+        if (index != -1)
         {
-            currentComponentConfig = componentConfiguration;
-            currentComponentConfig.AutoComponentType = property.GetDefaultAutoFormComponentForType();
+            configuration.ComponentConfigurations[index] = componentConfiguration;
         }
         else
         {
-            currentComponentConfig = componentConfiguration;
-            currentComponentConfig.Property = property;
-            currentComponentConfig.AutoComponentType ??= property.GetDefaultAutoFormComponentForType();
-            configuration.ComponentConfigurations.Add(currentComponentConfig);
+            componentConfiguration.Property = property;
+            componentConfiguration.AutoComponentType ??= property.GetDefaultComponentForType();
+            configuration.ComponentConfigurations.Add(componentConfiguration);
         }
 
         return this;

@@ -1,5 +1,7 @@
 ﻿using Blater.Frontend.Client.Auto.AutoBuilders.Types.Details;
+using Blater.Frontend.Client.Auto.AutoBuilders.Types.Details.Tabs;
 using Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
+using Blater.Frontend.Client.Auto.AutoBuilders.Types.Form.Timeline;
 using Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
 using Blater.Frontend.Client.Auto.AutoBuilders.Types.Valitador;
 using Blater.Frontend.Client.Auto.AutoInterfaces;
@@ -58,9 +60,9 @@ public class AutoConfigurations
             var instance = ActivatorUtilities.CreateInstance(_serviceProvider, modelType);
 
             ConfigureModel(instance, modelType, typeof(IAutoFormConfiguration), typeof(AutoFormConfigurationBuilder));
-            ConfigureModel(instance, modelType, typeof(IAutoFormTimelineConfiguration), typeof(AutoFormTimelineConfiguration));
+            ConfigureModel(instance, modelType, typeof(IAutoFormTimelineConfiguration), typeof(AutoFormTimelineConfigurationBuilder));
             ConfigureModel(instance, modelType, typeof(IAutoDetailsConfiguration), typeof(AutoDetailsConfigurationBuilder));
-            ConfigureModel(instance, modelType, typeof(IAutoDetailsTabsConfiguration), typeof(AutoDetailsTabsConfiguration));
+            ConfigureModel(instance, modelType, typeof(IAutoDetailsTabsConfiguration), typeof(AutoDetailsTabsConfigurationBuilder));
             ConfigureModel(instance, modelType, typeof(IAutoTableConfiguration), typeof(AutoTableConfigurationBuilder));
             ConfigureGenericModel(instance, modelType, typeof(IAutoValidatorConfiguration<>), typeof(AutoValidatorConfigurationBuilder<>));
 

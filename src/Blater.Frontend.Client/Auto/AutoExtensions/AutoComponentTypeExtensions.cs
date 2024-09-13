@@ -66,29 +66,17 @@ public static class AutoComponentTypeExtensions
         };
     }
     
-    public static AutoDetailsComponentType GetDefaultAutoDetailsComponentForType(this PropertyInfo propertyInfo)
+    public static AutoComponentType GetDefaultComponentForType(this PropertyInfo propertyInfo)
     {
         var propType = propertyInfo.PropertyType;
         return propType switch
         {
-            not null when propType == typeof(string) => AutoDetailsComponentType.AutoText,
-            not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoDetailsComponentType.AutoNumeric,
-            not null when propType == typeof(DateTime) => AutoDetailsComponentType.AutoDate,
-            not null when propType == typeof(bool) => AutoDetailsComponentType.AutoStatus,
-            _ => AutoDetailsComponentType.AutoText
+            not null when propType == typeof(string) => AutoComponentType.AutoText,
+            not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoComponentType.AutoNumeric,
+            not null when propType == typeof(DateTime) => AutoComponentType.AutoDate,
+            not null when propType == typeof(bool) => AutoComponentType.AutoStatus,
+            _ => AutoComponentType.AutoText
         };
     }
-    
-    public static AutoTableComponentType GetDefaultAutoTableComponentForType(this PropertyInfo propertyInfo)
-    {
-        var propType = propertyInfo.PropertyType;
-        return propType switch
-        {
-            not null when propType == typeof(string) => AutoTableComponentType.AutoTextTable,
-            not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoTableComponentType.AutoNumeric,
-            not null when propType == typeof(DateTime) => AutoTableComponentType.AutoDate,
-            not null when propType == typeof(bool) => AutoTableComponentType.AutoStatus,
-            _ => AutoTableComponentType.AutoTextTable
-        };
-    }
+
 }

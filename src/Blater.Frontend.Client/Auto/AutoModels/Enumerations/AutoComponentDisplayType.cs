@@ -10,6 +10,10 @@ public enum AutoComponentDisplayType
     FormCreate = 1,
     FormEdit = 2,
     Form = FormCreate | FormEdit,
-    Table = 4,
-    Details = 8
+    FormTimelineCreate = 4,
+    FormTimelineEdit = 8,
+    FormTimeline = FormTimelineCreate | FormTimelineEdit,
+    Table = 16,
+    Details = 32,
+    DetailsTabs = 64
 }
