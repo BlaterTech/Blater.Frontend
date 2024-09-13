@@ -19,31 +19,34 @@ public class AutoValidatorConfigurationBuilder<T> : IAutoValidatorBuilder<T>
         }
     }
 
-    public IAutoValidatorBuilder<T> TableValidate(ModelValidator<T> validator)
-        => Validate(AutoComponentDisplayType.Table, validator);
+    public IAutoValidatorBuilder<T> TableValidate(Action<ModelValidator<T>> action)
+        => Validate(AutoComponentDisplayType.Table, action);
 
-    public IAutoValidatorBuilder<T> DetailsValidate(ModelValidator<T> validator)
-        => Validate(AutoComponentDisplayType.Details, validator);
+    public IAutoValidatorBuilder<T> DetailsValidate(Action<ModelValidator<T>> action)
+        => Validate(AutoComponentDisplayType.Details, action);
 
-    public IAutoValidatorBuilder<T> FormValidate(ModelValidator<T> validator)
-        => Validate(AutoComponentDisplayType.Form, validator);
+    public IAutoValidatorBuilder<T> FormValidate(Action<ModelValidator<T>> action)
+        => Validate(AutoComponentDisplayType.Form, action);
 
-    public IAutoValidatorBuilder<T> FormCreateOnlyValidate(ModelValidator<T> validator)
-        => Validate(AutoComponentDisplayType.FormCreate, validator);
+    public IAutoValidatorBuilder<T> FormCreateOnlyValidate(Action<ModelValidator<T>> action)
+        => Validate(AutoComponentDisplayType.FormCreate, action);
 
-    public IAutoValidatorBuilder<T> FormEditOnlyValidate(ModelValidator<T> validator)
-        => Validate(AutoComponentDisplayType.FormEdit, validator);
+    public IAutoValidatorBuilder<T> FormEditOnlyValidate(Action<ModelValidator<T>> action)
+        => Validate(AutoComponentDisplayType.FormEdit, action);
 
-    public IAutoValidatorBuilder<T> Validate(AutoComponentDisplayType displayType, ModelValidator<T> validator)
+    public IAutoValidatorBuilder<T> Validate(AutoComponentDisplayType displayType, Action<ModelValidator<T>> action)
     {
-        if (_configuration.Validators.TryGetValue(displayType, out _))
+        if (_configuration.Validators.TryGetValue(displayType, out var validator))
         {
             _configuration.Validators[displayType] = validator;
         }
         else
         {
+            validator = new ModelValidator<T>();
             _configuration.Validators.TryAdd(displayType, validator);
         }
+        
+        action.Invoke(validator);
         
         return this;
     }

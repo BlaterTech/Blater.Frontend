@@ -21,7 +21,7 @@ public class AutoDetailsConfigurationBuilder : IAutoDetailsConfigurationBuilder
         }
     }
 
-    public IAutoDetailsMemberConfigurationBuilder AddGroup(AutoDetailsGroupConfiguration detailsGroupConfiguration)
+    public IAutoDetailsConfigurationBuilder AddGroup(AutoDetailsGroupConfiguration detailsGroupConfiguration, Action<IAutoDetailsMemberConfigurationBuilder> action)
     {
         var index = _configuration.Groups.IndexOf(detailsGroupConfiguration);
         if (index != -1)
@@ -33,6 +33,10 @@ public class AutoDetailsConfigurationBuilder : IAutoDetailsConfigurationBuilder
             _configuration.Groups.Add(detailsGroupConfiguration);
         }
 
-        return new AutoDetailsMemberConfigurationBuilder(_type, detailsGroupConfiguration);
+        var builder = new AutoDetailsMemberConfigurationBuilder(_type, detailsGroupConfiguration);
+        
+        action.Invoke(builder);
+
+        return this;
     }
 }

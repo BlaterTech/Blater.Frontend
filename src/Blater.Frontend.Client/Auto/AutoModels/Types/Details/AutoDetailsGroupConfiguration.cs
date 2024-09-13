@@ -2,7 +2,11 @@
 
 public class AutoDetailsGroupConfiguration
 {
-    public required string Title { get; set; } = string.Empty;
+    public AutoDetailsGroupConfiguration(string title)
+    {
+        Title = title;
+    }
+    public string Title { get; set; }
     public bool EnableEditButton { get; set; } = true;
     public List<AutoDetailsAutoComponentConfiguration> Components { get; set; } = [];
 }

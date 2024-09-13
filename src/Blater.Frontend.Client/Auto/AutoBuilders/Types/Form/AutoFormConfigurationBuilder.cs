@@ -33,14 +33,14 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
     public IAutoFormConfigurationBuilder AddGroupAvatarEditOnly(AutoAvatarModelConfiguration avatarConfiguration)
         => AddGroupAvatar(AutoComponentDisplayType.FormEdit, avatarConfiguration);
 
-    public IAutoFormMemberConfigurationBuilder AddGroup(AutoFormGroupConfiguration groupConfiguration)
-        => AddGroup(AutoComponentDisplayType.Form, groupConfiguration);
+    public IAutoFormConfigurationBuilder AddGroup(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder> action)
+        => AddGroup(AutoComponentDisplayType.Form, groupConfiguration, action);
 
-    public IAutoFormMemberConfigurationBuilder AddGroupCreateOnly(AutoFormGroupConfiguration groupConfiguration)
-        => AddGroup(AutoComponentDisplayType.FormCreate, groupConfiguration);
+    public IAutoFormConfigurationBuilder AddGroupCreateOnly(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder> action)
+        => AddGroup(AutoComponentDisplayType.FormCreate, groupConfiguration, action);
 
-    public IAutoFormMemberConfigurationBuilder AddGroupEditOnly(AutoFormGroupConfiguration groupConfiguration)
-        => AddGroup(AutoComponentDisplayType.FormEdit, groupConfiguration);
+    public IAutoFormConfigurationBuilder AddGroupEditOnly(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder> action)
+        => AddGroup(AutoComponentDisplayType.FormEdit, groupConfiguration, action);
 
     #endregion
 
@@ -57,7 +57,7 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
 
     #endregion
 
-    private AutoFormMemberConfigurationBuilder AddGroup(AutoComponentDisplayType displayType, AutoFormGroupConfiguration groupConfiguration)
+    private AutoFormConfigurationBuilder AddGroup(AutoComponentDisplayType displayType, AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder> action)
     {
         if (!_configuration.GroupConfigurations.TryGetValue(displayType, out var value))
         {
@@ -77,7 +77,11 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
 
         _configuration.GroupConfigurations[displayType] = value;
         
-        return new AutoFormMemberConfigurationBuilder(_type, groupConfiguration);
+        var builder = new AutoFormMemberConfigurationBuilder(_type, groupConfiguration);
+        
+        action.Invoke(builder);
+
+        return this;
     }
 
     private AutoFormConfigurationBuilder AddGroupAvatar(AutoComponentDisplayType displayType, AutoAvatarModelConfiguration avatarConfiguration)

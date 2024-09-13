@@ -2,7 +2,12 @@
 
 public class AutoFormGroupConfiguration
 {
-    public string Title { get; set; } = string.Empty;
+    public AutoFormGroupConfiguration(string title)
+    {
+        Title = title;
+    }
+    
+    public string Title { get; set; }
     
     public List<AutoGridConfiguration> GridConfigurations { get; set; } = [];
     public List<AutoFormAutoComponentConfiguration> ComponentConfigurations { get; set; } = [];
