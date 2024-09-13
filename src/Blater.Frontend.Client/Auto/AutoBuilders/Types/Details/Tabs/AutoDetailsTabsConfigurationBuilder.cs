@@ -21,18 +21,18 @@ public class AutoDetailsTabsConfigurationBuilder : IAutoDetailsTabsConfiguration
         }
     }
 
-    public IAutoDetailsTabsMemberConfigurationBuilder AddGroup(AutoDetailsTabsGroupConfiguration detailsGroupConfiguration)
+    public IAutoDetailsTabsGroupConfigurationBuilder AddPanel(AutoDetailsTabsPanelConfiguration tabsPanelConfiguration)
     {
-        var index = _configuration.Groups.IndexOf(detailsGroupConfiguration);
+        var index = _configuration.PanelConfigurations.IndexOf(tabsPanelConfiguration);
         if (index != -1)
         {
-            _configuration.Groups[index] = detailsGroupConfiguration;
+            _configuration.PanelConfigurations[index] = tabsPanelConfiguration;
         }
         else
         {
-            _configuration.Groups.Add(detailsGroupConfiguration);
+            _configuration.PanelConfigurations.Add(tabsPanelConfiguration);
         }
 
-        return new AutoDetailsTabsMemberConfigurationBuilder(_type, detailsGroupConfiguration);
+        return new AutoDetailsTabsGroupConfigurationBuilder(_type, tabsPanelConfiguration);
     }
 }

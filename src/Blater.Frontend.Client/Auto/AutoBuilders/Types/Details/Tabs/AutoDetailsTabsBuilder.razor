@@ -1,5 +1,69 @@
-﻿<h3>AutoDetailsTabsBuilder</h3>
+﻿@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoComponentBuilder<T>
+@typeparam T where T : BaseDataModel
 
-@code {
-    
-}
+
+<BlaterCascadingValue
+    T="T"
+    Id="@CascadingValue">
+    @if (Loading)
+    {
+        <MudProgressCircular
+            Color="Color.Primary"
+            Indeterminate="true"/>
+    }
+    else
+    {
+        if (Id == Guid.Empty)
+        {
+            <MudCard>
+                <MudGrid>
+                    <MudItem
+                        xs="12">
+                        <MudCard
+                            Class="@($"my-4 pa-4 {DetailsTabsConfiguration.ExtraClass}")">
+                            <MudGrid
+                                Spacing="2">
+                                <MudItem
+                                    xs="12">
+                                    <MudText
+                                        Typo="Typo.h4">
+                                        @ComponentLocalizationService.GetTitleValue(DetailsTabsConfiguration.Title)
+                                    </MudText>
+                                </MudItem>
+                                <MudItem
+                                    xs="12">
+                                    <MudText
+                                        Typo="Typo.h5">
+                                        @LocalizationService.GetValue("ItemNotFound")
+                                    </MudText>
+                                </MudItem>
+                            </MudGrid>
+                        </MudCard>
+                    </MudItem>
+                </MudGrid>
+            </MudCard>
+        }
+        else
+        {
+            <MudTabs
+                Elevation="2"
+                Rounded="true"
+                ApplyEffectsToContainer="true"
+                AlwaysShowScrollButtons="true"
+                PanelClass="pa-6">
+                @foreach (var tab in DetailsTabsConfiguration.PanelConfigurations)
+                {
+                    <MudTabPanel Text="@ComponentLocalizationService.GetTitleValue(tab.Title)">
+                        @foreach (var group in tab.GroupConfigurations)
+                        {
+                            <MudText>@ComponentLocalizationService.GetTitleValue(group.Title)</MudText>
+                            foreach (var component in group.Components)
+                            {
+                            }
+                        }
+                    </MudTabPanel>
+                }
+            </MudTabs>
+        }
+    }
+</BlaterCascadingValue>
