@@ -19,7 +19,7 @@ public class AutoFormTimelineMemberConfigurationBuilder(Type type, AutoFormTimel
         else
         {
             componentConfiguration.Property = property;
-            componentConfiguration.AutoComponentType ??= property.GetDefaultComponentForType();
+            componentConfiguration.AutoComponentType ??= property.GetDefaultAutoFormComponentForType();
             configuration.ComponentConfigurations.Add(componentConfiguration);
         }
 

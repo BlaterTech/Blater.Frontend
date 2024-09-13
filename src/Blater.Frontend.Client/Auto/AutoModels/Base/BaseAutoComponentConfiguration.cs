@@ -23,6 +23,6 @@ public abstract class BaseAutoComponentConfiguration : BaseAutoEventConfiguratio
     public int Order { get; set; }
 
     public Dictionary<Breakpoint, int> Breakpoints { get; set; } = [];
-    public AutoComponentType? AutoComponentType { get; set; }
+    public BaseAutoComponentTypeEnumeration? AutoComponentType { get; set; }
     public AutoFieldSize Size { get; set; }
 }

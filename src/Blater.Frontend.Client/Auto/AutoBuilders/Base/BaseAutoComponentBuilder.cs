@@ -31,16 +31,16 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     [Inject]
     public IBlaterDatabaseStoreT<T> DataRepository { get; set; } = null!;
-    
+
     [Inject]
     public ISnackbar Snackbar { get; set; } = null!;
 
     [Inject]
     public AutoConfigurations AutoConfigurations { get; set; } = null!;
-    
+
     [Inject]
     public IAutoComponentLocalizationService<T> ComponentLocalizationService { get; set; } = null!;
-    
+
     #endregion
 
     #region Parameters
@@ -67,27 +67,27 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     public abstract bool HasLabel { get; set; }
 
     #endregion
-    
+
     public BlaterId CascadingValue => Model?.Id ?? BlaterId.New(typeof(T).FullName!.SanitizeString());
     public bool EditMode { get; private set; }
-    
+
     protected abstract void LoadModelConfig();
 
     protected TConfig FindModelConfig<TConfig>()
     {
         var modelType = typeof(T);
-        if(AutoConfigurations.Configurations.TryGetValue(modelType, out var value))
+        if (AutoConfigurations.Configurations.TryGetValue(modelType, out var value))
         {
             if (value is TConfig configValue)
             {
                 return configValue;
             }
         }
-        
+
         Logger.LogError("Model {Name} does not implement IAutoFormConfiguration<{TypeName}>", modelType.Name, modelType.Name);
         throw new InvalidCastException("Model does not implement IAutoFormConfiguration");
     }
-    
+
     protected override async Task OnInitializedAsync()
     {
         if ((Id != null && Id != Guid.Empty) || (Model != null && Model?.Id != Guid.Empty))
@@ -154,7 +154,8 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         if (HasLabel)
         {
-            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.LabelName), ComponentLocalizationService.GetLabelNameValue(componentConfiguration.LabelName, componentConfiguration.Property));
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.LabelName),
+                                                ComponentLocalizationService.GetLabelNameValue(componentConfiguration.LabelName, componentConfiguration.Property));
         }
 
         var compType = componentConfiguration.AutoComponentType;
@@ -168,20 +169,21 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         if (compType.IsFormInput() && compType.HasValueChanged)
         {
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.EditMode), EditMode);
-            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.PlaceholderText), ComponentLocalizationService.GetPlaceholderValue(componentConfiguration.Placeholder, componentConfiguration.Property));
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.PlaceholderText),
+                                                ComponentLocalizationService.GetPlaceholderValue(componentConfiguration.Placeholder, componentConfiguration.Property));
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Disabled), componentConfiguration.Disable);
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.IsReadOnly), componentConfiguration.IsReadOnly);
-            
+
             componentConfiguration.OnValueChanged ??= CreateGenericValueChanged(componentConfiguration.Property);
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), componentConfiguration.OnValueChanged);
         }
 
         componentRenderBuilder.Close();
     }
-    
+
     private readonly MethodInfo _makeActionMethod = typeof(BaseAutoComponentBuilder<T>).GetMethod("MakeAction",
                                                                                                   BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.NonPublic)!;
-    
+
     protected object? CreateGenericValueChanged(PropertyInfo propertyInfo)
     {
         var targetType = propertyInfo.PropertyType;
@@ -194,7 +196,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         var parameters = new[] { this, action };
         return genericMethod.Invoke(EventCallback.Factory, parameters);
     }
-    
+
     protected Action<TEntity> MakeAction<TEntity>(PropertyInfo propertyInfo)
     {
         return Action;

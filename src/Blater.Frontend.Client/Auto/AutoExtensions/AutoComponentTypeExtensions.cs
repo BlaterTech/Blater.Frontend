@@ -31,7 +31,7 @@ public static class AutoComponentTypeExtensions
             return false;
         }
         
-        return componentType.GetType() == typeof(AutoFormComponentInputType);
+        return componentType.GetType() == typeof(AutoComponentInputType);
     }
     
     public static PropertyInfo GetPropertyInfoForType<TProperty>(this Expression<Func<TProperty>> expression, Type type)
@@ -53,16 +53,16 @@ public static class AutoComponentTypeExtensions
         return property;
     }
     
-    public static AutoFormComponentInputType GetDefaultAutoFormComponentForType(this PropertyInfo propertyInfo)
+    public static AutoComponentInputType GetDefaultAutoFormComponentForType(this PropertyInfo propertyInfo)
     {
         var propType = propertyInfo.PropertyType;
         return propType switch
         {
-            not null when propType == typeof(string) => AutoFormComponentInputType.AutoTextComponentInput,
-            not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoFormComponentInputType.AutoNumericComponentInput,
-            not null when propType == typeof(DateTime) => AutoFormComponentInputType.AutoDateTimeComponentInput,
-            not null when propType == typeof(bool) => AutoFormComponentInputType.AutoSwitchComponentInput,
-            _ => AutoFormComponentInputType.AutoTextComponentInput
+            not null when propType == typeof(string) => AutoComponentInputType.AutoTextComponentInput,
+            not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoComponentInputType.AutoNumericComponentInput,
+            not null when propType == typeof(DateTime) => AutoComponentInputType.AutoDateTimeComponentInput,
+            not null when propType == typeof(bool) => AutoComponentInputType.AutoSwitchComponentInput,
+            _ => AutoComponentInputType.AutoTextComponentInput
         };
     }
     

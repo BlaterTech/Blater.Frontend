@@ -5,5 +5,4 @@ namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
 public class AutoFormAutoComponentConfiguration : BaseAutoComponentConfiguration
 {
-    public AutoFormComponentInputType InputType { get; set; } = null!;
 }

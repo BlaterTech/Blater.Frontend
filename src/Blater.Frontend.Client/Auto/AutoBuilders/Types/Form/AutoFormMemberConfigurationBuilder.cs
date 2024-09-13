@@ -22,7 +22,7 @@ public class AutoFormMemberConfigurationBuilder(
         else
         {
             componentConfiguration.Property = property;
-            componentConfiguration.AutoComponentType ??= property.GetDefaultComponentForType();
+            componentConfiguration.AutoComponentType ??= property.GetDefaultAutoFormComponentForType();
             configuration.ComponentConfigurations.Add(componentConfiguration);
         }
         
