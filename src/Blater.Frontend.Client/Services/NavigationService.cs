@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Blater.Attributes.Auto;
-using Blater.Extensions;
 using Blater.Frontend.Client.Attributes;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Models;
@@ -39,7 +37,7 @@ public class NavigationService : INavigationService
     {
         Routes.Clear();
 
-        var navMenus = (
+        /*var navMenus = (
             from type in TypesHelper.AllTypes
             let routeAttribute = type.GetCustomAttribute<RouteAttribute>()
             let autoNavMenuAttribute = type.GetCustomAttribute<AutoNavMenuAttribute>()
@@ -100,7 +98,7 @@ public class NavigationService : INavigationService
                     NavMenuParentName = parentMenuName
                 });
             }
-        }
+        }*/
 
         Routes = Routes
                 .OrderBy(x => x.Priority)

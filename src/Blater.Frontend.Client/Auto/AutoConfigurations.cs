@@ -11,8 +11,6 @@ using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form.Timeline;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Validator;
-using Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
-using Blater.Frontend.Client.Auto.AutoModels.Types.Form.Timeline;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;

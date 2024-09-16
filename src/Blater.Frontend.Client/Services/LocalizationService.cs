@@ -1,7 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Blater.Enumerations;
-using Blater.Frontend.Client.Auto.AutoModels.Base;
-using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+﻿using Blater.Enumerations;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Logging;
