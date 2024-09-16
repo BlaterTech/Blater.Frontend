@@ -24,3 +24,14 @@ function ReadCookie(name) {
 function DeleteCookie(name) {
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
+
+//Charts functions
+function StartChart(id, options) {
+    const chartElement = document.querySelector(`#${id}`);
+    if(chartElement){
+        const chart = new ApexCharts(chartElement, options);
+        chart.render();
+    }else{
+        console.error(`Element id ${id} not found`);
+    }
+}
