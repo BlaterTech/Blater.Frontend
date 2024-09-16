@@ -92,7 +92,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
     private RenderFragment RenderFormInputs(int breakpointGroupValue) => builder =>
     {
         var groupConfigurations = Configuration
-                                 .GroupConfigurations
+                                 .Groups
                                  .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
 
         var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
@@ -106,17 +106,31 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
         if (RenderOnlyGroup.enabled)
         {
             var groupConfiguration = groupConfigurations[RenderOnlyGroup.index];
-            Group(groupConfiguration);
+            RenderGroupWithSubGroups(groupConfiguration);
         }
         else
         {
             foreach (var groupConfiguration in groupConfigurations)
             {
-                Group(groupConfiguration);
+                RenderGroupWithSubGroups(groupConfiguration);
             }
         }
 
         return;
+        
+        void RenderGroupWithSubGroups(AutoFormGroupConfiguration groupConfiguration)
+        {
+            Group(groupConfiguration);
+            
+            var subGroups = groupConfiguration
+                           .SubGroups
+                           .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
+
+            if (subGroups?.Count > 0)
+            {
+                SubGroup(subGroups);
+            }
+        }
 
         void Group(AutoFormGroupConfiguration groupConfiguration)
         {
@@ -156,6 +170,14 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
                 itemBuilder.AddChildContent(mudItemContentBuilder => { CreateGenericComponent(mudItemContentBuilder, componentConfiguration); });
 
                 itemBuilder.Close();
+            }
+        }
+
+        void SubGroup(List<AutoFormGroupConfiguration> subGroupConfigurations)
+        {
+            foreach (var subGroupConfiguration in subGroupConfigurations)
+            {
+                Group(subGroupConfiguration);
             }
         }
     };

@@ -1,4 +1,6 @@
-﻿namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+
+namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
 public class AutoFormGroupConfiguration
 {
@@ -11,4 +13,5 @@ public class AutoFormGroupConfiguration
     
     public List<AutoGridConfiguration> GridConfigurations { get; set; } = [];
     public List<AutoFormAutoComponentConfiguration> ComponentConfigurations { get; set; } = [];
+    public Dictionary<AutoComponentDisplayType, List<AutoFormGroupConfiguration>> SubGroups { get; set; } = [];
 }

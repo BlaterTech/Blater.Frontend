@@ -59,10 +59,10 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
 
     private AutoFormConfigurationBuilder AddGroup(AutoComponentDisplayType displayType, AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder> action)
     {
-        if (!_configuration.GroupConfigurations.TryGetValue(displayType, out var value))
+        if (!_configuration.Groups.TryGetValue(displayType, out var value))
         {
             value ??= [];
-            _configuration.GroupConfigurations.TryAdd(displayType, value);
+            _configuration.Groups.TryAdd(displayType, value);
         }
 
         var index = value.IndexOf(groupConfiguration);
@@ -75,9 +75,9 @@ public class AutoFormConfigurationBuilder : IAutoFormConfigurationBuilder
             value.Add(groupConfiguration);
         }
 
-        _configuration.GroupConfigurations[displayType] = value;
+        _configuration.Groups[displayType] = value;
         
-        var builder = new AutoFormMemberConfigurationBuilder(_type, groupConfiguration);
+        var builder = new AutoFormMemberConfigurationBuilder(_type, displayType, groupConfiguration);
         
         action.Invoke(builder);
 
