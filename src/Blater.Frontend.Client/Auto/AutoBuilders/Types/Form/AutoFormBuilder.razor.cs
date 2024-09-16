@@ -107,13 +107,12 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
         {
             var groupConfiguration = groupConfigurations[RenderOnlyGroup.index];
             RenderGroupWithSubGroups(groupConfiguration);
+            return;
         }
-        else
+
+        foreach (var groupConfiguration in groupConfigurations)
         {
-            foreach (var groupConfiguration in groupConfigurations)
-            {
-                RenderGroupWithSubGroups(groupConfiguration);
-            }
+            RenderGroupWithSubGroups(groupConfiguration);
         }
 
         return;
