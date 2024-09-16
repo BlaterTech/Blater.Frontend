@@ -5,4 +5,5 @@ namespace Blater.Frontend.Client.Models.Bases;
 
 public abstract class BaseFrontendModel : BaseDataModel, IBaseAutoConfiguration
 {
+    public bool Enabled { get; set; }
 }

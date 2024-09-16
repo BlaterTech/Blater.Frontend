@@ -20,7 +20,7 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
 
         OnEditChanged = EventCallback.Factory.Create<T>(this, item => { NavigationService.NavigateTo($"{typeof(T).Name}/Edit/{item.Id}"); });
 
-        OnDisabledChanged = EventCallback.Factory.Create<T>(this, async item =>
+        /*OnDisabledChanged = EventCallback.Factory.Create<T>(this, async item =>
         {
             item.Enabled = !item.Enabled;
             var updated = await DataRepository.Update(item);
@@ -32,7 +32,7 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
             }
 
             Snackbar.Add(LocalizationService.GetValue($"BlaterTable-OnDisabledChanged-{_typeName}-Success"), Severity.Success);
-        });
+        });*/
 
         OnCheckboxChanged = EventCallback.Factory.Create<(T model, bool value)>(this, item => { });
     }

@@ -122,10 +122,10 @@
                                         Icon="@Material.Outlined.Edit"
                                         Color="Color.Primary"
                                         OnClick="@(() => OnEditChanged.InvokeAsync(context))"/>
-                                    <MudIconButton
+                                    @*<MudIconButton
                                         Icon="@(context.Enabled ? Material.Outlined.LockOpen : Material.Outlined.Lock)"
                                         Color="@(context.Enabled ? Color.Primary : Color.Error)"
-                                        OnClick="@(() => OnDisabledChanged.InvokeAsync(context))"/>
+                                        OnClick="@(() => OnDisabledChanged.InvokeAsync(context))"/>*@
                                 }
                                 @if (TableConfiguration.EnableCustomAction)
                                 {

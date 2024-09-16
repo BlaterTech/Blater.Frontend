@@ -28,9 +28,6 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     public INavigationService NavigationService { get; set; } = null!;
 
     [Inject]
-    public IBlaterDatabaseStoreT<T> DataRepository { get; set; } = null!;
-
-    [Inject]
     public ISnackbar Snackbar { get; set; } = null!;
 
     [Inject]
@@ -47,7 +44,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     public T? Model { get; set; }
 
     [Parameter]
-    public Guid? Id { get; set; }
+    public Ulid? Id { get; set; }
 
     #endregion
 
@@ -66,7 +63,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     #endregion
 
-    public BlaterId CascadingValue => Model?.Id ?? BlaterId.New(typeof(T).FullName!.SanitizeString());
+    public Ulid CascadingValue => Model?.Id  ?? Ulid.NewUlid();
     public bool EditMode { get; private set; }
 
     protected abstract void LoadModelConfig();
@@ -88,7 +85,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     protected override async Task OnInitializedAsync()
     {
-        if ((Id != null && Id != Guid.Empty) || (Model != null && Model?.Id != Guid.Empty))
+        if ((Id != null && Id != Ulid.Empty) || (Model != null && Model?.Id != Ulid.Empty))
         {
             EditMode = true;
         }
@@ -112,7 +109,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         //todo: refactor this
         if (EditMode)
         {
-            /*var databaseModel = await DataRepository.FindOne(BlaterId.Empty);
+            /*var databaseModel = await DataRepository.FindOne(Ulid.Empty);
 
             if (databaseModel == null)
             {

@@ -8,10 +8,8 @@ public static class StateNotifierService
 {
     public static event Action<PropertyInfo, object?>? StateChanged;
     
-    public static void NotifyStateChanged<TProperty>(Expression<Func<TProperty>> expression)
+    public static void NotifyStateChanged<TProperty>(Expression<Func<TProperty>> expression, Type modelType)
     {
-        var typeName = GetClassNameFromExpression(expression);
-        var modelType = typeName.GetTypeFromName();
         var propertyInfo = expression.GetPropertyInfoForType(modelType);
         var value = GetPropertyValueFromExpression(expression);
         StateChanged?.Invoke(propertyInfo, value);

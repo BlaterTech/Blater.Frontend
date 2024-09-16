@@ -87,7 +87,7 @@ public class BlaterAuthorizeView : ComponentBase
     {
         if (Roles.Count > 0)
         {
-            var hasRequiredRoles = blaterUserToken.Roles.Any(x => Roles.Contains(x));
+            var hasRequiredRoles = blaterUserToken.RoleNames.Any(x => Roles.Contains(x));
             if (!hasRequiredRoles)
             {
                 return false;

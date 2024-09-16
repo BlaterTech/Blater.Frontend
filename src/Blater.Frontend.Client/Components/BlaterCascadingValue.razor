@@ -2,9 +2,9 @@
 
 @{
     <CascadingValue
-        TValue="Guid"
+        TValue="Ulid"
         Name="ParentId"
-        Value="@Id.GuidValue"
+        Value="@Id"
         IsFixed="true">
         @ChildContent
     </CascadingValue>
@@ -17,5 +17,5 @@
     
     [Parameter]
     [EditorRequired]
-    public BlaterId Id { get; set; } = BlaterId.Empty;
+    public Ulid Id { get; set; } = Ulid.Empty;
 }

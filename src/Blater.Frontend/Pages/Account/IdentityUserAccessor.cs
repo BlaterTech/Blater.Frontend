@@ -17,7 +17,7 @@ public sealed class IdentityUserAccessor(
             return new BlaterUser();
         }
 
-        var user = await repository.FindOne(x => x.Id == claim.Value);
+        var user = await repository.FindOne(x => x.Id == Ulid.Parse(claim.Value));
 
         if (user is null)
         {
