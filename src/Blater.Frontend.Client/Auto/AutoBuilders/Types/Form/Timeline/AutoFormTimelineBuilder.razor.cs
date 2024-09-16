@@ -12,11 +12,20 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form.Timeline;
 public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : BaseDataModel
 {
     [Parameter]
-    public int CurrentStep { get; set; } = 1;
-
+    public EventCallback<int> OnCurrentStepChanged { get; set; }
+    
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
 
+    private int _minValue;
+    private int _maxValue;
+    private int _currentStep = 0;
+
+    private Dictionary<int, string> Steps
+        => FormTimelineConfiguration
+          .Steps
+          .GetHasFlagValue(DisplayType | AutoComponentDisplayType.FormTimeline)
+           ?? [];
 
     private AutoFormTimelineConfiguration FormTimelineConfiguration { get; set; } = default!;
 
@@ -24,6 +33,9 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
     {
         var formTimelineConfiguration = FindModelConfig<IAutoFormTimelineConfiguration>();
         FormTimelineConfiguration = formTimelineConfiguration.FormTimelineConfiguration;
+
+        _minValue = Steps.FirstOrDefault().Key;
+        _maxValue = Steps.LastOrDefault().Key;
     }
 
     protected override void OnInitialized()
@@ -31,43 +43,55 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
         DisplayType = EditMode ? AutoComponentDisplayType.FormTimelineEdit : AutoComponentDisplayType.FormTimelineCreate;
     }
 
+    public int GetCurrentStep()
+        => _currentStep;
+
+    public async Task SetCurrentStep(int value)
+    {
+        _currentStep = value;
+        await OnCurrentStepChanged.InvokeAsync(_currentStep);
+    }
+    
     private RenderFragment RenderAutoFormBuilder() => builder =>
     {
         var stepConfigurations = FormTimelineConfiguration
                                 .Steps
                                 .GetHasFlagValue(DisplayType | AutoComponentDisplayType.FormTimeline);
 
-        var stepConfiguration = stepConfigurations?.FirstOrDefault(x => x.Step == CurrentStep);
+        var stepConfiguration = stepConfigurations?.GetValueOrDefault(_currentStep);
 
         if (stepConfiguration == null)
         {
-            Logger.LogError("Not found CurrentStep {CurrentStep} in AutoFormTimelineStepConfiguration", CurrentStep);
+            Logger.LogError("Not found CurrentStep {CurrentStep} in AutoFormTimelineStepConfiguration", _currentStep);
             return;
         }
 
         var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
-
+        
         easyRenderTreeBuilder
            .OpenComponent<AutoFormBuilder<T>>()
            .AddAttribute(nameof(Id), Id)
            .AddAttribute(nameof(Model), Model)
            .AddAttribute(nameof(EnableActionsButtons), false)
            .AddAttribute(nameof(EnablePrincipalTitle), false)
+           .AddAttribute(nameof(RenderOnlyGroup), (true, _currentStep))
            .Close();
     };
 
     private async Task GoBackCallback()
     {
-        switch (CurrentStep)
+        if (_currentStep == _minValue)
         {
-            case 1:
-                await NavigationService.GoBack();
-                break;
-            case <= 7 and > 1:
-                CurrentStep--;
-                break;
+            Logger.LogInformation("GoBack");
+            //await NavigationService.GoBack();
         }
 
+        if (_currentStep <= _maxValue && _currentStep > _minValue)
+        {
+            _currentStep--;
+            Logger.LogInformation("BackStep {Step}", _currentStep);
+            await OnCurrentStepChanged.InvokeAsync(_currentStep);
+        }
         
         //todo: pensar melhor em como fazer o processo de steps
         StateHasChanged();
@@ -75,20 +99,31 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
 
     private async Task NextCallback()
     {
-        var isValid = await Validate();
+        await Task.Delay(1);
+        //var isValid = await Validate();
 
-        if (isValid)
+        /*if (isValid)
         {
-            switch (CurrentStep)
+            if (CurrentStep == _maxValue)
             {
-                case 7:
-                {
-                    break;
-                }
-                case < 7:
-                    CurrentStep++;
-                    break;
+                //todo: save model in db
             }
+            else
+            {
+                CurrentStep++;
+            }
+        }*/
+        
+        if (_currentStep == _maxValue)
+        {
+            //todo: save model in db
+            Logger.LogInformation("Save model in database");
+        }
+        else
+        {
+            _currentStep++;
+            Logger.LogInformation("NextStep {Step}", _currentStep);
+            await OnCurrentStepChanged.InvokeAsync(_currentStep);
         }
         
         StateHasChanged();

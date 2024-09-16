@@ -39,7 +39,7 @@ public static class WebSetup
         services.AddRazorPages();
 
         services.AddCascadingAuthenticationState();
-        services.AddScoped<IdentityUserAccessor>();
+       // services.AddScoped<IdentityUserAccessor>();
         services.AddScoped<IdentityRedirectManager>();
         services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
 

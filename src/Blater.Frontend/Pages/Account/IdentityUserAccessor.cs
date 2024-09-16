@@ -1,4 +1,4 @@
-using Blater.Interfaces;
+/*using Blater.Interfaces;
 using Blater.Models.User;
 using Microsoft.AspNetCore.Http;
 
@@ -26,4 +26,4 @@ public sealed class IdentityUserAccessor(
 
         return user;
     }
-}
+}*/

@@ -9,6 +9,7 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Validator;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Models.Bases;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
@@ -26,10 +27,13 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
 
     [Parameter]
     public bool EnablePrincipalTitle { get; set; } = true;
-    
+
     [Parameter]
     public bool EnableActionsButtons { get; set; } = true;
-    
+
+    [Parameter]
+    public (bool enabled, int index) RenderOnlyGroup { get; set; }
+
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
 
@@ -41,7 +45,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
     private AutoFormActionConfiguration ActionConfiguration { get; set; } = new();
 
     private bool IsValid { get; set; }
-    
+
     private static async Task Upsert()
     {
         await Task.Delay(1);
@@ -90,10 +94,31 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
         var groupConfigurations = Configuration
                                  .GroupConfigurations
                                  .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
-        
+
         var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
 
-        foreach (var groupConfiguration in groupConfigurations ?? [])
+        if (groupConfigurations == null)
+        {
+            Logger.LogError("No group configurations founded");
+            return;
+        }
+
+        if (RenderOnlyGroup.enabled)
+        {
+            var groupConfiguration = groupConfigurations[RenderOnlyGroup.index];
+            Group(groupConfiguration);
+        }
+        else
+        {
+            foreach (var groupConfiguration in groupConfigurations)
+            {
+                Group(groupConfiguration);
+            }
+        }
+
+        return;
+
+        void Group(AutoFormGroupConfiguration groupConfiguration)
         {
             easyRenderTreeBuilder
                .OpenComponent<MudItem>()

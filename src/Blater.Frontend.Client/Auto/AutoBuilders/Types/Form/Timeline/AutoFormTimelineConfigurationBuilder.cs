@@ -22,16 +22,16 @@ public class AutoFormTimelineConfigurationBuilder : IAutoFormTimelineConfigurati
         }
     }
 
-    public IAutoFormTimelineConfigurationBuilder AddStepCreateOnly(AutoFormTimelineStepConfiguration configuration)
-        => AddStep(AutoComponentDisplayType.FormTimelineCreate, configuration);
+    public IAutoFormTimelineConfigurationBuilder AddStepCreateOnly(string title)
+        => AddStep(AutoComponentDisplayType.FormTimelineCreate, title);
     
-    public IAutoFormTimelineConfigurationBuilder AddStepEditOnly(AutoFormTimelineStepConfiguration configuration)
-        => AddStep(AutoComponentDisplayType.FormTimelineEdit, configuration);
+    public IAutoFormTimelineConfigurationBuilder AddStepEditOnly(string title)
+        => AddStep(AutoComponentDisplayType.FormTimelineEdit, title);
 
-    public IAutoFormTimelineConfigurationBuilder AddStep(AutoFormTimelineStepConfiguration configuration)
-        => AddStep(AutoComponentDisplayType.FormTimeline, configuration);
+    public IAutoFormTimelineConfigurationBuilder AddStep(string title)
+        => AddStep(AutoComponentDisplayType.FormTimeline, title);
     
-    private AutoFormTimelineConfigurationBuilder AddStep(AutoComponentDisplayType displayType, AutoFormTimelineStepConfiguration configuration)
+    private AutoFormTimelineConfigurationBuilder AddStep(AutoComponentDisplayType displayType, string title)
     {
         if (!_configuration.Steps.TryGetValue(displayType, out var value))
         {
@@ -39,14 +39,22 @@ public class AutoFormTimelineConfigurationBuilder : IAutoFormTimelineConfigurati
             _configuration.Steps.TryAdd(displayType, value);
         }
 
-        var index = value.IndexOf(configuration);
-        if (index != -1)
+        var containsValue = value.ContainsValue(title);
+        if (!containsValue)
         {
-            value[index] = configuration;
-        }
-        else
-        {
-            value.Add(configuration);
+            var (lastKey, lastValue) = value.LastOrDefault();
+
+            int key;
+            if (string.IsNullOrWhiteSpace(lastValue))
+            {
+                key = 0;
+            }
+            else
+            {
+                key = lastKey + 1;
+            }
+            
+            value.TryAdd(key, title);
         }
 
         _configuration.Steps[displayType] = value;
