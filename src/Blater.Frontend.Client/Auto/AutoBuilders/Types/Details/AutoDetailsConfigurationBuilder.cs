@@ -3,15 +3,13 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Details;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details;
 
-public class AutoDetailsConfigurationBuilder : IAutoDetailsConfigurationBuilder
+public class AutoDetailsConfigurationBuilder<TModel> : IAutoDetailsConfigurationBuilder<TModel>
 {
     private readonly AutoDetailsConfiguration _configuration;
-    private readonly Type _type;
 
-    public AutoDetailsConfigurationBuilder(Type type, object instance)
+    public AutoDetailsConfigurationBuilder(object instance)
     {
-        _type = type;
-        if (instance is IAutoDetailsConfiguration configuration)
+        if (instance is IAutoDetailsConfiguration<TModel> configuration)
         {
             _configuration = configuration.DetailsConfiguration;
         }
@@ -21,7 +19,7 @@ public class AutoDetailsConfigurationBuilder : IAutoDetailsConfigurationBuilder
         }
     }
 
-    public IAutoDetailsConfigurationBuilder AddGroup(AutoDetailsGroupConfiguration detailsGroupConfiguration, Action<IAutoDetailsMemberConfigurationBuilder> action)
+    public AutoDetailsGroupConfiguration AddGroup(AutoDetailsGroupConfiguration detailsGroupConfiguration, Action<IAutoDetailsMemberConfigurationBuilder<TModel>> action)
     {
         var index = _configuration.Groups.IndexOf(detailsGroupConfiguration);
         if (index != -1)
@@ -33,10 +31,10 @@ public class AutoDetailsConfigurationBuilder : IAutoDetailsConfigurationBuilder
             _configuration.Groups.Add(detailsGroupConfiguration);
         }
 
-        var builder = new AutoDetailsMemberConfigurationBuilder(_type, detailsGroupConfiguration);
+        var builder = new AutoDetailsPropertyConfigurationBuilder<TModel>(detailsGroupConfiguration);
         
         action.Invoke(builder);
 
-        return this;
+        return detailsGroupConfiguration;
     }
 }

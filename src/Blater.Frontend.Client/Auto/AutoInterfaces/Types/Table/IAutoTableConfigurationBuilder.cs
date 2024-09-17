@@ -3,7 +3,7 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 
-public interface IAutoTableConfigurationBuilder
+public interface IAutoTableConfigurationBuilder<TModel>
 {
-    IAutoTableConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoTableAutoPropertyConfiguration propertyConfiguration);
+    AutoTablePropertyConfiguration<TPropertyType> AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TPropertyType> propertyConfiguration);
 }

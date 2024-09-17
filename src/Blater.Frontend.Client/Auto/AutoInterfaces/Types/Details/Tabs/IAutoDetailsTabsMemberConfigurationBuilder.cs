@@ -3,7 +3,7 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
 
-public interface IAutoDetailsTabsMemberConfigurationBuilder
+public interface IAutoDetailsTabsMemberConfigurationBuilder<TModel>
 {
-    IAutoDetailsTabsMemberConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoDetailsTabsPropertyConfiguration propertyConfiguration);
+    IAutoDetailsTabsPropertyConfiguration AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, IAutoDetailsTabsPropertyConfiguration propertyConfiguration);
 }

@@ -3,8 +3,8 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 
-public interface IAutoFormConfiguration
+public interface IAutoFormConfiguration<TModel>
 {
     AutoFormConfiguration FormConfiguration { get; }
-    void ConfigureForm(AutoFormConfigurationBuilder builder);
+    void ConfigureForm(AutoFormConfigurationBuilder<TModel> builder);
 }

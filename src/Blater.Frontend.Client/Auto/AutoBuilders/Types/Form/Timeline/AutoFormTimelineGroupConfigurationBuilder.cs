@@ -1,25 +1,13 @@
 ﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form.Timeline;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
-namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
+namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form.Timeline;
 
-public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilder<TModel>
+public class AutoFormTimelineGroupConfigurationBuilder<TModel>(AutoFormConfiguration configuration) 
+    : IAutoFormTimelineGroupConfigurationBuilder<TModel>
 {
-    private readonly AutoFormConfiguration _configuration;
-
-    public AutoFormConfigurationBuilder(object instance)
-    {
-        if (instance is IAutoFormConfiguration<TModel> configuration)
-        {
-            _configuration = configuration.FormConfiguration;
-        }
-        else
-        {
-            throw new InvalidCastException($"Instance is not implement IAutoFormConfiguration<{typeof(TModel).Name}>");
-        }
-    }
-
     #region Group
 
     #region Avatar
@@ -67,13 +55,13 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
         => Actions(AutoComponentDisplayType.FormEdit, actionConfiguration);
 
     #endregion
-
+    
     private AutoFormGroupConfiguration AddGroup(AutoComponentDisplayType displayType, AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder<TModel>> action)
     {
-        if (!_configuration.Groups.TryGetValue(displayType, out var value))
+        if (!configuration.Groups.TryGetValue(displayType, out var value))
         {
             value ??= [];
-            _configuration.Groups.TryAdd(displayType, value);
+            configuration.Groups.TryAdd(displayType, value);
         }
 
         var index = value.IndexOf(groupConfiguration);
@@ -86,7 +74,7 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
             value.Add(groupConfiguration);
         }
 
-        _configuration.Groups[displayType] = value;
+        configuration.Groups[displayType] = value;
         
         var builder = new AutoFormPropertyConfigurationBuilder<TModel>(displayType, groupConfiguration);
         
@@ -97,14 +85,14 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
 
     private AutoAvatarModelConfiguration AddGroupAvatar(AutoComponentDisplayType displayType, AutoAvatarModelConfiguration avatarConfiguration)
     {
-        if (_configuration.AvatarConfiguration.TryGetValue(displayType, out var value))
+        if (configuration.AvatarConfiguration.TryGetValue(displayType, out var value))
         {
-            _configuration.AvatarConfiguration[displayType] = avatarConfiguration;
+            configuration.AvatarConfiguration[displayType] = avatarConfiguration;
         }
         else
         {
             value = avatarConfiguration;
-            _configuration.AvatarConfiguration.TryAdd(displayType, value);
+            configuration.AvatarConfiguration.TryAdd(displayType, value);
         }
         
         return value;
@@ -112,14 +100,14 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
 
     private AutoFormActionConfiguration Actions(AutoComponentDisplayType displayType, AutoFormActionConfiguration actionConfiguration)
     {
-        if (_configuration.ActionConfiguration.TryGetValue(displayType, out var value))
+        if (configuration.ActionConfiguration.TryGetValue(displayType, out var value))
         {
-            _configuration.ActionConfiguration[displayType] = actionConfiguration;
+            configuration.ActionConfiguration[displayType] = actionConfiguration;
         }
         else
         {
             value = actionConfiguration;
-            _configuration.ActionConfiguration.TryAdd(displayType, value);
+            configuration.ActionConfiguration.TryAdd(displayType, value);
         }
         
         return value;

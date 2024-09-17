@@ -9,8 +9,10 @@
         TimelinePosition="TimelinePosition.Top"
         Reverse="false"
         TimelineAlign="TimelineAlign.Default">
-        @foreach (var (stepKey, stepValue) in Steps)
+        @foreach (var step in Steps)
         {
+            var stepKey = step.Key;
+            var stepValue = step.Value;
             <MudTimelineItem
                 Color="@(_currentStep >= stepKey ? Color.Primary : Color.Surface)"
                 Variant="Variant.Filled"

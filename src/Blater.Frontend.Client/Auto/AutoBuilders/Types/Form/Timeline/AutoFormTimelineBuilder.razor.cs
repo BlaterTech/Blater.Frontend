@@ -21,7 +21,7 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
     private int _maxValue;
     private int _currentStep = 0;
 
-    private Dictionary<int, string> Steps
+    private List<AutoFormTimelineStepConfiguration> Steps
         => FormTimelineConfiguration
           .Steps
           .GetHasFlagValue(DisplayType | AutoComponentDisplayType.FormTimeline)
@@ -31,11 +31,11 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
 
     protected override void LoadModelConfig()
     {
-        var formTimelineConfiguration = FindModelConfig<IAutoFormTimelineConfiguration>();
+        var formTimelineConfiguration = FindModelConfig<IAutoFormTimelineConfiguration<T>>();
         FormTimelineConfiguration = formTimelineConfiguration.FormTimelineConfiguration;
 
-        _minValue = Steps.FirstOrDefault().Key;
-        _maxValue = Steps.LastOrDefault().Key;
+        _minValue = Steps.FirstOrDefault()?.Key ?? 0;
+        _maxValue = Steps.LastOrDefault()?.Key ?? 0;
     }
 
     protected override void OnInitialized()
@@ -58,7 +58,7 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
                                 .Steps
                                 .GetHasFlagValue(DisplayType | AutoComponentDisplayType.FormTimeline);
 
-        var stepConfiguration = stepConfigurations?.GetValueOrDefault(_currentStep);
+        var stepConfiguration = stepConfigurations?.FirstOrDefault(x => x.Key == _currentStep);
 
         if (stepConfiguration == null)
         {

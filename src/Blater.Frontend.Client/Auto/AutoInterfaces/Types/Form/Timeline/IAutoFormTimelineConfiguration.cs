@@ -2,8 +2,8 @@
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form.Timeline;
 
-public interface IAutoFormTimelineConfiguration
+public interface IAutoFormTimelineConfiguration<TModel>
 {
     AutoFormTimelineConfiguration FormTimelineConfiguration { get; }
-    void ConfigureFormTimeline(IAutoFormTimelineConfigurationBuilder builder);
+    void ConfigureFormTimeline(IAutoFormTimelineConfigurationBuilder<TModel> builder);
 }

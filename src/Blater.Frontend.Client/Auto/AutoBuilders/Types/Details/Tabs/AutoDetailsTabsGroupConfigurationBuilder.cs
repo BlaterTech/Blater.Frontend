@@ -3,9 +3,9 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details.Tabs;
 
-public class AutoDetailsTabsGroupConfigurationBuilder(Type type, AutoDetailsTabsPanelConfiguration configuration) : IAutoDetailsTabsGroupConfigurationBuilder
+public class AutoDetailsTabsGroupConfigurationBuilder<TModel>(AutoDetailsTabsPanelConfiguration configuration) : IAutoDetailsTabsGroupConfigurationBuilder<TModel>
 {
-    public IAutoDetailsTabsGroupConfigurationBuilder AddGroup(AutoDetailsTabsGroupConfiguration groupConfiguration, Action<IAutoDetailsTabsMemberConfigurationBuilder> memberConfiguration)
+    public AutoDetailsTabsGroupConfiguration AddGroup(AutoDetailsTabsGroupConfiguration groupConfiguration, Action<IAutoDetailsTabsMemberConfigurationBuilder<TModel>> memberConfiguration)
     {
         var index = configuration.GroupConfigurations.IndexOf(groupConfiguration);
         if (index != -1)
@@ -17,10 +17,10 @@ public class AutoDetailsTabsGroupConfigurationBuilder(Type type, AutoDetailsTabs
             configuration.GroupConfigurations.Add(groupConfiguration);
         }
         
-        var builder = new AutoDetailsTabsMemberConfigurationBuilder(type, groupConfiguration);
+        var builder = new AutoDetailsTabsPropertyConfigurationBuilder<TModel>(groupConfiguration);
         
         memberConfiguration.Invoke(builder);
 
-        return this;
+        return groupConfiguration;
     }
 }

@@ -3,25 +3,23 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details.Tabs;
 
-public class AutoDetailsTabsConfigurationBuilder : IAutoDetailsTabsConfigurationBuilder
+public class AutoDetailsTabsConfigurationBuilder<TModel> : IAutoDetailsTabsConfigurationBuilder<TModel>
 {
     private readonly AutoDetailsTabsConfiguration _configuration;
-    private readonly Type _type;
 
-    public AutoDetailsTabsConfigurationBuilder(Type type, object instance)
+    public AutoDetailsTabsConfigurationBuilder(object instance)
     {
-        _type = type;
-        if (instance is IAutoDetailsTabsConfiguration configuration)
+        if (instance is IAutoDetailsTabsConfiguration<TModel> configuration)
         {
             _configuration = configuration.DetailsTabsConfiguration;
         }
         else
         {
-            throw new InvalidCastException("Instance is not implement IAutoDetailsTabsConfiguration");
+            throw new InvalidCastException($"Instance is not implement IAutoDetailsTabsConfiguration<{typeof(TModel).Name}>");
         }
     }
 
-    public IAutoDetailsTabsConfigurationBuilder AddPanel(AutoDetailsTabsPanelConfiguration tabsPanelConfiguration, Action<IAutoDetailsTabsGroupConfigurationBuilder> action)
+    public AutoDetailsTabsPanelConfiguration AddPanel(AutoDetailsTabsPanelConfiguration tabsPanelConfiguration, Action<IAutoDetailsTabsGroupConfigurationBuilder<TModel>> action)
     {
         var index = _configuration.PanelConfigurations.IndexOf(tabsPanelConfiguration);
         if (index != -1)
@@ -33,10 +31,10 @@ public class AutoDetailsTabsConfigurationBuilder : IAutoDetailsTabsConfiguration
             _configuration.PanelConfigurations.Add(tabsPanelConfiguration);
         }
         
-        var builder = new AutoDetailsTabsGroupConfigurationBuilder(_type, tabsPanelConfiguration);
+        var builder = new AutoDetailsTabsGroupConfigurationBuilder<TModel>(tabsPanelConfiguration);
         
         action.Invoke(builder);
 
-        return this;
+        return tabsPanelConfiguration;
     }
 }

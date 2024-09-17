@@ -84,7 +84,7 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
     public override bool HasLabel { get; set; }
     private AutoTableConfiguration TableConfiguration { get; set; } = default!;
 
-    private List<AutoTableAutoPropertyConfiguration> ColumnConfigurations
+    private List<BaseAutoTableBaseAutoPropertyConfiguration<>> ColumnConfigurations
         => TableConfiguration
           .Configurations
           .Where(x => !x.DisableColumn)

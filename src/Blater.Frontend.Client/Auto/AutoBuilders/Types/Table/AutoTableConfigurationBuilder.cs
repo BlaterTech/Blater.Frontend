@@ -1,32 +1,38 @@
 ﻿using System.Linq.Expressions;
 using Blater.Frontend.Client.Auto.AutoExtensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
+using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
 
-public class AutoTableConfigurationBuilder : IAutoTableConfigurationBuilder
+public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuilder<TModel>
 {
     private readonly AutoTableConfiguration _configuration;
-    private readonly Type _type;
 
-    public AutoTableConfigurationBuilder(Type type, object instance)
+    public AutoTableConfigurationBuilder(object instance)
     {
-        _type = type;
-        if (instance is IAutoTableConfiguration configuration)
+        if (instance is IAutoTableConfiguration<TModel> configuration)
         {
             _configuration = configuration.TableConfiguration;
         }
         else
         {
-            throw new InvalidCastException("Instance is not implement IAutoTableConfiguration");
+            throw new InvalidCastException($"Instance is not implement IAutoTableConfiguration<{typeof(TModel).Name}>");
         }
     }
 
-    public IAutoTableConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoTableAutoPropertyConfiguration propertyConfiguration)
+    public AutoTablePropertyConfiguration<TPropertyType> AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TPropertyType> propertyConfiguration)
     {
-        var property = expression.GetPropertyInfoForType(_type);
+        var modelType = typeof(TModel);
+        var propType = typeof(TPropertyType);
+        var propertyInfo = modelType.GetProperty(propType.Name);
 
+        if (propertyInfo == null)
+        {
+            throw new Exception($"Property {propType.Name} not found in {modelType.Name}");
+        }
+        
         var index = _configuration.Configurations.IndexOf(propertyConfiguration);
         if (index != -1)
         {
@@ -34,11 +40,11 @@ public class AutoTableConfigurationBuilder : IAutoTableConfigurationBuilder
         }
         else
         {
-            propertyConfiguration.Property = property;
-            propertyConfiguration.AutoComponentType ??= property.GetDefaultComponentForType();
+            propertyConfiguration.Property = propertyInfo;
+            propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultComponentForType();
             _configuration.Configurations.Add(propertyConfiguration);
         }
-        
-        return this;
+
+        return propertyConfiguration;
     }
 }

@@ -5,6 +5,7 @@ using Blater.Frontend.Client.Auto.AutoBuilders.Types.Form.Timeline;
 using Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
 using Blater.Frontend.Client.Auto.AutoBuilders.Types.Valitador;
 using Blater.Frontend.Client.Auto.AutoInterfaces;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;

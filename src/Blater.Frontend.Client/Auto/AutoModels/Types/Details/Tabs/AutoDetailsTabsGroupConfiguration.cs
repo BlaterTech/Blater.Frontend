@@ -1,4 +1,6 @@
-﻿namespace Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
+﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
+
+namespace Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
 
 public class AutoDetailsTabsGroupConfiguration
 {
@@ -16,5 +18,5 @@ public class AutoDetailsTabsGroupConfiguration
     public string Title { get; set; }
     public string? Route { get; set; }
     public bool EnableEditButton { get; set; } = true;
-    public List<AutoDetailsTabsPropertyConfiguration> Components { get; set; } = [];
+    public List<IAutoDetailsTabsPropertyConfiguration> Components { get; set; } = [];
 }

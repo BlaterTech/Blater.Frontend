@@ -3,8 +3,8 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Details;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
 
-public interface IAutoDetailsConfiguration
+public interface IAutoDetailsConfiguration<TModel>
 {
     AutoDetailsConfiguration DetailsConfiguration { get; }
-    void ConfigureDetails(AutoDetailsConfigurationBuilder builder);
+    void ConfigureDetails(AutoDetailsConfigurationBuilder<TModel> builder);
 }

@@ -121,7 +121,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         }
     }
 
-    protected void CreateGenericComponent(EasyRenderTreeBuilder builder, BaseAutoPropertyConfiguration<> propertyConfiguration)
+    protected void CreateGenericComponent<TPropertyValue>(EasyRenderTreeBuilder builder, BaseAutoPropertyConfiguration<TPropertyValue> propertyConfiguration)
     {
         var componentBuilder = AutoComponentsBuilders.GetComponentBuilder(propertyConfiguration);
         if (componentBuilder is null)

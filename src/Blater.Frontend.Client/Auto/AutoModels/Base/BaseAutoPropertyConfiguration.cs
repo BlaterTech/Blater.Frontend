@@ -1,10 +1,15 @@
 ﻿using System.Reflection;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Base;
 
-public abstract class BaseAutoPropertyConfiguration<TPropertyValue> : IBaseAutoPropertyConfiguration, IAutoPropertyConfigurationValue<TPropertyValue>
+public abstract class BaseAutoPropertyConfiguration<TPropertyValue> : 
+    IBaseAutoPropertyConfiguration, 
+    IBaseAutoPropertyConfigurationValue<TPropertyValue>,
+    IBaseAutoEventConfiguration<TPropertyValue>
 {
     public PropertyInfo Property { get; set; } = null!;
 
@@ -27,33 +32,7 @@ public abstract class BaseAutoPropertyConfiguration<TPropertyValue> : IBaseAutoP
     public AutoFieldSize Size { get; set; }
     
     public TPropertyValue? Value { get; set; }
-}
-
-public interface IBaseAutoPropertyConfiguration
-{
-    PropertyInfo Property { get; set; }
-    string DataFormat { get; set; }
-    string Mask { get; set; }
-    string ExtraClass { get; set; }
-    string ExtraStyle { get; set; }
-    string LocalizationId { get; set; }
-    string LabelName { get; set; }
-    string Placeholder { get; set; }
-    string HelpMessage { get; set; }
-    bool IsReadOnly { get; set; }
-    bool Disable { get; set; }
-    int Order { get; set; }
-    Dictionary<Breakpoint, int> Breakpoints { get; set; }
-    BaseAutoComponentTypeEnumeration? AutoComponentType { get; set; }
-    AutoFieldSize Size { get; set; }
-}
-
-public interface IAutoPropertyConfigurationValue<TPropertyValue>
-{
-    TPropertyValue? Value { get; set; }
     
-    /*public TPropertyValue? Value { 
-        get => Property.GetValue(this) as TPropertyValue;
-        set => Property.SetValue(this, value);
-    }*/
+    public EventCallback<TPropertyValue> OnValueChanged { get; set; }
+    public EventCallback<EventArgs> OnClick { get; set; }
 }

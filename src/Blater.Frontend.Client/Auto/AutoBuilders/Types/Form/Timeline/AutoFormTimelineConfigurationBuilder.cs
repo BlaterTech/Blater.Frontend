@@ -4,34 +4,32 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Form.Timeline;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form.Timeline;
 
-public class AutoFormTimelineConfigurationBuilder : IAutoFormTimelineConfigurationBuilder
+public class AutoFormTimelineConfigurationBuilder<TModel> : IAutoFormTimelineConfigurationBuilder<TModel>
 {
     private readonly AutoFormTimelineConfiguration _configuration;
-    private readonly Type _type;
-
-    public AutoFormTimelineConfigurationBuilder(Type type, object instance)
+    private readonly object _instance;
+    public AutoFormTimelineConfigurationBuilder(object instance)
     {
-        _type = type;
-        if (instance is IAutoFormTimelineConfiguration configuration)
+        _instance = instance;
+        if (_instance is IAutoFormTimelineConfiguration<TModel> configuration)
         {
             _configuration = configuration.FormTimelineConfiguration;
         }
         else
         {
-            throw new InvalidCastException("Instance is not implement IAutoFormTimelineConfiguration");
+            throw new InvalidCastException($"Instance is not implement IAutoFormTimelineConfiguration<{typeof(TModel).Name}>");
         }
     }
 
-    public IAutoFormTimelineConfigurationBuilder AddStepCreateOnly(string title)
-        => AddStep(AutoComponentDisplayType.FormTimelineCreate, title);
-    
-    public IAutoFormTimelineConfigurationBuilder AddStepEditOnly(string title)
-        => AddStep(AutoComponentDisplayType.FormTimelineEdit, title);
+    public AutoFormTimelineConfiguration AddStepCreateOnly(string title, Action<IAutoFormTimelineGroupConfigurationBuilder<TModel>> action)
+        => AddStep(title, AutoComponentDisplayType.FormTimelineCreate, action);
+    public AutoFormTimelineConfiguration AddStepEditOnly(string title, Action<IAutoFormTimelineGroupConfigurationBuilder<TModel>> action)
+        => AddStep(title, AutoComponentDisplayType.FormTimelineCreate, action);
 
-    public IAutoFormTimelineConfigurationBuilder AddStep(string title)
-        => AddStep(AutoComponentDisplayType.FormTimeline, title);
+    public AutoFormTimelineConfiguration AddStep(string title, Action<IAutoFormTimelineGroupConfigurationBuilder<TModel>> action)
+        => AddStep(title, AutoComponentDisplayType.FormTimeline, action);
     
-    private AutoFormTimelineConfigurationBuilder AddStep(AutoComponentDisplayType displayType, string title)
+    private AutoFormTimelineConfiguration AddStep(string title, AutoComponentDisplayType displayType, Action<IAutoFormTimelineGroupConfigurationBuilder<TModel>> action)
     {
         if (!_configuration.Steps.TryGetValue(displayType, out var value))
         {
@@ -39,26 +37,35 @@ public class AutoFormTimelineConfigurationBuilder : IAutoFormTimelineConfigurati
             _configuration.Steps.TryAdd(displayType, value);
         }
 
-        var containsValue = value.ContainsValue(title);
-        if (!containsValue)
+        var existsValue = value.Exists(x => x.Value == title);
+        if (!existsValue)
         {
-            var (lastKey, lastValue) = value.LastOrDefault();
+            var item = value.LastOrDefault();
 
-            int key;
-            if (string.IsNullOrWhiteSpace(lastValue))
+            int step;
+            if (string.IsNullOrWhiteSpace(item?.Value))
             {
-                key = 0;
+                step = 0;
             }
             else
             {
-                key = lastKey + 1;
+                step = item.Key + 1;
             }
+
+            var newStep = new AutoFormTimelineStepConfiguration
+            {
+                Value = title,
+                Key = step
+            };
+            value.Add(newStep);
             
-            value.TryAdd(key, title);
+            var builder = new AutoFormTimelineGroupConfigurationBuilder<TModel>(newStep.AutoFormConfiguration);
+        
+            action.Invoke(builder);
         }
 
         _configuration.Steps[displayType] = value;
 
-        return this;
+        return _configuration;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Blater.Frontend.Client.Models;
+﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
+using Blater.Frontend.Client.Models;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Table;
@@ -21,5 +22,5 @@ public class AutoTableConfiguration(string title)
     
     
     public List<CustomAutoTableAction> CustomAutoTableActions { get; set; } = [];
-    public List<AutoTableAutoPropertyConfiguration> Configurations { get; set; } = [];
+    public List<IAutoTablePropertyConfiguration> Configurations { get; set; } = [];
 }

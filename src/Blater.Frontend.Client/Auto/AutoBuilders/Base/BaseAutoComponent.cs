@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
-public class BaseAutoComponent : BaseAutoComponentInput
+public class BaseAutoComponent<TPropertyValue> : BaseAutoComponentInput
 {
     [Parameter]
     public string? ExtraClass { get; set; }
@@ -38,5 +38,5 @@ public class BaseAutoComponent : BaseAutoComponentInput
 
     [Parameter]
     [EditorRequired]
-    public BaseAutoPropertyConfiguration<> AutoPropertyConfiguration { get; set; } = default!;
+    public BaseAutoPropertyConfiguration<TPropertyValue> AutoPropertyConfiguration { get; set; } = default!;
 }

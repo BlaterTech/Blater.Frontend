@@ -34,11 +34,13 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
     [Parameter]
     public (bool enabled, int index) RenderOnlyGroup { get; set; }
 
+    [Parameter]
+    public AutoFormConfiguration? Configuration { get; set; }
+
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
 
     MudForm _form = null!;
-    private AutoFormConfiguration Configuration { get; set; } = default!;
     private AutoAvatarModelConfiguration? AvatarModelConfiguration { get; set; }
     private ModelValidator<T>? ModelValidator { get; set; }
     private AutoGridConfiguration? GridConfiguration { get; set; }
@@ -65,9 +67,13 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
 
     protected override void LoadModelConfig()
     {
-        var autoForm = FindModelConfig<IAutoFormConfiguration>();
         var autoValidator = FindModelConfig<IAutoValidatorConfiguration<T>>();
-        Configuration = autoForm.FormConfiguration;
+        
+        if (Configuration == null)
+        {
+            var autoForm = FindModelConfig<IAutoFormConfiguration<T>>();
+            Configuration = autoForm.FormConfiguration;
+        }
 
         AvatarModelConfiguration = Configuration
                                   .AvatarConfiguration
@@ -91,7 +97,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
 
     private RenderFragment RenderFormInputs(int breakpointGroupValue) => builder =>
     {
-        var groupConfigurations = Configuration
+        var groupConfigurations = Configuration!
                                  .Groups
                                  .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
 
@@ -116,11 +122,11 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
         }
 
         return;
-        
+
         void RenderGroupWithSubGroups(AutoFormGroupConfiguration groupConfiguration)
         {
             Group(groupConfiguration);
-            
+
             var subGroups = groupConfiguration
                            .SubGroups
                            .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);

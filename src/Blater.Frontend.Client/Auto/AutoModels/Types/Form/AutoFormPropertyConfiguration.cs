@@ -2,6 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
-public class AutoFormAutoPropertyConfiguration<TPropertyValue> : BaseAutoPropertyConfiguration<TPropertyValue>
+public class AutoFormPropertyConfiguration<TPropertyValue> 
+    : BaseAutoPropertyConfiguration<TPropertyValue>
 {
 }

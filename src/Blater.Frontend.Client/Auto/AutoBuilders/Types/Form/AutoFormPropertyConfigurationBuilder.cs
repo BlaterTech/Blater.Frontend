@@ -1,18 +1,18 @@
 ﻿using System.Linq.Expressions;
 using Blater.Frontend.Client.Auto.AutoExtensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
 
-public class AutoFormMemberConfigurationBuilder<TModel>(
-    Type type, 
+public class AutoFormPropertyConfigurationBuilder<TModel>(
     AutoComponentDisplayType displayType,
-    AutoFormGroupConfiguration configuration) : 
+    AutoFormGroupConfiguration configuration) :
     IAutoFormMemberConfigurationBuilder<TModel>
 {
-    public IAutoFormMemberConfigurationBuilder<T> AddSubgroup(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder> action)
+    public AutoFormGroupConfiguration AddSubgroup(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder<TModel>> action)
     {
         if (!configuration.SubGroups.TryGetValue(displayType, out var value))
         {
@@ -31,18 +31,25 @@ public class AutoFormMemberConfigurationBuilder<TModel>(
         }
 
         configuration.SubGroups[displayType] = value;
-        
-        var builder = new AutoFormMemberConfigurationBuilder(type, displayType, groupConfiguration);
-        
+
+        var builder = new AutoFormPropertyConfigurationBuilder<TModel>(displayType, groupConfiguration);
+
         action.Invoke(builder);
 
-        return this;
+        return groupConfiguration;
     }
 
-    public AutoFormAutoPropertyConfiguration<TProperty> AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression, AutoFormAutoPropertyConfiguration<TProperty> propertyConfiguration)
+    public IAutoTablePropertyConfiguration AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression,
+                                                                IAutoTablePropertyConfiguration propertyConfiguration)
     {
-        var property = expression.GetPropertyInfoForType(type);
-        
+        var modelType = typeof(TModel);
+        var propType = typeof(TProperty);
+        var propertyInfo = modelType.GetProperty(propType.Name);
+        if (propertyInfo == null)
+        {
+            throw new Exception($"Property {propType.Name} not found in {modelType.Name}");
+        }
+
         var index = configuration.ComponentConfigurations.IndexOf(propertyConfiguration);
         if (index != -1)
         {
@@ -50,11 +57,11 @@ public class AutoFormMemberConfigurationBuilder<TModel>(
         }
         else
         {
-            propertyConfiguration.Property = property;
-            propertyConfiguration.AutoComponentType ??= property.GetDefaultAutoFormComponentForType();
+            propertyConfiguration.Property = propertyInfo;
+            propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultAutoFormComponentForType();
             configuration.ComponentConfigurations.Add(propertyConfiguration);
         }
 
-        return configuration;
+        return propertyConfiguration;
     }
 }

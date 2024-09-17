@@ -1,4 +1,6 @@
-﻿namespace Blater.Frontend.Client.Auto.AutoModels.Types.Details;
+﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
+
+namespace Blater.Frontend.Client.Auto.AutoModels.Types.Details;
 
 public class AutoDetailsGroupConfiguration
 {
@@ -8,5 +10,5 @@ public class AutoDetailsGroupConfiguration
     }
     public string Title { get; set; }
     public bool EnableEditButton { get; set; } = true;
-    public List<AutoDetailsAutoPropertyConfiguration> Components { get; set; } = [];
+    public List<IAutoDetailsPropertyConfiguration> Components { get; set; } = [];
 }
