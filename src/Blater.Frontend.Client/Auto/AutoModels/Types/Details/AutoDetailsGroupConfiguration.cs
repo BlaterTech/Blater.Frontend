@@ -8,5 +8,5 @@ public class AutoDetailsGroupConfiguration
     }
     public string Title { get; set; }
     public bool EnableEditButton { get; set; } = true;
-    public List<AutoDetailsAutoComponentConfiguration> Components { get; set; } = [];
+    public List<AutoDetailsAutoPropertyConfiguration> Components { get; set; } = [];
 }

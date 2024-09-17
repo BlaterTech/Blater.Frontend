@@ -78,7 +78,7 @@ public class AutoConfigurations
             return;
         }
 
-        var method = modelType.GetMethod("Configure", [builderType]);
+        var method = modelType.GetMethods().FirstOrDefault(x => x.Name.StartsWith("Configure"));
         if (method == null)
         {
             Log.Information("Method Configure not found in BuilderType {BuilderType}", builderType.Name);

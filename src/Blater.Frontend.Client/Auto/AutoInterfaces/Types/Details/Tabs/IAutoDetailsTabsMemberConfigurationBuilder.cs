@@ -5,5 +5,5 @@ namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
 
 public interface IAutoDetailsTabsMemberConfigurationBuilder
 {
-    IAutoDetailsTabsMemberConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoDetailsTabsComponentConfiguration componentConfiguration);
+    IAutoDetailsTabsMemberConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoDetailsTabsPropertyConfiguration propertyConfiguration);
 }

@@ -6,5 +6,5 @@ namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
 public interface IAutoDetailsTabsConfiguration
 {
     AutoDetailsTabsConfiguration DetailsTabsConfiguration { get; }
-    void Configure(AutoDetailsTabsConfigurationBuilder builder);
+    void ConfigureDetailsTabs(AutoDetailsTabsConfigurationBuilder builder);
 }

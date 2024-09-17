@@ -16,5 +16,5 @@ public class AutoDetailsTabsGroupConfiguration
     public string Title { get; set; }
     public string? Route { get; set; }
     public bool EnableEditButton { get; set; } = true;
-    public List<AutoDetailsTabsComponentConfiguration> Components { get; set; } = [];
+    public List<AutoDetailsTabsPropertyConfiguration> Components { get; set; } = [];
 }

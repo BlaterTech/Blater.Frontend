@@ -6,13 +6,13 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
 
-public class AutoFormMemberConfigurationBuilder(
+public class AutoFormMemberConfigurationBuilder<TModel>(
     Type type, 
     AutoComponentDisplayType displayType,
     AutoFormGroupConfiguration configuration) : 
-    IAutoFormMemberConfigurationBuilder
+    IAutoFormMemberConfigurationBuilder<TModel>
 {
-    public IAutoFormMemberConfigurationBuilder AddSubgroup(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder> action)
+    public IAutoFormMemberConfigurationBuilder<T> AddSubgroup(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder> action)
     {
         if (!configuration.SubGroups.TryGetValue(displayType, out var value))
         {
@@ -38,23 +38,23 @@ public class AutoFormMemberConfigurationBuilder(
 
         return this;
     }
-    
-    public IAutoFormMemberConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoFormAutoComponentConfiguration componentConfiguration)
+
+    public AutoFormAutoPropertyConfiguration<TProperty> AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression, AutoFormAutoPropertyConfiguration<TProperty> propertyConfiguration)
     {
         var property = expression.GetPropertyInfoForType(type);
         
-        var index = configuration.ComponentConfigurations.IndexOf(componentConfiguration);
+        var index = configuration.ComponentConfigurations.IndexOf(propertyConfiguration);
         if (index != -1)
         {
-            configuration.ComponentConfigurations[index] = componentConfiguration;
+            configuration.ComponentConfigurations[index] = propertyConfiguration;
         }
         else
         {
-            componentConfiguration.Property = property;
-            componentConfiguration.AutoComponentType ??= property.GetDefaultAutoFormComponentForType();
-            configuration.ComponentConfigurations.Add(componentConfiguration);
+            propertyConfiguration.Property = property;
+            propertyConfiguration.AutoComponentType ??= property.GetDefaultAutoFormComponentForType();
+            configuration.ComponentConfigurations.Add(propertyConfiguration);
         }
-        
-        return this;
+
+        return configuration;
     }
 }

@@ -3,8 +3,8 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 
-public interface IAutoTableConfiguration
+public interface IAutoTableConfiguration<TModel>
 {
     AutoTableConfiguration TableConfiguration { get; }
-    void Configure(AutoTableConfigurationBuilder builder);
+    void ConfigureTable(AutoTableConfigurationBuilder<TModel> builder);
 }

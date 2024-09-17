@@ -6,5 +6,5 @@ namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 public interface IAutoFormConfiguration
 {
     AutoFormConfiguration FormConfiguration { get; }
-    void Configure(AutoFormConfigurationBuilder builder);
+    void ConfigureForm(AutoFormConfigurationBuilder builder);
 }

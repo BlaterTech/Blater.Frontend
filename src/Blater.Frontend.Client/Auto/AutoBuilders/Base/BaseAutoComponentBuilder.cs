@@ -121,25 +121,25 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         }
     }
 
-    protected void CreateGenericComponent(EasyRenderTreeBuilder builder, BaseAutoComponentConfiguration componentConfiguration)
+    protected void CreateGenericComponent(EasyRenderTreeBuilder builder, BaseAutoPropertyConfiguration<> propertyConfiguration)
     {
-        var componentBuilder = AutoComponentsBuilders.GetComponentBuilder(componentConfiguration);
+        var componentBuilder = AutoComponentsBuilders.GetComponentBuilder(propertyConfiguration);
         if (componentBuilder is null)
         {
-            Logger.LogError("Failed to get component builder for {ComponentConfiguration}", componentConfiguration);
+            Logger.LogError("Failed to get component builder for {ComponentConfiguration}", propertyConfiguration);
             return;
         }
 
-        var propertyInfo = componentConfiguration.Property;
+        var propertyInfo = propertyConfiguration.Property;
         var componentBuilderType = componentBuilder.GetType();
 
         var componentRenderBuilder = builder.OpenComponent(componentBuilderType);
 
         componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.TypeName), propertyInfo.PropertyType.Name);
-        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Size), componentConfiguration.Size);
-        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.AutoComponentConfiguration), componentConfiguration);
-        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.ExtraClass), componentConfiguration.ExtraClass);
-        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.ExtraStyle), componentConfiguration.ExtraStyle);
+        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Size), propertyConfiguration.Size);
+        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.AutoPropertyConfiguration), propertyConfiguration);
+        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.ExtraClass), propertyConfiguration.ExtraClass);
+        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.ExtraStyle), propertyConfiguration.ExtraStyle);
 
         var propertyValue = propertyInfo.GetValue(Model) ?? propertyInfo.PropertyType.GetDefaultValue();
         if (propertyValue != null)
@@ -150,14 +150,14 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         if (HasLabel)
         {
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.LabelName),
-                                                ComponentLocalizationService.GetLabelNameValue(componentConfiguration.LabelName, componentConfiguration.Property));
+                                                ComponentLocalizationService.GetLabelNameValue(propertyConfiguration.LabelName, propertyConfiguration.Property));
         }
 
-        var compType = componentConfiguration.AutoComponentType;
+        var compType = propertyConfiguration.AutoComponentType;
 
         if (compType == null)
         {
-            Logger.LogError("Failed to get component type for {ComponentConfiguration}", componentConfiguration);
+            Logger.LogError("Failed to get component type for {ComponentConfiguration}", propertyConfiguration);
             return;
         }
 
@@ -165,12 +165,12 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         {
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.EditMode), EditMode);
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.PlaceholderText),
-                                                ComponentLocalizationService.GetPlaceholderValue(componentConfiguration.Placeholder, componentConfiguration.Property));
-            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Disabled), componentConfiguration.Disable);
-            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.IsReadOnly), componentConfiguration.IsReadOnly);
+                                                ComponentLocalizationService.GetPlaceholderValue(propertyConfiguration.Placeholder, propertyConfiguration.Property));
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Disabled), propertyConfiguration.Disable);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.IsReadOnly), propertyConfiguration.IsReadOnly);
 
-            componentConfiguration.OnValueChanged ??= CreateGenericValueChanged(componentConfiguration.Property);
-            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), componentConfiguration.OnValueChanged);
+            propertyConfiguration.OnValueChanged ??= CreateGenericValueChanged(propertyConfiguration.Property);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), propertyConfiguration.OnValueChanged);
         }
 
         componentRenderBuilder.Close();

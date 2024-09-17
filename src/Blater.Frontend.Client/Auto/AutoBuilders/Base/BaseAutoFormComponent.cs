@@ -66,7 +66,7 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
     
     private void OnStateChanged(PropertyInfo propertyInfo, object? value)
     {
-        if (propertyInfo.Name == AutoComponentConfiguration.Property.Name && value != null)
+        if (propertyInfo.Name == AutoPropertyConfiguration.Property.Name && value != null)
         {
             Value = (TValue)value;
             Console.WriteLine("Value => " + value);

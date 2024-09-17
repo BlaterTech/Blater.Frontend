@@ -7,20 +7,20 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details.Tabs;
 
 public class AutoDetailsTabsMemberConfigurationBuilder(Type type, AutoDetailsTabsGroupConfiguration configuration) : IAutoDetailsTabsMemberConfigurationBuilder
 {
-    public IAutoDetailsTabsMemberConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoDetailsTabsComponentConfiguration componentConfiguration)
+    public IAutoDetailsTabsMemberConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoDetailsTabsPropertyConfiguration propertyConfiguration)
     {
         var property = expression.GetPropertyInfoForType(type);
         
-        var index = configuration.Components.IndexOf(componentConfiguration);
+        var index = configuration.Components.IndexOf(propertyConfiguration);
         if (index != -1)
         {
-            configuration.Components[index] = componentConfiguration;
+            configuration.Components[index] = propertyConfiguration;
         }
         else
         {
-            componentConfiguration.Property = property;
-            componentConfiguration.AutoComponentType ??= property.GetDefaultComponentForType();
-            configuration.Components.Add(componentConfiguration);
+            propertyConfiguration.Property = property;
+            propertyConfiguration.AutoComponentType ??= property.GetDefaultComponentForType();
+            configuration.Components.Add(propertyConfiguration);
         }
 
         return this;

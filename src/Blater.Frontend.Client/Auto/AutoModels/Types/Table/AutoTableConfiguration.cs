@@ -21,5 +21,5 @@ public class AutoTableConfiguration(string title)
     
     
     public List<CustomAutoTableAction> CustomAutoTableActions { get; set; } = [];
-    public List<AutoTableAutoComponentConfiguration> Configurations { get; set; } = [];
+    public List<AutoTableAutoPropertyConfiguration> Configurations { get; set; } = [];
 }

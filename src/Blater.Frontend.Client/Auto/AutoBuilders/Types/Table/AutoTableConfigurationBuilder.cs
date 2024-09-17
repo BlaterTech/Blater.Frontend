@@ -23,20 +23,20 @@ public class AutoTableConfigurationBuilder : IAutoTableConfigurationBuilder
         }
     }
 
-    public IAutoTableConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoTableAutoComponentConfiguration componentConfiguration)
+    public IAutoTableConfigurationBuilder AddMember<TType>(Expression<Func<TType>> expression, AutoTableAutoPropertyConfiguration propertyConfiguration)
     {
         var property = expression.GetPropertyInfoForType(_type);
 
-        var index = _configuration.Configurations.IndexOf(componentConfiguration);
+        var index = _configuration.Configurations.IndexOf(propertyConfiguration);
         if (index != -1)
         {
-            _configuration.Configurations[index] = componentConfiguration;
+            _configuration.Configurations[index] = propertyConfiguration;
         }
         else
         {
-            componentConfiguration.Property = property;
-            componentConfiguration.AutoComponentType ??= property.GetDefaultComponentForType();
-            _configuration.Configurations.Add(componentConfiguration);
+            propertyConfiguration.Property = property;
+            propertyConfiguration.AutoComponentType ??= property.GetDefaultComponentForType();
+            _configuration.Configurations.Add(propertyConfiguration);
         }
         
         return this;

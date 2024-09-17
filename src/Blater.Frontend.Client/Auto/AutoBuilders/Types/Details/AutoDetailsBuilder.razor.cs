@@ -26,7 +26,7 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
         DetailsConfiguration = autoDetails.DetailsConfiguration;
     }
 
-    protected RenderFragment RenderComponents(BaseAutoComponentConfiguration componentConfiguration, bool isTable = true) => builder =>
+    protected RenderFragment RenderComponents(BaseAutoPropertyConfiguration<> propertyConfiguration, bool isTable = true) => builder =>
     {
         var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
 
@@ -36,7 +36,7 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
                        .OpenElement("tr")
                        .AddContent(trBuilder =>
                         {
-                            if (componentConfiguration.AutoComponentType != AutoComponentType.AutoTitle)
+                            if (propertyConfiguration.AutoComponentType != AutoComponentType.AutoTitle)
                             {
                                 trBuilder
                                    .OpenElement("td")
@@ -44,22 +44,22 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
                                     {
                                         tdBuilder
                                            .AddContent(
-                                                ComponentLocalizationService.GetLabelNameValue(componentConfiguration.LabelName, componentConfiguration.Property));
+                                                ComponentLocalizationService.GetLabelNameValue(propertyConfiguration.LabelName, propertyConfiguration.Property));
                                     })
                                    .Close();
-                                if (!string.IsNullOrEmpty(componentConfiguration.ExtraStyle))
+                                if (!string.IsNullOrEmpty(propertyConfiguration.ExtraStyle))
                                 {
                                     trBuilder
                                        .OpenElement("td")
-                                       .AddAttribute("style", componentConfiguration.ExtraStyle)
-                                       .AddContent(tdBuilder => { CreateGenericComponent(tdBuilder, componentConfiguration); })
+                                       .AddAttribute("style", propertyConfiguration.ExtraStyle)
+                                       .AddContent(tdBuilder => { CreateGenericComponent(tdBuilder, propertyConfiguration); })
                                        .Close();
                                 }
                                 else
                                 {
                                     trBuilder
                                        .OpenElement("td")
-                                       .AddContent(tdBuilder => { CreateGenericComponent(tdBuilder, componentConfiguration); })
+                                       .AddContent(tdBuilder => { CreateGenericComponent(tdBuilder, propertyConfiguration); })
                                        .Close();
                                 }
                             }
@@ -67,7 +67,7 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
                             {
                                 trBuilder
                                    .OpenElement("td")
-                                   .AddContent(tdBuilder => { CreateGenericComponent(tdBuilder, componentConfiguration); })
+                                   .AddContent(tdBuilder => { CreateGenericComponent(tdBuilder, propertyConfiguration); })
                                    .Close();
                                 trBuilder
                                    .OpenElement("td")
@@ -78,7 +78,7 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
         }
         else
         {
-            CreateGenericComponent(easyRenderTreeBuilder, componentConfiguration);
+            CreateGenericComponent(easyRenderTreeBuilder, propertyConfiguration);
         }
     };
 }

@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Details;
 
-public class AutoDetailsAutoComponentConfiguration : BaseAutoComponentConfiguration
+public class AutoDetailsAutoPropertyConfiguration : BaseAutoPropertyConfiguration<>
 {
     public string? Title { get; set; }
     public bool SeparateCard { get; set; }
