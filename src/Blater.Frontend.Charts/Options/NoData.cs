@@ -7,5 +7,5 @@ public class NoData
     public string VerticalAlign { get; set; } = "middle";
     public int OffsetX { get; set; } = 0;
     public int OffsetY { get; set; } = 0;
-    public Style Style { get; set; } = new Style();   
+    public Style Style { get; set; } = new();   
 }
