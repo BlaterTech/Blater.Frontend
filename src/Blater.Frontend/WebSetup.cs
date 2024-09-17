@@ -10,7 +10,6 @@ using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Services;
 using Blater.Frontend.Pages.Account;
 using Blater.Helpers;
-using Blater.SDK.Extensions;
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -72,11 +71,11 @@ public static class WebSetup
             })
            .AddHttpMessageHandler<CookieHandler>();
 
-        services.AddBlaterDatabase();
-        services.AddBlaterManagement();
-        services.AddBlaterKeyValue();
-        services.AddBlaterAuthStores();
-        services.AddBlaterAuthRepositories();
+        //services.AddBlaterDatabase();
+        //services.AddBlaterManagement();
+        //services.AddBlaterKeyValue();
+        //services.AddBlaterAuthStores();
+        //services.AddBlaterAuthRepositories();
         services.AddSingleton<AutoConfigurations>();
         services.AddHttpContextAccessor();
         //services.AddScoped<ICookieService, CookieService>();

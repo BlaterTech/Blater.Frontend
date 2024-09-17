@@ -31,32 +31,5 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Blater\src\Blater\Blater.csproj" />
-      <ProjectReference Include="..\..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Auto\AutoBuilders\Types\" />
-      <Folder Include="Auto\AutoComponents\Form\" />
-      <Folder Include="Auto\AutoInterfaces\Types\" />
-      <Folder Include="Auto\AutoModels\Types\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="Auto\AutoBuilders\Types\Details\AutoDetailsBuilder.razor" />
-      <AdditionalFiles Include="Auto\AutoBuilders\Types\Form\AutoFormBuilder.razor" />
-      <AdditionalFiles Include="Auto\AutoBuilders\Types\Table\AutoTableBuilder.razor" />
-      <AdditionalFiles Include="Auto\AutoComponents\Form\Inputs\AutoCheckBoxInput.razor" />
-      <AdditionalFiles Include="Auto\AutoComponents\Form\Inputs\AutoDateTimeInput.razor" />
-      <AdditionalFiles Include="Auto\AutoComponents\Form\Inputs\AutoDecimalInput.razor" />
-      <AdditionalFiles Include="Auto\AutoComponents\Form\Inputs\AutoMoneyInput.razor" />
-      <AdditionalFiles Include="Auto\AutoComponents\Form\Inputs\AutoNumericInput.razor" />
-      <AdditionalFiles Include="Auto\AutoComponents\Form\Inputs\AutoSelectInput.razor" />
-      <AdditionalFiles Include="Auto\AutoComponents\Form\Inputs\AutoSwitchInput.razor" />
-      <AdditionalFiles Include="Auto\AutoComponents\Form\Inputs\AutoTextInput.razor" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Auto\AutoBuilders\Details\AutoDetailsBuilder.razor" />
-      <UpToDateCheckInput Remove="Auto\AutoBuilders\Details\Tabs\AutoDetailsTabsBuilder.razor" />
     </ItemGroup>
 </Project>

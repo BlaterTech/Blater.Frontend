@@ -6,7 +6,6 @@ using Blater.Frontend.Client.Auto.AutoServices;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Services;
-using Blater.SDK.Extensions;
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -30,18 +29,18 @@ public static class WebSetup
 
         services.AddScoped<CookieHandler>();
 
-        services
-               .AddHttpClient<BlaterHttpClient>((_, client) =>
-                {
-                    client.BaseAddress = new Uri("http://localhost:5292");
-                })
-               .AddHttpMessageHandler<CookieHandler>();
+        //services
+        //       .AddHttpClient<BlaterHttpClient>((_, client) =>
+        //        {
+        //            client.BaseAddress = new Uri("http://localhost:5292");
+        //        })
+        //       .AddHttpMessageHandler<CookieHandler>();
 
-        services.AddBlaterDatabase();
-        services.AddBlaterManagement();
-        services.AddBlaterKeyValue();
-        services.AddBlaterAuthStores();
-        services.AddBlaterAuthRepositories();
+        //services.AddBlaterDatabase();
+        //services.AddBlaterManagement();
+        //services.AddBlaterKeyValue();
+        //services.AddBlaterAuthStores();
+        //services.AddBlaterAuthRepositories();
 
         //services.AddSingleton<ICookieService, CookieService>();
         services.AddBlazoredLocalStorage();

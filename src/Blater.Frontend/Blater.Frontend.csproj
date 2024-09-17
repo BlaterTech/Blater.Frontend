@@ -24,6 +24,7 @@
     </ItemGroup>
     
     <ItemGroup>
+      <ProjectReference Include="..\..\..\Blater.SDK\src\Blater.SDK\Blater.SDK.csproj" />
       <ProjectReference Include="..\Blater.Frontend.Client\Blater.Frontend.Client.csproj" />
     </ItemGroup>
 
