@@ -1,10 +1,11 @@
 ﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Validator;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Validator;
+using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Valitador;
 
-public class AutoValidatorConfigurationBuilder<T> : IAutoValidatorBuilder<T>
+public class AutoValidatorConfigurationBuilder<T> : AbstractValidator<T>, IAutoValidatorBuilder<T>
 {
     private readonly AutoValidatorConfiguration<T> _configuration;
     public AutoValidatorConfigurationBuilder(object instance)
