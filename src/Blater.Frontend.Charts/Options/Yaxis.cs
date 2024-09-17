@@ -1,6 +1,6 @@
 ﻿namespace Blater.Frontend.Charts.Options;
 
-public class Localization
+public class Yaxis
 {
     
 }

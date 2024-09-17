@@ -1,6 +1,6 @@
 ﻿namespace Blater.Frontend.Charts.Options;
 
-public class Interactivity
+public class Stroke
 {
     
 }

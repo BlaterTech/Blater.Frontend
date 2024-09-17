@@ -1,6 +1,3 @@
 ﻿namespace Blater.Frontend.Charts.Options;
 
-public class Responsive
-{
-    
-}
+public class Responsive : Dictionary<int, object>;

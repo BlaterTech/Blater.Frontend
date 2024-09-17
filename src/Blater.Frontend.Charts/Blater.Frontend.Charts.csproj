@@ -5,4 +5,7 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\js\blater-chart.js" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Options\PlotOptions\" />
+  </ItemGroup>
 </Project>
