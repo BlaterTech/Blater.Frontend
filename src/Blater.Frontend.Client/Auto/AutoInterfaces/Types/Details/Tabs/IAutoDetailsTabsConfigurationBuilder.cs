@@ -4,5 +4,5 @@ namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
 
 public interface IAutoDetailsTabsConfigurationBuilder<TModel>
 {
-    AutoDetailsTabsPanelConfiguration AddPanel(AutoDetailsTabsPanelConfiguration tabsPanelConfiguration, Action<IAutoDetailsTabsGroupConfigurationBuilder<TModel>> action);
+    AutoDetailsTabsPanelConfiguration<TModel> AddPanel(AutoDetailsTabsPanelConfiguration<TModel> tabsPanelConfiguration, Action<IAutoDetailsTabsGroupConfigurationBuilder<TModel>> action);
 }

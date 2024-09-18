@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
-public class BaseAutoValueComponent<TValue> : BaseAutoComponent<TValue>
+public class BaseAutoValueComponent<TValue> : BaseAutoComponent
 {
     [Parameter]
     [EditorRequired]

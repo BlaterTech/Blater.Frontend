@@ -1,10 +1,11 @@
-﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
+﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
+using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
-public class BaseAutoComponent<TPropertyValue> : BaseAutoComponentInput
+public class BaseAutoComponent : BaseAutoComponentInput
 {
     [Parameter]
     public string? ExtraClass { get; set; }
@@ -38,5 +39,5 @@ public class BaseAutoComponent<TPropertyValue> : BaseAutoComponentInput
 
     [Parameter]
     [EditorRequired]
-    public BaseAutoPropertyConfiguration<TPropertyValue> AutoPropertyConfiguration { get; set; } = default!;
+    public IBaseAutoPropertyConfiguration AutoPropertyConfiguration { get; set; } = default!;
 }

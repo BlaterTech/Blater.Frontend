@@ -3,7 +3,7 @@ using Blater.Frontend.Client.Auto.AutoModels.Base;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 
-public class AutoTablePropertyConfiguration<TPropertyValue> : BaseAutoPropertyConfiguration<TPropertyValue>, IAutoTablePropertyConfiguration
+public class AutoTablePropertyConfiguration<TModel, TPropertyValue> : BaseAutoPropertyConfiguration<TPropertyValue>, IAutoTablePropertyConfiguration<TModel>
 {
     public bool DisableColumn { get; set; }
     public bool DisableFilter { get; set; }

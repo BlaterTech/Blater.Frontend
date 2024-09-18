@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels;
 
-public class AutoGridConfiguration
+public class AutoGridConfiguration<TModel>
 {
     public int Columns { get; set; } = 2;
     public int Spacing { get; set; } = 2;

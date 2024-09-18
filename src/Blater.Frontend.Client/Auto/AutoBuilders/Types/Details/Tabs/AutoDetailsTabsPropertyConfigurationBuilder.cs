@@ -5,9 +5,9 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details.Tabs;
 
-public class AutoDetailsTabsPropertyConfigurationBuilder<TModel>(AutoDetailsTabsGroupConfiguration configuration) : IAutoDetailsTabsMemberConfigurationBuilder<TModel>
+public class AutoDetailsTabsPropertyConfigurationBuilder<TModel>(AutoDetailsTabsGroupConfiguration<TModel> configuration) : IAutoDetailsTabsPropertyConfigurationBuilder<TModel>
 {
-    public IAutoDetailsTabsPropertyConfiguration AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, IAutoDetailsTabsPropertyConfiguration propertyConfiguration)
+    public IAutoDetailsTabsPropertyConfiguration<TModel> AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, IAutoDetailsTabsPropertyConfiguration<TModel> propertyConfiguration)
     {
         var modelType = typeof(TModel);
         var propType = typeof(TPropertyType);

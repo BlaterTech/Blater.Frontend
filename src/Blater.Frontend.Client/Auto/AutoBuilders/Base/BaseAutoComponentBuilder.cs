@@ -2,6 +2,7 @@
 using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoExtensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.EasyRenderTree;
@@ -63,7 +64,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     #endregion
 
-    public Ulid CascadingValue => Model?.Id  ?? Ulid.NewUlid();
+    public Ulid CascadingValue => Model?.Id ?? Ulid.NewUlid();
     public bool EditMode { get; private set; }
 
     protected abstract void LoadModelConfig();
@@ -121,7 +122,9 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         }
     }
 
-    protected void CreateGenericComponent<TPropertyValue>(EasyRenderTreeBuilder builder, BaseAutoPropertyConfiguration<TPropertyValue> propertyConfiguration)
+    protected void CreateGenericComponent<TPropertyValue>(EasyRenderTreeBuilder builder, TPropertyValue propertyConfiguration)
+        where TPropertyValue :
+        IBaseAutoPropertyConfiguration
     {
         var componentBuilder = AutoComponentsBuilders.GetComponentBuilder(propertyConfiguration);
         if (componentBuilder is null)
@@ -169,49 +172,9 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Disabled), propertyConfiguration.Disable);
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.IsReadOnly), propertyConfiguration.IsReadOnly);
 
-            propertyConfiguration.OnValueChanged ??= CreateGenericValueChanged(propertyConfiguration.Property);
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), propertyConfiguration.OnValueChanged);
         }
 
         componentRenderBuilder.Close();
-    }
-
-    private readonly MethodInfo _makeActionMethod = typeof(BaseAutoComponentBuilder<T>).GetMethod("MakeAction",
-                                                                                                  BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.NonPublic)!;
-
-    protected object? CreateGenericValueChanged(PropertyInfo propertyInfo)
-    {
-        var targetType = propertyInfo.PropertyType;
-
-        var genericMethod = EventCallbackExtensions.EventCallbackFactoryCreate.MakeGenericMethod(targetType);
-
-        var makeActionGenericMethod = _makeActionMethod.MakeGenericMethod(targetType);
-        var action = makeActionGenericMethod.Invoke(this, [propertyInfo])!;
-
-        var parameters = new[] { this, action };
-        return genericMethod.Invoke(EventCallback.Factory, parameters);
-    }
-
-    protected Action<TEntity> MakeAction<TEntity>(PropertyInfo propertyInfo)
-    {
-        return Action;
-
-        void Action(TEntity value)
-        {
-            try
-            {
-                if (propertyInfo.SetMethod is null)
-                {
-                    return;
-                }
-
-                Console.WriteLine($"PropType => {propertyInfo.PropertyType}, ValueType => {value?.GetType()}");
-                propertyInfo.SetValue(Model, value);
-            }
-            catch (Exception e)
-            {
-                Logger.LogError(e, "Failed to set value to the model");
-            }
-        }
     }
 }

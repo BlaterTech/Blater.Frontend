@@ -1,4 +1,5 @@
 ﻿using Blater.Frontend.Client.Auto.AutoInterfaces;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
@@ -52,7 +53,7 @@ public static class AutoComponentsBuilders
         }
     }
 
-    public static IAutoBuildableComponent? GetComponentBuilder<TPropertyValue>(BaseAutoPropertyConfiguration<TPropertyValue> configuration)
+    public static IAutoBuildableComponent? GetComponentBuilder(IBaseAutoPropertyConfiguration configuration)
     {
         var fieldConfigurationDisplayType = configuration.AutoComponentType;
         

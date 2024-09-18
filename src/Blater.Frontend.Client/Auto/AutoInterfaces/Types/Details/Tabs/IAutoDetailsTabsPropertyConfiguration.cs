@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
 
-public interface IAutoDetailsTabsPropertyConfiguration : IBaseAutoPropertyConfiguration
+public interface IAutoDetailsTabsPropertyConfiguration<TModel> : IBaseAutoPropertyConfiguration
 {
-    
+    public string? HeadTitle { get; set; }
 }

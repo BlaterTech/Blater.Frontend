@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
 
-public class AutoDetailsTabsGroupConfiguration
+public class AutoDetailsTabsGroupConfiguration<TModel>
 {
     public AutoDetailsTabsGroupConfiguration(string title)
     {
@@ -18,5 +18,5 @@ public class AutoDetailsTabsGroupConfiguration
     public string Title { get; set; }
     public string? Route { get; set; }
     public bool EnableEditButton { get; set; } = true;
-    public List<IAutoDetailsTabsPropertyConfiguration> Components { get; set; } = [];
+    public List<IAutoDetailsTabsPropertyConfiguration<TModel>> Components { get; set; } = [];
 }

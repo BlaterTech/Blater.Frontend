@@ -2,13 +2,13 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
-public class AutoFormConfiguration(string title)
+public class AutoFormConfiguration<TModel>(string title)
 {
     public string Title { get; set; } = title;
     
-    public Dictionary<AutoComponentDisplayType, AutoGridConfiguration> GridConfigurations { get; set; } = [];
-    public Dictionary<AutoComponentDisplayType, AutoAvatarModelConfiguration> AvatarConfiguration { get; set; } = [];
-    public Dictionary<AutoComponentDisplayType, AutoFormActionConfiguration> ActionConfiguration { get; set; } = [];
+    public Dictionary<AutoComponentDisplayType, AutoGridConfiguration<TModel>> GridConfigurations { get; set; } = [];
+    public Dictionary<AutoComponentDisplayType, AutoAvatarModelConfiguration<TModel>> AvatarConfiguration { get; set; } = [];
+    public Dictionary<AutoComponentDisplayType, AutoFormActionConfiguration<TModel>> ActionConfiguration { get; set; } = [];
     
-    public Dictionary<AutoComponentDisplayType, List<AutoFormGroupConfiguration>> Groups { get; set; } = [];
+    public Dictionary<AutoComponentDisplayType, List<AutoFormGroupConfiguration<TModel>>> Groups { get; set; } = [];
 }

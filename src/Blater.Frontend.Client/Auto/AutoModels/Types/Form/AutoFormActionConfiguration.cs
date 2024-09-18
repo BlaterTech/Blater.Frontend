@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
-public class AutoFormActionConfiguration
+public class AutoFormActionConfiguration<TModel>
 {
     #region Divider
 

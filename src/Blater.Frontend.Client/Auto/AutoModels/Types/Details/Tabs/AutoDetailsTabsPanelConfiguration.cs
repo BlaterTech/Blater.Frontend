@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
 
-public class AutoDetailsTabsPanelConfiguration
+public class AutoDetailsTabsPanelConfiguration<TModel>
 {
     public AutoDetailsTabsPanelConfiguration(string title)
     {
@@ -17,5 +17,5 @@ public class AutoDetailsTabsPanelConfiguration
     
     public string Title { get; init; }
     public Icons? Icon { get; set; }
-    public List<AutoDetailsTabsGroupConfiguration> GroupConfigurations { get; set; } = [];
+    public List<AutoDetailsTabsGroupConfiguration<TModel>> GroupConfigurations { get; set; } = [];
 }

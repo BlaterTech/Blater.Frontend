@@ -4,16 +4,16 @@ namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 
 public interface IAutoFormConfigurationBuilder<TModel>
 {
-    AutoAvatarModelConfiguration AddGroupAvatar(AutoAvatarModelConfiguration avatarConfiguration);
-    AutoAvatarModelConfiguration AddGroupAvatarCreateOnly(AutoAvatarModelConfiguration avatarConfiguration);
-    AutoAvatarModelConfiguration AddGroupAvatarEditOnly(AutoAvatarModelConfiguration avatarConfiguration);
-    AutoFormGroupConfiguration AddGroup(string groupName, Action<IAutoFormMemberConfigurationBuilder<TModel>> action);
-    AutoFormGroupConfiguration AddGroup(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder<TModel>> action);
-    AutoFormGroupConfiguration AddGroupCreateOnly(string groupName, Action<IAutoFormMemberConfigurationBuilder<TModel>> action);
-    AutoFormGroupConfiguration AddGroupCreateOnly(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder<TModel>> action);
-    AutoFormGroupConfiguration AddGroupEditOnly(string groupName, Action<IAutoFormMemberConfigurationBuilder<TModel>> action);
-    AutoFormGroupConfiguration AddGroupEditOnly(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder<TModel>> action);
-    AutoFormActionConfiguration Actions(AutoFormActionConfiguration actionConfiguration);
-    AutoFormActionConfiguration ActionsCreateOnly(AutoFormActionConfiguration actionConfiguration);
-    AutoFormActionConfiguration ActionsEditOnly(AutoFormActionConfiguration actionConfiguration);
+    AutoAvatarModelConfiguration<TModel> AddGroupAvatar(AutoAvatarModelConfiguration<TModel> avatarConfiguration);
+    AutoAvatarModelConfiguration<TModel> AddGroupAvatarCreateOnly(AutoAvatarModelConfiguration<TModel> avatarConfiguration);
+    AutoAvatarModelConfiguration<TModel> AddGroupAvatarEditOnly(AutoAvatarModelConfiguration<TModel> avatarConfiguration);
+    AutoFormGroupConfiguration<TModel> AddGroup(string groupName, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action);
+    AutoFormGroupConfiguration<TModel> AddGroup(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action);
+    AutoFormGroupConfiguration<TModel> AddGroupCreateOnly(string groupName, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action);
+    AutoFormGroupConfiguration<TModel> AddGroupCreateOnly(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action);
+    AutoFormGroupConfiguration<TModel> AddGroupEditOnly(string groupName, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action);
+    AutoFormGroupConfiguration<TModel> AddGroupEditOnly(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action);
+    AutoFormActionConfiguration<TModel> Actions(AutoFormActionConfiguration<TModel> actionConfiguration);
+    AutoFormActionConfiguration<TModel> ActionsCreateOnly(AutoFormActionConfiguration<TModel> actionConfiguration);
+    AutoFormActionConfiguration<TModel> ActionsEditOnly(AutoFormActionConfiguration<TModel> actionConfiguration);
 }

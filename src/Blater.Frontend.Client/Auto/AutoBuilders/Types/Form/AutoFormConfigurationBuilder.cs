@@ -6,7 +6,7 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
 
 public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilder<TModel>
 {
-    private readonly AutoFormConfiguration _configuration;
+    private readonly AutoFormConfiguration<TModel> _configuration;
 
     public AutoFormConfigurationBuilder(object instance)
     {
@@ -24,51 +24,51 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
 
     #region Avatar
 
-    public AutoAvatarModelConfiguration AddGroupAvatar(AutoAvatarModelConfiguration avatarConfiguration)
+    public AutoAvatarModelConfiguration<TModel> AddGroupAvatar(AutoAvatarModelConfiguration<TModel> avatarConfiguration)
         => AddGroupAvatar(AutoComponentDisplayType.Form, avatarConfiguration);
 
-    public AutoAvatarModelConfiguration AddGroupAvatarCreateOnly(AutoAvatarModelConfiguration avatarConfiguration)
+    public AutoAvatarModelConfiguration<TModel> AddGroupAvatarCreateOnly(AutoAvatarModelConfiguration<TModel> avatarConfiguration)
         => AddGroupAvatar(AutoComponentDisplayType.FormCreate, avatarConfiguration);
 
-    public AutoAvatarModelConfiguration AddGroupAvatarEditOnly(AutoAvatarModelConfiguration avatarConfiguration)
+    public AutoAvatarModelConfiguration<TModel> AddGroupAvatarEditOnly(AutoAvatarModelConfiguration<TModel> avatarConfiguration)
         => AddGroupAvatar(AutoComponentDisplayType.FormEdit, avatarConfiguration);
 
     #endregion
 
-    public AutoFormGroupConfiguration AddGroup(string groupName, Action<IAutoFormMemberConfigurationBuilder<TModel>> action)
-        => AddGroup(AutoComponentDisplayType.Form, new AutoFormGroupConfiguration(groupName), action);
+    public AutoFormGroupConfiguration<TModel> AddGroup(string groupName, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
+        => AddGroup(AutoComponentDisplayType.Form, new AutoFormGroupConfiguration<TModel>(groupName), action);
 
-    public AutoFormGroupConfiguration AddGroup(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder<TModel>> action)
+    public AutoFormGroupConfiguration<TModel> AddGroup(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.Form, groupConfiguration, action);
     
-    public AutoFormGroupConfiguration AddGroupCreateOnly(string groupName, Action<IAutoFormMemberConfigurationBuilder<TModel>> action)
-        => AddGroup(AutoComponentDisplayType.FormCreate, new AutoFormGroupConfiguration(groupName), action);
+    public AutoFormGroupConfiguration<TModel> AddGroupCreateOnly(string groupName, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
+        => AddGroup(AutoComponentDisplayType.FormCreate, new AutoFormGroupConfiguration<TModel>(groupName), action);
     
-    public AutoFormGroupConfiguration AddGroupCreateOnly(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder<TModel>> action)
+    public AutoFormGroupConfiguration<TModel> AddGroupCreateOnly(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormCreate, groupConfiguration, action);
 
-    public AutoFormGroupConfiguration AddGroupEditOnly(string groupName, Action<IAutoFormMemberConfigurationBuilder<TModel>> action)
-        => AddGroup(AutoComponentDisplayType.FormEdit, new AutoFormGroupConfiguration(groupName), action);
+    public AutoFormGroupConfiguration<TModel> AddGroupEditOnly(string groupName, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
+        => AddGroup(AutoComponentDisplayType.FormEdit, new AutoFormGroupConfiguration<TModel>(groupName), action);
     
-    public AutoFormGroupConfiguration AddGroupEditOnly(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder<TModel>> action)
+    public AutoFormGroupConfiguration<TModel> AddGroupEditOnly(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormEdit, groupConfiguration, action);
 
     #endregion
 
     #region Actions
 
-    public AutoFormActionConfiguration Actions(AutoFormActionConfiguration actionConfiguration)
+    public AutoFormActionConfiguration<TModel> Actions(AutoFormActionConfiguration<TModel> actionConfiguration)
         => Actions(AutoComponentDisplayType.Form, actionConfiguration);
 
-    public AutoFormActionConfiguration ActionsCreateOnly(AutoFormActionConfiguration actionConfiguration)
+    public AutoFormActionConfiguration<TModel> ActionsCreateOnly(AutoFormActionConfiguration<TModel> actionConfiguration)
         => Actions(AutoComponentDisplayType.FormCreate, actionConfiguration);
 
-    public AutoFormActionConfiguration ActionsEditOnly(AutoFormActionConfiguration actionConfiguration)
+    public AutoFormActionConfiguration<TModel> ActionsEditOnly(AutoFormActionConfiguration<TModel> actionConfiguration)
         => Actions(AutoComponentDisplayType.FormEdit, actionConfiguration);
 
     #endregion
 
-    private AutoFormGroupConfiguration AddGroup(AutoComponentDisplayType displayType, AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder<TModel>> action)
+    private AutoFormGroupConfiguration<TModel> AddGroup(AutoComponentDisplayType displayType, AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
     {
         if (!_configuration.Groups.TryGetValue(displayType, out var value))
         {
@@ -95,7 +95,7 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
         return groupConfiguration;
     }
 
-    private AutoAvatarModelConfiguration AddGroupAvatar(AutoComponentDisplayType displayType, AutoAvatarModelConfiguration avatarConfiguration)
+    private AutoAvatarModelConfiguration<TModel> AddGroupAvatar(AutoComponentDisplayType displayType, AutoAvatarModelConfiguration<TModel> avatarConfiguration)
     {
         if (_configuration.AvatarConfiguration.TryGetValue(displayType, out var value))
         {
@@ -110,7 +110,7 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
         return value;
     }
 
-    private AutoFormActionConfiguration Actions(AutoComponentDisplayType displayType, AutoFormActionConfiguration actionConfiguration)
+    private AutoFormActionConfiguration<TModel> Actions(AutoComponentDisplayType displayType, AutoFormActionConfiguration<TModel> actionConfiguration)
     {
         if (_configuration.ActionConfiguration.TryGetValue(displayType, out var value))
         {

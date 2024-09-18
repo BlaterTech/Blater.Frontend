@@ -4,7 +4,7 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Models;
 
-public class CustomAutoTableAction
+public class CustomAutoTableAction<TModel>
 {
     public EventCallback<MouseEventArgs> OnValueChanged { get; set; }
     

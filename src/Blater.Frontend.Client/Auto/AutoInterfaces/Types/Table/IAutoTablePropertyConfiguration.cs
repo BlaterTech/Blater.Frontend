@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 
-public interface IAutoTablePropertyConfiguration : IBaseAutoPropertyConfiguration
+public interface IAutoTablePropertyConfiguration<TModel> : IBaseAutoPropertyConfiguration
 {
     public bool DisableColumn { get; set; }
     public bool DisableFilter { get; set; }

@@ -5,7 +5,7 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details.Tabs;
 
 public class AutoDetailsTabsConfigurationBuilder<TModel> : IAutoDetailsTabsConfigurationBuilder<TModel>
 {
-    private readonly AutoDetailsTabsConfiguration _configuration;
+    private readonly AutoDetailsTabsConfiguration<TModel> _configuration;
 
     public AutoDetailsTabsConfigurationBuilder(object instance)
     {
@@ -19,7 +19,7 @@ public class AutoDetailsTabsConfigurationBuilder<TModel> : IAutoDetailsTabsConfi
         }
     }
 
-    public AutoDetailsTabsPanelConfiguration AddPanel(AutoDetailsTabsPanelConfiguration tabsPanelConfiguration, Action<IAutoDetailsTabsGroupConfigurationBuilder<TModel>> action)
+    public AutoDetailsTabsPanelConfiguration<TModel> AddPanel(AutoDetailsTabsPanelConfiguration<TModel> tabsPanelConfiguration, Action<IAutoDetailsTabsGroupConfigurationBuilder<TModel>> action)
     {
         var index = _configuration.PanelConfigurations.IndexOf(tabsPanelConfiguration);
         if (index != -1)

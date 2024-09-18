@@ -1,4 +1,5 @@
 ﻿using Blater.Frontend.Client.Auto.AutoBuilders.Base;
+using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
@@ -18,15 +19,15 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
     public override AutoComponentDisplayType DisplayType { get; set; } = AutoComponentDisplayType.Details;
     public override bool HasLabel { get; set; }
 
-    private AutoDetailsConfiguration DetailsConfiguration { get; set; } = default!;
+    private AutoDetailsConfiguration<T> DetailsConfiguration { get; set; } = default!;
 
     protected override void LoadModelConfig()
     {
-        var autoDetails = FindModelConfig<IAutoDetailsConfiguration>();
+        var autoDetails = FindModelConfig<IAutoDetailsConfiguration<T>>();
         DetailsConfiguration = autoDetails.DetailsConfiguration;
     }
 
-    protected RenderFragment RenderComponents(BaseAutoPropertyConfiguration<> propertyConfiguration, bool isTable = true) => builder =>
+    protected RenderFragment RenderComponents(IBaseAutoPropertyConfiguration propertyConfiguration, bool isTable = true) => builder =>
     {
         var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
 

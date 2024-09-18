@@ -8,7 +8,7 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
 
 public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuilder<TModel>
 {
-    private readonly AutoTableConfiguration _configuration;
+    private readonly AutoTableConfiguration<TModel> _configuration;
 
     public AutoTableConfigurationBuilder(object instance)
     {
@@ -22,21 +22,21 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
         }
     }
 
-    public AutoTablePropertyConfiguration<TPropertyType> AddMemberOnly<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TPropertyType> propertyConfiguration)
+    public AutoTablePropertyConfiguration<TModel, TPropertyType> AddMemberOnly<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TModel, TPropertyType> propertyConfiguration)
     {
         AddMember(expression, propertyConfiguration);
 
         return propertyConfiguration;
     }
     
-    public IAutoTableEventConfigurationBuilder<TPropertyType> AddMemberWithEvent<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TPropertyType> propertyConfiguration)
+    public IAutoTableEventConfigurationBuilder<TModel, TPropertyType> AddMemberWithEvent<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TModel, TPropertyType> propertyConfiguration)
     {
         AddMember(expression, propertyConfiguration);
 
-        return new AutoTableEventConfigurationBuilder<TPropertyType>(propertyConfiguration);
+        return new AutoTableEventConfigurationBuilder<TModel, TPropertyType>(propertyConfiguration);
     }
     
-    private void AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TPropertyType> propertyConfiguration)
+    private void AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TModel, TPropertyType> propertyConfiguration)
     {
         var modelType = typeof(TModel);
         var propType = typeof(TPropertyType);

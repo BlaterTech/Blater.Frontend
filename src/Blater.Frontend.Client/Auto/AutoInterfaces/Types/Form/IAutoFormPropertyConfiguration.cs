@@ -2,7 +2,7 @@
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 
-public interface IAutoFormPropertyConfiguration : IBaseAutoPropertyConfiguration
+public interface IAutoFormPropertyConfiguration<TModel> : IBaseAutoPropertyConfiguration
 {
     
 }

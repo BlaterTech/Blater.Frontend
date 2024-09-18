@@ -4,7 +4,7 @@ namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form.Timeline;
 
 public interface IAutoFormTimelineConfigurationBuilder<TModel>
 {
-    AutoFormTimelineConfiguration AddStepCreateOnly(string title, Action<IAutoFormTimelineGroupConfigurationBuilder<TModel>> action);
-    AutoFormTimelineConfiguration AddStepEditOnly(string title, Action<IAutoFormTimelineGroupConfigurationBuilder<TModel>> action);
-    AutoFormTimelineConfiguration AddStep(string title, Action<IAutoFormTimelineGroupConfigurationBuilder<TModel>> action);
+    AutoFormTimelineConfiguration<TModel> AddStepCreateOnly(string title, Action<IAutoFormTimelineGroupConfigurationBuilder<TModel>> action);
+    AutoFormTimelineConfiguration<TModel> AddStepEditOnly(string title, Action<IAutoFormTimelineGroupConfigurationBuilder<TModel>> action);
+    AutoFormTimelineConfiguration<TModel> AddStep(string title, Action<IAutoFormTimelineGroupConfigurationBuilder<TModel>> action);
 }

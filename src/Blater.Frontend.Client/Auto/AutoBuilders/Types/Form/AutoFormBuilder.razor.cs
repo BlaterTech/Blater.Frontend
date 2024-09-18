@@ -35,16 +35,16 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
     public (bool enabled, int index) RenderOnlyGroup { get; set; }
 
     [Parameter]
-    public AutoFormConfiguration? Configuration { get; set; }
+    public AutoFormConfiguration<T>? Configuration { get; set; }
 
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
 
     MudForm _form = null!;
-    private AutoAvatarModelConfiguration? AvatarModelConfiguration { get; set; }
+    private AutoAvatarModelConfiguration<T>? AvatarModelConfiguration { get; set; }
     private ModelValidator<T>? ModelValidator { get; set; }
-    private AutoGridConfiguration? GridConfiguration { get; set; }
-    private AutoFormActionConfiguration ActionConfiguration { get; set; } = new();
+    private AutoGridConfiguration<T>? GridConfiguration { get; set; }
+    private AutoFormActionConfiguration<T> ActionConfiguration { get; set; } = new();
 
     private bool IsValid { get; set; }
 
@@ -68,7 +68,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
     protected override void LoadModelConfig()
     {
         var autoValidator = FindModelConfig<IAutoValidatorConfiguration<T>>();
-        
+
         if (Configuration == null)
         {
             var autoForm = FindModelConfig<IAutoFormConfiguration<T>>();
@@ -82,12 +82,12 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
         ActionConfiguration = Configuration
                              .ActionConfiguration
                              .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form)
-                              ?? new AutoFormActionConfiguration();
+                              ?? new AutoFormActionConfiguration<T>();
 
         GridConfiguration = Configuration
                            .GridConfigurations
                            .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form)
-                            ?? new AutoGridConfiguration();
+                            ?? new AutoGridConfiguration<T>();
 
         ModelValidator = autoValidator
                         .ValidatorConfiguration
@@ -123,7 +123,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
 
         return;
 
-        void RenderGroupWithSubGroups(AutoFormGroupConfiguration groupConfiguration)
+        void RenderGroupWithSubGroups(AutoFormGroupConfiguration<T> groupConfiguration)
         {
             Group(groupConfiguration);
 
@@ -137,7 +137,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
             }
         }
 
-        void Group(AutoFormGroupConfiguration groupConfiguration)
+        void Group(AutoFormGroupConfiguration<T> groupConfiguration)
         {
             easyRenderTreeBuilder
                .OpenComponent<MudItem>()
@@ -172,13 +172,17 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
                     itemBuilder.AddAttribute(nameof(MudItem.xs), 12);
                 }
 
-                itemBuilder.AddChildContent(mudItemContentBuilder => { CreateGenericComponent(mudItemContentBuilder, componentConfiguration); });
+                itemBuilder
+                   .AddChildContent(mudItemContentBuilder =>
+                    {
+                        CreateGenericComponent(mudItemContentBuilder, componentConfiguration);
+                    });
 
                 itemBuilder.Close();
             }
         }
 
-        void SubGroup(List<AutoFormGroupConfiguration> subGroupConfigurations)
+        void SubGroup(List<AutoFormGroupConfiguration<T>> subGroupConfigurations)
         {
             foreach (var subGroupConfiguration in subGroupConfigurations)
             {

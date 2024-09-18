@@ -4,10 +4,10 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 
-public interface IAutoFormMemberConfigurationBuilder<TModel>
+public interface IAutoFormPropertyConfigurationBuilder<TModel>
 {
-    AutoFormGroupConfiguration AddSubgroup(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder<TModel>> action);
+    AutoFormGroupConfiguration<TModel> AddSubgroup(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action);
 
-    IAutoTablePropertyConfiguration AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression,
-                                                         IAutoTablePropertyConfiguration propertyConfiguration);
+    IAutoFormPropertyConfiguration<TModel> AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression,
+                                                                IAutoFormPropertyConfiguration<TModel> propertyConfiguration);
 }

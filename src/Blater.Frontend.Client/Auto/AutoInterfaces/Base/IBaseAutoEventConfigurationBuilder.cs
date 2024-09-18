@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Components;
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Base;
 
 public interface IBaseAutoEventConfigurationBuilder<out TPropertyType, out TResponseType> 
-    where TResponseType : BaseAutoPropertyConfiguration<TPropertyType>
+    where TResponseType : IBaseAutoPropertyConfiguration
 {
     TResponseType AddOnValueChanged(Action<TPropertyType> onValueChanged);
-    TResponseType AddOnClick(EventCallback<EventArgs> onClick);
+    TResponseType AddOnClick(Action onClick);
 }

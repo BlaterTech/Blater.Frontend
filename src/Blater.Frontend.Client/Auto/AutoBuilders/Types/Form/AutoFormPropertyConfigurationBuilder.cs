@@ -9,10 +9,10 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
 
 public class AutoFormPropertyConfigurationBuilder<TModel>(
     AutoComponentDisplayType displayType,
-    AutoFormGroupConfiguration configuration) :
-    IAutoFormMemberConfigurationBuilder<TModel>
+    AutoFormGroupConfiguration<TModel> configuration) :
+    IAutoFormPropertyConfigurationBuilder<TModel>
 {
-    public AutoFormGroupConfiguration AddSubgroup(AutoFormGroupConfiguration groupConfiguration, Action<IAutoFormMemberConfigurationBuilder<TModel>> action)
+    public AutoFormGroupConfiguration<TModel> AddSubgroup(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
     {
         if (!configuration.SubGroups.TryGetValue(displayType, out var value))
         {
@@ -39,8 +39,8 @@ public class AutoFormPropertyConfigurationBuilder<TModel>(
         return groupConfiguration;
     }
 
-    public IAutoTablePropertyConfiguration AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression,
-                                                                IAutoTablePropertyConfiguration propertyConfiguration)
+    public IAutoFormPropertyConfiguration<TModel> AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression,
+                                                                       IAutoFormPropertyConfiguration<TModel> propertyConfiguration)
     {
         var modelType = typeof(TModel);
         var propType = typeof(TProperty);

@@ -5,9 +5,9 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Details;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details;
 
-public class AutoDetailsPropertyConfigurationBuilder<TModel>(AutoDetailsGroupConfiguration configuration) : IAutoDetailsMemberConfigurationBuilder<TModel>
+public class AutoDetailsPropertyConfigurationBuilder<TModel>(AutoDetailsGroupConfiguration<TModel> configuration) : IAutoDetailsMemberConfigurationBuilder<TModel>
 {
-    public IAutoDetailsPropertyConfiguration AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, IAutoDetailsPropertyConfiguration propertyConfiguration)
+    public IAutoDetailsPropertyConfiguration<TModel> AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, IAutoDetailsPropertyConfiguration<TModel> propertyConfiguration)
     {
         var modelType = typeof(TModel);
         var propType = typeof(TPropertyType);

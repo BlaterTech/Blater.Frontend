@@ -21,13 +21,13 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
     private int _maxValue;
     private int _currentStep = 0;
 
-    private List<AutoFormTimelineStepConfiguration> Steps
+    private List<AutoFormTimelineStepConfiguration<T>> Steps
         => FormTimelineConfiguration
           .Steps
           .GetHasFlagValue(DisplayType | AutoComponentDisplayType.FormTimeline)
            ?? [];
 
-    private AutoFormTimelineConfiguration FormTimelineConfiguration { get; set; } = default!;
+    private AutoFormTimelineConfiguration<T> FormTimelineConfiguration { get; set; } = default!;
 
     protected override void LoadModelConfig()
     {

@@ -5,7 +5,7 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details;
 
 public class AutoDetailsConfigurationBuilder<TModel> : IAutoDetailsConfigurationBuilder<TModel>
 {
-    private readonly AutoDetailsConfiguration _configuration;
+    private readonly AutoDetailsConfiguration<TModel> _configuration;
 
     public AutoDetailsConfigurationBuilder(object instance)
     {
@@ -19,7 +19,7 @@ public class AutoDetailsConfigurationBuilder<TModel> : IAutoDetailsConfiguration
         }
     }
 
-    public AutoDetailsGroupConfiguration AddGroup(AutoDetailsGroupConfiguration detailsGroupConfiguration, Action<IAutoDetailsMemberConfigurationBuilder<TModel>> action)
+    public AutoDetailsGroupConfiguration<TModel> AddGroup(AutoDetailsGroupConfiguration<TModel> detailsGroupConfiguration, Action<IAutoDetailsMemberConfigurationBuilder<TModel>> action)
     {
         var index = _configuration.Groups.IndexOf(detailsGroupConfiguration);
         if (index != -1)

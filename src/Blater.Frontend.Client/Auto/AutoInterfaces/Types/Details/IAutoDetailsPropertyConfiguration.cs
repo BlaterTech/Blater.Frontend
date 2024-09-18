@@ -2,7 +2,8 @@
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
 
-public interface IAutoDetailsPropertyConfiguration : IBaseAutoPropertyConfiguration
+public interface IAutoDetailsPropertyConfiguration<TModel> 
+    : IBaseAutoPropertyConfiguration
 {
     
 }

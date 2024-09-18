@@ -4,7 +4,7 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 
-public class AutoTableConfiguration(string title)
+public class AutoTableConfiguration<TModel>(string title)
 {
     public string Title { get; set; } = title;
 
@@ -21,6 +21,6 @@ public class AutoTableConfiguration(string title)
     public Color LoadingProgressColor { get; set; } = Color.Primary;
     
     
-    public List<CustomAutoTableAction> CustomAutoTableActions { get; set; } = [];
-    public List<IAutoTablePropertyConfiguration> Configurations { get; set; } = [];
+    public List<CustomAutoTableAction<TModel>> CustomAutoTableActions { get; set; } = [];
+    public List<IAutoTablePropertyConfiguration<TModel>> Configurations { get; set; } = [];
 }

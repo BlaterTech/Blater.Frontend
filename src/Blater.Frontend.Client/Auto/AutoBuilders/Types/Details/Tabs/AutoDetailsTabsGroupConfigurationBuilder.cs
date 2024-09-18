@@ -3,9 +3,9 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details.Tabs;
 
-public class AutoDetailsTabsGroupConfigurationBuilder<TModel>(AutoDetailsTabsPanelConfiguration configuration) : IAutoDetailsTabsGroupConfigurationBuilder<TModel>
+public class AutoDetailsTabsGroupConfigurationBuilder<TModel>(AutoDetailsTabsPanelConfiguration<TModel> configuration) : IAutoDetailsTabsGroupConfigurationBuilder<TModel>
 {
-    public AutoDetailsTabsGroupConfiguration AddGroup(AutoDetailsTabsGroupConfiguration groupConfiguration, Action<IAutoDetailsTabsMemberConfigurationBuilder<TModel>> memberConfiguration)
+    public AutoDetailsTabsGroupConfiguration<TModel> AddGroup(AutoDetailsTabsGroupConfiguration<TModel> groupConfiguration, Action<IAutoDetailsTabsPropertyConfigurationBuilder<TModel>> memberConfiguration)
     {
         var index = configuration.GroupConfigurations.IndexOf(groupConfiguration);
         if (index != -1)

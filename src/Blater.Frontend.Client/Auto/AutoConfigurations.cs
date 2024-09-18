@@ -58,37 +58,17 @@ public class AutoConfigurations
         {
             var instance = ActivatorUtilities.CreateInstance(_serviceProvider, modelType);
 
-            ConfigureModel(instance, modelType, typeof(IAutoFormConfiguration), typeof(AutoFormConfigurationBuilder));
-            ConfigureModel(instance, modelType, typeof(IAutoFormTimelineConfiguration), typeof(AutoFormTimelineConfigurationBuilder));
-            ConfigureModel(instance, modelType, typeof(IAutoDetailsConfiguration), typeof(AutoDetailsConfigurationBuilder));
-            ConfigureModel(instance, modelType, typeof(IAutoDetailsTabsConfiguration), typeof(AutoDetailsTabsConfigurationBuilder));
-            ConfigureModel(instance, modelType, typeof(IAutoTableConfiguration), typeof(AutoTableConfigurationBuilder));
+            ConfigureGenericModel(instance, modelType, typeof(IAutoFormConfiguration<>), typeof(AutoFormConfigurationBuilder<>));
+            ConfigureGenericModel(instance, modelType, typeof(IAutoFormTimelineConfiguration<>), typeof(AutoFormTimelineConfigurationBuilder<>));
+            ConfigureGenericModel(instance, modelType, typeof(IAutoDetailsConfiguration<>), typeof(AutoDetailsConfigurationBuilder<>));
+            ConfigureGenericModel(instance, modelType, typeof(IAutoDetailsTabsConfiguration<>), typeof(AutoDetailsTabsConfigurationBuilder<>));
+            ConfigureGenericModel(instance, modelType, typeof(IAutoTableConfiguration<>), typeof(AutoTableConfigurationBuilder<>));
             ConfigureGenericModel(instance, modelType, typeof(IAutoValidatorConfiguration<>), typeof(AutoValidatorConfigurationBuilder<>));
 
             Configurations.Add(modelType, instance);
         }
 
         ModelsChanged?.Invoke();
-    }
-
-    private static void ConfigureModel(object instance, Type modelType, Type configurationType, Type builderType)
-    {
-        if (!modelType.IsAssignableTo(configurationType))
-        {
-            Log.Information("ModelType {ModelType} is not AssignableTo {ConfigurationType}", modelType.Name, configurationType.Name);
-            return;
-        }
-
-        var method = modelType.GetMethods().FirstOrDefault(x => x.Name.StartsWith("Configure"));
-        if (method == null)
-        {
-            Log.Information("Method Configure not found in BuilderType {BuilderType}", builderType.Name);
-            throw new InvalidOperationException($"Method Configure not found in BuilderType {builderType.Name}");
-        }
-
-        var builder = Activator.CreateInstance(builderType, modelType, instance);
-        
-        method.Invoke(instance, [builder]);
     }
     
     private static void ConfigureGenericModel(object instance, Type modelType, Type configurationType, Type builderType)
@@ -101,7 +81,7 @@ public class AutoConfigurations
         }
 
         var genericBuilderType = builderType.MakeGenericType(modelType);
-        var method = modelType.GetMethod("Configure", [genericBuilderType]);
+        var method = modelType.GetMethods().FirstOrDefault(x => x.Name.StartsWith("Configure"));
         if (method == null)
         {
             Log.Information("Method Configure not found in BuilderType {BuilderType}", builderType.Name);

@@ -4,5 +4,5 @@ namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
 
 public interface IAutoDetailsConfigurationBuilder<TModel>
 {
-    AutoDetailsGroupConfiguration AddGroup(AutoDetailsGroupConfiguration detailsGroupConfiguration, Action<IAutoDetailsMemberConfigurationBuilder<TModel>> action);
+    AutoDetailsGroupConfiguration<TModel> AddGroup(AutoDetailsGroupConfiguration<TModel> detailsGroupConfiguration, Action<IAutoDetailsMemberConfigurationBuilder<TModel>> action);
 }
