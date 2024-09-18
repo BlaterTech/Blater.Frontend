@@ -5,5 +5,6 @@ namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 
 public interface IAutoTableConfigurationBuilder<TModel>
 {
-    AutoTablePropertyConfiguration<TPropertyType> AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TPropertyType> propertyConfiguration);
+    AutoTablePropertyConfiguration<TPropertyType> AddMemberOnly<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TPropertyType> propertyConfiguration);
+    IAutoTableEventConfigurationBuilder<TPropertyType> AddMemberWithEvent<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TPropertyType> propertyConfiguration);
 }

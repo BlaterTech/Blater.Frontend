@@ -4,5 +4,7 @@ namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 
 public interface IAutoTablePropertyConfiguration : IBaseAutoPropertyConfiguration
 {
-    
+    public bool DisableColumn { get; set; }
+    public bool DisableFilter { get; set; }
+    public bool DisableSortBy { get; set; }
 }

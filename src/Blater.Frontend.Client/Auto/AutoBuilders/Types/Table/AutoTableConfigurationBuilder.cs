@@ -22,7 +22,21 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
         }
     }
 
-    public AutoTablePropertyConfiguration<TPropertyType> AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TPropertyType> propertyConfiguration)
+    public AutoTablePropertyConfiguration<TPropertyType> AddMemberOnly<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TPropertyType> propertyConfiguration)
+    {
+        AddMember(expression, propertyConfiguration);
+
+        return propertyConfiguration;
+    }
+    
+    public IAutoTableEventConfigurationBuilder<TPropertyType> AddMemberWithEvent<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TPropertyType> propertyConfiguration)
+    {
+        AddMember(expression, propertyConfiguration);
+
+        return new AutoTableEventConfigurationBuilder<TPropertyType>(propertyConfiguration);
+    }
+    
+    private void AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TPropertyType> propertyConfiguration)
     {
         var modelType = typeof(TModel);
         var propType = typeof(TPropertyType);
@@ -44,7 +58,5 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
             propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultComponentForType();
             _configuration.Configurations.Add(propertyConfiguration);
         }
-
-        return propertyConfiguration;
     }
 }
