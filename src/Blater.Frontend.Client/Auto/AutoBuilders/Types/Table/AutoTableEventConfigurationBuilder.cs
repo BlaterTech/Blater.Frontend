@@ -4,6 +4,9 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
 
-public class AutoTableEventConfigurationBuilder<TModel, TPropertyType>(AutoTablePropertyConfiguration<TModel, TPropertyType> configuration) : BaseAutoEventConfigurationBuilder<TPropertyType, AutoTablePropertyConfiguration<TModel, TPropertyType>>(configuration), IAutoTableEventConfigurationBuilder<TModel, TPropertyType>
+public class AutoTableEventConfigurationBuilder<TModel, TPropertyType>(
+    AutoTablePropertyConfiguration<TModel, TPropertyType> configuration) 
+    : BaseAutoEventConfigurationBuilder<TPropertyType, AutoTablePropertyConfiguration<TModel, TPropertyType>>(configuration), 
+      IAutoTableEventConfigurationBuilder<TModel, TPropertyType>
 {
 }

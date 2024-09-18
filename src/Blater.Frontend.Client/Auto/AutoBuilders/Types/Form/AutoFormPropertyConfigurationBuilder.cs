@@ -39,7 +39,23 @@ public class AutoFormPropertyConfigurationBuilder<TModel>(
         return groupConfiguration;
     }
 
-    public IAutoFormPropertyConfiguration<TModel> AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression,
+    public IAutoFormPropertyConfiguration<TModel> AddMemberOnly<TProperty>(Expression<Func<TModel, TProperty>> expression,
+                                                                       AutoFormPropertyConfiguration<TModel, TProperty> propertyConfiguration)
+    {
+        AddMember(expression, propertyConfiguration);
+
+        return propertyConfiguration;
+    }
+    
+    public IAutoFormEventConfigurationBuilder<TModel, TProperty> AddMemberWithEvent<TProperty>(Expression<Func<TModel, TProperty>> expression,
+                                                                                               AutoFormPropertyConfiguration<TModel, TProperty> propertyConfiguration)
+    {
+        AddMember(expression, propertyConfiguration);
+
+        return new AutoFormEventConfigurationBuilder<TModel, TProperty>(propertyConfiguration);
+    }
+    
+    private void AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression,
                                                                        AutoFormPropertyConfiguration<TModel, TProperty> propertyConfiguration)
     {
         var propertyInfo = expression.GetPropertyInfo();
@@ -55,7 +71,5 @@ public class AutoFormPropertyConfigurationBuilder<TModel>(
             propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultAutoFormComponentForType();
             configuration.ComponentConfigurations.Add(propertyConfiguration);
         }
-
-        return propertyConfiguration;
     }
 }

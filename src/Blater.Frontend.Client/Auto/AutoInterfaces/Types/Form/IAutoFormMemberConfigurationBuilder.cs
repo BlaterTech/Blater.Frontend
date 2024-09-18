@@ -7,6 +7,9 @@ public interface IAutoFormPropertyConfigurationBuilder<TModel>
 {
     AutoFormGroupConfiguration<TModel> AddSubgroup(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action);
 
-    IAutoFormPropertyConfiguration<TModel> AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression,
-                                                                AutoFormPropertyConfiguration<TModel, TProperty> propertyConfiguration);
+    IAutoFormPropertyConfiguration<TModel> AddMemberOnly<TProperty>(Expression<Func<TModel, TProperty>> expression,
+                                                                    AutoFormPropertyConfiguration<TModel, TProperty> propertyConfiguration);
+
+    IAutoFormEventConfigurationBuilder<TModel, TProperty> AddMemberWithEvent<TProperty>(Expression<Func<TModel, TProperty>> expression,
+                                                                                        AutoFormPropertyConfiguration<TModel, TProperty> propertyConfiguration);
 }
