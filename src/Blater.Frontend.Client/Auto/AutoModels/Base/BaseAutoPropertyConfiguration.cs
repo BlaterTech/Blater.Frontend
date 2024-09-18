@@ -16,6 +16,7 @@ public abstract class BaseAutoPropertyConfiguration<TPropertyValue> :
     public string ExtraClass { get; set; } = string.Empty;
     public string ExtraStyle { get; set; } = string.Empty;
     public string LocalizationId { get; set; } = string.Empty;
+    //todo: localizationId é sempre prioridade dps o labelname
     public string LabelName { get; set; } = string.Empty;
     public string Placeholder { get; set; } = string.Empty;
     public string HelpMessage { get; set; } = string.Empty;

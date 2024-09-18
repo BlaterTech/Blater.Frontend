@@ -119,8 +119,15 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         }
     }
 
-    protected void CreateGenericComponent(EasyRenderTreeBuilder builder, IBaseAutoPropertyConfiguration propertyConfiguration)
+    protected void CreateGenericComponent(
+        EasyRenderTreeBuilder builder,
+        object propertyConfigurationInstance)
     {
+        if (propertyConfigurationInstance is not IBaseAutoPropertyConfiguration propertyConfiguration)
+        {
+            throw new Exception("");
+        }
+        
         var componentBuilder = AutoComponentsBuilders.GetComponentBuilder(propertyConfiguration);
         if (componentBuilder is null)
         {
@@ -167,11 +174,10 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Disabled), propertyConfiguration.Disable);
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.IsReadOnly), propertyConfiguration.IsReadOnly);
 
-            
-            if (propertyConfiguration is IBaseAutoPropertyConfigurationValue<object> autoPropertyConfig)
-            {
-                componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), autoPropertyConfig.OnValueChanged);
-            }
+            var propConfigurationType = propertyConfigurationInstance.GetType();
+            var valueChangedProp = propConfigurationType.GetProperty(nameof(IBaseAutoPropertyConfigurationValue<string>.OnValueChanged));
+            var valueChangedValue = valueChangedProp?.GetValue(propertyConfigurationInstance);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), valueChangedValue);
             
             //componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), propertyConfiguration.OnValueChanged);
         }

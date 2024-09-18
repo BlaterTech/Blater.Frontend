@@ -9,7 +9,6 @@ using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form.Timeline;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
-using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Validator;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;
@@ -77,15 +76,18 @@ public class AutoConfigurations
             return;
         }
 
-        var configurationName = configurationType.Name.Replace("IAuto", "").Replace("Configuration", "");
+        var configurationName = configurationType
+                               .Name
+                               .Replace("IAuto", "")
+                               .Replace("Configuration", "")
+                               .Replace("`1", "");
         var methodName = $"Configure{configurationName}";
-        var method = modelType.GetMethod(methodName, [builderType]);
+        var method = modelType.GetMethod(methodName);
         if (method == null) return;
-            
+
         var genericBuilderType = builderType.MakeGenericType(modelType);
         var builder = Activator.CreateInstance(genericBuilderType, instance);
-            
+
         method.Invoke(instance, [builder]);
     }
-
 }

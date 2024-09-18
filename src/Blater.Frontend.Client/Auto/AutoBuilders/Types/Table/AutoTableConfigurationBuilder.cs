@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoExtensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
@@ -37,14 +38,7 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
     
     private void AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TModel, TPropertyType> propertyConfiguration)
     {
-        var modelType = typeof(TModel);
-        var propType = typeof(TPropertyType);
-        var propertyInfo = modelType.GetProperty(propType.Name);
-
-        if (propertyInfo == null)
-        {
-            throw new Exception($"Property {propType.Name} not found in {modelType.Name}");
-        }
+        var propertyInfo = expression.GetPropertyInfo();
         
         var index = _configuration.Configurations.IndexOf(propertyConfiguration);
         if (index != -1)

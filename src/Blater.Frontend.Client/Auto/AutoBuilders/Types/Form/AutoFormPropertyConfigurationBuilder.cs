@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoExtensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
@@ -41,13 +42,7 @@ public class AutoFormPropertyConfigurationBuilder<TModel>(
     public IAutoFormPropertyConfiguration<TModel> AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression,
                                                                        AutoFormPropertyConfiguration<TModel, TProperty> propertyConfiguration)
     {
-        var modelType = typeof(TModel);
-        var propType = typeof(TProperty);
-        var propertyInfo = modelType.GetProperty(propType.Name);
-        if (propertyInfo == null)
-        {
-            throw new Exception($"Property {propType.Name} not found in {modelType.Name}");
-        }
+        var propertyInfo = expression.GetPropertyInfo();
 
         var index = configuration.ComponentConfigurations.IndexOf(propertyConfiguration);
         if (index != -1)

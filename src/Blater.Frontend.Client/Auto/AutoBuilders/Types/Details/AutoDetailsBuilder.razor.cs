@@ -30,7 +30,7 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
     {
         var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
 
-        if (isTable)
+        /*if (isTable)
         {
             easyRenderTreeBuilder
                        .OpenElement("tr")
@@ -79,6 +79,6 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
         else
         {
             CreateGenericComponent(easyRenderTreeBuilder, propertyConfiguration);
-        }
+        }*/
     };
 }
