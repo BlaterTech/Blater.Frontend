@@ -4,13 +4,12 @@ using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 using Blater.Frontend.Client.Enumerations;
-using Blater.Models.Bases;
+using Blater.Frontend.Client.Models.Bases;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Logging;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
-public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDataModel
+public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseFrontendModel
 {
     public AutoTableBuilder()
     {
@@ -20,19 +19,19 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
 
         OnEditChanged = EventCallback.Factory.Create<T>(this, item => { NavigationService.NavigateTo($"{typeof(T).Name}/Edit/{item.Id}"); });
 
-        /*OnDisabledChanged = EventCallback.Factory.Create<T>(this, async item =>
+        OnDisabledChanged = EventCallback.Factory.Create<T>(this, item =>
         {
-            item.Enabled = !item.Enabled;
+            /*item.Enabled = !item.Enabled;
             var updated = await DataRepository.Update(item);
             if (updated.HandleErrors(out var errors, out _))
             {
                 Snackbar.Add(LocalizationService.GetValue($"BlaterTable-OnDisabledChanged-{_typeName}-Error"), Severity.Error);
                 Logger.LogError("Error === Event(OnDisabledChanged), Message: {Errors}", string.Join(", ", errors.Select(x => x.Message).ToList()));
                 return;
-            }
+            }*/
 
             Snackbar.Add(LocalizationService.GetValue($"BlaterTable-OnDisabledChanged-{_typeName}-Success"), Severity.Success);
-        });*/
+        });
 
         OnCheckboxChanged = EventCallback.Factory.Create<(T model, bool value)>(this, item => { });
     }
@@ -82,9 +81,9 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
 
     public override AutoComponentDisplayType DisplayType { get; set; } = AutoComponentDisplayType.Table;
     public override bool HasLabel { get; set; }
-    private AutoTableConfiguration TableConfiguration { get; set; } = default!;
+    private AutoTableConfiguration<T> TableConfiguration { get; set; } = default!;
 
-    private List<IAutoTablePropertyConfiguration> ColumnConfigurations
+    private List<IAutoTablePropertyConfiguration<T>> ColumnConfigurations
         => TableConfiguration
           .Configurations
           .Where(x => !x.DisableColumn)

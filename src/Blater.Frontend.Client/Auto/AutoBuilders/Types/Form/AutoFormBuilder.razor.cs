@@ -7,14 +7,14 @@ using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Validator;
 using Blater.Frontend.Client.EasyRenderTree;
-using Blater.Models.Bases;
+using Blater.Frontend.Client.Models.Bases;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
 
-public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDataModel
+public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseFrontendModel
 {
     [Parameter]
     public EventCallback<T> AfterUpsert { get; set; }

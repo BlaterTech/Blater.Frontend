@@ -3,13 +3,13 @@ using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form.Timeline;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form.Timeline;
 using Blater.Frontend.Client.EasyRenderTree;
-using Blater.Models.Bases;
+using Blater.Frontend.Client.Models.Bases;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form.Timeline;
 
-public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : BaseDataModel
+public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : BaseFrontendModel
 {
     [Parameter]
     public EventCallback<int> OnCurrentStepChanged { get; set; }

@@ -1,5 +1,4 @@
 ﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
-using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Microsoft.AspNetCore.Components;
 

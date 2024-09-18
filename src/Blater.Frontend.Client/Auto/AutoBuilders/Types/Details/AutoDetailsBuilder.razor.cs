@@ -1,16 +1,15 @@
 ﻿using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
-using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Details;
 using Blater.Frontend.Client.EasyRenderTree;
-using Blater.Models.Bases;
+using Blater.Frontend.Client.Models.Bases;
 using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details;
 
-public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseDataModel
+public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseFrontendModel
 {
     [Parameter]
     public bool Loading { get; set; }

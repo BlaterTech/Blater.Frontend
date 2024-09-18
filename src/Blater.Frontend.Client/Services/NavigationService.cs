@@ -1,12 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using Blater.Frontend.Client.Attributes;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Models;
-using Blater.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using MudBlazor;
 using Serilog;
 
 namespace Blater.Frontend.Client.Services;

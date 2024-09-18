@@ -1,5 +1,4 @@
 ﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
-using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form;

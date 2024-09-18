@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;

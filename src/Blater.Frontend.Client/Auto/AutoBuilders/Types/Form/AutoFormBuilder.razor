@@ -1,5 +1,5 @@
 ﻿@inherits BaseAutoComponentBuilder<T>
-@typeparam T where T : BaseDataModel
+@typeparam T where T : Blater.Frontend.Client.Models.Bases.BaseFrontendModel
 
 <BlaterCascadingValue
     T="T"
@@ -8,7 +8,7 @@
    {
        <MudCard Elevation="0" Class="pa-4 mb-2 mud-height-full">
            <MudText Typo="Typo.h5">
-               @ComponentLocalizationService.GetTitleValue(Configuration.Title)
+               @ComponentLocalizationService.GetTitleValue(Configuration!.Title)
            </MudText>
        </MudCard>
    }

@@ -1,21 +1,18 @@
-﻿using System.Reflection;
-using Blater.Extensions;
+﻿using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoExtensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
-using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.EasyRenderTree;
-using Blater.Frontend.Client.Extensions;
 using Blater.Frontend.Client.Interfaces;
-using Blater.Models.Bases;
+using Blater.Frontend.Client.Models.Bases;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
-public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : BaseDataModel
+public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : BaseFrontendModel
 {
     #region Injections
 
@@ -122,9 +119,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         }
     }
 
-    protected void CreateGenericComponent<TPropertyValue>(EasyRenderTreeBuilder builder, TPropertyValue propertyConfiguration)
-        where TPropertyValue :
-        IBaseAutoPropertyConfiguration
+    protected void CreateGenericComponent(EasyRenderTreeBuilder builder, IBaseAutoPropertyConfiguration propertyConfiguration)
     {
         var componentBuilder = AutoComponentsBuilders.GetComponentBuilder(propertyConfiguration);
         if (componentBuilder is null)
@@ -172,7 +167,13 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Disabled), propertyConfiguration.Disable);
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.IsReadOnly), propertyConfiguration.IsReadOnly);
 
-            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), propertyConfiguration.OnValueChanged);
+            
+            if (propertyConfiguration is IBaseAutoPropertyConfigurationValue<object> autoPropertyConfig)
+            {
+                componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), autoPropertyConfig.OnValueChanged);
+            }
+            
+            //componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), propertyConfiguration.OnValueChanged);
         }
 
         componentRenderBuilder.Close();
