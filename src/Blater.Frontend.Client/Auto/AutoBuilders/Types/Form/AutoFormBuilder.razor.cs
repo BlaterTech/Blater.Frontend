@@ -40,10 +40,10 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
     public override bool HasLabel { get; set; } = true;
 
     MudForm _form = null!;
-    private AutoAvatarModelConfiguration<T>? AvatarModelConfiguration { get; set; }
+    private AutoAvatarModelConfiguration? AvatarModelConfiguration { get; set; }
     private IAutoValidatorConfiguration<T>? ModelValidator { get; set; }
-    private AutoGridConfiguration<T>? GridConfiguration { get; set; }
-    private AutoFormActionConfiguration<T> ActionConfiguration { get; set; } = new();
+    private AutoGridConfiguration? GridConfiguration { get; set; }
+    private AutoFormActionConfiguration ActionConfiguration { get; set; } = new();
 
     private bool IsValid { get; set; }
 
@@ -81,12 +81,12 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
         ActionConfiguration = Configuration
                              .ActionConfiguration
                              .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form)
-                              ?? new AutoFormActionConfiguration<T>();
+                              ?? new AutoFormActionConfiguration();
 
         GridConfiguration = Configuration
                            .GridConfigurations
                            .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form)
-                            ?? new AutoGridConfiguration<T>();
+                            ?? new AutoGridConfiguration();
 
         ModelValidator = autoValidator;
     }

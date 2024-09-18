@@ -4,5 +4,5 @@ public class AutoFormTimelineStepConfiguration<TModel>
 {
     public int Key { get; set; }
     public required string Value { get; set; }
-    public AutoFormConfiguration<TModel> AutoFormConfiguration { get; } = new("");
+    public AutoFormConfiguration<TModel> AutoFormConfiguration { get; set; } = new("");
 }

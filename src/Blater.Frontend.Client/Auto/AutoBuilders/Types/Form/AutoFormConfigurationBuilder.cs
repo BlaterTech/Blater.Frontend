@@ -24,13 +24,13 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
 
     #region Avatar
 
-    public AutoAvatarModelConfiguration<TModel> AddGroupAvatar(AutoAvatarModelConfiguration<TModel> avatarConfiguration)
+    public AutoAvatarModelConfiguration AddGroupAvatar(AutoAvatarModelConfiguration avatarConfiguration)
         => AddGroupAvatar(AutoComponentDisplayType.Form, avatarConfiguration);
 
-    public AutoAvatarModelConfiguration<TModel> AddGroupAvatarCreateOnly(AutoAvatarModelConfiguration<TModel> avatarConfiguration)
+    public AutoAvatarModelConfiguration AddGroupAvatarCreateOnly(AutoAvatarModelConfiguration avatarConfiguration)
         => AddGroupAvatar(AutoComponentDisplayType.FormCreate, avatarConfiguration);
 
-    public AutoAvatarModelConfiguration<TModel> AddGroupAvatarEditOnly(AutoAvatarModelConfiguration<TModel> avatarConfiguration)
+    public AutoAvatarModelConfiguration AddGroupAvatarEditOnly(AutoAvatarModelConfiguration avatarConfiguration)
         => AddGroupAvatar(AutoComponentDisplayType.FormEdit, avatarConfiguration);
 
     #endregion
@@ -57,13 +57,13 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
 
     #region Actions
 
-    public AutoFormActionConfiguration<TModel> Actions(AutoFormActionConfiguration<TModel> actionConfiguration)
+    public AutoFormActionConfiguration Actions(AutoFormActionConfiguration actionConfiguration)
         => Actions(AutoComponentDisplayType.Form, actionConfiguration);
 
-    public AutoFormActionConfiguration<TModel> ActionsCreateOnly(AutoFormActionConfiguration<TModel> actionConfiguration)
+    public AutoFormActionConfiguration ActionsCreateOnly(AutoFormActionConfiguration actionConfiguration)
         => Actions(AutoComponentDisplayType.FormCreate, actionConfiguration);
 
-    public AutoFormActionConfiguration<TModel> ActionsEditOnly(AutoFormActionConfiguration<TModel> actionConfiguration)
+    public AutoFormActionConfiguration ActionsEditOnly(AutoFormActionConfiguration actionConfiguration)
         => Actions(AutoComponentDisplayType.FormEdit, actionConfiguration);
 
     #endregion
@@ -95,7 +95,7 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
         return groupConfiguration;
     }
 
-    private AutoAvatarModelConfiguration<TModel> AddGroupAvatar(AutoComponentDisplayType displayType, AutoAvatarModelConfiguration<TModel> avatarConfiguration)
+    private AutoAvatarModelConfiguration AddGroupAvatar(AutoComponentDisplayType displayType, AutoAvatarModelConfiguration avatarConfiguration)
     {
         if (_configuration.AvatarConfiguration.TryGetValue(displayType, out var value))
         {
@@ -110,7 +110,7 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
         return value;
     }
 
-    private AutoFormActionConfiguration<TModel> Actions(AutoComponentDisplayType displayType, AutoFormActionConfiguration<TModel> actionConfiguration)
+    private AutoFormActionConfiguration Actions(AutoComponentDisplayType displayType, AutoFormActionConfiguration actionConfiguration)
     {
         if (_configuration.ActionConfiguration.TryGetValue(displayType, out var value))
         {

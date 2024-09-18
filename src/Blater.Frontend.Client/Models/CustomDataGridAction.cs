@@ -6,11 +6,11 @@ namespace Blater.Frontend.Client.Models;
 
 public class CustomAutoTableAction<TModel>
 {
-    public EventCallback<MouseEventArgs> OnValueChanged { get; }
+    public EventCallback<MouseEventArgs> OnValueChanged { get; set; }
     
-    public Color? Color { get; }
+    public Color? Color { get; set; }
     
-    public string Icon { get; } = null!;
+    public string Icon { get; set; } = null!;
     
     public string Tooltip { get; set; } = null!;
 }

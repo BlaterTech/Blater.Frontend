@@ -5,6 +5,6 @@ namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 
 public interface IAutoTableConfiguration<TModel>
 {
-    AutoTableConfiguration<TModel> TableConfiguration { get; }
+    AutoTableConfiguration<TModel> TableConfiguration { get; set; }
     void ConfigureTable(AutoTableConfigurationBuilder<TModel> builder);
 }

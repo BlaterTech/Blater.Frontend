@@ -1,18 +1,14 @@
 ﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
+using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
-public class AutoFormGroupConfiguration<TModel>
+public class AutoFormGroupConfiguration<TModel>(string title) : BaseAutoGroupConfiguration
 {
-    public AutoFormGroupConfiguration(string title)
-    {
-        Title = title;
-    }
-    
-    public string Title { get; }
-    
-    public List<AutoGridConfiguration<TModel>> GridConfigurations { get; set; } = [];
-    public List<IAutoFormPropertyConfiguration<TModel>> ComponentConfigurations { get; } = [];
-    public Dictionary<AutoComponentDisplayType, List<AutoFormGroupConfiguration<TModel>>> SubGroups { get; } = [];
+    public string Title { get; set; } = title;
+
+    public List<AutoGridConfiguration> GridConfigurations { get; set; } = [];
+    public List<IAutoFormPropertyConfiguration<TModel>> ComponentConfigurations { get; set; } = [];
+    public Dictionary<AutoComponentDisplayType, List<AutoFormGroupConfiguration<TModel>>> SubGroups { get; set; } = [];
 }

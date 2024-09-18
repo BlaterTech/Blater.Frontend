@@ -3,6 +3,6 @@
 [AttributeUsage(AttributeTargets.All)]
 public class RequiredAccessAttribute(List<string> userRoles, List<string> userPermissions) : Attribute
 {
-    public List<string> UserRoles { get; } = userRoles;
-    public List<string> UserPermissions { get; } = userPermissions;
+    public List<string> UserRoles { get; set; } = userRoles;
+    public List<string> UserPermissions { get; set; } = userPermissions;
 }

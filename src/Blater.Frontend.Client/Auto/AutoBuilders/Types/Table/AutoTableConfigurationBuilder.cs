@@ -48,6 +48,7 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
         else
         {
             propertyConfiguration.Property = propertyInfo;
+            propertyConfiguration.LocalizationId = $"Blater-AutoTable-{typeof(TModel).Name}-Member-{propertyInfo.Name}";
             propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultComponentForType();
             _configuration.Configurations.Add(propertyConfiguration);
         }

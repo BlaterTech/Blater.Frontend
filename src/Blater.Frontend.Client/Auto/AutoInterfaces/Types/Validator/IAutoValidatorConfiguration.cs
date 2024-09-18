@@ -14,5 +14,5 @@ public interface IAutoValidatorConfiguration<T>
         return result.IsValid ? [] : result.Errors.Select(e => e.ErrorMessage);
     };
     
-    InlineValidator<T> Validator { get; }
+    InlineValidator<T> Validator { get; set; }
 }

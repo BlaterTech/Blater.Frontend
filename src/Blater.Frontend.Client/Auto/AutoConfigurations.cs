@@ -33,7 +33,7 @@ public class AutoConfigurations
     /// <summary>
     ///     Parent Type is the key, and the value is the configuration for the child type.
     /// </summary>
-    public Dictionary<Type, object> Configurations { get; } = new();
+    public Dictionary<Type, object> Configurations { get; set; } = new();
 
     public static event Action? ModelsChanged;
 

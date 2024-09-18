@@ -68,6 +68,7 @@ public class AutoFormPropertyConfigurationBuilder<TModel>(
         else
         {
             propertyConfiguration.Property = propertyInfo;
+            propertyConfiguration.LocalizationId = $"Blater-AutoForm-{typeof(TModel).Name}-Member-{propertyInfo.Name}";
             propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultAutoFormComponentForType();
             configuration.ComponentConfigurations.Add(propertyConfiguration);
         }
