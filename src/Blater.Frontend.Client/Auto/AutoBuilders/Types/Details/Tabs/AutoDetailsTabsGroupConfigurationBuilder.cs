@@ -5,6 +5,12 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details.Tabs;
 
 public class AutoDetailsTabsGroupConfigurationBuilder<TModel>(AutoDetailsTabsPanelConfiguration<TModel> configuration) : IAutoDetailsTabsGroupConfigurationBuilder<TModel>
 {
+    public AutoDetailsTabsGroupConfiguration<TModel> AddGroup(string title, Action<IAutoDetailsTabsPropertyConfigurationBuilder<TModel>> memberConfiguration)
+        => AddGroup(new AutoDetailsTabsGroupConfiguration<TModel>(title), memberConfiguration);
+
+    public AutoDetailsTabsGroupConfiguration<TModel> AddGroup(string title, string route, Action<IAutoDetailsTabsPropertyConfigurationBuilder<TModel>> memberConfiguration)
+        => AddGroup(new AutoDetailsTabsGroupConfiguration<TModel>(title, route), memberConfiguration);
+
     public AutoDetailsTabsGroupConfiguration<TModel> AddGroup(AutoDetailsTabsGroupConfiguration<TModel> groupConfiguration, Action<IAutoDetailsTabsPropertyConfigurationBuilder<TModel>> memberConfiguration)
     {
         var index = configuration.GroupConfigurations.IndexOf(groupConfiguration);

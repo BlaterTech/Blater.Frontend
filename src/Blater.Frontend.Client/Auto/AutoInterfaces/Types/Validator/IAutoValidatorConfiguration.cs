@@ -1,10 +1,18 @@
-﻿using Blater.Frontend.Client.Auto.AutoBuilders.Types.Valitador;
-using Blater.Frontend.Client.Auto.AutoModels.Types.Validator;
+﻿using FluentValidation;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Validator;
 
 public interface IAutoValidatorConfiguration<T>
 {
-    AutoValidatorConfiguration<T> ValidatorConfiguration { get; }
-    void ConfigureValidations(AutoValidatorConfigurationBuilder<T> configurationBuilder);
+    public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
+    {
+        var result = await Validator
+           .ValidateAsync(ValidationContext<T>
+                             .CreateWithOptions((T)model,
+                                                x => x
+                                                   .IncludeProperties(propertyName)));
+        return result.IsValid ? [] : result.Errors.Select(e => e.ErrorMessage);
+    };
+    
+    InlineValidator<T> Validator { get; }
 }

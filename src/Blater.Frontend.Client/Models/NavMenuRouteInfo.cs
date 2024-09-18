@@ -9,9 +9,9 @@ public class NavMenuRouteInfo
     
     public required string Name { get; init; }
     
-    public string? Route { get; init; }
+    public string? Route { get; }
     
-    public int Priority { get; init; }
+    public int Priority { get; }
     
     public List<string>? UserRoles { get; init; }
     
@@ -21,7 +21,7 @@ public class NavMenuRouteInfo
 
     public bool IsSubMenu => ChildRoutes.Count != 0;
     
-    public Type? ComponentType { get; init; }
+    public Type? ComponentType { get; }
 
     public string? NavMenuParentName { get; set; }
 }

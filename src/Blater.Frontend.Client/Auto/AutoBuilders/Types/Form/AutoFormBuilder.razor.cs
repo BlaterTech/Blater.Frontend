@@ -42,7 +42,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
 
     MudForm _form = null!;
     private AutoAvatarModelConfiguration<T>? AvatarModelConfiguration { get; set; }
-    private ModelValidator<T>? ModelValidator { get; set; }
+    private IAutoValidatorConfiguration<T>? ModelValidator { get; set; }
     private AutoGridConfiguration<T>? GridConfiguration { get; set; }
     private AutoFormActionConfiguration<T> ActionConfiguration { get; set; } = new();
 
@@ -89,10 +89,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
                            .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form)
                             ?? new AutoGridConfiguration<T>();
 
-        ModelValidator = autoValidator
-                        .ValidatorConfiguration
-                        .Validators
-                        .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
+        ModelValidator = autoValidator;
     }
 
     private RenderFragment RenderFormInputs(int breakpointGroupValue) => builder =>

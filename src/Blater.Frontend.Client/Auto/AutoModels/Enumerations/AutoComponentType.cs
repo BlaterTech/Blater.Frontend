@@ -45,5 +45,5 @@ public class AutoComponentType(string name, int value) : BaseAutoComponentTypeEn
     
     public static readonly AutoComponentType AutoMPPT = new(nameof(AutoMPPT), 236);
     public static readonly AutoComponentType AutoLiporProjectStatusEnum = new(nameof(AutoLiporProjectStatusEnum), 237);
-    public override bool HasValueChanged { get; set; } = false;
+    public override bool HasValueChanged => false;
 }

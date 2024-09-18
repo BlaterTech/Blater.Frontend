@@ -19,6 +19,9 @@ public class AutoDetailsConfigurationBuilder<TModel> : IAutoDetailsConfiguration
         }
     }
 
+    public AutoDetailsGroupConfiguration<TModel> AddGroup(string title, Action<IAutoDetailsMemberConfigurationBuilder<TModel>> action)
+        => AddGroup(new AutoDetailsGroupConfiguration<TModel>(title), action);
+
     public AutoDetailsGroupConfiguration<TModel> AddGroup(AutoDetailsGroupConfiguration<TModel> detailsGroupConfiguration, Action<IAutoDetailsMemberConfigurationBuilder<TModel>> action)
     {
         var index = _configuration.Groups.IndexOf(detailsGroupConfiguration);

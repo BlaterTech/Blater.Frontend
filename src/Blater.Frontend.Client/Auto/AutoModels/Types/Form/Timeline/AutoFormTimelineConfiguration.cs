@@ -6,5 +6,5 @@ public class AutoFormTimelineConfiguration<TModel>(string title)
 {
     public string Title { get; set; } = title;
     
-    public Dictionary<AutoComponentDisplayType, List<AutoFormTimelineStepConfiguration<TModel>>> Steps { get; set; } = [];
+    public Dictionary<AutoComponentDisplayType, List<AutoFormTimelineStepConfiguration<TModel>>> Steps { get; } = [];
 }

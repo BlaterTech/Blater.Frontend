@@ -6,21 +6,21 @@ namespace Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 
 public class AutoTableConfiguration<TModel>(string title)
 {
-    public string Title { get; set; } = title;
+    public string Title { get; } = title;
 
-    public bool EnableDefaultAction { get; set; } = true;
-    public bool EnableCreateButton { get; set; } = true;
-    public bool EnableCustomAction { get; set; }
-    public bool EnableFixedHeader { get; set; }
-    public bool EnableFixedFooter { get; set; }
-    public bool EnableMultiSelection { get; set; }
-    public bool EnableSelectOnRowClick { get; set; }
-    public bool EnableSelectionChangeable { get; set; }
-    public bool EnableStriped { get; set; }
+    public bool EnableDefaultAction { get; } = true;
+    public bool EnableCreateButton { get; } = true;
+    public bool EnableCustomAction { get; }
+    public bool EnableFixedHeader { get; }
+    public bool EnableFixedFooter { get; }
+    public bool EnableMultiSelection { get; }
+    public bool EnableSelectOnRowClick { get; }
+    public bool EnableSelectionChangeable { get; }
+    public bool EnableStriped { get; }
 
-    public Color LoadingProgressColor { get; set; } = Color.Primary;
+    public Color LoadingProgressColor { get; } = Color.Primary;
     
     
-    public List<CustomAutoTableAction<TModel>> CustomAutoTableActions { get; set; } = [];
-    public List<IAutoTablePropertyConfiguration<TModel>> Configurations { get; set; } = [];
+    public List<CustomAutoTableAction<TModel>> CustomAutoTableActions { get; } = [];
+    public List<IAutoTablePropertyConfiguration<TModel>> Configurations { get; } = [];
 }

@@ -15,7 +15,7 @@ public class AutoDetailsTabsPanelConfiguration<TModel>
         Icon = icon;
     }
     
-    public string Title { get; init; }
-    public Icons? Icon { get; set; }
-    public List<AutoDetailsTabsGroupConfiguration<TModel>> GroupConfigurations { get; set; } = [];
+    public string Title { get; }
+    public Icons? Icon { get; }
+    public List<AutoDetailsTabsGroupConfiguration<TModel>> GroupConfigurations { get; } = [];
 }

@@ -48,5 +48,5 @@ public class AutoComponentInputType(string name, int value) : BaseAutoComponentT
     
     public static readonly AutoComponentInputType AutoTitle = new(nameof(AutoTitle), 199);
     
-    public override bool HasValueChanged { get; set; } = true;
+    public override bool HasValueChanged => true;
 }

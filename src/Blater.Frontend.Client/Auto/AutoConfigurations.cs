@@ -3,7 +3,6 @@ using Blater.Frontend.Client.Auto.AutoBuilders.Types.Details.Tabs;
 using Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
 using Blater.Frontend.Client.Auto.AutoBuilders.Types.Form.Timeline;
 using Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
-using Blater.Frontend.Client.Auto.AutoBuilders.Types.Valitador;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
@@ -62,14 +61,13 @@ public class AutoConfigurations
             ConfigureGenericModel(instance, modelType, typeof(IAutoDetailsConfiguration<>), typeof(AutoDetailsConfigurationBuilder<>));
             ConfigureGenericModel(instance, modelType, typeof(IAutoDetailsTabsConfiguration<>), typeof(AutoDetailsTabsConfigurationBuilder<>));
             ConfigureGenericModel(instance, modelType, typeof(IAutoTableConfiguration<>), typeof(AutoTableConfigurationBuilder<>));
-            ConfigureGenericModel(instance, modelType, typeof(IAutoValidatorConfiguration<>), typeof(AutoValidatorConfigurationBuilder<>));
 
             Configurations.Add(modelType, instance);
         }
 
         ModelsChanged?.Invoke();
     }
-    
+
     private static void ConfigureGenericModel(object instance, Type modelType, Type configurationType, Type builderType)
     {
         var genericInterface = configurationType.MakeGenericType(modelType);
@@ -79,16 +77,15 @@ public class AutoConfigurations
             return;
         }
 
+        var configurationName = configurationType.Name.Replace("IAuto", "").Replace("Configuration", "");
+        var methodName = $"Configure{configurationName}";
+        var method = modelType.GetMethod(methodName, [builderType]);
+        if (method == null) return;
+            
         var genericBuilderType = builderType.MakeGenericType(modelType);
-        var method = modelType.GetMethods().FirstOrDefault(x => x.Name.StartsWith("Configure"));
-        if (method == null)
-        {
-            Log.Information("Method Configure not found in BuilderType {BuilderType}", builderType.Name);
-            throw new InvalidOperationException($"Method Configure not found in BuilderType {builderType.Name}");
-        }
-        
         var builder = Activator.CreateInstance(genericBuilderType, instance);
-        
+            
         method.Invoke(instance, [builder]);
     }
+
 }

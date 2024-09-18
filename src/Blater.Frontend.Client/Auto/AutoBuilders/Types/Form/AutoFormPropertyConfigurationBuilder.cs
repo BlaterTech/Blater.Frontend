@@ -39,7 +39,7 @@ public class AutoFormPropertyConfigurationBuilder<TModel>(
     }
 
     public IAutoFormPropertyConfiguration<TModel> AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression,
-                                                                       IAutoFormPropertyConfiguration<TModel> propertyConfiguration)
+                                                                       AutoFormPropertyConfiguration<TModel, TProperty> propertyConfiguration)
     {
         var modelType = typeof(TModel);
         var propType = typeof(TProperty);

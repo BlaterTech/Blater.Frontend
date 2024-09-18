@@ -10,9 +10,9 @@ public class AutoFormGroupConfiguration<TModel>
         Title = title;
     }
     
-    public string Title { get; set; }
+    public string Title { get; }
     
     public List<AutoGridConfiguration<TModel>> GridConfigurations { get; set; } = [];
-    public List<IAutoFormPropertyConfiguration<TModel>> ComponentConfigurations { get; set; } = [];
-    public Dictionary<AutoComponentDisplayType, List<AutoFormGroupConfiguration<TModel>>> SubGroups { get; set; } = [];
+    public List<IAutoFormPropertyConfiguration<TModel>> ComponentConfigurations { get; } = [];
+    public Dictionary<AutoComponentDisplayType, List<AutoFormGroupConfiguration<TModel>>> SubGroups { get; } = [];
 }

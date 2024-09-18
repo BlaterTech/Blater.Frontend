@@ -7,7 +7,7 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details.Tabs;
 
 public class AutoDetailsTabsPropertyConfigurationBuilder<TModel>(AutoDetailsTabsGroupConfiguration<TModel> configuration) : IAutoDetailsTabsPropertyConfigurationBuilder<TModel>
 {
-    public IAutoDetailsTabsPropertyConfiguration<TModel> AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, IAutoDetailsTabsPropertyConfiguration<TModel> propertyConfiguration)
+    public IAutoDetailsTabsPropertyConfiguration<TModel> AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoDetailsTabsPropertyConfiguration<TModel, TPropertyType> propertyConfiguration)
     {
         var modelType = typeof(TModel);
         var propType = typeof(TPropertyType);
