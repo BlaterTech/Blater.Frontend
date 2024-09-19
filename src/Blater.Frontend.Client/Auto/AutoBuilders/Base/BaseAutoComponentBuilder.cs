@@ -1,4 +1,5 @@
-﻿using Blater.Extensions;
+﻿using System.Linq.Expressions;
+using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoExtensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
@@ -172,6 +173,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             var valueChangedProp = propConfigurationType.GetProperty(nameof(IBaseAutoPropertyConfigurationValue<string>.OnValueChanged));
             var valueChangedValue = valueChangedProp?.GetValue(propertyConfigurationInstance);
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), valueChangedValue);
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.ModelInstance), Model);
         }
 
         componentRenderBuilder.Close();

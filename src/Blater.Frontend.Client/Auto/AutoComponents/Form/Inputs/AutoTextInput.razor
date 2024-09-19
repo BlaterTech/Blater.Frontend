@@ -13,6 +13,7 @@
         Value="@Value"
         ValueChanged="@(async x => await NotifyValueChanged(x))"
         Label="@LabelName"
+        For="@For"
         Error="@HasValidationError"
         ErrorText="@ValidationErrorMessage"
         RequiredError="@ValidationErrorMessage"
