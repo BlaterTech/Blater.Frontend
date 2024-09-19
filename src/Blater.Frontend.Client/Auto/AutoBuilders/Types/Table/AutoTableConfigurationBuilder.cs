@@ -3,6 +3,7 @@ using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoExtensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
+using Blater.Frontend.Client.Models;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
 
@@ -20,6 +21,28 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
         {
             throw new InvalidCastException($"Instance is not implement IAutoTableConfiguration<{typeof(TModel).Name}>");
         }
+    }
+    
+    public CustomAutoTableAction AddCustomAction(CustomAutoTableAction autoTableAction)
+    {
+        var index = _configuration.CustomAutoTableActions.IndexOf(autoTableAction);
+        if (index != -1)
+        {
+            _configuration.CustomAutoTableActions[index] = autoTableAction;
+        }
+        else
+        {
+            _configuration.CustomAutoTableActions.Add(autoTableAction);
+        }
+
+        return autoTableAction;
+    }
+    
+    public AutoTablePagerConfiguration ModifyTablePager(AutoTablePagerConfiguration pagerConfiguration)
+    {
+        _configuration.PagerConfiguration = pagerConfiguration;
+
+        return _configuration.PagerConfiguration;
     }
 
     public AutoTablePropertyConfiguration<TModel, TPropertyType> AddMemberOnly<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TModel, TPropertyType> propertyConfiguration)
@@ -48,7 +71,8 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
         else
         {
             propertyConfiguration.Property = propertyInfo;
-            propertyConfiguration.LocalizationId = $"Blater-AutoTable-{typeof(TModel).Name}-Member-{propertyInfo.Name}";
+            propertyConfiguration.LabelNameLocalizationId ??= $"Blater-AutoTable-{typeof(TModel).Name}-Member-LabelName-{propertyInfo.Name}";
+            propertyConfiguration.LabelName ??= propertyInfo.Name;
             propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultComponentForType();
             _configuration.Configurations.Add(propertyConfiguration);
         }

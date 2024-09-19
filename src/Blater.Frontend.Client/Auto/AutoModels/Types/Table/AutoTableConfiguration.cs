@@ -8,6 +8,7 @@ namespace Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 public class AutoTableConfiguration<TModel>(string title) : BaseAutoConfiguration(title)
 {
     public bool EnableDefaultAction { get; set; } = true;
+    public bool EnableShowLockButton { get; set; } = true;
     public bool EnableCreateButton { get; set; } = true;
     public bool EnableCustomAction { get; set; }
     public bool EnableFixedHeader { get; set; }
@@ -19,6 +20,7 @@ public class AutoTableConfiguration<TModel>(string title) : BaseAutoConfiguratio
 
     public Color LoadingProgressColor { get; set; } = Color.Primary;
 
-    public List<CustomAutoTableAction<TModel>> CustomAutoTableActions { get; set; } = [];
+    public AutoTablePagerConfiguration PagerConfiguration { get; set; } = new();
+    public List<CustomAutoTableAction> CustomAutoTableActions { get; set; } = [];
     public List<IAutoTablePropertyConfiguration<TModel>> Configurations { get; set; } = [];
 }

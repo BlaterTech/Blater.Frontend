@@ -43,7 +43,7 @@ public class AutoFormTimelineConfigurationBuilder<TModel> : IAutoFormTimelineCon
             int step;
             if (string.IsNullOrWhiteSpace(item?.Title))
             {
-                step = 0;
+                step = 1;
             }
             else
             {

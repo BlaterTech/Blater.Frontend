@@ -107,7 +107,8 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
 
         if (RenderOnlyGroup.enabled)
         {
-            var groupConfiguration = groupConfigurations[RenderOnlyGroup.index];
+            var index = RenderOnlyGroup.index - 1;
+            var groupConfiguration = groupConfigurations[index];
             RenderGroupWithSubGroups(groupConfiguration);
             return;
         }

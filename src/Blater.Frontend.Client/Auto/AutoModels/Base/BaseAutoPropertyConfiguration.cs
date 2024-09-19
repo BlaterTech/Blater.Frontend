@@ -11,15 +11,15 @@ public abstract class BaseAutoPropertyConfiguration<TPropertyValue> :
 {
     public PropertyInfo Property { get; set; } = null!;
 
-    public string DataFormat { get; set; } = string.Empty;
-    public string Mask { get; set; } = string.Empty;
-    public string ExtraClass { get; set; } = string.Empty;
-    public string ExtraStyle { get; set; } = string.Empty;
-    public string LocalizationId { get; set; } = string.Empty;
-    //todo: localizationId é sempre prioridade dps o labelname
-    public string LabelName { get; set; } = string.Empty;
-    public string Placeholder { get; set; } = string.Empty;
-    public string HelpMessage { get; set; } = string.Empty;
+    public string? DataFormat { get; set; }
+    public string? Mask { get; set; }
+    public string? ExtraClass { get; set; }
+    public string? ExtraStyle { get; set; }
+    public string? LabelNameLocalizationId { get; set; }
+    public string? PlaceHolderLocalizationId { get; set; }
+    public string? LabelName { get; set; }
+    public string? Placeholder { get; set; }
+    public string? HelpMessage { get; set; }
 
     public bool IsReadOnly { get; set; }
     public bool Disable { get; set; }

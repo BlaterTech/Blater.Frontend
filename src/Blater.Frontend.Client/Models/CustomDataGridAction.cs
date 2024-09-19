@@ -4,13 +4,13 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Models;
 
-public class CustomAutoTableAction<TModel>
+public class CustomAutoTableAction
 {
-    public EventCallback<MouseEventArgs> OnValueChanged { get; set; }
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    public Color Color { get; set; } = Color.Primary;
     
-    public Color? Color { get; set; }
+    public required string Icon { get; set; }
     
-    public string Icon { get; set; } = null!;
-    
-    public string Tooltip { get; set; } = null!;
+    public string? Tooltip { get; set; }
 }

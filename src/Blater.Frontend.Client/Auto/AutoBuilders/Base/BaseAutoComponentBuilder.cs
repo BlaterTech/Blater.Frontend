@@ -172,8 +172,6 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             var valueChangedProp = propConfigurationType.GetProperty(nameof(IBaseAutoPropertyConfigurationValue<string>.OnValueChanged));
             var valueChangedValue = valueChangedProp?.GetValue(propertyConfigurationInstance);
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), valueChangedValue);
-
-            //componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), propertyConfiguration.OnValueChanged);
         }
 
         componentRenderBuilder.Close();
@@ -203,23 +201,23 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     protected string GetLabelNameValue(IBaseAutoPropertyConfiguration propertyConfiguration)
     {
-        var value = LocalizationService.GetValueOrDefault(propertyConfiguration.LocalizationId);
+        var value = LocalizationService.GetValueOrDefault(propertyConfiguration.LabelNameLocalizationId!);
         if (string.IsNullOrWhiteSpace(value))
         {
             value = propertyConfiguration.LabelName;
         }
 
-        return value;
+        return value!;
     }
 
     protected string GetPlaceholderValue(IBaseAutoPropertyConfiguration propertyConfiguration)
     {
-        var value = LocalizationService.GetValueOrDefault(propertyConfiguration.LocalizationId);
+        var value = LocalizationService.GetValueOrDefault(propertyConfiguration.PlaceHolderLocalizationId!);
         if (string.IsNullOrWhiteSpace(value))
         {
             value = propertyConfiguration.Placeholder;
         }
 
-        return value;
+        return value!;
     }
 }

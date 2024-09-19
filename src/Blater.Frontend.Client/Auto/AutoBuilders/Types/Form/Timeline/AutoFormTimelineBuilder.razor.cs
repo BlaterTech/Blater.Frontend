@@ -19,7 +19,7 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
 
     private int _minValue;
     private int _maxValue;
-    private int _currentStep = 0;
+    private int _currentStep = 1;
 
     private List<AutoFormTimelineStepConfiguration<T>> Steps
         => FormTimelineConfiguration
@@ -34,8 +34,8 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
         var formTimelineConfiguration = FindModelConfig<IAutoFormTimelineConfiguration<T>>();
         FormTimelineConfiguration = formTimelineConfiguration.FormTimelineConfiguration;
 
-        _minValue = Steps.FirstOrDefault()?.Key ?? 0;
-        _maxValue = Steps.LastOrDefault()?.Key ?? 0;
+        _minValue = Steps.FirstOrDefault()?.Key ?? 1;
+        _maxValue = Steps.LastOrDefault()?.Key ?? 1;
     }
 
     protected override void OnInitialized()
