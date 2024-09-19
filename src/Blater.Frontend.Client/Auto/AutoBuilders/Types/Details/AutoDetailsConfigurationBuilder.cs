@@ -12,6 +12,7 @@ public class AutoDetailsConfigurationBuilder<TModel> : IAutoDetailsConfiguration
         if (instance is IAutoDetailsConfiguration<TModel> configuration)
         {
             _configuration = configuration.DetailsConfiguration;
+            _configuration.LocalizationId ??= $"Blater-AutoDetails-{typeof(TModel).Name}";
         }
         else
         {
@@ -31,6 +32,11 @@ public class AutoDetailsConfigurationBuilder<TModel> : IAutoDetailsConfiguration
         }
         else
         {
+            detailsGroupConfiguration.LocalizationId ??= $"Blater-AutoDetails-{typeof(TModel).Name}-Group";
+            if (string.IsNullOrWhiteSpace(detailsGroupConfiguration.Title))
+            {
+                throw new Exception("Details group title is null or white space");
+            }
             _configuration.Groups.Add(detailsGroupConfiguration);
         }
 

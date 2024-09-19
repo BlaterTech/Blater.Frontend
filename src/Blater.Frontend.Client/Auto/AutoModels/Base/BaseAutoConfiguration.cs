@@ -2,6 +2,6 @@
 
 public abstract class BaseAutoConfiguration(string title)
 {
-    public string LocalizationId { get; set; } = "";
+    public string? LocalizationId { get; set; }
     public string Title { get; set; } = title;
 }

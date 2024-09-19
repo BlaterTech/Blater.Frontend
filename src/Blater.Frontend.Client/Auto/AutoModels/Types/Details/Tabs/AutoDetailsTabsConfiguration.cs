@@ -6,5 +6,5 @@ public class AutoDetailsTabsConfiguration<TModel>(string title) : BaseAutoConfig
 {
     public string? ExtraClass { get; set; }
     public bool EnableBackButton { get; set; } = true;
-    public List<AutoDetailsTabsPanelConfiguration<TModel>> PanelConfigurations { get; set; } = [];
+    public List<AutoDetailsTabsPanelConfiguration<TModel>> Panels { get; set; } = [];
 }

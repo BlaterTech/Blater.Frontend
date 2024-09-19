@@ -179,7 +179,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     
     protected string GetTitleValue<TConfiguration>(TConfiguration configuration) where TConfiguration : BaseAutoConfiguration
     {
-        var value = LocalizationService.GetValueOrDefault(configuration.LocalizationId);
+        var value = LocalizationService.GetValueOrDefault(configuration.LocalizationId!);
         if (string.IsNullOrWhiteSpace(value))
         {
             value = configuration.Title;
@@ -190,7 +190,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
     
     protected string GetGroupTitleValue<TConfiguration>(TConfiguration configuration) where TConfiguration : BaseAutoGroupConfiguration
     {
-        var value = LocalizationService.GetValueOrDefault(configuration.LocalizationId);
+        var value = LocalizationService.GetValueOrDefault(configuration.LocalizationId!);
         if (string.IsNullOrWhiteSpace(value))
         {
             value = configuration.Title;

@@ -16,6 +16,7 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
         if (instance is IAutoTableConfiguration<TModel> configuration)
         {
             _configuration = configuration.TableConfiguration;
+            _configuration.LocalizationId ??= $"Blater-AutoTable-{typeof(TModel).Name}";
         }
         else
         {

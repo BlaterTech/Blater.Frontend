@@ -13,29 +13,26 @@
     else
     {
         <MudGrid>
+            <MudItem
+                xs="12">
+                <MudCard
+                    Class="@($"my-4 pa-4 {DetailsConfiguration.ExtraClass}")">
+                    <MudText
+                        Typo="Typo.h4">
+                        @GetTitleValue(DetailsConfiguration)
+                    </MudText>
+                </MudCard>
+            </MudItem>
             @if (Id == Ulid.Empty)
             {
                 <MudItem
                     xs="12">
                     <MudCard
                         Class="@($"my-4 pa-4 {DetailsConfiguration.ExtraClass}")">
-                        <MudGrid
-                            Spacing="2">
-                            <MudItem
-                                xs="12">
-                                <MudText
-                                    Typo="Typo.h4">
-                                    @GetTitleValue(DetailsConfiguration)
-                                </MudText>
-                            </MudItem>
-                            <MudItem
-                                xs="12">
-                                <MudText
-                                    Typo="Typo.h5">
-                                    @LocalizationService.GetValue("ItemNotFound")
-                                </MudText>
-                            </MudItem>
-                        </MudGrid>
+                        <MudText
+                            Typo="Typo.h5">
+                            @LocalizationService.GetValue("ItemNotFound")
+                        </MudText>
                     </MudCard>
                 </MudItem>
             }

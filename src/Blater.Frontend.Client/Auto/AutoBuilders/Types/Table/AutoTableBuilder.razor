@@ -86,7 +86,7 @@
                                 <MudTableSortLabel
                                     SortBy="@CreateSortFunc(column.Property.Name)"
                                     Enabled="@column.DisableFilter">
-                                    @GetLabelNameValue(column))
+                                    @GetLabelNameValue(column)
                                 </MudTableSortLabel>
                                 <MudIconButton Icon="@_iconFilter" OnClick="@FilterOpen"/>
                             </div>

@@ -12,6 +12,7 @@ public class AutoFormTimelineConfigurationBuilder<TModel> : IAutoFormTimelineCon
         if (instance is IAutoFormTimelineConfiguration<TModel> configuration)
         {
             _configuration = configuration.FormTimelineConfiguration;
+            _configuration.LocalizationId ??= $"Blater-AutoFormTimeline-{typeof(TModel).Name}";
         }
         else
         {
@@ -52,6 +53,7 @@ public class AutoFormTimelineConfigurationBuilder<TModel> : IAutoFormTimelineCon
 
             var newStep = new AutoFormTimelineStepConfiguration<TModel>(title)
             {
+                LocalizationId = $"Blater-AutoFormTimeline-{typeof(TModel).Name}-{title}",
                 Key = step
             };
             

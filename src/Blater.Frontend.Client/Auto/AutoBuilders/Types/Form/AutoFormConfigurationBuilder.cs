@@ -13,6 +13,7 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
         if (instance is IAutoFormConfiguration<TModel> configuration)
         {
             _configuration = configuration.FormConfiguration;
+            _configuration.LocalizationId ??= $"Blater-AutoForm-{typeof(TModel).Name}";
         }
         else
         {
@@ -83,6 +84,7 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
         }
         else
         {
+            groupConfiguration.LocalizationId ??= $"Blater-AutoForm-{typeof(TModel).Name}-Group";
             value.Add(groupConfiguration);
         }
 

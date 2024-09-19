@@ -13,14 +13,19 @@ public class AutoDetailsTabsGroupConfigurationBuilder<TModel>(AutoDetailsTabsPan
 
     public AutoDetailsTabsGroupConfiguration<TModel> AddGroup(AutoDetailsTabsGroupConfiguration<TModel> groupConfiguration, Action<IAutoDetailsTabsPropertyConfigurationBuilder<TModel>> memberConfiguration)
     {
-        var index = configuration.GroupConfigurations.IndexOf(groupConfiguration);
+        var index = configuration.Groups.IndexOf(groupConfiguration);
         if (index != -1)
         {
-            configuration.GroupConfigurations[index] = groupConfiguration;
+            configuration.Groups[index] = groupConfiguration;
         }
         else
         {
-            configuration.GroupConfigurations.Add(groupConfiguration);
+            groupConfiguration.LocalizationId ??= $"Blater-AutoDetailsTabs-{typeof(TModel).Name}-Group";
+            if (string.IsNullOrWhiteSpace(groupConfiguration.Title))
+            {
+                throw new Exception("Details tabs group title is null or white space");
+            }
+            configuration.Groups.Add(groupConfiguration);
         }
         
         var builder = new AutoDetailsTabsPropertyConfigurationBuilder<TModel>(groupConfiguration);

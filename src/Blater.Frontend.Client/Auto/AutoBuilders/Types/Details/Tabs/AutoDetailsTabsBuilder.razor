@@ -47,12 +47,12 @@
                         ApplyEffectsToContainer="true"
                         AlwaysShowScrollButtons="true"
                         PanelClass="">
-                        @foreach (var tab in DetailsTabsConfiguration.PanelConfigurations)
+                        @foreach (var tab in DetailsTabsConfiguration.Panels)
                         {
                             <MudTabPanel
                                 Text="@GetTitleValue(tab)"
                                 Icon="@(tab.Icon?.ToString() ?? "")">
-                                @foreach (var group in tab.GroupConfigurations)
+                                @foreach (var group in tab.Groups)
                                 {
                                     <MudCard Class="pa-6 mt-1">
                                         <MudGrid>

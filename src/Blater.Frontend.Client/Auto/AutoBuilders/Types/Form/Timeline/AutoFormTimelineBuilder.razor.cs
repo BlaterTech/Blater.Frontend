@@ -131,7 +131,7 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
 
     private string GetStepValue()
     {
-        var value = LocalizationService.GetValueOrDefault(FormTimelineConfiguration.LocalizationId);
+        var value = LocalizationService.GetValueOrDefault(FormTimelineConfiguration.LocalizationId!);
         if (string.IsNullOrWhiteSpace(value))
         {
             value = FormTimelineConfiguration.Title;

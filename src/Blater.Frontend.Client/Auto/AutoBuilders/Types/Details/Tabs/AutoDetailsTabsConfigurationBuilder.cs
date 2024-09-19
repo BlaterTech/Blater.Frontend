@@ -13,6 +13,7 @@ public class AutoDetailsTabsConfigurationBuilder<TModel> : IAutoDetailsTabsConfi
         if (instance is IAutoDetailsTabsConfiguration<TModel> configuration)
         {
             _configuration = configuration.DetailsTabsConfiguration;
+            _configuration.LocalizationId ??= $"Blater-AutoDetailsTabs-{typeof(TModel).Name}";
         }
         else
         {
@@ -29,14 +30,19 @@ public class AutoDetailsTabsConfigurationBuilder<TModel> : IAutoDetailsTabsConfi
     public AutoDetailsTabsPanelConfiguration<TModel> AddPanel(AutoDetailsTabsPanelConfiguration<TModel> tabsPanelConfiguration,
                                                               Action<IAutoDetailsTabsGroupConfigurationBuilder<TModel>> action)
     {
-        var index = _configuration.PanelConfigurations.IndexOf(tabsPanelConfiguration);
+        var index = _configuration.Panels.IndexOf(tabsPanelConfiguration);
         if (index != -1)
         {
-            _configuration.PanelConfigurations[index] = tabsPanelConfiguration;
+            _configuration.Panels[index] = tabsPanelConfiguration;
         }
         else
         {
-            _configuration.PanelConfigurations.Add(tabsPanelConfiguration);
+            tabsPanelConfiguration.LocalizationId ??= $"Blater-AutoDetailsTabs-{typeof(TModel).Name}-Panel";
+            if (string.IsNullOrWhiteSpace(tabsPanelConfiguration.Title))
+            {
+                throw new Exception("Details panel title is null or white space");
+            }
+            _configuration.Panels.Add(tabsPanelConfiguration);
         }
 
         var builder = new AutoDetailsTabsGroupConfigurationBuilder<TModel>(tabsPanelConfiguration);

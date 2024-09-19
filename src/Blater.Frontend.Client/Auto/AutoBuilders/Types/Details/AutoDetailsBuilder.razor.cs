@@ -85,7 +85,7 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
 
     private string GetAvatarTitleValue(AutoAvatarModelConfiguration configuration)
     {
-        var value = LocalizationService.GetValueOrDefault(configuration.LocalizationId);
+        var value = LocalizationService.GetValueOrDefault(configuration.LocalizationId!);
         if (string.IsNullOrWhiteSpace(value))
         {
             value = configuration.Title;
