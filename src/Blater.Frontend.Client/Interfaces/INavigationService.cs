@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blater.Frontend.Client.Models;
+using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Client.Interfaces;
 
 public interface INavigationService
 {
+    public List<NavMenuRouteInfo> Routes { get; set; }
+    
     void Navigate<T>() where T : ComponentBase;
 
     /// <summary>
