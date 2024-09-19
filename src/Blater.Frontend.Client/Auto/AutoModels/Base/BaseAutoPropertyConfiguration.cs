@@ -6,8 +6,7 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Base;
 
-public abstract class BaseAutoPropertyConfiguration<TPropertyValue> :
-    IBaseAutoPropertyConfigurationValue<TPropertyValue>
+public abstract class BaseAutoPropertyConfiguration<TPropertyValue> : IBaseAutoPropertyConfigurationValue<TPropertyValue>
 {
     public PropertyInfo Property { get; set; } = null!;
 

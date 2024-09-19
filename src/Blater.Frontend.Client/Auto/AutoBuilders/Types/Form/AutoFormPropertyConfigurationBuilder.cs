@@ -4,6 +4,7 @@ using Blater.Frontend.Client.Auto.AutoExtensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
+using Blater.Frontend.Client.Services;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
 
@@ -39,8 +40,8 @@ public class AutoFormPropertyConfigurationBuilder<TModel>(
         return groupConfiguration;
     }
 
-    public IAutoFormPropertyConfiguration<TModel> AddMemberOnly<TProperty>(Expression<Func<TModel, TProperty>> expression,
-                                                                       AutoFormPropertyConfiguration<TModel, TProperty> propertyConfiguration)
+    public AutoFormPropertyConfiguration<TModel, TProperty> AddMemberOnly<TProperty>(Expression<Func<TModel, TProperty>> expression,
+                                                                                     AutoFormPropertyConfiguration<TModel, TProperty> propertyConfiguration)
     {
         AddMember(expression, propertyConfiguration);
 
@@ -54,9 +55,9 @@ public class AutoFormPropertyConfigurationBuilder<TModel>(
 
         return new AutoFormEventConfigurationBuilder<TModel, TProperty>(propertyConfiguration);
     }
-    
+
     private void AddMember<TProperty>(Expression<Func<TModel, TProperty>> expression,
-                                                                       AutoFormPropertyConfiguration<TModel, TProperty> propertyConfiguration)
+                                      AutoFormPropertyConfiguration<TModel, TProperty> propertyConfiguration)
     {
         var propertyInfo = expression.GetPropertyInfo();
 

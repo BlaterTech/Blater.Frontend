@@ -40,7 +40,7 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
     protected async Task NotifyValueChanged(TValue value)
     {
         Console.WriteLine("PropertyName => " + TypeName);
-        Console.WriteLine("Value => " + value);
+        Console.WriteLine("Value NotifyValueChanged => " + value);
         Dirty = true;
         Value = value;
         await OnValueChanged.InvokeAsync(Value);
@@ -66,11 +66,10 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
     
     private void OnStateChanged(PropertyInfo propertyInfo, object? value)
     {
-        if (propertyInfo.Name == AutoPropertyConfiguration.Property.Name && value != null)
-        {
-            Value = (TValue)value;
-            Console.WriteLine("Value => " + value);
-            StateHasChanged();
-        }
+        if (propertyInfo.Name != AutoPropertyConfiguration.Property.Name || value == null) return;
+        
+        Value = (TValue)value;
+        Console.WriteLine("Value OnStateChanged => " + value);
+        StateHasChanged();
     }
 }

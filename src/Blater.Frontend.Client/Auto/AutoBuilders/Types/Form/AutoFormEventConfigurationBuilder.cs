@@ -6,7 +6,7 @@ namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
 
 public class AutoFormEventConfigurationBuilder<TModel, TPropertyType>(
     AutoFormPropertyConfiguration<TModel, TPropertyType> configuration) : 
-    BaseAutoEventConfigurationBuilder<TPropertyType, AutoFormPropertyConfiguration<TModel, TPropertyType>>(configuration), 
+    BaseAutoEventConfigurationBuilder<TModel, TPropertyType, AutoFormPropertyConfiguration<TModel, TPropertyType>>(configuration), 
     IAutoFormEventConfigurationBuilder<TModel, TPropertyType>
 {
 }
