@@ -20,7 +20,7 @@
                     Class="@($"my-4 pa-4 {DetailsTabsConfiguration.ExtraClass}")">
                     <MudText
                         Typo="Typo.h4">
-                        @ComponentLocalizationService.GetTitleValue(DetailsTabsConfiguration.Title)
+                        @GetTitleValue(DetailsTabsConfiguration)
                     </MudText>
                 </MudCard>
             </MudItem>
@@ -50,7 +50,7 @@
                         @foreach (var tab in DetailsTabsConfiguration.PanelConfigurations)
                         {
                             <MudTabPanel
-                                Text="@ComponentLocalizationService.GetTitleValue(tab.Title)"
+                                Text="@GetTitleValue(tab)"
                                 Icon="@(tab.Icon?.ToString() ?? "")">
                                 @foreach (var group in tab.GroupConfigurations)
                                 {
@@ -61,7 +61,7 @@
                                                 Class="d-flex">
                                                 <MudText
                                                     Typo="Typo.h6">
-                                                    @ComponentLocalizationService.GetGroupNameValue(group.Title)
+                                                    @GetGroupTitleValue(group)
                                                 </MudText>
                                                 @if (group.EnableEditButton)
                                                 {

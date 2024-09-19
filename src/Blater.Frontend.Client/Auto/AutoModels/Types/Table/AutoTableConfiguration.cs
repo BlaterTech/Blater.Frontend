@@ -5,10 +5,8 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 
-public class AutoTableConfiguration<TModel>(string title) : BaseAutoConfiguration
+public class AutoTableConfiguration<TModel>(string title) : BaseAutoConfiguration(title)
 {
-    public string Title { get; set; } = title;
-
     public bool EnableDefaultAction { get; set; } = true;
     public bool EnableCreateButton { get; set; } = true;
     public bool EnableCustomAction { get; set; }

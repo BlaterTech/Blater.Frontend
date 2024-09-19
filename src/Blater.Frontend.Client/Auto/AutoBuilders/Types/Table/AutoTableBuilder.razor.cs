@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
+
 public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseFrontendModel
 {
     public AutoTableBuilder()
@@ -35,10 +36,10 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
 
         OnCheckboxChanged = EventCallback.Factory.Create<(T model, bool value)>(this, item => { });
     }
-    
+
     [Parameter]
     public List<T> Items { get; set; } = [];
-    
+
     [Parameter]
     public bool Loading { get; set; }
 
@@ -102,7 +103,7 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
         var autoTable = FindModelConfig<IAutoTableConfiguration<T>>();
         TableConfiguration = autoTable.TableConfiguration;
     }
-    
+
     private async Task DateRangeValueChanged(DateRange obj)
     {
         _dateRange = obj;

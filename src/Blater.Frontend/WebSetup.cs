@@ -4,7 +4,6 @@ using Blater.Frontend.Client;
 using Blater.Frontend.Client.Auto;
 using Blater.Frontend.Client.Auto.AutoBuilders;
 using Blater.Frontend.Client.Auto.AutoInterfaces;
-using Blater.Frontend.Client.Auto.AutoServices;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Services;
@@ -84,7 +83,6 @@ public static class WebSetup
         //services.AddScoped<IBlaterMemoryCache, BlaterMemoryCache>();
         //services.AddScoped<IBlaterStateStore, BlaterStateStore>();
         services.AddScoped<ILocalizationService, LocalizationService>();
-        services.AddScoped(typeof(IAutoComponentLocalizationService<>), typeof(AutoComponentLocalizationService<>));
         services.AddScoped<INavigationService, NavigationService>();
         services.AddMudServices();
     }

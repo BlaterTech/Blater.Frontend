@@ -1,8 +1,9 @@
-﻿namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form.Timeline;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
 
-public class AutoFormTimelineStepConfiguration<TModel>
+namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form.Timeline;
+
+public class AutoFormTimelineStepConfiguration<TModel>(string title) : BaseAutoGroupConfiguration(title)
 {
     public int Key { get; set; }
-    public required string Value { get; set; }
     public AutoFormConfiguration<TModel> AutoFormConfiguration { get; set; } = new("");
 }

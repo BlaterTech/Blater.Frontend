@@ -1,6 +1,9 @@
-﻿namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
+using Microsoft.IdentityModel.Tokens;
 
-public class AutoAvatarModelConfiguration
+namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form;
+
+public class AutoAvatarModelConfiguration(string title) : BaseAutoAvatarConfiguration(title)
 {
     public bool EnableAvatarModel { get; set; }
     public bool ContainerPublic { get; set; } = true;
@@ -8,6 +11,10 @@ public class AutoAvatarModelConfiguration
     public string ContainerPrefix { get; set; } = "avatar";
     public string ExtraClass { get; set; } = string.Empty;
     public string ExtraStyle { get; set; } = string.Empty;
-    public string Title { get; set; } = string.Empty;
+}
+
+public abstract class BaseAutoAvatarConfiguration(string title) : BaseAutoConfiguration(title)
+{
     public string SubTitle { get; set; } = string.Empty;
+    public string SubTitleLocalizationId { get; set; } = "";
 }

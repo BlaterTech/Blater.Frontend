@@ -12,7 +12,7 @@
         <MudGrid Spacing="0">
             <MudItem xs="12" Class="d-flex">
                 <MudText Typo="Typo.h5">
-                    @ComponentLocalizationService.GetTitleValue(TableConfiguration.Title)
+                    @GetTitleValue(TableConfiguration)
                 </MudText>
                 <MudSpacer/>
                 @if (TableConfiguration.EnableCreateButton)
@@ -86,7 +86,7 @@
                                 <MudTableSortLabel
                                     SortBy="@CreateSortFunc(column.Property.Name)"
                                     Enabled="@column.DisableFilter">
-                                    @ComponentLocalizationService.GetLabelNameValue(column.LabelName, column.Property))
+                                    @GetLabelNameValue(column))
                                 </MudTableSortLabel>
                                 <MudIconButton Icon="@_iconFilter" OnClick="@FilterOpen"/>
                             </div>
@@ -103,7 +103,7 @@
                 @{
                     foreach (var column in ColumnConfigurations.Where(column => !column.DisableColumn))
                     {
-                        var propName = ComponentLocalizationService.GetLabelNameValue(column.LabelName, column.Property);
+                        var propName = GetLabelNameValue(column);
                         var propValue = column.Property.GetValue(context);
                         <MudTd DataLabel="@propName">@propValue</MudTd>
                     }

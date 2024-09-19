@@ -35,13 +35,13 @@ public class AutoFormTimelineConfigurationBuilder<TModel> : IAutoFormTimelineCon
             _configuration.Steps.TryAdd(displayType, value);
         }
 
-        var existsValue = value.Exists(x => x.Value == title);
+        var existsValue = value.Exists(x => x.Title == title);
         if (!existsValue)
         {
             var item = value.LastOrDefault();
 
             int step;
-            if (string.IsNullOrWhiteSpace(item?.Value))
+            if (string.IsNullOrWhiteSpace(item?.Title))
             {
                 step = 0;
             }
@@ -50,11 +50,11 @@ public class AutoFormTimelineConfigurationBuilder<TModel> : IAutoFormTimelineCon
                 step = item.Key + 1;
             }
 
-            var newStep = new AutoFormTimelineStepConfiguration<TModel>
+            var newStep = new AutoFormTimelineStepConfiguration<TModel>(title)
             {
-                Value = title,
                 Key = step
             };
+            
             value.Add(newStep);
             
             var builder = new AutoFormTimelineGroupConfigurationBuilder<TModel>(newStep.AutoFormConfiguration);

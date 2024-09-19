@@ -2,6 +2,7 @@
 using Blater.Frontend.Client.Auto.AutoExtensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
+using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Frontend.Client.Interfaces;
@@ -30,9 +31,6 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
     [Inject]
     public AutoConfigurations AutoConfigurations { get; set; } = null!;
-
-    [Inject]
-    public IAutoComponentLocalizationService<T> ComponentLocalizationService { get; set; } = null!;
 
     #endregion
 
@@ -92,8 +90,6 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         LoadModelConfig();
 
-        ComponentLocalizationService.DisplayType = DisplayType;
-
         ILocalizationService.LocalizationChanged += () => { InvokeAsync(StateHasChanged); };
 
         AutoConfigurations.ModelsChanged += () =>
@@ -127,7 +123,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         {
             throw new Exception("");
         }
-        
+
         var componentBuilder = AutoComponentsBuilders.GetComponentBuilder(propertyConfiguration);
         if (componentBuilder is null)
         {
@@ -154,8 +150,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         if (HasLabel)
         {
-            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.LabelName),
-                                                ComponentLocalizationService.GetLabelNameValue(propertyConfiguration.LabelName, propertyConfiguration.Property));
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.LabelName), GetLabelNameValue(propertyConfiguration));
         }
 
         var compType = propertyConfiguration.AutoComponentType;
@@ -169,8 +164,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         if (compType.IsFormInput() && compType.HasValueChanged)
         {
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.EditMode), EditMode);
-            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.PlaceholderText),
-                                                ComponentLocalizationService.GetPlaceholderValue(propertyConfiguration.Placeholder, propertyConfiguration.Property));
+            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.PlaceholderText), GetPlaceholderValue(propertyConfiguration));
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Disabled), propertyConfiguration.Disable);
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.IsReadOnly), propertyConfiguration.IsReadOnly);
 
@@ -178,10 +172,54 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             var valueChangedProp = propConfigurationType.GetProperty(nameof(IBaseAutoPropertyConfigurationValue<string>.OnValueChanged));
             var valueChangedValue = valueChangedProp?.GetValue(propertyConfigurationInstance);
             componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), valueChangedValue);
-            
+
             //componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.OnValueChanged), propertyConfiguration.OnValueChanged);
         }
 
         componentRenderBuilder.Close();
+    }
+    
+    protected string GetTitleValue<TConfiguration>(TConfiguration configuration) where TConfiguration : BaseAutoConfiguration
+    {
+        var value = LocalizationService.GetValueOrDefault(configuration.LocalizationId);
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            value = configuration.Title;
+        }
+
+        return value;
+    }
+    
+    protected string GetGroupTitleValue<TConfiguration>(TConfiguration configuration) where TConfiguration : BaseAutoGroupConfiguration
+    {
+        var value = LocalizationService.GetValueOrDefault(configuration.LocalizationId);
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            value = configuration.Title;
+        }
+
+        return value;
+    }
+
+    protected string GetLabelNameValue(IBaseAutoPropertyConfiguration propertyConfiguration)
+    {
+        var value = LocalizationService.GetValueOrDefault(propertyConfiguration.LocalizationId);
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            value = propertyConfiguration.LabelName;
+        }
+
+        return value;
+    }
+
+    protected string GetPlaceholderValue(IBaseAutoPropertyConfiguration propertyConfiguration)
+    {
+        var value = LocalizationService.GetValueOrDefault(propertyConfiguration.LocalizationId);
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            value = propertyConfiguration.Placeholder;
+        }
+
+        return value;
     }
 }

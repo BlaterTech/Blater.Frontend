@@ -34,7 +34,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
     public (bool enabled, int index) RenderOnlyGroup { get; set; }
 
     [Parameter]
-    public AutoFormConfiguration<T>? Configuration { get; set; }
+    public AutoFormConfiguration<T>? FormConfiguration { get; set; }
 
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
@@ -68,22 +68,22 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
     {
         var autoValidator = FindModelConfig<IAutoValidatorConfiguration<T>>();
 
-        if (Configuration == null)
+        if (FormConfiguration == null)
         {
             var autoForm = FindModelConfig<IAutoFormConfiguration<T>>();
-            Configuration = autoForm.FormConfiguration;
+            FormConfiguration = autoForm.FormConfiguration;
         }
 
-        AvatarModelConfiguration = Configuration
+        AvatarModelConfiguration = FormConfiguration
                                   .AvatarConfiguration
                                   .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
 
-        ActionConfiguration = Configuration
+        ActionConfiguration = FormConfiguration
                              .ActionConfiguration
                              .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form)
                               ?? new AutoFormActionConfiguration();
 
-        GridConfiguration = Configuration
+        GridConfiguration = FormConfiguration
                            .GridConfigurations
                            .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form)
                             ?? new AutoGridConfiguration();
@@ -93,7 +93,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
 
     private RenderFragment RenderFormInputs(int breakpointGroupValue) => builder =>
     {
-        var groupConfigurations = Configuration!
+        var groupConfigurations = FormConfiguration!
                                  .Groups
                                  .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form);
 
@@ -144,7 +144,9 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
                        .OpenComponent<MudText>()
                        .AddAttribute(nameof(MudText.Typo), Typo.h4)
                        .AddAttribute(nameof(MudText.Color), Color.Inherit)
-                       .AddChildContent(builderTextContent => builderTextContent.AddContent(ComponentLocalizationService.GetTitleValue(groupConfiguration.Title)))
+                       .AddChildContent(builderTextContent => 
+                                            builderTextContent
+                                               .AddContent(GetGroupTitleValue(groupConfiguration)))
                        .Close();
                 })
                .Close();

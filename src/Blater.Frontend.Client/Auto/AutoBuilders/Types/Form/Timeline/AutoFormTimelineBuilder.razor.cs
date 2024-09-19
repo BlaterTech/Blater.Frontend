@@ -128,4 +128,15 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
         
         StateHasChanged();
     }
+
+    private string GetStepValue()
+    {
+        var value = LocalizationService.GetValueOrDefault(FormTimelineConfiguration.LocalizationId);
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            value = FormTimelineConfiguration.Title;
+        }
+
+        return value;
+    }
 }

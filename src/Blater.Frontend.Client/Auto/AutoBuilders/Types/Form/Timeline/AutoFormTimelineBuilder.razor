@@ -12,7 +12,7 @@
         @foreach (var step in Steps)
         {
             var stepKey = step.Key;
-            var stepValue = step.Value;
+            var stepValue = step.Title;
             <MudTimelineItem
                 Color="@(_currentStep >= stepKey ? Color.Primary : Color.Surface)"
                 Variant="Variant.Filled"
@@ -33,7 +33,7 @@
                     <MudText
                         Color="@(_currentStep >= stepKey ? Color.Primary : Color.Default)"
                         Align="Align.Center">
-                        @LocalizationService.GetValue($"TimeLine-{stepValue}")
+                        @GetStepValue()
                     </MudText>
                 </ItemContent>
             </MudTimelineItem>
