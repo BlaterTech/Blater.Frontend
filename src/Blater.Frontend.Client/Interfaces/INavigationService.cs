@@ -5,8 +5,8 @@ namespace Blater.Frontend.Client.Interfaces;
 
 public interface INavigationService
 {
-    public List<NavMenuRouteInfo> Routes { get; set; }
-    
+    List<NavMenuRouteInfo> Routes { get; set; }
+    Dictionary<string, (List<string> roles, List<string> permissions)> RouteAuthorizations { get; set; }
     void Navigate<T>() where T : ComponentBase;
 
     /// <summary>

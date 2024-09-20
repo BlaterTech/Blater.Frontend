@@ -48,53 +48,52 @@
             }
         </MudDrawerHeader>
 
-        @*@{
-                    foreach (var route in Routes)
+        @{
+            foreach (var route in NavigationService.Routes)
+            {
+                if (route.IsSubMenu)
+                {
+                    <MudNavGroup
+                        Icon="@route.Icon"
+                        Title="@route.Name"
+                        ExpandIcon="">
+                        @foreach (var subRoute in route.ChildRoutes)
                         {
-                            if (route.IsSubMenu)
-                            {
-                                <MudNavGroup
-                                    Icon="@route.Icon"
-                                    Title="@route.Name"
-                                    ExpandIcon="@ExpandIcon">
-                                    @foreach (var subRoute in route.ChildRoutes)
-                                    {
-                                        <MudNavLink
-                                            Icon="@subRoute.Icon"
-                                            Href="@subRoute.Route"
-                                            Match="NavLinkMatch.Prefix">
-                                            <MudText>
-                                                @subRoute.Name
-                                            </MudText>
-                                        </MudNavLink>
-                                    }
-                                </MudNavGroup>
-                            }
-                            else
-                            {
-                                <MudNavLink
-                                    Icon="@route.Icon"
-                                    Href="@route.Route"
-                                    Match="NavLinkMatch.Prefix">
-                                    <MudText>
-                                        @route.Name
-                                    </MudText>
-                                </MudNavLink>
-                            }
+                            <MudNavLink
+                                Icon="@subRoute.Icon"
+                                Href="@subRoute.Route"
+                                Match="NavLinkMatch.Prefix">
+                                <MudText>
+                                    @LocalizationService.GetValue(subRoute.Name)
+                                </MudText>
+                            </MudNavLink>
                         }
-                }*@
+                    </MudNavGroup>
+                }
+                else
+                {
+                    <MudNavLink
+                        Icon="@route.Icon"
+                        Href="@route.Route"
+                        Match="NavLinkMatch.Prefix">
+                        <MudText>
+                            @LocalizationService.GetValue(route.Name)
+                        </MudText>
+                    </MudNavLink>
+                }
+            }
+        }
 
         <MudSpacer/>
 
-        @*<MudNavLink
-                        Icon="@Material.Filled.ExitToApp"
-                        Match="NavLinkMatch.Prefix"
-                        IconColor="Color.Error"
-                        OnClick="@(async e => await AuthenticationService.Logout())">
-                        <MudText Color="Color.Error">
-                            Sair
-                        </MudText>
-                    </MudNavLink>*@
+        <MudNavLink
+            Icon="@Material.Filled.ExitToApp"
+            Match="NavLinkMatch.Prefix"
+            IconColor="Color.Error">
+            <MudText Color="Color.Error">
+                @LocalizationService.GetValue("Logout")
+            </MudText>
+        </MudNavLink>
     </MudDrawer>
     <MudMainContent>
         <MudContainer Class="mt-8 px-8" MaxWidth="MaxWidth.ExtraExtraLarge">

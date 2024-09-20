@@ -11,7 +11,6 @@ using Serilog;
 
 namespace Blater.Frontend.Client.Services;
 
-
 public class NavigationService : INavigationService
 {
     private readonly IJSRuntime _jsRuntime;
@@ -20,6 +19,7 @@ public class NavigationService : INavigationService
     private readonly List<string> _ignorePrefixes = ["Account/"];
 
     public List<NavMenuRouteInfo> Routes { get; set; } = [];
+    public Dictionary<string, (List<string> roles, List<string> permissions)> RouteAuthorizations { get; set; } = [];
 
     public NavigationService(ILocalizationService localizationService, NavigationManager navigationManager, IJSRuntime jsRuntime)
     {
@@ -35,21 +35,32 @@ public class NavigationService : INavigationService
     private void LoadRoutes()
     {
         Routes.Clear();
+        RouteAuthorizations.Clear();
+        
+        var asd = TypesHelper.AllTypes.FirstOrDefault(x => x.Name == "HomePage");
 
         var navMenus = (
-            from type in TypesHelper.AllTypes
-            let routeAttribute = type.GetCustomAttribute<RouteAttribute>()
-            let autoNavMenuAttribute = type.GetCustomAttribute<AutoNavMenuAttribute>()
-            let route = routeAttribute?.Template.Remove(0, 1)
-            where routeAttribute != null && autoNavMenuAttribute != null && !route.StartsWithAny(_ignorePrefixes)
-            orderby string.IsNullOrWhiteSpace(autoNavMenuAttribute.NavMenuParentName), autoNavMenuAttribute.Order
-            select (type, route, autoNavMenuAttribute)
-        ).ToList();
+                from type in TypesHelper.AllTypes
+                let routeAttribute = type.GetCustomAttribute<RouteAttribute>()
+                let autoNavMenuAttribute = type.GetCustomAttribute<AutoNavMenuAttribute>()
+                let route = routeAttribute?.Template.Remove(0, 1)
+                where routeAttribute != null && autoNavMenuAttribute != null && !route.StartsWithAny(_ignorePrefixes)
+                orderby string.IsNullOrWhiteSpace(autoNavMenuAttribute.NavMenuParentName), autoNavMenuAttribute.Order
+                select (type, route, autoNavMenuAttribute)
+            )
+           .ToList();
 
         foreach (var (type, route, autoNavMenuAttribute) in navMenus)
         {
-            var requiredAccess = type.GetCustomAttribute<RequiredAccessAttribute>();
             //Has no parent
+            var userRoles = autoNavMenuAttribute.UserRoles
+                                                .Split(",")
+                                                .ToList();
+
+            var userPermissions = autoNavMenuAttribute.UserPermissions
+                                                      .Split(",")
+                                                      .ToList();
+
             if (string.IsNullOrWhiteSpace(autoNavMenuAttribute.NavMenuParentName))
             {
                 Routes.Add(new NavMenuRouteInfo
@@ -59,8 +70,8 @@ public class NavigationService : INavigationService
                     Icon = autoNavMenuAttribute.Icon ?? "",
                     Name = _localizationService.GetValue($"NavMenu-{type.Name}"),
                     Priority = autoNavMenuAttribute.Order,
-                    UserRoles = requiredAccess?.UserRoles,
-                    UserPermissions = requiredAccess?.UserPermissions,
+                    UserRoles = userRoles,
+                    UserPermissions = userPermissions,
                     NavMenuParentName = autoNavMenuAttribute.NavMenuParentName
                 });
             }
@@ -78,8 +89,8 @@ public class NavigationService : INavigationService
                         Name = parentMenuName,
                         Route = $"NavMenu-{autoNavMenuAttribute.NavMenuParentName}",
                         Priority = autoNavMenuAttribute.Order,
-                        UserRoles = requiredAccess?.UserRoles,
-                        UserPermissions = requiredAccess?.UserPermissions,
+                        UserRoles = userRoles,
+                        UserPermissions = userPermissions,
                     };
                     Routes.Add(parentMenu);
                 }
@@ -92,11 +103,13 @@ public class NavigationService : INavigationService
                     Icon = autoNavMenuAttribute.Icon ?? "",
                     Name = _localizationService.GetValue($"NavMenu-{type.Name}"),
                     Priority = autoNavMenuAttribute.Order,
-                    UserRoles = requiredAccess?.UserRoles,
-                    UserPermissions = requiredAccess?.UserPermissions,
+                    UserRoles = userRoles,
+                    UserPermissions = userPermissions,
                     NavMenuParentName = parentMenuName
                 });
             }
+
+            RouteAuthorizations.TryAdd(route, (userRoles, userPermissions));
         }
 
         Routes = Routes

@@ -16,8 +16,9 @@ public partial class BlaterPortalLayout
     
     [Inject]
     private INavigationService NavigationService { get; set; } = default!;
-
-    public List<NavMenuRouteInfo> Routes { get; set; } = [];
+    
+    [Inject]
+    private ILocalizationService LocalizationService { get; set; } = default!;
 
     BlaterAuthorizeView _blaterAuthorizeView = null!;
     
@@ -50,10 +51,11 @@ public partial class BlaterPortalLayout
                 //todo: voltar ao login se jwt nao for válido
             }
 
-            /*Routes = NavigationService
-                    .Routes
-                    .Where(x => x.RoleNames.Any(role => BlaterAuthState.RoleNames.Contains(role)))
-                    .Where(x => x.Permissions.Any(permission => BlaterAuthState.Permissions.Contains(permission)));*/
+            //todo: refactor this
+            /*NavigationService.Routes = NavigationService
+                                     .Routes
+                                     .Where(x => x.UserRoles?.Any(role => BlaterAuthState.RoleNames.Contains(role)))
+                                     .Where(x => x.UserPermissions?.Any(permission => BlaterAuthState.Permissions.Contains(permission)));*/
         }
     }
 }
