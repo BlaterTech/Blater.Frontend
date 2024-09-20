@@ -1,8 +1,6 @@
 ﻿using Blater.Frontend.Client.Components.AuthorizeView;
 using Blater.Frontend.Client.Extensions;
 using Blater.Frontend.Client.Interfaces;
-using Blater.Frontend.Client.Models;
-using Blater.Models.User;
 using Microsoft.AspNetCore.Components;
 
 //using Blater.Frontend.Interfaces;

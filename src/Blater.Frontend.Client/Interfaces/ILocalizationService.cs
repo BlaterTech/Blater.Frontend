@@ -7,9 +7,7 @@ namespace Blater.Frontend.Client.Interfaces;
 
 public interface ILocalizationService
 {
-    LanguageData? SelectedLanguageData { get; }
-    string DateFormat { get; }
-    static event Action? LocalizationChanged;
+    event Action? LocalizationChanged;
     void ChangeLanguage(LanguageTranslation language);
     string GetValue(string id);
     string GetValue(object obj);

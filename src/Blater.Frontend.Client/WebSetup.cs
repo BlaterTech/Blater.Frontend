@@ -1,4 +1,5 @@
-﻿using Blater.Frontend.Client.Authentication;
+﻿using System.Reflection;
+using Blater.Frontend.Client.Authentication;
 using Blater.Frontend.Client.Auto;
 using Blater.Frontend.Client.Auto.AutoBuilders;
 using Blater.Frontend.Client.Handlers;
@@ -20,7 +21,7 @@ public static class WebSetup
         AutoComponentsBuilders.Initialize();
 
         //builder.SetupSerilog();
-        
+
         services.AddAuthorizationCore();
         services.AddCascadingAuthenticationState();
         //services.AddAuthenticationStateDeserialization();
@@ -42,15 +43,27 @@ public static class WebSetup
         //services.AddBlaterAuthRepositories();
 
         //services.AddSingleton<ICookieService, CookieService>();
-        
+
         services.AddSingleton<TenantData>();
-        
+
         services.AddBlazoredLocalStorage();
         services.AddBlazoredSessionStorage();
         services.AddSingleton<AutoConfigurations>();
         //services.AddScoped<IBlaterMemoryCache, BlaterMemoryCache>();
         //services.AddScoped<IBlaterStateStore, BlaterStateStore>();
-        services.AddScoped<ILocalizationService, LocalizationService>();
+        
+        //todo: creating builder.Services.AddTranslations
+        services.AddSingleton<ILocalizationService, LocalizationService>();
+        services.Scan(x => x.FromAssemblies(
+                                 typeof(WebSetup).Assembly, 
+                                 Assembly.GetEntryAssembly()!,
+                                 Assembly.GetExecutingAssembly(),
+                                 typeof(ITranslation).Assembly)
+                            .AddClasses(classes => classes
+                                           .AssignableTo<ITranslation>())
+                            .AsImplementedInterfaces()
+                            .WithSingletonLifetime());
+
         services.AddScoped<INavigationService, NavigationService>();
         services.AddMudServices();
     }

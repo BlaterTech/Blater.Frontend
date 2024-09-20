@@ -4,7 +4,7 @@ namespace Blater.Frontend.Client.Interfaces;
 
 public interface ITranslation
 {
-    public int Priority { get; set; }
-    public LanguageTranslation Language { get; set; }
-    public Dictionary<string, string> Dictionary { get; set; }
+    public int Priority { get; }
+    public LanguageTranslation Language { get; }
+    public Dictionary<string, string> Dictionary { get; }
 }

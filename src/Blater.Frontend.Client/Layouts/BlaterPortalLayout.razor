@@ -1,4 +1,4 @@
-﻿@using Blater.Frontend.Client.Extensions
+﻿@using Blater.Frontend.Client.Auto.AutoBuilders.Types
 @inherits LayoutComponentBase
 
 @layout BlaterMainLayout
@@ -91,7 +91,7 @@
             Match="NavLinkMatch.Prefix"
             IconColor="Color.Error">
             <MudText Color="Color.Error">
-                @LocalizationService.GetValue("Logout")
+                @LocalizationService.GetValue(nameof(LocalizationComponent.Logout))
             </MudText>
         </MudNavLink>
     </MudDrawer>

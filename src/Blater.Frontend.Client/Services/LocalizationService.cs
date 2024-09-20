@@ -24,7 +24,7 @@ public class LocalizationService : ILocalizationService, IDisposable
         }
 
         // Default language
-        ChangeLanguage(LanguageTranslation.Portugues);
+        ChangeLanguage(LanguageTranslation.Portuguese);
 
         HotReloadHelper.UpdateApplicationEvent += HotReloadHelperOnUpdateApplicationEvent;
     }
@@ -32,13 +32,13 @@ public class LocalizationService : ILocalizationService, IDisposable
     public LanguageData? SelectedLanguageData { get; private set; }
     public string DateFormat => SelectedLanguageData?.DateFormat ?? "dd/MM/yyyy";
 
-    public static event Action? LocalizationChanged;
+    public event Action? LocalizationChanged;
 
 
     private void HotReloadHelperOnUpdateApplicationEvent(Type[]? obj)
     {
         using var _ = new LogTimer("Reloading translations");
-        ChangeLanguage(SelectedLanguageData?.Language ?? LanguageTranslation.Portugues);
+        ChangeLanguage(SelectedLanguageData?.Language ?? LanguageTranslation.Portuguese);
 
         //Debug
         /*foreach (var translation in _dictionary)

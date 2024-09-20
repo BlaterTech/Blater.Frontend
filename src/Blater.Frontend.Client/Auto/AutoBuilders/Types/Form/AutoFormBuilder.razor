@@ -1,18 +1,18 @@
 ﻿@inherits BaseAutoComponentBuilder<T>
 @typeparam T where T : Blater.Frontend.Client.Models.Bases.BaseFrontendModel
-@typeparam TValidator where TValidator : BaseModelValidator<T>
+    @typeparam TValidator where TValidator : BaseModelValidator<T>
 
 <BlaterCascadingValue
     T="T"
     Id="@CascadingValue">
-   @if (EnablePrincipalTitle)
-   {
-       <MudCard Elevation="0" Class="pa-4 mb-2 mud-height-full">
-           <MudText Typo="Typo.h5">
-               @GetTitleValue(FormConfiguration!)
-           </MudText>
-       </MudCard>
-   }
+    @if (EnablePrincipalTitle)
+    {
+        <MudCard Elevation="0" Class="pa-4 mb-2 mud-height-full">
+            <MudText Typo="Typo.h5">
+                @GetTitleValue(FormConfiguration!)
+            </MudText>
+        </MudCard>
+    }
 
     <MudCard
         Elevation="0"
@@ -60,7 +60,7 @@
                     Color="@ActionConfiguration.ColorCancelButton"
                     Class="@ActionConfiguration.CancelButtonExtraClass"
                     OnClick="@(async () => await NavigationService.GoBack())">
-                    @LocalizationService.GetValue("CancelButton")
+                    @LocalizationService.GetValue(nameof(LocalizationComponent.GoBackButton))
                 </MudButton>
                 <MudButton
                     Variant="@ActionConfiguration.VariantCreateEditButton"
@@ -77,10 +77,10 @@
                             Indeterminate="@true"/>
                         <MudText
                             Class="ms-2">
-                            @LocalizationService.GetValue("Processing")
+                            @LocalizationService.GetValue(nameof(LocalizationComponent.Processing))
                         </MudText>
                     }
-                    @LocalizationService.GetValue(EditMode ? "EditButton" : "SaveButton")
+                    @LocalizationService.GetValue(EditMode ? nameof(LocalizationComponent.EditButton) : nameof(LocalizationComponent.SaveButton))
                 </MudButton>
             </div>
         }

@@ -30,7 +30,7 @@ public class NavigationService : INavigationService
 
         LoadRoutes();
 
-        ILocalizationService.LocalizationChanged += LoadRoutes;
+        _localizationService.LocalizationChanged += LoadRoutes;
     }
 
     private void LoadRoutes()

@@ -89,7 +89,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         LoadModelConfig();
 
-        ILocalizationService.LocalizationChanged += () => { InvokeAsync(StateHasChanged); };
+        LocalizationService.LocalizationChanged += () => { InvokeAsync(StateHasChanged); };
 
         AutoConfigurations.ModelsChanged += () =>
         {
