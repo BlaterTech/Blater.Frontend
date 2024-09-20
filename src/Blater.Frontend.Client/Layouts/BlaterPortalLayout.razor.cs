@@ -1,5 +1,9 @@
 ﻿using Blater.Frontend.Client.Components.AuthorizeView;
 using Blater.Frontend.Client.Extensions;
+using Blater.Frontend.Client.Interfaces;
+using Blater.Frontend.Client.Models;
+using Blater.Models.User;
+using Microsoft.AspNetCore.Components;
 
 //using Blater.Frontend.Interfaces;
 
@@ -9,6 +13,11 @@ public partial class BlaterPortalLayout
 {
     /*[Inject]
     private IBlaterStateStore StateStore { get; set; } = null!;*/
+    
+    [Inject]
+    private INavigationService NavigationService { get; set; } = default!;
+
+    public List<NavMenuRouteInfo> Routes { get; set; } = [];
 
     BlaterAuthorizeView _blaterAuthorizeView = null!;
     
@@ -44,8 +53,7 @@ public partial class BlaterPortalLayout
             /*Routes = NavigationService
                     .Routes
                     .Where(x => x.RoleNames.Any(role => BlaterAuthState.RoleNames.Contains(role)))
-                    .Where(x => x.Permissions.Any(permission => BlaterAuthState.Permissions.Contains(permission)));
-                    */
+                    .Where(x => x.Permissions.Any(permission => BlaterAuthState.Permissions.Contains(permission)));*/
         }
     }
 }

@@ -4,45 +4,52 @@
 @layout BlaterMainLayout
 
 <MudLayout>
-    <BlaterAuthorizeView @ref="@_blaterAuthorizeView">
+    @*<BlaterAuthorizeView @ref="@_blaterAuthorizeView">
         <Authorized>
-            @{
-                var blaterUserToken = context.User.GetUserAuthenticated();
-                <MudAppBar Elevation="1">
-                    <MudIconButton Icon="@Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(e => DrawerToggle())"/>
-                    <MudSpacer/>
+            
+        </Authorized>
+        
+        <NotAuthorized>
+            <p>Permission is required access this content</p>
+        </NotAuthorized>
+    </BlaterAuthorizeView>*@
+    @{
+        //var blaterUserToken = context.User.GetUserAuthenticated();
+        <MudAppBar Elevation="1">
+            <MudIconButton Icon="@Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(e => DrawerToggle())"/>
+            <MudSpacer/>
 
-                    <MudIconButton
-                        Icon="@Material.Outlined.Notifications"
-                        Color="Color.Inherit"/>
+            <MudIconButton
+                Icon="@Material.Outlined.Notifications"
+                Color="Color.Inherit"/>
 
-                    <MudText Class="pr-2">
-                        Olá, @(blaterUserToken.Name)!
-                    </MudText>
+            <MudText Class="pr-2">
+                Olá, Name@*@(blaterUserToken.Name)*@!
+            </MudText>
 
-                    <MudAvatar>
-                        <MudImage Src="@blaterUserToken.AvatarImage"/>
-                    </MudAvatar>
-                </MudAppBar>
+            <MudAvatar>
+                <MudImage Src=""/>
+            </MudAvatar>
+        </MudAppBar>
+    }
+    <MudDrawer @bind-Open="@_drawerOpen"
+               Elevation="2"
+               Variant="DrawerVariant.Mini"
+               Class="overflow-hidden"
+               MiniWidth="50px">
+        <MudDrawerHeader Class="pa-1 d-flex align-center justify-center">
+            @if (_drawerOpen)
+            {
+                <BlaterLogo/>
             }
-            <MudDrawer @bind-Open="@_drawerOpen"
-                       Elevation="2"
-                       Variant="DrawerVariant.Mini"
-                       Class="overflow-hidden"
-                       MiniWidth="50px">
-                <MudDrawerHeader Class="pa-1 d-flex align-center justify-center">
-                    @if (_drawerOpen)
-                    {
-                        <BlaterLogo/>
-                    }
-                    else
-                    {
-                        <BlaterLogo OnlyIcon="true"/>
-                    }
-                </MudDrawerHeader>
+            else
+            {
+                <BlaterLogo OnlyIcon="true"/>
+            }
+        </MudDrawerHeader>
 
-                @{
-                    @*foreach (var route in Routes)
+        @*@{
+                    foreach (var route in Routes)
                         {
                             if (route.IsSubMenu)
                             {
@@ -74,12 +81,12 @@
                                     </MudText>
                                 </MudNavLink>
                             }
-                        }*@
-                }
+                        }
+                }*@
 
-                <MudSpacer/>
+        <MudSpacer/>
 
-                @*<MudNavLink
+        @*<MudNavLink
                         Icon="@Material.Filled.ExitToApp"
                         Match="NavLinkMatch.Prefix"
                         IconColor="Color.Error"
@@ -88,15 +95,10 @@
                             Sair
                         </MudText>
                     </MudNavLink>*@
-            </MudDrawer>
-            <MudMainContent>
-                <MudContainer Class="mt-8 px-8" MaxWidth="MaxWidth.ExtraExtraLarge">
-                    @Body
-                </MudContainer>
-            </MudMainContent>
-        </Authorized>
-        <NotAuthorized>
-            <p>Permission is required access this content</p>
-        </NotAuthorized>
-    </BlaterAuthorizeView>
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer Class="mt-8 px-8" MaxWidth="MaxWidth.ExtraExtraLarge">
+            @Body
+        </MudContainer>
+    </MudMainContent>
 </MudLayout>
