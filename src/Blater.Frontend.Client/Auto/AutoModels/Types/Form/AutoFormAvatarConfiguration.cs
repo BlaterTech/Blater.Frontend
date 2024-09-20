@@ -1,5 +1,4 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 

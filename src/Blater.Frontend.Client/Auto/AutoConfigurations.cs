@@ -9,7 +9,6 @@ using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form.Timeline;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
-using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;

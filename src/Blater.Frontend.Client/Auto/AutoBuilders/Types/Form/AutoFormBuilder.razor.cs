@@ -1,7 +1,6 @@
 ﻿using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
-using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Validator;
 using Blater.Frontend.Client.Auto.AutoModels;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
