@@ -37,8 +37,6 @@ public class NavigationService : INavigationService
         Routes.Clear();
         RouteAuthorizations.Clear();
         
-        var asd = TypesHelper.AllTypes.FirstOrDefault(x => x.Name == "HomePage");
-
         var navMenus = (
                 from type in TypesHelper.AllTypes
                 let routeAttribute = type.GetCustomAttribute<RouteAttribute>()
