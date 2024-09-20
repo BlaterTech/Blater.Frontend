@@ -9,6 +9,7 @@ using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form.Timeline;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
+using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;
@@ -26,6 +27,7 @@ public class AutoConfigurations
         _serviceProvider = serviceProvider;
 
         BuildAllConfigurations();
+        BuildAllValidators();
 
         HotReloadHelper.UpdateApplicationEvent += HotReloadHelperOnUpdateApplicationEvent;
     }
@@ -34,14 +36,43 @@ public class AutoConfigurations
     ///     Parent Type is the key, and the value is the configuration for the child type.
     /// </summary>
     public Dictionary<Type, object> Configurations { get; set; } = new();
+    
+    public Dictionary<Type, object> Validators { get; set; } = new();
 
     public static event Action? ModelsChanged;
 
     private void HotReloadHelperOnUpdateApplicationEvent(Type[]? obj)
     {
         BuildAllConfigurations();
+        BuildAllValidators();
     }
 
+    private void BuildAllValidators()
+    {
+        using var _ = new LogTimer("Building all model validators");
+        Validators.Clear();
+        
+        var validationModels = TypesHelper.AllTypes
+                                          .Where(x => x is { IsInterface: false, IsAbstract: false } && x.IsAssignableTo(typeof(IBaseAutoValidator)))
+                                          .ToList();
+
+        foreach (var validatorType in validationModels)
+        {
+            var modelType = validatorType.BaseType?.GetGenericArguments()[0];
+            
+            if (modelType == null)
+            {
+                throw new Exception($"Not found GenericArgument in {validatorType.Name}");
+            }
+            
+            var instance = ActivatorUtilities.CreateInstance(_serviceProvider, validatorType);
+            
+            Validators.Add(modelType, instance);
+        }
+        
+        ModelsChanged?.Invoke();
+    }
+    
     private void BuildAllConfigurations()
     {
         using var _ = new LogTimer("Building all model configurations");

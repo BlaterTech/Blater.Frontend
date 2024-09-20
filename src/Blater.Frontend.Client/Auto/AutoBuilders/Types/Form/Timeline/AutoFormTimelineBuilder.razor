@@ -1,5 +1,6 @@
-﻿@inherits AutoFormBuilder<T>
+﻿@inherits AutoFormBuilder<T, TValidator>
 @typeparam T where T : Blater.Frontend.Client.Models.Bases.BaseFrontendModel
+@typeparam TValidator where TValidator : BaseModelValidator<T>
 
 <BlaterCascadingValue
     T="T"

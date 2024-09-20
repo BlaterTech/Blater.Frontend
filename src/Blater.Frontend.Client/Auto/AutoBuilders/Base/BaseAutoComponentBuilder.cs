@@ -77,7 +77,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         }
 
         Logger.LogError("Model {Name} does not implement IAutoFormConfiguration<{TypeName}>", modelType.Name, modelType.Name);
-        throw new InvalidCastException("Model does not implement IAutoFormConfiguration");
+        throw new InvalidCastException($"Model does not implement IAutoFormConfiguration<{modelType.Name}>");
     }
 
     protected override async Task OnInitializedAsync()
@@ -137,7 +137,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         var componentRenderBuilder = builder.OpenComponent(componentBuilderType);
 
-        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.TypeName), propertyInfo.PropertyType.Name);
+        componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.TypeName), propertyInfo.Name);
         componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Size), propertyConfiguration.Size);
         componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.AutoPropertyConfiguration), propertyConfiguration);
         componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.ExtraClass), propertyConfiguration.ExtraClass);

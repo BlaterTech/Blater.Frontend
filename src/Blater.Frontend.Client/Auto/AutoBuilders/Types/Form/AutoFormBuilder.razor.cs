@@ -3,6 +3,7 @@ using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Validator;
 using Blater.Frontend.Client.Auto.AutoModels;
+using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 using Blater.Frontend.Client.EasyRenderTree;
@@ -13,7 +14,9 @@ using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
 
-public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : BaseFrontendModel
+public partial class AutoFormBuilder<T, TValidator> : BaseAutoComponentBuilder<T>
+    where T : BaseFrontendModel
+    where TValidator : BaseModelValidator<T>
 {
     [Parameter]
     public EventCallback<T> AfterUpsert { get; set; }
@@ -36,12 +39,14 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
     [Parameter]
     public AutoFormConfiguration<T>? FormConfiguration { get; set; }
 
+    [Parameter]
+    public TValidator? ModelValidator { get; set; }
+    
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
 
     MudForm _form = null!;
     private AutoAvatarModelConfiguration? AvatarModelConfiguration { get; set; }
-    private IAutoValidatorConfiguration<T>? ModelValidator { get; set; }
     private AutoGridConfiguration? GridConfiguration { get; set; }
     private AutoFormActionConfiguration ActionConfiguration { get; set; } = new();
 
@@ -66,7 +71,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
 
     protected override void LoadModelConfig()
     {
-        var autoValidator = FindModelConfig<IAutoValidatorConfiguration<T>>();
+        //var autoValidator = FindModelConfig<IAutoValidatorConfiguration<T>>();
 
         if (FormConfiguration == null)
         {
@@ -88,7 +93,19 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
                            .GetHasFlagValue(DisplayType | AutoComponentDisplayType.Form)
                             ?? new AutoGridConfiguration();
 
-        ModelValidator = autoValidator;
+        if (ModelValidator != null)
+        {
+            return;
+        }
+        
+        var modelType = typeof(T);
+        if (AutoConfigurations.Validators.TryGetValue(modelType, out var value))
+        {
+            if (value is BaseModelValidator<T> modelValidator)
+            {
+                ModelValidator = (TValidator?)modelValidator;
+            }
+        }
     }
 
     private RenderFragment RenderFormInputs(int breakpointGroupValue) => builder =>
@@ -145,7 +162,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
                        .OpenComponent<MudText>()
                        .AddAttribute(nameof(MudText.Typo), Typo.h4)
                        .AddAttribute(nameof(MudText.Color), Color.Inherit)
-                       .AddChildContent(builderTextContent => 
+                       .AddChildContent(builderTextContent =>
                                             builderTextContent
                                                .AddContent(GetGroupTitleValue(groupConfiguration)))
                        .Close();
@@ -172,10 +189,7 @@ public partial class AutoFormBuilder<T> : BaseAutoComponentBuilder<T> where T : 
                 }
 
                 itemBuilder
-                   .AddChildContent(mudItemContentBuilder =>
-                    {
-                        CreateGenericComponent(mudItemContentBuilder, componentConfiguration);
-                    });
+                   .AddChildContent(mudItemContentBuilder => { CreateGenericComponent(mudItemContentBuilder, componentConfiguration); });
 
                 itemBuilder.Close();
             }

@@ -1,5 +1,6 @@
 ﻿using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form.Timeline;
+using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form.Timeline;
 using Blater.Frontend.Client.EasyRenderTree;
@@ -9,11 +10,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form.Timeline;
 
-public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : BaseFrontendModel
+public partial class AutoFormTimelineBuilder<T, TValidator> : AutoFormBuilder<T, TValidator>
+    where T : BaseFrontendModel
+    where TValidator : BaseModelValidator<T>
 {
     [Parameter]
     public EventCallback<int> OnCurrentStepChanged { get; set; }
-    
+
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
 
@@ -51,7 +54,7 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
         _currentStep = value;
         await OnCurrentStepChanged.InvokeAsync(_currentStep);
     }
-    
+
     private RenderFragment RenderAutoFormBuilder() => builder =>
     {
         var stepConfigurations = FormTimelineConfiguration
@@ -67,9 +70,9 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
         }
 
         var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
-        
+
         easyRenderTreeBuilder
-           .OpenComponent<AutoFormBuilder<T>>()
+           .OpenComponent<AutoFormBuilder<T, TValidator>>()
            .AddAttribute(nameof(Id), Id)
            .AddAttribute(nameof(Model), Model)
            .AddAttribute(nameof(EnableActionsButtons), false)
@@ -92,7 +95,7 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
             Logger.LogInformation("BackStep {Step}", _currentStep);
             await OnCurrentStepChanged.InvokeAsync(_currentStep);
         }
-        
+
         //todo: pensar melhor em como fazer o processo de steps
         StateHasChanged();
     }
@@ -113,7 +116,7 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
                 CurrentStep++;
             }
         }*/
-        
+
         if (_currentStep == _maxValue)
         {
             //todo: save model in db
@@ -125,7 +128,7 @@ public partial class AutoFormTimelineBuilder<T> : AutoFormBuilder<T> where T : B
             Logger.LogInformation("NextStep {Step}", _currentStep);
             await OnCurrentStepChanged.InvokeAsync(_currentStep);
         }
-        
+
         StateHasChanged();
     }
 
