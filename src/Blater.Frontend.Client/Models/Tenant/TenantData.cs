@@ -6,7 +6,7 @@ namespace Blater.Frontend.Client.Models.Tenant;
 
 public class TenantData : BaseDataModel
 {
-    public Guid TenantId { get; set; } = SequentialGuidGenerator.NewGuid();
+    public Guid TenantId { get; set; }
     
     public required string Name { get; set; }
     public required string Domain { get; set; }

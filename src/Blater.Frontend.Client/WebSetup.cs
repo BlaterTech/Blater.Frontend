@@ -3,6 +3,7 @@ using Blater.Frontend.Client.Auto;
 using Blater.Frontend.Client.Auto.AutoBuilders;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
+using Blater.Frontend.Client.Models.Tenant;
 using Blater.Frontend.Client.Services;
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
@@ -41,6 +42,9 @@ public static class WebSetup
         //services.AddBlaterAuthRepositories();
 
         //services.AddSingleton<ICookieService, CookieService>();
+        
+        services.AddSingleton<TenantData>();
+        
         services.AddBlazoredLocalStorage();
         services.AddBlazoredSessionStorage();
         services.AddSingleton<AutoConfigurations>();

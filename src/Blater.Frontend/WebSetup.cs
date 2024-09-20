@@ -5,6 +5,7 @@ using Blater.Frontend.Client.Auto;
 using Blater.Frontend.Client.Auto.AutoBuilders;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
+using Blater.Frontend.Client.Models.Tenant;
 using Blater.Frontend.Client.Services;
 using Blater.Frontend.Pages.Account;
 using Blater.Helpers;
@@ -68,6 +69,8 @@ public static class WebSetup
                 client.BaseAddress = new Uri("http://localhost:5221");
             })
            .AddHttpMessageHandler<CookieHandler>();
+
+        services.AddScoped<TenantData>();
 
         //services.AddBlaterDatabase();
         //services.AddBlaterManagement();
