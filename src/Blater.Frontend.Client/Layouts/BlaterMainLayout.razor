@@ -1,4 +1,5 @@
-﻿@using Blater.Frontend.Client.Models.Tenant
+﻿@using Blater.Extensions
+@using Blater.Frontend.Client.Models.Tenant
 @inherits LayoutComponentBase
 
 <MudRTLProvider>
@@ -13,4 +14,9 @@
 {
     [Inject]
     protected TenantData TenantData { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine(TenantData.ToJson());
+    }
 }
