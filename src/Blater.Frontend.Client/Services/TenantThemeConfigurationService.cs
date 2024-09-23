@@ -1,76 +1,72 @@
-﻿using Blater.Frontend.Client.Interfaces;
+﻿using Blater.Extensions;
+using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Models.Tenant;
-using Microsoft.Extensions.Options;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Services;
 
-public class TenantThemeConfigurationService(IOptions<TenantData> options) : ITenantThemeConfigurationService
+public class TenantThemeConfigurationService(TenantData tenantData, ILayoutService layoutService) : ITenantThemeConfigurationService
 {
-    private readonly TenantTheme _tenantTheme = options.Value.TenantTheme;
-
-    public MudTheme DefaultTheme { get; set; } = new();
-    public bool IsDarkMode => _tenantTheme.IsDarkMode;
+    private readonly TenantTheme _tenantTheme = tenantData.TenantTheme;
 
     public MudTheme GetMudTheme()
     {
+        Console.WriteLine($"TenantTheme => {_tenantTheme.ToJson()}");
         var themePaletteDark = _tenantTheme.PaletteDark;
         var themePaletteLight = _tenantTheme.PaletteLight;
+        var defaultTheme = layoutService.CurrentTheme;
         var theme = new MudTheme
         {
             PaletteDark =
             {
-                Primary = themePaletteDark.Primary ?? DefaultTheme.PaletteDark.Primary,
-                PrimaryLighten = themePaletteDark.PrimaryLighten ?? DefaultTheme.PaletteDark.PrimaryLighten,
-                PrimaryDarken = themePaletteDark.PrimaryDarken ?? DefaultTheme.PaletteDark.PrimaryDarken,
+                Primary = themePaletteDark.Primary ?? defaultTheme.PaletteDark.Primary,
+                PrimaryLighten = themePaletteDark.PrimaryLighten ?? defaultTheme.PaletteDark.PrimaryLighten,
+                PrimaryDarken = themePaletteDark.PrimaryDarken ?? defaultTheme.PaletteDark.PrimaryDarken,
                 
-                Secondary = themePaletteDark.Secondary ?? DefaultTheme.PaletteDark.Secondary,
-                SecondaryLighten = themePaletteDark.SecondaryLighten ?? DefaultTheme.PaletteDark.SecondaryLighten,
-                SecondaryDarken = themePaletteDark.SecondaryDarken ?? DefaultTheme.PaletteDark.SecondaryDarken,
+                Secondary = themePaletteDark.Secondary ?? defaultTheme.PaletteDark.Secondary,
+                SecondaryLighten = themePaletteDark.SecondaryLighten ?? defaultTheme.PaletteDark.SecondaryLighten,
+                SecondaryDarken = themePaletteDark.SecondaryDarken ?? defaultTheme.PaletteDark.SecondaryDarken,
                 
-                Tertiary = themePaletteDark.Tertiary ?? DefaultTheme.PaletteDark.Tertiary,
-                TertiaryLighten = themePaletteDark.TertiaryLighten ?? DefaultTheme.PaletteDark.TertiaryLighten,
-                TertiaryDarken = themePaletteDark.TertiaryDarken ?? DefaultTheme.PaletteDark.TertiaryDarken,
+                Tertiary = themePaletteDark.Tertiary ?? defaultTheme.PaletteDark.Tertiary,
+                TertiaryLighten = themePaletteDark.TertiaryLighten ?? defaultTheme.PaletteDark.TertiaryLighten,
+                TertiaryDarken = themePaletteDark.TertiaryDarken ?? defaultTheme.PaletteDark.TertiaryDarken,
                 
-                DrawerBackground = themePaletteDark.DrawerBackground ?? DefaultTheme.PaletteDark.DrawerBackground,
-                DrawerText = themePaletteDark.DrawerText ?? DefaultTheme.PaletteDark.DrawerText,
-                DrawerIcon = themePaletteDark.DrawerIcon ?? DefaultTheme.PaletteDark.DrawerIcon,
+                DrawerBackground = themePaletteDark.DrawerBackground ?? defaultTheme.PaletteDark.DrawerBackground,
+                DrawerText = themePaletteDark.DrawerText ?? defaultTheme.PaletteDark.DrawerText,
+                DrawerIcon = themePaletteDark.DrawerIcon ?? defaultTheme.PaletteDark.DrawerIcon,
                 
-                AppbarBackground = themePaletteDark.AppbarBackground ?? DefaultTheme.PaletteDark.AppbarBackground,
-                AppbarText = themePaletteDark.AppbarText ?? DefaultTheme.PaletteDark.AppbarText,
+                AppbarBackground = themePaletteDark.AppbarBackground ?? defaultTheme.PaletteDark.AppbarBackground,
+                AppbarText = themePaletteDark.AppbarText ?? defaultTheme.PaletteDark.AppbarText,
                 
-                Divider = themePaletteDark.Divider ?? DefaultTheme.PaletteDark.Divider,
-                DividerLight = themePaletteDark.DividerLight ?? DefaultTheme.PaletteDark.DividerLight,
+                Divider = themePaletteDark.Divider ?? defaultTheme.PaletteDark.Divider,
+                DividerLight = themePaletteDark.DividerLight ?? defaultTheme.PaletteDark.DividerLight,
             },
             PaletteLight =
             {
-                Primary = themePaletteLight.Primary ?? DefaultTheme.PaletteLight.Primary,
-                PrimaryLighten = themePaletteLight.PrimaryLighten ?? DefaultTheme.PaletteLight.PrimaryLighten,
-                PrimaryDarken = themePaletteLight.PrimaryDarken ?? DefaultTheme.PaletteLight.PrimaryDarken,
+                Primary = themePaletteLight.Primary ?? defaultTheme.PaletteLight.Primary,
+                PrimaryLighten = themePaletteLight.PrimaryLighten ?? defaultTheme.PaletteLight.PrimaryLighten,
+                PrimaryDarken = themePaletteLight.PrimaryDarken ?? defaultTheme.PaletteLight.PrimaryDarken,
                 
-                Secondary = themePaletteLight.Secondary ?? DefaultTheme.PaletteLight.Secondary,
-                SecondaryLighten = themePaletteLight.SecondaryLighten ?? DefaultTheme.PaletteLight.SecondaryLighten,
-                SecondaryDarken = themePaletteLight.SecondaryDarken ?? DefaultTheme.PaletteLight.SecondaryDarken,
+                Secondary = themePaletteLight.Secondary ?? defaultTheme.PaletteLight.Secondary,
+                SecondaryLighten = themePaletteLight.SecondaryLighten ?? defaultTheme.PaletteLight.SecondaryLighten,
+                SecondaryDarken = themePaletteLight.SecondaryDarken ?? defaultTheme.PaletteLight.SecondaryDarken,
                 
-                Tertiary = themePaletteLight.Tertiary ?? DefaultTheme.PaletteLight.Tertiary,
-                TertiaryLighten = themePaletteLight.TertiaryLighten ?? DefaultTheme.PaletteLight.TertiaryLighten,
-                TertiaryDarken = themePaletteLight.TertiaryDarken ?? DefaultTheme.PaletteLight.TertiaryDarken,
+                Tertiary = themePaletteLight.Tertiary ?? defaultTheme.PaletteLight.Tertiary,
+                TertiaryLighten = themePaletteLight.TertiaryLighten ?? defaultTheme.PaletteLight.TertiaryLighten,
+                TertiaryDarken = themePaletteLight.TertiaryDarken ?? defaultTheme.PaletteLight.TertiaryDarken,
                 
-                DrawerBackground = themePaletteLight.DrawerBackground ?? DefaultTheme.PaletteLight.DrawerBackground,
-                DrawerText = themePaletteLight.DrawerText ?? DefaultTheme.PaletteLight.DrawerText,
-                DrawerIcon = themePaletteLight.DrawerIcon ?? DefaultTheme.PaletteLight.DrawerIcon,
+                DrawerBackground = themePaletteLight.DrawerBackground ?? defaultTheme.PaletteLight.DrawerBackground,
+                DrawerText = themePaletteLight.DrawerText ?? defaultTheme.PaletteLight.DrawerText,
+                DrawerIcon = themePaletteLight.DrawerIcon ?? defaultTheme.PaletteLight.DrawerIcon,
                 
-                AppbarBackground = themePaletteLight.AppbarBackground ?? DefaultTheme.PaletteLight.AppbarBackground,
-                AppbarText = themePaletteLight.AppbarText ?? DefaultTheme.PaletteLight.AppbarText,
+                AppbarBackground = themePaletteLight.AppbarBackground ?? defaultTheme.PaletteLight.AppbarBackground,
+                AppbarText = themePaletteLight.AppbarText ?? defaultTheme.PaletteLight.AppbarText,
                 
-                Divider = themePaletteLight.Divider ?? DefaultTheme.PaletteLight.Divider,
-                DividerLight = themePaletteLight.DividerLight ?? DefaultTheme.PaletteLight.DividerLight,
+                Divider = themePaletteLight.Divider ?? defaultTheme.PaletteLight.Divider,
+                DividerLight = themePaletteLight.DividerLight ?? defaultTheme.PaletteLight.DividerLight,
             }
         };
 
         return theme;
     }
-
-    public TenantTheme GetTenantTheme()
-        => _tenantTheme;
 }

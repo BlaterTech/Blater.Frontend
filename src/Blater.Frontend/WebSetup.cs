@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Blater.Extensions;
 using Blater.Frontend.Authentication;
 using Blater.Frontend.Client;
 using Blater.Frontend.Client.Auto;
@@ -66,21 +67,23 @@ public static class WebSetup
 
         builder.Services.AddScoped<CookieHandler>();
 
-        builder.Services
-               .AddHttpClient<BlaterHttpClient>((_, client) => { client.BaseAddress = new Uri("http://localhost:5221"); })
-               .AddHttpMessageHandler<CookieHandler>();
-
-        builder.Services.Configure<TenantData>(options =>
+        builder.Services.AddSingleton<TenantData>(x =>
         {
-            builder.Configuration
-                   .GetSection(nameof(TenantData))
-                   .Bind(options);
+            var configuration = x.GetRequiredService<IConfiguration>();
+            var tenantData = configuration.GetSection(nameof(TenantData)).Get<TenantData>();
+            if (tenantData == null)
+            {
+                throw new Exception("TenantData not found in appSettings");
+            }
+
+            return tenantData;
         });
-        builder.Services.AddSingleton<ITenantService, TenantService>();
-        builder.Services.AddSingleton<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
         
         builder.Services.AddScoped<IUserPreferencesService, UserPreferencesService>();
         builder.Services.AddScoped<ILayoutService, LayoutService>();
+        
+        builder.Services.AddSingleton<ITenantService, TenantService>();
+        builder.Services.AddScoped<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
         
         //builder.Services.AddBlaterDatabase();
         //builder.Services.AddBlaterManagement();

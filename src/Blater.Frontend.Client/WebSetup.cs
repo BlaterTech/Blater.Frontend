@@ -1,4 +1,7 @@
 ﻿using System.Reflection;
+using System.Text;
+using Blater.Enumerations;
+using Blater.Extensions;
 using Blater.Frontend.Client.Authentication;
 using Blater.Frontend.Client.Auto;
 using Blater.Frontend.Client.Auto.AutoBuilders;
@@ -8,6 +11,7 @@ using Blater.Frontend.Client.Models.Tenant;
 using Blater.Frontend.Client.Services;
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -47,18 +51,75 @@ public static class WebSetup
 
         //builder.Services.AddSingleton<ICookieService, CookieService>();
 
-        builder.Services.Configure<TenantData>(options =>
+        //todo: verificar como será obtido os tenants
+        builder.Services.AddSingleton(new TenantData
         {
-            builder.Configuration
-                   .GetSection(nameof(TenantData))
-                   .Bind(options);
+            TenantId = Guid.Parse("08dcd9b0-26be-f5f5-a6e1-6d3612fba317"),
+            Name = "Juriself",
+            Domain = "example.com",
+            SubDomain = "sub.example.com",
+            ShortName = "js",
+            Project = BlaterProjects.Juriself,
+            MultipleTenants = false,
+            CanCreateAccountOAuth = true,
+            TenantTheme = new TenantTheme
+            {
+                NavMenuLogo = "https://example.com/logo.png",
+                Favicon = "https://example.com/favicon.ico",
+                LoginLogo = "https://example.com/loginlogo.png",
+                LoginBackgroundImage = "https://example.com/background.png",
+                IsDarkMode = false,
+                PaletteDark = new TenantPaletteDark
+                {
+                    Primary = "#6F1677",
+                    PrimaryDarken = "#510358",
+                    PrimaryLighten = "#913099",
+                    Secondary = "#E1B7E5",
+                    SecondaryDarken = "#C78DCC",
+                    SecondaryLighten = "#F3DAF5",
+                    Tertiary = "#ED7005",
+                    TertiaryDarken = "#BD5700",
+                    TertiaryLighten = "#FBAA65",
+                    DrawerBackground = "#6F1677",
+                    DrawerText = "#FFFFFF",
+                    DrawerIcon = "#FFFFFF",
+                    AppbarBackground = "#FFFFFF",
+                    AppbarText = "#FFFFFF"
+                },
+                PaletteLight = new TenantPaletteLight
+                {
+                    Primary = "#6F1677",
+                    PrimaryDarken = "#510358",
+                    PrimaryLighten = "#913099",
+                    Secondary = "#E1B7E5",
+                    SecondaryDarken = "#C78DCC",
+                    SecondaryLighten = "#F3DAF5",
+                    Tertiary = "#ED7005",
+                    TertiaryDarken = "#BD5700",
+                    TertiaryLighten = "#FBAA65",
+                    DrawerBackground = "#6F1677",
+                    DrawerText = "#FFFFFF",
+                    DrawerIcon = "#FFFFFF",
+                    AppbarBackground = "#FFFFFF",
+                    AppbarText = "#000000"
+                },
+                Typography = new TenantTypography
+                {
+                    Button = new TenantTypographyButton
+                    {
+                        FontWeight = 700,
+                        FontSize = "0.85rem"
+                    }
+                }
+            }
         });
-        builder.Services.AddSingleton<ITenantService, TenantService>();
-        builder.Services.AddSingleton<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
         
         builder.Services.AddScoped<IUserPreferencesService, UserPreferencesService>();
         builder.Services.AddScoped<ILayoutService, LayoutService>();
-        
+
+        builder.Services.AddSingleton<ITenantService, TenantService>();
+        builder.Services.AddScoped<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
+
         builder.Services.AddBlazoredLocalStorage();
         builder.Services.AddBlazoredSessionStorage();
         builder.Services.AddSingleton<AutoConfigurations>();
