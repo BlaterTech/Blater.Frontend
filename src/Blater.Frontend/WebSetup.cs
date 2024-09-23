@@ -69,10 +69,14 @@ public static class WebSetup
                .AddHttpClient<BlaterHttpClient>((_, client) => { client.BaseAddress = new Uri("http://localhost:5221"); })
                .AddHttpMessageHandler<CookieHandler>();
 
-        var tenantData = builder.Configuration.GetSection(nameof(TenantData)).Get<TenantData>();
-        builder.Services.AddSingleton(tenantData!);
-        builder.Services.AddSingleton<ITenantService, TenantService>();
-        builder.Services.AddSingleton<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
+        builder.Services.Configure<TenantData>(options =>
+        {
+            builder.Configuration
+                   .GetSection(nameof(TenantData))
+                   .Bind(options);
+        });
+        builder.Services.AddScoped<ITenantService, TenantService>();
+        builder.Services.AddScoped<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
         
         //builder.Services.AddBlaterDatabase();
         //builder.Services.AddBlaterManagement();

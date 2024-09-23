@@ -46,11 +46,14 @@ public static class WebSetup
 
         //builder.Services.AddSingleton<ICookieService, CookieService>();
 
-        var tenantData = builder.Configuration.GetSection(nameof(TenantData)).Get<TenantData>();
-        builder.Services.AddSingleton(tenantData!);
-
-        builder.Services.AddSingleton<ITenantService, TenantService>();
-        builder.Services.AddSingleton<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
+        builder.Services.Configure<TenantData>(options =>
+        {
+            builder.Configuration
+                   .GetSection(nameof(TenantData))
+                   .Bind(options);
+        });
+        builder.Services.AddScoped<ITenantService, TenantService>();
+        builder.Services.AddScoped<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
         
         builder.Services.AddBlazoredLocalStorage();
         builder.Services.AddBlazoredSessionStorage();

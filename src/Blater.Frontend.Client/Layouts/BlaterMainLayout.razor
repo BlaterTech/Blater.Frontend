@@ -2,8 +2,8 @@
 @inherits LayoutComponentBase
 
 <MudThemeProvider Theme="@MudTheme"/>
-<MudDialogProvider/>
 <MudSnackbarProvider/>
+<MudDialogProvider/>
 <MudPopoverProvider/>
 
 @Body
@@ -12,6 +12,12 @@
 {
     [Inject]
     protected ITenantThemeConfigurationService ThemeConfigurationService { get; set; } = default!;
+    
+    [Inject]
+    protected INavigationService NavigationService { get; set; } = default!;
+    
+    [Inject]
+    protected ILocalizationService LocalizationService { get; set; } = default!;
     
     protected MudTheme MudTheme => ThemeConfigurationService.GetMudTheme();
 }

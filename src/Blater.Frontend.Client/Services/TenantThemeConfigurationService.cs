@@ -1,12 +1,13 @@
 ﻿using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Models.Tenant;
+using Microsoft.Extensions.Options;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Services;
 
-public class TenantThemeConfigurationService(TenantData tenantData) : ITenantThemeConfigurationService
+public class TenantThemeConfigurationService(IOptions<TenantData> options) : ITenantThemeConfigurationService
 {
-    private readonly TenantTheme _tenantTheme = tenantData.TenantTheme;
+    private readonly TenantTheme _tenantTheme = options.Value.TenantTheme;
 
     public MudTheme DefaultTheme { get; set; } = new();
     public bool IsDarkMode => _tenantTheme.IsDarkMode;

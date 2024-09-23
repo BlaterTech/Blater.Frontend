@@ -1,29 +1,26 @@
-﻿using Blater.Frontend.Client.Interfaces;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
+﻿using MudBlazor;
 
 //using Blater.Frontend.Interfaces;
 
 namespace Blater.Frontend.Client.Layouts;
 
-public partial class BlaterPortalLayout
+public partial class BlaterPortalPrimaryLayout : BlaterMainLayout
 {
     /*[Inject]
     private IBlaterStateStore StateStore { get; set; } = null!;*/
-    
-    [Inject]
-    private INavigationService NavigationService { get; set; } = default!;
-    
-    [Inject]
-    private ILocalizationService LocalizationService { get; set; } = default!;
 
     //BlaterAuthorizeView _blaterAuthorizeView = null!;
-    
-    private bool _drawerOpen = true;
-    
+
+    protected bool EnableHeaderToggle { get; set; } = true;
+    protected bool EnableFooterToggle { get; set; }
+    protected bool EnableHeaderLogo { get; set; }
+    protected bool EnableDrawerLogo { get; set; } = true;
+
+    private bool DrawerOpen { get; set; } = true;
+
     private void DrawerToggle()
     {
-        _drawerOpen = !_drawerOpen;
+        DrawerOpen = !DrawerOpen;
     }
 
     /*protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -36,7 +33,7 @@ public partial class BlaterPortalLayout
             if (isValid)
             {
                 Configuration.Jwt = user.Jwt;
-                //await StateStore.SetState(user);  
+                //await StateStore.SetState(user);
             }
             else
             {
@@ -50,9 +47,10 @@ public partial class BlaterPortalLayout
                                      .Where(x => x.UserPermissions?.Any(permission => BlaterAuthState.Permissions.Contains(permission)));#1#
         }
     }*/
-    
+
     private MudThemeProvider _mudThemeProvider = null!;
     private bool _isDarkMode;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -69,5 +67,4 @@ public partial class BlaterPortalLayout
         StateHasChanged();
         return Task.CompletedTask;
     }
-
 }
