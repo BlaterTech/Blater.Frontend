@@ -1,18 +1,17 @@
 ﻿@using Blater.Frontend.Client.Interfaces
 @inherits LayoutComponentBase
 
-<MudRTLProvider>
-    <MudThemeProvider IsDarkMode="@ThemeConfigurationService.IsDarkMode" Theme="@MudTheme"/>
-    <MudPopoverProvider />
-    <MudSnackbarProvider/>
-    <MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.ExtraSmall"/>
-    @Body
-</MudRTLProvider>
+<MudThemeProvider Theme="@MudTheme"/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+<MudPopoverProvider/>
+
+@Body
 
 @code
 {
     [Inject]
     protected ITenantThemeConfigurationService ThemeConfigurationService { get; set; } = default!;
     
-    private MudTheme MudTheme => ThemeConfigurationService.GetMudTheme();
+    protected MudTheme MudTheme => ThemeConfigurationService.GetMudTheme();
 }

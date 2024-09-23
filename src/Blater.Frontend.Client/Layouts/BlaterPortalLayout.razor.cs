@@ -1,5 +1,6 @@
 ﻿using Blater.Frontend.Client.Interfaces;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 //using Blater.Frontend.Interfaces;
 
@@ -25,12 +26,7 @@ public partial class BlaterPortalLayout
         _drawerOpen = !_drawerOpen;
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-        await Task.Delay(1);
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    /*protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
@@ -45,13 +41,33 @@ public partial class BlaterPortalLayout
             else
             {
                 //todo: voltar ao login se jwt nao for válido
-            }*/
+            }#1#
 
             //todo: refactor this
             /*NavigationService.Routes = NavigationService
                                      .Routes
                                      .Where(x => x.UserRoles?.Any(role => BlaterAuthState.RoleNames.Contains(role)))
-                                     .Where(x => x.UserPermissions?.Any(permission => BlaterAuthState.Permissions.Contains(permission)));*/
+                                     .Where(x => x.UserPermissions?.Any(permission => BlaterAuthState.Permissions.Contains(permission)));#1#
+        }
+    }*/
+    
+    private MudThemeProvider _mudThemeProvider = null!;
+    private bool _isDarkMode;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+            StateHasChanged();
         }
     }
+
+    private Task OnSystemPreferenceChanged(bool newValue)
+    {
+        _isDarkMode = newValue;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
 }
