@@ -23,17 +23,17 @@ public static class AutoComponentTypeExtensions
             _                                        => false
         };*/
     }
-    
+
     public static bool IsFormInput(this BaseAutoComponentTypeEnumeration? componentType)
     {
         if (componentType is null)
         {
             return false;
         }
-        
+
         return componentType.GetType() == typeof(AutoComponentInputType);
     }
-    
+
     public static PropertyInfo GetPropertyInfoForType<TProperty>(this Expression<Func<TProperty>> expression, Type type)
     {
         var propertyName = expression.GetPropertyName();
@@ -44,7 +44,7 @@ public static class AutoComponentTypeExtensions
         }
 
         var property = type.GetProperty(propertyName);
-        
+
         if (property == null)
         {
             throw new InvalidOperationException($"No property {propertyName} found in {type.Name}");
@@ -52,7 +52,7 @@ public static class AutoComponentTypeExtensions
 
         return property;
     }
-    
+
     public static AutoComponentInputType GetDefaultAutoFormComponentForType(this PropertyInfo propertyInfo)
     {
         var propType = propertyInfo.PropertyType;
@@ -65,8 +65,21 @@ public static class AutoComponentTypeExtensions
             _ => AutoComponentInputType.AutoTextComponentInput
         };
     }
-    
-    public static AutoComponentType GetDefaultComponentForType(this PropertyInfo propertyInfo)
+
+    public static AutoComponentType GetComponentTypeForTable(this PropertyInfo propertyInfo)
+    {
+        var propType = propertyInfo.PropertyType;
+        return propType switch
+        {
+            not null when propType == typeof(string) => AutoComponentType.AutoTextTable,
+            not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoComponentType.AutoNumeric,
+            not null when propType == typeof(DateTime) => AutoComponentType.AutoDate,
+            not null when propType == typeof(bool) => AutoComponentType.AutoStatus,
+            _ => AutoComponentType.AutoText
+        };
+    }
+
+    public static AutoComponentType GetComponentTypeForDetails(this PropertyInfo propertyInfo)
     {
         var propType = propertyInfo.PropertyType;
         return propType switch
@@ -78,5 +91,4 @@ public static class AutoComponentTypeExtensions
             _ => AutoComponentType.AutoText
         };
     }
-
 }

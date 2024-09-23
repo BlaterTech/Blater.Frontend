@@ -74,7 +74,7 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
             propertyConfiguration.Property = propertyInfo;
             propertyConfiguration.LabelNameLocalizationId ??= $"Blater-AutoTable-{typeof(TModel).Name}-Member-LabelName-{propertyInfo.Name}";
             propertyConfiguration.LabelName ??= propertyInfo.Name;
-            propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultComponentForType();
+            propertyConfiguration.AutoComponentType ??= propertyInfo.GetComponentTypeForTable();
             _configuration.Configurations.Add(propertyConfiguration);
         }
     }
