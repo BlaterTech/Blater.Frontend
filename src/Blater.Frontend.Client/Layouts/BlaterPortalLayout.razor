@@ -64,7 +64,7 @@
                                 Href="@subRoute.Route"
                                 Match="NavLinkMatch.Prefix">
                                 <MudText>
-                                    @LocalizationService.GetValue(subRoute.Name)
+                                    @subRoute.Name
                                 </MudText>
                             </MudNavLink>
                         }
@@ -77,7 +77,7 @@
                         Href="@route.Route"
                         Match="NavLinkMatch.Prefix">
                         <MudText>
-                            @LocalizationService.GetValue(route.Name)
+                            @route.Name
                         </MudText>
                     </MudNavLink>
                 }
@@ -96,7 +96,7 @@
         </MudNavLink>
     </MudDrawer>
     <MudMainContent>
-        <MudContainer Class="mt-8 px-8" MaxWidth="MaxWidth.ExtraExtraLarge">
+        <MudContainer Class="pa-4" MaxWidth="MaxWidth.ExtraExtraLarge">
             @Body
         </MudContainer>
     </MudMainContent>

@@ -16,83 +16,95 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MudBlazor.Services;
+
 // ReSharper disable RedundantNameQualifier
 
 namespace Blater.Frontend;
 
 public static class WebSetup
 {
-    public static void AddBlaterFrontendServer(this IServiceCollection services)
+    public static void AddBlaterFrontendServer(this WebApplicationBuilder builder)
     {
         // Add services to the container.
-        services
-           .AddRazorComponents()
-           .AddInteractiveServerComponents()
-           .AddInteractiveWebAssemblyComponents();
+        builder.Services
+               .AddRazorComponents()
+               .AddInteractiveServerComponents()
+               .AddInteractiveWebAssemblyComponents();
 
         //Test
-        services.AddRazorPages();
+        builder.Services.AddRazorPages();
 
-        services.AddCascadingAuthenticationState();
-       // services.AddScoped<IdentityUserAccessor>();
-        services.AddScoped<IdentityRedirectManager>();
-        services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
+        builder.Services.AddCascadingAuthenticationState();
+        // builder.Services.AddScoped<IdentityUserAccessor>();
+        builder.Services.AddScoped<IdentityRedirectManager>();
+        builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
 
-        services
-           .AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-           .AddCookie(options =>
-            {
-                options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Login";
-                options.ExpireTimeSpan = TimeSpan.FromDays(1);
-                options.Cookie = new CookieBuilder
+        builder.Services
+               .AddAuthentication(options =>
                 {
-                    Name = Configuration.CookieAuthName,
-                    IsEssential = true,
-                    HttpOnly = true,
-                    SameSite = SameSiteMode.Strict
-                };
-            });
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                })
+               .AddCookie(options =>
+                {
+                    options.LoginPath = "/Account/Login";
+                    options.LogoutPath = "/Account/Login";
+                    options.ExpireTimeSpan = TimeSpan.FromDays(1);
+                    options.Cookie = new CookieBuilder
+                    {
+                        Name = Configuration.CookieAuthName,
+                        IsEssential = true,
+                        HttpOnly = true,
+                        SameSite = SameSiteMode.Strict
+                    };
+                });
 
-        services.AddScoped<CookieHandler>();
+        builder.Services.AddScoped<CookieHandler>();
 
-        services
-           .AddHttpClient<BlaterHttpClient>((_, client) =>
-            {
-                client.BaseAddress = new Uri("http://localhost:5221");
-            })
-           .AddHttpMessageHandler<CookieHandler>();
+        builder.Services
+               .AddHttpClient<BlaterHttpClient>((_, client) => { client.BaseAddress = new Uri("http://localhost:5221"); })
+               .AddHttpMessageHandler<CookieHandler>();
 
-        services.AddScoped<TenantData>();
-
-        //services.AddBlaterDatabase();
-        //services.AddBlaterManagement();
-        //services.AddBlaterKeyValue();
-        //services.AddBlaterAuthStores();
-        //services.AddBlaterAuthRepositories();
-        services.AddSingleton<AutoConfigurations>();
-        services.AddHttpContextAccessor();
-        //services.AddScoped<ICookieService, CookieService>();
-        services.AddBlazoredLocalStorage();
-        services.AddBlazoredSessionStorage();
-        //services.AddScoped<IBlaterMemoryCache, BlaterMemoryCache>();
-        //services.AddScoped<IBlaterStateStore, BlaterStateStore>();
-        services.AddScoped<ILocalizationService, LocalizationService>();
-        services.AddScoped<INavigationService, NavigationService>();
-        services.AddMudServices();
+        var tenantData = builder.Configuration.GetSection(nameof(TenantData)).Get<TenantData>();
+        builder.Services.AddSingleton(tenantData!);
+        builder.Services.AddSingleton<ITenantService, TenantService>();
+        builder.Services.AddSingleton<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
+        
+        //builder.Services.AddBlaterDatabase();
+        //builder.Services.AddBlaterManagement();
+        //builder.Services.AddBlaterKeyValue();
+        //builder.Services.AddBlaterAuthStores();
+        //builder.Services.AddBlaterAuthRepositories();
+        builder.Services.AddSingleton<AutoConfigurations>();
+        builder.Services.AddHttpContextAccessor();
+        //builder.Services.AddScoped<ICookieService, CookieService>();
+        builder.Services.AddBlazoredLocalStorage();
+        builder.Services.AddBlazoredSessionStorage();
+        //builder.Services.AddScoped<IBlaterMemoryCache, BlaterMemoryCache>();
+        //builder.Services.AddScoped<IBlaterStateStore, BlaterStateStore>();
+        builder.Services.AddScoped<ILocalizationService, LocalizationService>();
+        builder.Services.Scan(x => x.FromAssemblies(
+                                         typeof(WebSetup).Assembly,
+                                         Assembly.GetEntryAssembly()!,
+                                         Assembly.GetExecutingAssembly(),
+                                         typeof(ITranslation).Assembly)
+                                    .AddClasses(classes => classes
+                                                   .AssignableTo<ITranslation>())
+                                    .AsImplementedInterfaces()
+                                    .WithSingletonLifetime());
+        
+        builder.Services.AddScoped<INavigationService, NavigationService>();
+        builder.Services.AddMudServices();
     }
 
     public static void UseBlaterFrontendServer<TApp>(this WebApplication app, Assembly clientAssembly) where TApp : ComponentBase
     {
         AutoComponentsBuilders.Initialize();
-        
+
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
@@ -112,12 +124,12 @@ public static class WebSetup
         var blaterFrontendAssembly = typeof(Blater.Frontend.WebSetup).Assembly;
         var blaterFrontendClientAssembly = typeof(Blater.Frontend.Client.WebSetup).Assembly;
         var executingAssembly = Assembly.GetEntryAssembly()!;
-        
-        TypesHelper.RoutesAssemblies.Add(executingAssembly);//Executing assembly AKA Server
+
+        TypesHelper.RoutesAssemblies.Add(executingAssembly); //Executing assembly AKA Server
         TypesHelper.RoutesAssemblies.Add(clientAssembly);
         TypesHelper.RoutesAssemblies.Add(blaterFrontendAssembly);
         TypesHelper.RoutesAssemblies.Add(blaterFrontendClientAssembly);
-        
+
         //Test
         app.MapRazorPages();
 

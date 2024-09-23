@@ -1,9 +1,8 @@
-﻿@using Blater.Extensions
-@using Blater.Frontend.Client.Models.Tenant
+﻿@using Blater.Frontend.Client.Interfaces
 @inherits LayoutComponentBase
 
 <MudRTLProvider>
-    <MudThemeProvider IsDarkMode="@TenantData.TenantTheme.IsDarkMode" Theme="@TenantData.TenantTheme.Theme"/>
+    <MudThemeProvider IsDarkMode="@ThemeConfigurationService.IsDarkMode" Theme="@MudTheme"/>
     <MudPopoverProvider />
     <MudSnackbarProvider/>
     <MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.ExtraSmall"/>
@@ -13,10 +12,7 @@
 @code
 {
     [Inject]
-    protected TenantData TenantData { get; set; } = default!;
-
-    protected override void OnInitialized()
-    {
-        Console.WriteLine(TenantData.ToJson());
-    }
+    protected ITenantThemeConfigurationService ThemeConfigurationService { get; set; } = default!;
+    
+    private MudTheme MudTheme => ThemeConfigurationService.GetMudTheme();
 }

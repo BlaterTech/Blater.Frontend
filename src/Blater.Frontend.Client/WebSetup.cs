@@ -9,6 +9,8 @@ using Blater.Frontend.Client.Services;
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 
@@ -16,18 +18,18 @@ namespace Blater.Frontend.Client;
 
 public static class WebSetup
 {
-    public static void AddBlaterFrontendClient(this IServiceCollection services)
+    public static void AddBlaterFrontendClient(this WebAssemblyHostBuilder builder)
     {
         AutoComponentsBuilders.Initialize();
 
         //builder.SetupSerilog();
 
-        services.AddAuthorizationCore();
-        services.AddCascadingAuthenticationState();
-        //services.AddAuthenticationStateDeserialization();
-        services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
+        builder.Services.AddAuthorizationCore();
+        builder.Services.AddCascadingAuthenticationState();
+        //builder.Services.AddAuthenticationStateDeserialization();
+        builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
 
-        services.AddScoped<CookieHandler>();
+        builder.Services.AddScoped<CookieHandler>();
 
         //services
         //       .AddHttpClient<BlaterHttpClient>((_, client) =>
@@ -36,35 +38,39 @@ public static class WebSetup
         //        })
         //       .AddHttpMessageHandler<CookieHandler>();
 
-        //services.AddBlaterDatabase();
-        //services.AddBlaterManagement();
-        //services.AddBlaterKeyValue();
-        //services.AddBlaterAuthStores();
-        //services.AddBlaterAuthRepositories();
+        //builder.Services.AddBlaterDatabase();
+        //builder.Services.AddBlaterManagement();
+        //builder.Services.AddBlaterKeyValue();
+        //builder.Services.AddBlaterAuthStores();
+        //builder.Services.AddBlaterAuthRepositories();
 
-        //services.AddSingleton<ICookieService, CookieService>();
+        //builder.Services.AddSingleton<ICookieService, CookieService>();
 
-        services.AddSingleton<TenantData>();
+        var tenantData = builder.Configuration.GetSection(nameof(TenantData)).Get<TenantData>();
+        builder.Services.AddSingleton(tenantData!);
 
-        services.AddBlazoredLocalStorage();
-        services.AddBlazoredSessionStorage();
-        services.AddSingleton<AutoConfigurations>();
-        //services.AddScoped<IBlaterMemoryCache, BlaterMemoryCache>();
-        //services.AddScoped<IBlaterStateStore, BlaterStateStore>();
+        builder.Services.AddSingleton<ITenantService, TenantService>();
+        builder.Services.AddSingleton<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
         
-        //todo: creating builder.Services.AddTranslations
-        services.AddSingleton<ILocalizationService, LocalizationService>();
-        services.Scan(x => x.FromAssemblies(
-                                 typeof(WebSetup).Assembly, 
-                                 Assembly.GetEntryAssembly()!,
-                                 Assembly.GetExecutingAssembly(),
-                                 typeof(ITranslation).Assembly)
-                            .AddClasses(classes => classes
-                                           .AssignableTo<ITranslation>())
-                            .AsImplementedInterfaces()
-                            .WithSingletonLifetime());
+        builder.Services.AddBlazoredLocalStorage();
+        builder.Services.AddBlazoredSessionStorage();
+        builder.Services.AddSingleton<AutoConfigurations>();
+        //builder.Services.AddScoped<IBlaterMemoryCache, BlaterMemoryCache>();
+        //builder.Services.AddScoped<IBlaterStateStore, BlaterStateStore>();
 
-        services.AddScoped<INavigationService, NavigationService>();
-        services.AddMudServices();
+        //todo: creating builder.Services.AddTranslations
+        builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
+        builder.Services.Scan(x => x.FromAssemblies(
+                                         typeof(WebSetup).Assembly,
+                                         Assembly.GetEntryAssembly()!,
+                                         Assembly.GetExecutingAssembly(),
+                                         typeof(ITranslation).Assembly)
+                                    .AddClasses(classes => classes
+                                                   .AssignableTo<ITranslation>())
+                                    .AsImplementedInterfaces()
+                                    .WithSingletonLifetime());
+
+        builder.Services.AddScoped<INavigationService, NavigationService>();
+        builder.Services.AddMudServices();
     }
 }

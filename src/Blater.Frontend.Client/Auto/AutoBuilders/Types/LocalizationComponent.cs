@@ -8,6 +8,4 @@ public static class LocalizationComponent
     
     public const string Processing = "";
     public const string Logout = "";
-    
-    public const string HomePage = "";
 }

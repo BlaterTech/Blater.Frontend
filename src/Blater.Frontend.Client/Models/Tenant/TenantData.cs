@@ -1,6 +1,5 @@
 ﻿using Blater.Enumerations;
 using Blater.Models.Bases;
-using Blater.Utilities;
 
 namespace Blater.Frontend.Client.Models.Tenant;
 

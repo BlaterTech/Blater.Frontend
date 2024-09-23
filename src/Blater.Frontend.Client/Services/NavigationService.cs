@@ -4,7 +4,6 @@ using Blater.Frontend.Client.Attributes;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Models;
 using Blater.Helpers;
-using Blater.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;

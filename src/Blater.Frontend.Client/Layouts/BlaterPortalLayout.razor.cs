@@ -1,6 +1,4 @@
-﻿using Blater.Frontend.Client.Components.AuthorizeView;
-using Blater.Frontend.Client.Extensions;
-using Blater.Frontend.Client.Interfaces;
+﻿using Blater.Frontend.Client.Interfaces;
 using Microsoft.AspNetCore.Components;
 
 //using Blater.Frontend.Interfaces;
@@ -18,7 +16,7 @@ public partial class BlaterPortalLayout
     [Inject]
     private ILocalizationService LocalizationService { get; set; } = default!;
 
-    BlaterAuthorizeView _blaterAuthorizeView = null!;
+    //BlaterAuthorizeView _blaterAuthorizeView = null!;
     
     private bool _drawerOpen = true;
     
@@ -37,7 +35,7 @@ public partial class BlaterPortalLayout
         if (firstRender)
         {
             await Task.CompletedTask;
-            var user = _blaterAuthorizeView.GetUserAuthenticated();
+            /*var user = _blaterAuthorizeView.GetUserAuthenticated();
             var (isValid, token) = user.Jwt.ValidateJwt();
             if (isValid)
             {
@@ -47,7 +45,7 @@ public partial class BlaterPortalLayout
             else
             {
                 //todo: voltar ao login se jwt nao for válido
-            }
+            }*/
 
             //todo: refactor this
             /*NavigationService.Routes = NavigationService

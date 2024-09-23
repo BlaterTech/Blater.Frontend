@@ -4,16 +4,16 @@ using Blater.Frontend.Client.Interfaces;
 
 namespace Blater.Frontend.Client.Translations;
 
-public class PortugueseTranslation : ITranslation
+public class BlaterFrontendPortugueseTranslation : ITranslation
 {
-    public int Priority => 1;
+    public int Priority => -100;
     public LanguageTranslation Language => LanguageTranslation.Portuguese;
 
     public Dictionary<string, string> Dictionary => new()
     {
         //NavMenu
         [nameof(LocalizationComponent.Logout)] = "Sair",
-        [nameof(LocalizationComponent.HomePage)] = "Home",
+        ["NavMenu-Home"] = "Home",
         
         //Buttons
         [nameof(LocalizationComponent.GoBackButton)] = "Voltar",

@@ -1,22 +1,77 @@
-﻿using Blater.Frontend.Client.Interfaces;
-using Blater.Frontend.Client.Models;
+﻿using Blater.Enumerations;
+using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Models.Tenant;
 
 namespace Blater.Frontend.Client.Services;
 
 public class TenantService : ITenantService
 {
-    public TenantData GetTenantData(Ulid id)
-    {
-        throw new NotImplementedException();
-    }
-    
-    public TenantTheme GetTenantTheme(Ulid id)
+    public Task<IReadOnlyList<TenantData>> Find()
     {
         throw new NotImplementedException();
     }
 
-    public List<TenantData> GetAllTenants()
+    public Task<IReadOnlyList<TenantData>> Find(BlaterProjects projects)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TenantData> GetById(Guid tenantId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TenantData> GetById(string tenantId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TenantData> GetByShortName(string shortName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TenantData> Create(TenantData tenantData)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IReadOnlyList<TenantData>> Create(IEnumerable<TenantData> tenants)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TenantData> Update(TenantData tenantData)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IReadOnlyList<TenantData>> Update(IEnumerable<TenantData> tenants)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TenantData> Delete(TenantData tenantData)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TenantData> Delete(Guid tenantId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TenantData> Delete(string tenantId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TenantData> Delete(IEnumerable<TenantData> tenants)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TenantData> Delete(IEnumerable<Guid> tenantIds)
     {
         throw new NotImplementedException();
     }
