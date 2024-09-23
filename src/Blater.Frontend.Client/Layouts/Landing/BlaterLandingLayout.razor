@@ -1,11 +1,6 @@
-﻿@using Blater.Frontend.Client.Interfaces
+﻿@inherits LayoutComponentBase
 
-@inherits BlaterMainLayout
-
-<MudThemeProvider Theme="@MudTheme"/>
-<MudPopoverProvider />
-<MudSnackbarProvider/>
-<MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.ExtraSmall"/>
+@layout BlaterMainLayout
 
 <MudLayout Class="mudblazor-landingpage">
     <MudAppBar Class="landing-appbar" Elevation="0">

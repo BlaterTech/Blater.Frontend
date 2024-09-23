@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MudBlazor;
 using MudBlazor.Services;
 
 // ReSharper disable RedundantNameQualifier
@@ -75,8 +76,11 @@ public static class WebSetup
                    .GetSection(nameof(TenantData))
                    .Bind(options);
         });
-        builder.Services.AddScoped<ITenantService, TenantService>();
-        builder.Services.AddScoped<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
+        builder.Services.AddSingleton<ITenantService, TenantService>();
+        builder.Services.AddSingleton<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
+        
+        builder.Services.AddScoped<IUserPreferencesService, UserPreferencesService>();
+        builder.Services.AddScoped<ILayoutService, LayoutService>();
         
         //builder.Services.AddBlaterDatabase();
         //builder.Services.AddBlaterManagement();
@@ -102,7 +106,18 @@ public static class WebSetup
                                     .WithSingletonLifetime());
         
         builder.Services.AddScoped<INavigationService, NavigationService>();
-        builder.Services.AddMudServices();
+        builder.Services.AddMudServices(config =>
+        {
+            config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomLeft;
+
+            config.SnackbarConfiguration.PreventDuplicates = true;
+            config.SnackbarConfiguration.NewestOnTop = false;
+            config.SnackbarConfiguration.ShowCloseIcon = true;
+            config.SnackbarConfiguration.VisibleStateDuration = 10000;
+            config.SnackbarConfiguration.HideTransitionDuration = 500;
+            config.SnackbarConfiguration.ShowTransitionDuration = 500;
+            config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
+        });
     }
 
     public static void UseBlaterFrontendServer<TApp>(this WebApplication app, Assembly clientAssembly) where TApp : ComponentBase

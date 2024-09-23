@@ -1,11 +1,9 @@
 ﻿@using Blater.Frontend.Client.Auto.AutoBuilders.Types
 
-@inherits BlaterMainLayout
+@inherits LayoutComponentBase
 
-<MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" Theme="@MudTheme"/>
-<MudPopoverProvider/>
-<MudSnackbarProvider/>
-<MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.ExtraSmall"/>
+@layout BlaterMainLayout
+
 <MudLayout>
     @*<BlaterAuthorizeView @ref="@_blaterAuthorizeView">
         <Authorized>
@@ -33,11 +31,7 @@
                 Icon="@Material.Outlined.Notifications"
                 Color="Color.Inherit"/>
 
-            <MudSwitch
-                Color="Color.Inherit"
-                @bind-Value="@_isDarkMode"
-                T="bool"
-                ThumbIcon="@Material.Filled.LightbulbCircle"/>
+            <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@LayoutService.CycleDarkLightModeAsync" aria-label="@(DarkLightModeButtonText)" />
 
             <MudText Class="pr-2">
                 Olá, Name@*@(blaterUserToken.Name)*@!

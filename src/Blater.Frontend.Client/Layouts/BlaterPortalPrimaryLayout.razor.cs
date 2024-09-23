@@ -1,11 +1,23 @@
-﻿using MudBlazor;
+﻿using Blater.Frontend.Client.Enumerations;
+using Blater.Frontend.Client.Interfaces;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 //using Blater.Frontend.Interfaces;
 
 namespace Blater.Frontend.Client.Layouts;
 
-public partial class BlaterPortalPrimaryLayout : BlaterMainLayout
+public partial class BlaterPortalPrimaryLayout : LayoutComponentBase
 {
+    [Inject]
+    protected INavigationService NavigationService { get; set; } = default!;
+    
+    [Inject]
+    protected ILocalizationService LocalizationService { get; set; } = default!;
+    
+    [Inject]
+    protected ILayoutService LayoutService { get; set; } = default!;
+    
     /*[Inject]
     private IBlaterStateStore StateStore { get; set; } = null!;*/
 
@@ -47,24 +59,18 @@ public partial class BlaterPortalPrimaryLayout : BlaterMainLayout
                                      .Where(x => x.UserPermissions?.Any(permission => BlaterAuthState.Permissions.Contains(permission)));#1#
         }
     }*/
-
-    private MudThemeProvider _mudThemeProvider = null!;
-    private bool _isDarkMode;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    
+    public string DarkLightModeButtonText => LayoutService.CurrentDarkLightMode switch
     {
-        if (firstRender)
-        {
-            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
-            await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
-            StateHasChanged();
-        }
-    }
-
-    private Task OnSystemPreferenceChanged(bool newValue)
+        DarkLightMode.Dark => "System mode",
+        DarkLightMode.Light => "Dark mode",
+        _ => "Light mode"
+    };
+    
+    public string DarkLightModeButtonIcon => LayoutService.CurrentDarkLightMode switch
     {
-        _isDarkMode = newValue;
-        StateHasChanged();
-        return Task.CompletedTask;
-    }
+        DarkLightMode.Dark => Icons.Material.Rounded.AutoMode,
+        DarkLightMode.Light => Icons.Material.Outlined.DarkMode,
+        _ => Icons.Material.Filled.LightMode
+    };
 }
