@@ -53,7 +53,7 @@ public static class AutoComponentTypeExtensions
         return property;
     }
 
-    public static AutoComponentInputType GetDefaultAutoFormComponentForType(this PropertyInfo propertyInfo)
+    public static AutoComponentInputType GetDefaultComponentForForm(this PropertyInfo propertyInfo)
     {
         var propType = propertyInfo.PropertyType;
         return propType switch
@@ -66,7 +66,7 @@ public static class AutoComponentTypeExtensions
         };
     }
 
-    public static AutoComponentType GetComponentTypeForTable(this PropertyInfo propertyInfo)
+    public static AutoComponentType GetDefaultComponentForTable(this PropertyInfo propertyInfo)
     {
         var propType = propertyInfo.PropertyType;
         return propType switch
@@ -75,11 +75,11 @@ public static class AutoComponentTypeExtensions
             not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoComponentType.AutoNumeric,
             not null when propType == typeof(DateTime) => AutoComponentType.AutoDate,
             not null when propType == typeof(bool) => AutoComponentType.AutoStatus,
-            _ => AutoComponentType.AutoText
+            _ => AutoComponentType.AutoTextTable
         };
     }
 
-    public static AutoComponentType GetComponentTypeForDetails(this PropertyInfo propertyInfo)
+    public static AutoComponentType GetDefaultComponentForDetails(this PropertyInfo propertyInfo)
     {
         var propType = propertyInfo.PropertyType;
         return propType switch

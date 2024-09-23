@@ -22,7 +22,7 @@ public class AutoDetailsPropertyConfigurationBuilder<TModel>(AutoDetailsGroupCon
             propertyConfiguration.Property = propertyInfo;
             propertyConfiguration.LabelNameLocalizationId ??= $"Blater-AutoDetails-{typeof(TModel).Name}-Member-LabelName-{propertyInfo.Name}";
             propertyConfiguration.LabelName ??= propertyInfo.Name;
-            propertyConfiguration.AutoComponentType ??= propertyInfo.GetComponentTypeForDetails();
+            propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultComponentForDetails();
             configuration.Components.Add(propertyConfiguration);
         }
 

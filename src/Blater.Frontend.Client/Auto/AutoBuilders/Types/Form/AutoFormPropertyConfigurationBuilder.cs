@@ -72,7 +72,7 @@ public class AutoFormPropertyConfigurationBuilder<TModel>(
             propertyConfiguration.PlaceHolderLocalizationId ??= $"Blater-AutoForm-{typeof(TModel).Name}-Member-PlaceHolder-{propertyInfo.Name}";
             propertyConfiguration.Placeholder ??= propertyInfo.Name;
             propertyConfiguration.LabelName ??= propertyInfo.Name;
-            propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultAutoFormComponentForType();
+            propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultComponentForForm();
             configuration.ComponentConfigurations.Add(propertyConfiguration);
         }
     }

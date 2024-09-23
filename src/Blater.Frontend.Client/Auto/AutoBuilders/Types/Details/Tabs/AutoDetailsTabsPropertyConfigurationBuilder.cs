@@ -21,7 +21,7 @@ public class AutoDetailsTabsPropertyConfigurationBuilder<TModel>(AutoDetailsTabs
         {
             propertyConfiguration.Property = propertyInfo;
             propertyConfiguration.LabelNameLocalizationId ??= $"Blater-AutoDetailsTabs-{typeof(TModel).Name}-Member-LabelName-{propertyInfo.Name}";
-            propertyConfiguration.AutoComponentType ??= propertyInfo.GetComponentTypeForDetails();
+            propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultComponentForDetails();
             propertyConfiguration.LabelName ??= propertyInfo.Name;
             configuration.Components.Add(propertyConfiguration);
         }
