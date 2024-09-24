@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Blater.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Enumerations;

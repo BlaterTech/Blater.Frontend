@@ -1,14 +1,13 @@
-﻿using Blater.Extensions;
-using Blater.Frontend.Client.Interfaces;
+﻿using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Models.Tenant;
-using Microsoft.Extensions.Options;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Services;
 
-public class TenantThemeConfigurationService(IOptions<TenantData> tenantData, ILayoutService layoutService) : ITenantThemeConfigurationService
+//todo: necessário usar um para o Server e outro para o Client, no server 
+public class TenantThemeConfigurationService(TenantData tenantData, ILayoutService layoutService) : ITenantThemeConfigurationService
 {
-    private readonly TenantTheme _tenantTheme = tenantData.Value.TenantTheme;
+    private readonly TenantTheme _tenantTheme = tenantData.TenantTheme;
 
     public MudTheme GetMudTheme()
     {
