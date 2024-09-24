@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
-using System.Text;
 using Blater.Enumerations;
-using Blater.Extensions;
 using Blater.Frontend.Client.Authentication;
 using Blater.Frontend.Client.Auto;
 using Blater.Frontend.Client.Auto.AutoBuilders;
@@ -11,10 +9,8 @@ using Blater.Frontend.Client.Models.Tenant;
 using Blater.Frontend.Client.Services;
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using MudBlazor.Services;

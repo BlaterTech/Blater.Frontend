@@ -1,0 +1,51 @@
+﻿@inherits BaseAutoValueComponent<StatusBadgeType>
+
+@implements IAutoBuildableComponent
+
+<div id="auto-badge" class="@ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudChip T="string" Color="BadgeType">@TextType</MudChip>
+</div>
+
+@code {
+
+    [Inject]
+    private ILocalizationService LocalizationService { get; set; } = null!;
+
+    private Color BadgeType => Value switch
+    {
+        StatusBadgeType.Available => Color.Success,
+        StatusBadgeType.Loading => Color.Error,
+        StatusBadgeType.Processing => Color.Warning,
+        StatusBadgeType.InUse => Color.Success,
+        StatusBadgeType.Active => Color.Default,
+        StatusBadgeType.Overdue => Color.Error,
+        StatusBadgeType.Pending => Color.Default,
+        StatusBadgeType.InProgress => Color.Warning,
+        StatusBadgeType.Concluded => Color.Success,
+        StatusBadgeType.Unknown => Color.Default,
+        _ => throw new ArgumentOutOfRangeException()
+    };
+
+    private string TextType => Value switch
+    {
+        StatusBadgeType.Available => LocalizationService.GetValue($"Badge-{nameof(StatusBadgeType.Available)}"),
+        StatusBadgeType.Loading => LocalizationService.GetValue($"Badge-{nameof(StatusBadgeType.Loading)}"),
+        StatusBadgeType.Processing => LocalizationService.GetValue($"Badge-{nameof(StatusBadgeType.Processing)}"),
+        StatusBadgeType.InUse => LocalizationService.GetValue($"Badge-{nameof(StatusBadgeType.InUse)}"),
+        StatusBadgeType.Active => LocalizationService.GetValue($"Badge-{nameof(StatusBadgeType.Active)}"),
+        StatusBadgeType.Overdue => LocalizationService.GetValue($"Badge-{nameof(StatusBadgeType.Overdue)}"),
+        StatusBadgeType.Pending => LocalizationService.GetValue($"Badge-{nameof(StatusBadgeType.Pending)}"),
+        StatusBadgeType.InProgress => LocalizationService.GetValue($"Badge-{nameof(StatusBadgeType.InProgress)}"),
+        StatusBadgeType.Concluded => LocalizationService.GetValue($"Badge-{nameof(StatusBadgeType.Concluded)}"),
+        StatusBadgeType.Unknown => LocalizationService.GetValue($"Badge-{nameof(StatusBadgeType.Unknown)}"),
+        _ => throw new ArgumentOutOfRangeException()
+    };
+
+    public int Priority => 1000;
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoBadge;
+}

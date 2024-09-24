@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Blater.Extensions;
 using Blater.Frontend.Authentication;
 using Blater.Frontend.Client;
 using Blater.Frontend.Client.Auto;

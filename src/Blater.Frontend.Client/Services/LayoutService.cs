@@ -1,8 +1,6 @@
 ﻿using Blater.Frontend.Client.Enumerations;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Models;
-using Blater.Frontend.Client.Models.Tenant;
-using Microsoft.Extensions.Options;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Services;

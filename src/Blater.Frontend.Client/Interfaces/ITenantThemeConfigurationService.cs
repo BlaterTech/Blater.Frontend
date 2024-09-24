@@ -1,5 +1,4 @@
-﻿using Blater.Frontend.Client.Models.Tenant;
-using MudBlazor;
+﻿using MudBlazor;
 
 namespace Blater.Frontend.Client.Interfaces;
 

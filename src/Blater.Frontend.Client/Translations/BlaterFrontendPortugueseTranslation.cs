@@ -1,5 +1,6 @@
 ﻿using Blater.Enumerations;
 using Blater.Frontend.Client.Auto.AutoBuilders.Types;
+using Blater.Frontend.Client.Enumerations;
 using Blater.Frontend.Client.Interfaces;
 
 namespace Blater.Frontend.Client.Translations;
@@ -14,11 +15,23 @@ public class BlaterFrontendPortugueseTranslation : ITranslation
         //NavMenu
         [nameof(LocalizationComponent.Logout)] = "Sair",
         ["NavMenu-Home"] = "Home",
-        
+
         //Buttons
         [nameof(LocalizationComponent.GoBackButton)] = "Voltar",
         [nameof(LocalizationComponent.Processing)] = "Processando",
         [nameof(LocalizationComponent.EditButton)] = "Editar",
         [nameof(LocalizationComponent.SaveButton)] = "Salvar",
+
+        //AutoBadge
+        [$"Badge-{nameof(StatusBadgeType.Available)}"] = "Disponível",
+        [$"Badge-{nameof(StatusBadgeType.Loading)}"] = "Carregando",
+        [$"Badge-{nameof(StatusBadgeType.Processing)}"] = "Em processamento",
+        [$"Badge-{nameof(StatusBadgeType.InUse)}"] = " Em uso",
+        [$"Badge-{nameof(StatusBadgeType.Active)}"] = "Ativo",
+        [$"Badge-{nameof(StatusBadgeType.Overdue)}"] = "Vencido",
+        [$"Badge-{nameof(StatusBadgeType.Pending)}"] = "Pendente",
+        [$"Badge-{nameof(StatusBadgeType.InProgress)}"] = "Em andamento",
+        [$"Badge-{nameof(StatusBadgeType.Concluded)}"] = "Concluído",
+        [$"Badge-{nameof(StatusBadgeType.Unknown)}"] = "Desconhecido",
     };
 }

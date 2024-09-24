@@ -1,8 +1,8 @@
-﻿using System.Linq.Expressions;
-using System.Reflection;
-using Blater.Extensions;
+﻿using System.Reflection;
+using Blater.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+using Blater.Frontend.Client.Enumerations;
 
 namespace Blater.Frontend.Client.Auto.AutoExtensions;
 
@@ -34,25 +34,6 @@ public static class AutoComponentTypeExtensions
         return componentType.GetType() == typeof(AutoComponentInputType);
     }
 
-    public static PropertyInfo GetPropertyInfoForType<TProperty>(this Expression<Func<TProperty>> expression, Type type)
-    {
-        var propertyName = expression.GetPropertyName();
-
-        if (string.IsNullOrWhiteSpace(propertyName))
-        {
-            throw new InvalidOperationException("PropertyName is null");
-        }
-
-        var property = type.GetProperty(propertyName);
-
-        if (property == null)
-        {
-            throw new InvalidOperationException($"No property {propertyName} found in {type.Name}");
-        }
-
-        return property;
-    }
-
     public static AutoComponentInputType GetDefaultComponentForForm(this PropertyInfo propertyInfo)
     {
         var propType = propertyInfo.PropertyType;
@@ -75,6 +56,7 @@ public static class AutoComponentTypeExtensions
             not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoComponentType.AutoNumeric,
             not null when propType == typeof(DateTime) => AutoComponentType.AutoDate,
             not null when propType == typeof(bool) => AutoComponentType.AutoStatus,
+            not null when propType == typeof(StatusBadgeType) => AutoComponentType.AutoStatus,
             _ => AutoComponentType.AutoTextTable
         };
     }
