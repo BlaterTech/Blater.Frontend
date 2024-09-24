@@ -1,0 +1,16 @@
+﻿@inherits Blater.Frontend.Client.Auto.AutoBuilders.Base.BaseAutoValueComponent<Ulid>
+@implements Blater.Frontend.Client.Auto.AutoInterfaces.IAutoBuildableComponent
+
+<div id="auto-id" class="@ExtraClass">
+    @if (!string.IsNullOrEmpty(LabelName))
+    {
+        <MudText>@LabelName</MudText>
+    }
+    <MudText>@Value</MudText>
+</div>
+
+@code {
+    public int Priority => 1000;
+
+    public BaseAutoComponentTypeEnumeration ComponentType => AutoComponentType.AutoId;
+}

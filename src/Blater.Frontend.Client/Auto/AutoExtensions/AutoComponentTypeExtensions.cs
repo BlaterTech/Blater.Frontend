@@ -56,6 +56,7 @@ public static class AutoComponentTypeExtensions
             not null when propType == typeof(DateTime) || propType == typeof(DateTimeOffset) => AutoComponentType.AutoDate,
             not null when propType == typeof(bool) => AutoComponentType.AutoStatus,
             not null when propType == typeof(StatusBadgeType) => AutoComponentType.AutoBadge,
+            not null when propType == typeof(Ulid) => AutoComponentType.AutoId,
             _ => AutoComponentType.AutoTextTable
         };
     }
@@ -69,6 +70,7 @@ public static class AutoComponentTypeExtensions
             not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoComponentType.AutoNumeric,
             not null when propType == typeof(DateTime) || propType == typeof(DateTimeOffset) => AutoComponentType.AutoDate,
             not null when propType == typeof(bool) => AutoComponentType.AutoStatus,
+            not null when propType == typeof(Ulid) => AutoComponentType.AutoId,
             _ => AutoComponentType.AutoText
         };
     }
