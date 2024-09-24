@@ -29,19 +29,15 @@
     </MudCard>
 
     <MudCard Elevation="0" Class="pa-4">
-        <form @onsubmit="Filter">
+        <form class="mb-4" @onsubmit="Filter">
             <MudGrid Spacing="1">
-                <MudItem xs="12">
-                    <MudText Typo="Typo.h5">
-                        @LocalizationService.GetValue($"BlaterTable-FilterValues")
-                    </MudText>
-                </MudItem>
-                <MudItem xs="12" lg="8">
+                <MudItem xs="12" lg="4">
                     <MudDateRangePicker
                         Variant="Variant.Filled"
                         Clearable="true"
                         Culture="@(new CultureInfo("pt-BR"))"
-                        Label="@LocalizationService.GetValue("BlaterTable-Date-Range-Label")"
+                        Label="@LocalizationService.GetValue("BlaterTable-GlobalSearch-Label")"
+                        Placeholder="@LocalizationService.GetValue($"BlaterTable-GlobalSearch-Placeholder")"
                         DateRangeChanged="@(x => DateRangeValueChanged(x))"
                         DateRange="@(_dateRange ?? new DateRange())"/>
                     <MudSpacer/>
@@ -56,6 +52,9 @@
                         DateRange="@(_dateRange ?? new DateRange())"/>
                     <MudSpacer/>
                 </MudItem>
+                
+                @*todo: criar opção para adicionar novos itens no filtro usando o builder*@
+                
             </MudGrid>
         </form>
 
@@ -104,7 +103,16 @@
                     {
                         var dataLabel = GetLabelNameValue(column);
                         var value = column.Property.GetValue(context);
-                        <MudTd DataLabel="@dataLabel">@value</MudTd>
+                        <MudTd DataLabel="@dataLabel">
+                            @if (column.AutoComponentType != null)
+                            {
+                                @RenderComponentTable(column);
+                            }
+                            else
+                            {
+                                @value
+                            }
+                        </MudTd>
                     }
 
                     if (TableConfiguration.EnableCustomAction || TableConfiguration.EnableDefaultAction)

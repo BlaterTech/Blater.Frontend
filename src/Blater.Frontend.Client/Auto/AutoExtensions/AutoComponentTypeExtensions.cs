@@ -55,7 +55,7 @@ public static class AutoComponentTypeExtensions
             not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoComponentType.AutoNumeric,
             not null when propType == typeof(DateTime) => AutoComponentType.AutoDate,
             not null when propType == typeof(bool) => AutoComponentType.AutoStatus,
-            not null when propType == typeof(StatusBadgeType) => AutoComponentType.AutoStatus,
+            not null when propType == typeof(StatusBadgeType) => AutoComponentType.AutoBadge,
             _ => AutoComponentType.AutoTextTable
         };
     }

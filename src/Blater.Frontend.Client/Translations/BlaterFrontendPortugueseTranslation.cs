@@ -21,6 +21,11 @@ public class BlaterFrontendPortugueseTranslation : ITranslation
         [nameof(LocalizationComponent.Processing)] = "Processando",
         [nameof(LocalizationComponent.EditButton)] = "Editar",
         [nameof(LocalizationComponent.SaveButton)] = "Salvar",
+        
+        //AutoTableBuilder
+        ["BlaterTable-Date-Range-Label"] = "Período",
+        ["BlaterTable-GlobalSearch-Label"] = "Buscar",
+        ["BlaterTable-GlobalSearch-Placeholder"] = "Buscar informações",
 
         //AutoBadge
         [$"Badge-{nameof(StatusBadgeType.Available)}"] = "Disponível",

@@ -3,6 +3,7 @@ using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
+using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Frontend.Client.Enumerations;
 using Blater.Frontend.Client.Models.Bases;
 using Microsoft.AspNetCore.Components;
@@ -116,6 +117,13 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
         var body = Expression.Convert(Expression.Property(param, propName), typeof(object));
         return Expression.Lambda<Func<T, object>>(body, param).Compile();
     }
+
+    private RenderFragment RenderComponentTable(IAutoTablePropertyConfiguration<T> propertyConfiguration) => builder =>
+    {
+        var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
+        
+        CreateGenericComponent(easyRenderTreeBuilder, propertyConfiguration);
+    };
 
     private async Task Filter()
     {
