@@ -7,7 +7,7 @@
 <BlaterCascadingValue
     T="T"
     Id="@CascadingValue">
-    <MudCard Elevation="0" Class="pa-4 mb-2 mud-height-full">
+    <MudCard Elevation="1" Class="pa-4 mb-2 mud-height-full">
         <MudGrid Spacing="0">
             <MudItem xs="12" Class="d-flex">
                 <MudText Typo="Typo.h5">
@@ -28,8 +28,8 @@
         </MudGrid>
     </MudCard>
 
-    <MudCard Elevation="0" Class="pa-4">
-        <form class="mb-4" @onsubmit="Filter">
+    <MudCard Elevation="1" Class="pa-4">
+        <form class="mb-2" @onsubmit="Filter">
             <MudGrid Spacing="1">
                 <MudItem xs="12" lg="4">
                     <MudDateRangePicker
@@ -61,6 +61,7 @@
         <MudTable
             T="T"
             @ref="_mudTable"
+            Elevation="0"
             Items="@Items"
             Breakpoint="Breakpoint.Sm"
             Striped="@TableConfiguration.EnableStriped"
@@ -101,17 +102,10 @@
                 @{
                     foreach (var column in ColumnConfigurations.Where(column => !column.DisableColumn))
                     {
+                        Model = context;
                         var dataLabel = GetLabelNameValue(column);
-                        var value = column.Property.GetValue(context);
                         <MudTd DataLabel="@dataLabel">
-                            @if (column.AutoComponentType != null)
-                            {
-                                @RenderComponentTable(column);
-                            }
-                            else
-                            {
-                                @value
-                            }
+                            @RenderComponentTable(column)
                         </MudTd>
                     }
 

@@ -1,4 +1,4 @@
-﻿@inherits BaseAutoValueComponent<DateTime>
+﻿@inherits BaseAutoValueComponent<DateTimeOffset>
 @implements IAutoBuildableComponent
 
 <div id="auto-date" class="@ExtraClass">
@@ -6,9 +6,8 @@
     {
         <MudText>@LabelName</MudText>
     }
-    <MudText>@Value.ToString("dd/MM/yyyy")</MudText>
+    <MudText>@Value.ToString("d")</MudText>
 </div>
-
 
 @code {
     public int Priority => 1000;

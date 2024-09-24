@@ -40,7 +40,7 @@ public static class AutoComponentTypeExtensions
         {
             not null when propType == typeof(string) => AutoComponentInputType.AutoTextComponentInput,
             not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoComponentInputType.AutoNumericComponentInput,
-            not null when propType == typeof(DateTime) => AutoComponentInputType.AutoDateTimeComponentInput,
+            not null when propType == typeof(DateTime) || propType == typeof(DateTimeOffset) => AutoComponentInputType.AutoDateTimeComponentInput,
             not null when propType == typeof(bool) => AutoComponentInputType.AutoSwitchComponentInput,
             _ => AutoComponentInputType.AutoTextComponentInput
         };
@@ -53,7 +53,7 @@ public static class AutoComponentTypeExtensions
         {
             not null when propType == typeof(string) => AutoComponentType.AutoTextTable,
             not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoComponentType.AutoNumeric,
-            not null when propType == typeof(DateTime) => AutoComponentType.AutoDate,
+            not null when propType == typeof(DateTime) || propType == typeof(DateTimeOffset) => AutoComponentType.AutoDate,
             not null when propType == typeof(bool) => AutoComponentType.AutoStatus,
             not null when propType == typeof(StatusBadgeType) => AutoComponentType.AutoBadge,
             _ => AutoComponentType.AutoTextTable
@@ -67,7 +67,7 @@ public static class AutoComponentTypeExtensions
         {
             not null when propType == typeof(string) => AutoComponentType.AutoText,
             not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoComponentType.AutoNumeric,
-            not null when propType == typeof(DateTime) => AutoComponentType.AutoDate,
+            not null when propType == typeof(DateTime) || propType == typeof(DateTimeOffset) => AutoComponentType.AutoDate,
             not null when propType == typeof(bool) => AutoComponentType.AutoStatus,
             _ => AutoComponentType.AutoText
         };
