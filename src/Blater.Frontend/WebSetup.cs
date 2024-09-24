@@ -66,16 +66,11 @@ public static class WebSetup
 
         builder.Services.AddScoped<CookieHandler>();
 
-        builder.Services.AddSingleton<TenantData>(x =>
+        builder.Services.Configure<TenantData>(options =>
         {
-            var configuration = x.GetRequiredService<IConfiguration>();
-            var tenantData = configuration.GetSection(nameof(TenantData)).Get<TenantData>();
-            if (tenantData == null)
-            {
-                throw new Exception("TenantData not found in appSettings");
-            }
-
-            return tenantData;
+            builder.Configuration
+                   .GetSection(nameof(TenantData))
+                   .Bind(options);
         });
         
         builder.Services.AddScoped<IUserPreferencesService, UserPreferencesService>();
