@@ -12,13 +12,15 @@ public class TenantThemeConfigurationService(IOptions<TenantData> tenantData, IL
 
     public MudTheme GetMudTheme()
     {
-        Console.WriteLine($"TenantTheme => {_tenantTheme.ToJson()}");
         var themePaletteDark = _tenantTheme.PaletteDark;
         var themePaletteLight = _tenantTheme.PaletteLight;
+        var themeTypography = _tenantTheme.Typography;
         var defaultTheme = layoutService.CurrentTheme;
-        var theme = new MudTheme
+        var theme = new MudTheme();
+
+        if (themePaletteDark != null)
         {
-            PaletteDark =
+            theme.PaletteDark = new PaletteDark
             {
                 Primary = themePaletteDark.Primary ?? defaultTheme.PaletteDark.Primary,
                 PrimaryLighten = themePaletteDark.PrimaryLighten ?? defaultTheme.PaletteDark.PrimaryLighten,
@@ -41,8 +43,16 @@ public class TenantThemeConfigurationService(IOptions<TenantData> tenantData, IL
                 
                 Divider = themePaletteDark.Divider ?? defaultTheme.PaletteDark.Divider,
                 DividerLight = themePaletteDark.DividerLight ?? defaultTheme.PaletteDark.DividerLight,
-            },
-            PaletteLight =
+                
+                Background = themePaletteDark.Background ?? defaultTheme.PaletteDark.Background,
+                Surface = themePaletteDark.Surface ?? defaultTheme.PaletteDark.Surface,
+                PrimaryContrastText = themePaletteDark.PrimaryContrastText ?? defaultTheme.PaletteDark.PrimaryContrastText,
+            };
+        }
+
+        if (themePaletteLight != null)
+        {
+            theme.PaletteLight = new PaletteLight
             {
                 Primary = themePaletteLight.Primary ?? defaultTheme.PaletteLight.Primary,
                 PrimaryLighten = themePaletteLight.PrimaryLighten ?? defaultTheme.PaletteLight.PrimaryLighten,
@@ -65,9 +75,25 @@ public class TenantThemeConfigurationService(IOptions<TenantData> tenantData, IL
                 
                 Divider = themePaletteLight.Divider ?? defaultTheme.PaletteLight.Divider,
                 DividerLight = themePaletteLight.DividerLight ?? defaultTheme.PaletteLight.DividerLight,
-            }
-        };
+                
+                Background = themePaletteLight.Background ?? defaultTheme.PaletteLight.Background,
+                Surface = themePaletteLight.Surface ?? defaultTheme.PaletteLight.Surface,
+                PrimaryContrastText = themePaletteLight.PrimaryContrastText ?? defaultTheme.PaletteLight.PrimaryContrastText,
+            };
+        }
 
+        if (themeTypography is {Button: not null})
+        {
+            theme.Typography = new Typography
+            {
+                Button = new Button
+                {
+                    FontWeight = themeTypography.Button.FontWeight,
+                    FontSize = themeTypography.Button.FontSize
+                }
+            };
+        }
+        
         return theme;
     }
 }

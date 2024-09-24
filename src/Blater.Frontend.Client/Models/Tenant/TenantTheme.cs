@@ -16,8 +16,8 @@ public class TenantTheme
     public string LoginBackgroundImage { get; set; } = null!;
     public bool IsDarkMode { get; set; }
     
-    public TenantPaletteDark PaletteDark { get; set; } = new();
-    public TenantPaletteLight PaletteLight { get; set; } = new();
+    public TenantPaletteDark? PaletteDark { get; set; }
+    public TenantPaletteLight? PaletteLight { get; set; }
 
-    public TenantTypography Typography { get; set; } = new();
+    public TenantTypography? Typography { get; set; } = new();
 }

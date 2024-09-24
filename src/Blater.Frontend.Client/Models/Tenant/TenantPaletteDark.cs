@@ -4,5 +4,4 @@ namespace Blater.Frontend.Client.Models.Tenant;
 
 public class TenantPaletteDark : BaseTenantPalette
 {
-    
 }

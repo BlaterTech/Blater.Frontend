@@ -23,4 +23,8 @@ public class BaseTenantPalette
     
     public string? Divider { get; set; }
     public string? DividerLight { get; set; }
+    
+    public string? Background { get; set; }
+    public string? Surface { get; set; }
+    public string? PrimaryContrastText { get; set; }
 }
