@@ -4,7 +4,7 @@ namespace Blater.Frontend.SourceGenerator.Templates.Types.Edit;
 
 public static class EditTimelinePageTemplate
 {
-    public static string GetCode(string typeName, string nameSpace, IEnumerable<string> namespaces)
+    public static string GetCode(string typeName, string nameSpace, IEnumerable<string> namespaces, string layoutPreference)
     {
         var code =
             $$"""
@@ -15,14 +15,14 @@ public static class EditTimelinePageTemplate
               namespace {{nameSpace}}.GeneratedPages;
 
               [AutoIgnore]
-              [Layout(typeof(ContainerLayout))]
+              [Layout(typeof({{layoutPreference}}))]
               [Route("/{{typeName}}/EditTimeline/{Id:guid}")]
               
-              public partial class {{typeName}}EditPage : ComponentBase
+              public partial class {{typeName}}EditTimelinePage : ComponentBase
               {
                   protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
                   {
-                      builder.OpenComponent<AutoFormTimelineBuilder<{{typeName}}>>(1);
+                      builder.OpenComponent<AutoFormTimelineBuilder<{{typeName}}, {{typeName}}Validation>>(1);
                       builder.AddAttribute(2, "Id", Id);
                       builder.CloseComponent();
                   }

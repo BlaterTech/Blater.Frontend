@@ -4,7 +4,7 @@ namespace Blater.Frontend.SourceGenerator.Templates.Types.Details;
 
 public static class DetailsTabsPageTemplate
 {
-    public static string GetCode(string typeName, string nameSpace, IEnumerable<string> namespaces)
+    public static string GetCode(string typeName, string nameSpace, IEnumerable<string> namespaces, string layoutPreference)
     {
         var code =
             $$"""
@@ -15,10 +15,10 @@ public static class DetailsTabsPageTemplate
               namespace {{nameSpace}}.GeneratedPages;
 
               [AutoIgnore]
-              [Layout(typeof(ContainerLayout))]
+              [Layout(typeof({{layoutPreference}}))]
               [Route("/{{typeName}}/DetailsTabs/{Id:guid}")]
               
-              public partial class {{typeName}}DetailsPage : ComponentBase
+              public partial class {{typeName}}DetailsTabsPage : ComponentBase
               {
                   protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
                   {

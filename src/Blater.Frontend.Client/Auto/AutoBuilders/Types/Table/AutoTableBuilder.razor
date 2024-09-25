@@ -52,9 +52,9 @@
                         DateRange="@(_dateRange ?? new DateRange())"/>
                     <MudSpacer/>
                 </MudItem>
-                
+
                 @*todo: criar opção para adicionar novos itens no filtro usando o builder*@
-                
+
             </MudGrid>
         </form>
 
@@ -128,7 +128,7 @@
                                         <MudIconButton
                                             Icon="@(context.Enabled ? Material.Outlined.LockOpen : Material.Outlined.Lock)"
                                             Color="@(context.Enabled ? Color.Primary : Color.Error)"
-                                            OnClick="@(() => OnDisabledChanged.InvokeAsync(context))"/>   
+                                            OnClick="@(() => OnDisabledChanged.InvokeAsync(context))"/>
                                     }
                                 }
                                 @if (TableConfiguration.EnableCustomAction)

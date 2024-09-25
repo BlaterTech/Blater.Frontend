@@ -4,7 +4,7 @@ namespace Blater.Frontend.SourceGenerator.Templates.Types.Details;
 
 public static class DetailsPageTemplate
 {
-    public static string GetCode(string typeName, string nameSpace, IEnumerable<string> namespaces)
+    public static string GetCode(string typeName, string nameSpace, IEnumerable<string> namespaces, string layoutPreference)
     {
         var code =
             $$"""
@@ -15,7 +15,7 @@ public static class DetailsPageTemplate
               namespace {{nameSpace}}.GeneratedPages;
 
               [AutoIgnore]
-              [Layout(typeof(ContainerLayout))]
+              [Layout(typeof({{layoutPreference}}))]
               [Route("/{{typeName}}/Details/{Id:guid}")]
               
               public partial class {{typeName}}DetailsPage : ComponentBase

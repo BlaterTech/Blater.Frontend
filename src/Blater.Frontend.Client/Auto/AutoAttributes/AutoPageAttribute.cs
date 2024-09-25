@@ -7,7 +7,8 @@ public class AutoPageAttribute(
     bool editPage,
     bool editTimelinePage,
     bool detailsPage,
-    bool detailsTabsPage) : Attribute
+    bool detailsTabsPage,
+    string layoutPreference) : Attribute
 {
     public bool CreatePage { get; set; } = createPage;
     public bool CreateTimelinePage { get; set; } = createTimelinePage;
@@ -15,4 +16,5 @@ public class AutoPageAttribute(
     public bool EditTimelinePage { get; set; } = editTimelinePage;
     public bool DetailsPage { get; set; } = detailsPage;
     public bool DetailsTabsPage { get; set; } = detailsTabsPage;
+    public string LayoutPreference { get; set; } = layoutPreference;
 }

@@ -15,11 +15,38 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
 {
     public AutoTableBuilder()
     {
-        OnCreate = EventCallback.Factory.Create(this, _ => { NavigationService.NavigateTo($"{typeof(T).Name}/Create"); });
+        OnCreate = EventCallback.Factory.Create(this, _ =>
+        {
+            var prefix = TableConfiguration.AutoFormType switch
+            {
+                AutoFormType.Form => "Create",
+                AutoFormType.FormTimeline => "CreateTimeline",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            NavigationService.NavigateTo($"{typeof(T).Name}/{prefix}");
+        });
 
-        OnDetails = EventCallback.Factory.Create<T>(this, item => { NavigationService.NavigateTo($"{typeof(T).Name}/Details/{item.Id}"); });
+        OnDetails = EventCallback.Factory.Create<T>(this, item =>
+        {
+            var prefix = TableConfiguration.AutoDetailsType switch
+            {
+                AutoDetailsType.Details => "Details",
+                AutoDetailsType.Tabs => "DetailsTabs",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            NavigationService.NavigateTo($"{typeof(T).Name}/{prefix}/{item.Id}");
+        });
 
-        OnEditChanged = EventCallback.Factory.Create<T>(this, item => { NavigationService.NavigateTo($"{typeof(T).Name}/Edit/{item.Id}"); });
+        OnEditChanged = EventCallback.Factory.Create<T>(this, item =>
+        {
+            var prefix = TableConfiguration.AutoFormType switch
+            {
+                AutoFormType.Form => "Edit",
+                AutoFormType.FormTimeline => "EditTimeline",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            NavigationService.NavigateTo($"{typeof(T).Name}/{prefix}/{item.Id}");
+        });
 
         OnDisabledChanged = EventCallback.Factory.Create<T>(this, item =>
         {

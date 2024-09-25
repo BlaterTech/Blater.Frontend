@@ -1,5 +1,6 @@
 ﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
+using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Contracts;
 using MudBlazor;
 
@@ -10,6 +11,8 @@ public class AutoTableConfiguration<TModel>(string title) : BaseAutoConfiguratio
     public bool EnableDefaultAction { get; set; } = true;
     public bool EnableShowLockButton { get; set; } = true;
     public bool EnableCreateButton { get; set; } = true;
+    public AutoFormType AutoFormType { get; set; } = AutoFormType.Form;
+    public AutoDetailsType AutoDetailsType { get; set; } = AutoDetailsType.Details;
     public bool EnableCustomAction { get; set; }
     public bool EnableFixedHeader { get; set; }
     public bool EnableFixedFooter { get; set; }

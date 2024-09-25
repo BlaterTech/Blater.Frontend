@@ -4,7 +4,7 @@ namespace Blater.Frontend.SourceGenerator.Templates.Types.Create;
 
 public static class CreateTimelinePageTemplate
 {
-    public static string GetCode(string typeName, string nameSpace, IEnumerable<string> namespaces)
+    public static string GetCode(string typeName, string nameSpace, IEnumerable<string> namespaces, string layoutPreference)
     {
         var code =
             $$"""
@@ -15,14 +15,14 @@ public static class CreateTimelinePageTemplate
               namespace {{nameSpace}}.GeneratedPages;
                   
               [AutoIgnore]
-              [Layout(typeof(ContainerLayout))]
+              [Layout(typeof({{layoutPreference}}))]
               [Route("/{{typeName}}/CreateTimeline")]
               
-              public partial class {{typeName}}CreatePage : ComponentBase
+              public partial class {{typeName}}CreateTimelinePage : ComponentBase
               {
                   protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
                   {
-                      builder.OpenComponent<AutoFormTimelineBuilder<{{typeName}}>>(0);
+                      builder.OpenComponent<AutoFormTimelineBuilder<{{typeName}}, {{typeName}}Validation>>(0);
                       builder.CloseComponent();
                   }
               }

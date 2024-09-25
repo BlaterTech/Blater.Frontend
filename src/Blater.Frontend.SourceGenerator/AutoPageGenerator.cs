@@ -65,12 +65,13 @@ public class AutoPageGenerator : IIncrementalGenerator
             var editTimelinePage = (bool)autoPageAttributeArguments[3].Value!;
             var detailsPage = (bool)autoPageAttributeArguments[4].Value!;
             var detailsTabsPage = (bool)autoPageAttributeArguments[5].Value!;
+            var layoutPreference = (string)autoPageAttributeArguments[6].Value!;
 
             if (createPage)
             {
                 var sourceFileName = $"{pageModel.Name}CreatePage.g.razor";
                 context.AddSource(sourceFileName,
-                                  CreatePageTemplate.GetCode(pageModel.Name, projectNamespace, namespaces));
+                                  CreatePageTemplate.GetCode(pageModel.Name, projectNamespace, namespaces, layoutPreference));
 
                 Debug.WriteLine($"AutoPageGenerator added {sourceFileName}");
             }
@@ -79,7 +80,7 @@ public class AutoPageGenerator : IIncrementalGenerator
             {
                 var sourceFileName = $"{pageModel.Name}CreateTimelinePage.g.razor";
                 context.AddSource(sourceFileName,
-                                  CreateTimelinePageTemplate.GetCode(pageModel.Name, projectNamespace, namespaces));
+                                  CreateTimelinePageTemplate.GetCode(pageModel.Name, projectNamespace, namespaces, layoutPreference));
 
                 Debug.WriteLine($"AutoPageGenerator added {sourceFileName}");
             }
@@ -88,7 +89,7 @@ public class AutoPageGenerator : IIncrementalGenerator
             {
                 var sourceFileName = $"{pageModel.Name}EditPage.g.razor";
                 context.AddSource(sourceFileName,
-                                  EditPageTemplate.GetCode(pageModel.Name, projectNamespace, namespaces));
+                                  EditPageTemplate.GetCode(pageModel.Name, projectNamespace, namespaces, layoutPreference));
 
                 Debug.WriteLine($"AutoPageGenerator added {sourceFileName}");
             }
@@ -97,7 +98,7 @@ public class AutoPageGenerator : IIncrementalGenerator
             {
                 var sourceFileName = $"{pageModel.Name}EditTimelinePage.g.razor";
                 context.AddSource(sourceFileName,
-                                  EditTimelinePageTemplate.GetCode(pageModel.Name, projectNamespace, namespaces));
+                                  EditTimelinePageTemplate.GetCode(pageModel.Name, projectNamespace, namespaces, layoutPreference));
 
                 Debug.WriteLine($"AutoPageGenerator added {sourceFileName}");
             }
@@ -106,7 +107,7 @@ public class AutoPageGenerator : IIncrementalGenerator
             {
                 var sourceFileName = $"{pageModel.Name}DetailsPage.g.razor";
                 context.AddSource(sourceFileName,
-                                  DetailsPageTemplate.GetCode(pageModel.Name, projectNamespace, namespaces));
+                                  DetailsPageTemplate.GetCode(pageModel.Name, projectNamespace, namespaces, layoutPreference));
 
                 Debug.WriteLine($"AutoPageGenerator added {sourceFileName}");
             }
@@ -115,7 +116,7 @@ public class AutoPageGenerator : IIncrementalGenerator
             {
                 var sourceFileName = $"{pageModel.Name}DetailsTabsPage.g.razor";
                 context.AddSource(sourceFileName,
-                                  DetailsTabsPageTemplate.GetCode(pageModel.Name, projectNamespace, namespaces));
+                                  DetailsTabsPageTemplate.GetCode(pageModel.Name, projectNamespace, namespaces, layoutPreference));
 
                 Debug.WriteLine($"AutoPageGenerator added {sourceFileName}");
             }
