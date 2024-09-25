@@ -5,6 +5,15 @@
 <BlaterCascadingValue
     T="T"
     Id="@CascadingValue">
+    <div class="mb-2 mud-height-full d-flex flex-row align-center gap-2">
+        <MudIconButton
+            Icon="@Material.Filled.ArrowBack"
+            Color="Color.Primary"
+            OnClick="@(async () => await NavigationService.GoBack())"/>
+        <MudText Typo="Typo.h5">
+            @GetTitleValue(FormTimelineConfiguration)
+        </MudText>
+    </div>
     <MudTimeline
         TimelineOrientation="TimelineOrientation.Horizontal"
         TimelinePosition="TimelinePosition.Top"
@@ -16,7 +25,7 @@
             var stepValue = step.Title;
             <MudTimelineItem
                 Color="@(_currentStep >= stepKey ? Color.Primary : Color.Surface)"
-                Variant="Variant.Filled"
+                Variant="Variant.Outlined"
                 Size="Size.Large">
                 <ItemDot>
                     @if (_currentStep > stepKey)
@@ -34,15 +43,15 @@
                     <MudText
                         Color="@(_currentStep >= stepKey ? Color.Primary : Color.Default)"
                         Align="Align.Center">
-                        @GetStepValue()
+                        @GetStepValue(stepValue)
                     </MudText>
                 </ItemContent>
             </MudTimelineItem>
         }
     </MudTimeline>
-    
-    <div 
-        id="@($"auto-form-group-{_currentStep}")" 
+
+    <div
+        id="@($"auto-form-group-{_currentStep}")"
         class="my-4">
         @RenderAutoFormBuilder()
     </div>
@@ -64,5 +73,5 @@
             @LocalizationService.GetValue($"Auto{DisplayType}-Button-{typeof(T).Name}-Next")
         </MudButton>
     </div>
-    
+
 </BlaterCascadingValue>

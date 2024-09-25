@@ -82,6 +82,7 @@ public partial class AutoFormTimelineBuilder<T, TValidator> : BaseAutoComponentB
            .AddAttribute(nameof(ModelValidator), ModelValidator)
            .AddAttribute(nameof(AutoFormBuilder<T, TValidator>.EnableActionsButtons), false)
            .AddAttribute(nameof(AutoFormBuilder<T, TValidator>.EnablePrincipalTitle), false)
+           .AddAttribute(nameof(AutoFormBuilder<T, TValidator>.FormConfiguration), stepConfiguration.AutoFormConfiguration)
            .AddAttribute(nameof(AutoFormBuilder<T, TValidator>.RenderOnlyGroup), (true, _currentStep))
            .Close();
     };
@@ -137,14 +138,14 @@ public partial class AutoFormTimelineBuilder<T, TValidator> : BaseAutoComponentB
         StateHasChanged();
     }
 
-    private string GetStepValue()
+    private string GetStepValue(string value)
     {
-        var value = LocalizationService.GetValueOrDefault(FormTimelineConfiguration.LocalizationId!);
-        if (string.IsNullOrWhiteSpace(value))
+        var localizationValue = LocalizationService.GetValueOrDefault($"Blater-Auto{DisplayType}-{value}");
+        if (string.IsNullOrWhiteSpace(localizationValue))
         {
-            value = FormTimelineConfiguration.Title;
+            localizationValue = value;
         }
 
-        return value;
+        return localizationValue;
     }
 }
