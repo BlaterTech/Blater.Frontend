@@ -34,7 +34,7 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
                 AutoDetailsType.Tabs => "DetailsTabs",
                 _ => throw new ArgumentOutOfRangeException()
             };
-            NavigationService.NavigateTo($"{typeof(T).Name}/{prefix}/{item.Id}");
+            NavigationService.NavigateTo($"{typeof(T).Name}/{prefix}", "Id", item.Id);
         });
 
         OnEditChanged = EventCallback.Factory.Create<T>(this, item =>
@@ -45,7 +45,7 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
                 AutoFormType.FormTimeline => "EditTimeline",
                 _ => throw new ArgumentOutOfRangeException()
             };
-            NavigationService.NavigateTo($"{typeof(T).Name}/{prefix}/{item.Id}");
+            NavigationService.NavigateTo($"{typeof(T).Name}/{prefix}", "Id", item.Id);
         });
 
         OnDisabledChanged = EventCallback.Factory.Create<T>(this, item =>
@@ -110,7 +110,7 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
 
     public override AutoComponentDisplayType DisplayType { get; set; } = AutoComponentDisplayType.Table;
     public override bool HasLabel { get; set; }
-    private AutoTableConfiguration<T> TableConfiguration { get; set; } = default!;
+    private AutoTableConfiguration<T> TableConfiguration { get; set; } = new("Default");
 
     private List<IAutoTablePropertyConfiguration<T>> ColumnConfigurations
         => TableConfiguration
@@ -120,8 +120,6 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
 
     private readonly string _typeName = typeof(T).Name;
     private MudTable<T> _mudTable = null!;
-    private readonly int[] _qtdPageSize = [10, 25, 50, 100];
-
     private bool _open;
     private string _iconFilter = Icons.Material.Outlined.FilterAlt;
     private DateRange? _dateRange;

@@ -10,7 +10,7 @@ public partial class AutoDetailsTabsBuilder<T> : AutoDetailsBuilder<T> where T :
     public override AutoComponentDisplayType DisplayType { get; set; } = AutoComponentDisplayType.DetailsTabs;
     public override bool HasLabel { get; set; }
     
-    private AutoDetailsTabsConfiguration<T> DetailsTabsConfiguration { get; set; } = default!;
+    private AutoDetailsTabsConfiguration<T> DetailsTabsConfiguration { get; set; } = new("Default");
     protected override void LoadModelConfig()
     {
         var autoDetails = FindModelConfig<IAutoDetailsTabsConfiguration<T>>();

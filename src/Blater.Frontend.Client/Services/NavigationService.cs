@@ -141,6 +141,22 @@ public class NavigationService : INavigationService
 
         _navigationManager.NavigateTo(route);
     }
+    
+    public void NavigateTo(string route, Dictionary<string, object> parameters)
+    {
+        var url = _navigationManager.GetUriWithQueryParameters(route, parameters!);
+        _navigationManager.NavigateTo(url);
+    }
+    
+    public void NavigateTo(string route, string paramName, object paramValue)
+    {
+        var parameters = new Dictionary<string, object>
+        {
+            [paramName] = paramValue.ToString()!
+        };
+        
+        NavigateTo(route, parameters);
+    }
 
     public async Task GoBack()
     {

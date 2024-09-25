@@ -16,19 +16,22 @@ public static class EditTimelinePageTemplate
 
               [AutoIgnore]
               [Layout(typeof({{layoutPreference}}))]
-              [Route("/{{typeName}}/EditTimeline/{Id:guid}")]
+              [Route("/{{typeName}}/EditTimeline")]
               
               public partial class {{typeName}}EditTimelinePage : ComponentBase
               {
                   protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
                   {
                       builder.OpenComponent<AutoFormTimelineBuilder<{{typeName}}, {{typeName}}Validation>>(1);
-                      builder.AddAttribute(2, "Id", Id);
+                      if (Ulid.TryParse(Id, out var id))
+                      {
+                          builder.AddAttribute(2, "Id", id);   
+                      }
                       builder.CloseComponent();
                   }
                   
-                  [Parameter]
-                  public Guid Id { get; set; }
+                  [SupplyParameterFromQuery]
+                  public string? Id { get; set; }
               }
               """;
 

@@ -16,19 +16,22 @@ public static class EditPageTemplate
 
               [AutoIgnore]
               [Layout(typeof({{layoutPreference}}))]
-              [Route("/{{typeName}}/Edit/{Id:guid}")]
+              [Route("/{{typeName}}/Edit")]
               
               public partial class {{typeName}}EditPage : ComponentBase
               {
                   protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
                   {
                       builder.OpenComponent<AutoFormBuilder<{{typeName}}, {{typeName}}Validation>>(1);
-                      builder.AddAttribute(2, "Id", Id);
+                      if (Ulid.TryParse(Id, out var id))
+                      {
+                          builder.AddAttribute(2, "Id", id);   
+                      }
                       builder.CloseComponent();
                   }
                   
-                  [Parameter]
-                  public Guid Id { get; set; }
+                  [SupplyParameterFromQuery]
+                  public string? Id { get; set; }
               }
               """;
 

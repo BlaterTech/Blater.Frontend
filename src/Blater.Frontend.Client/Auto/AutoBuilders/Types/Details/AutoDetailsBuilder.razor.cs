@@ -19,7 +19,7 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
     public override AutoComponentDisplayType DisplayType { get; set; } = AutoComponentDisplayType.Details;
     public override bool HasLabel { get; set; }
 
-    private AutoDetailsConfiguration<T> DetailsConfiguration { get; set; } = default!;
+    private AutoDetailsConfiguration<T> DetailsConfiguration { get; set; } = new("Default");
 
     protected override void LoadModelConfig()
     {

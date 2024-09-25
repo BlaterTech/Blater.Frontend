@@ -1,4 +1,5 @@
 ﻿using Blater.Extensions;
+using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form.Timeline;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
@@ -10,12 +11,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form.Timeline;
 
-public partial class AutoFormTimelineBuilder<T, TValidator> : AutoFormBuilder<T, TValidator>
+public partial class AutoFormTimelineBuilder<T, TValidator> : BaseAutoComponentBuilder<T>
     where T : BaseFrontendModel
     where TValidator : BaseModelValidator<T>
 {
     [Parameter]
     public EventCallback<int> OnCurrentStepChanged { get; set; }
+    
+    [Parameter]
+    public TValidator? ModelValidator { get; set; }
 
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
@@ -30,13 +34,13 @@ public partial class AutoFormTimelineBuilder<T, TValidator> : AutoFormBuilder<T,
           .GetHasFlagValue(DisplayType | AutoComponentDisplayType.FormTimeline)
            ?? [];
 
-    private AutoFormTimelineConfiguration<T> FormTimelineConfiguration { get; set; } = default!;
+    private AutoFormTimelineConfiguration<T> FormTimelineConfiguration { get; set; } = new("Default");
 
     protected override void LoadModelConfig()
     {
         var formTimelineConfiguration = FindModelConfig<IAutoFormTimelineConfiguration<T>>();
         FormTimelineConfiguration = formTimelineConfiguration.FormTimelineConfiguration;
-
+        
         _minValue = Steps.FirstOrDefault()?.Key ?? 1;
         _maxValue = Steps.LastOrDefault()?.Key ?? 1;
     }
@@ -75,9 +79,10 @@ public partial class AutoFormTimelineBuilder<T, TValidator> : AutoFormBuilder<T,
            .OpenComponent<AutoFormBuilder<T, TValidator>>()
            .AddAttribute(nameof(Id), Id)
            .AddAttribute(nameof(Model), Model)
-           .AddAttribute(nameof(EnableActionsButtons), false)
-           .AddAttribute(nameof(EnablePrincipalTitle), false)
-           .AddAttribute(nameof(RenderOnlyGroup), (true, _currentStep))
+           .AddAttribute(nameof(ModelValidator), ModelValidator)
+           .AddAttribute(nameof(AutoFormBuilder<T, TValidator>.EnableActionsButtons), false)
+           .AddAttribute(nameof(AutoFormBuilder<T, TValidator>.EnablePrincipalTitle), false)
+           .AddAttribute(nameof(AutoFormBuilder<T, TValidator>.RenderOnlyGroup), (true, _currentStep))
            .Close();
     };
 

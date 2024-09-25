@@ -16,19 +16,22 @@ public static class DetailsTabsPageTemplate
 
               [AutoIgnore]
               [Layout(typeof({{layoutPreference}}))]
-              [Route("/{{typeName}}/DetailsTabs/{Id:guid}")]
+              [Route("/{{typeName}}/DetailsTabs")]
               
               public partial class {{typeName}}DetailsTabsPage : ComponentBase
               {
                   protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
                   {
                       builder.OpenComponent<AutoDetailsTabsBuilder<{{typeName}}>>(1);
-                      builder.AddAttribute(2, "Id", Id);
+                      if (Ulid.TryParse(Id, out var id))
+                      {
+                          builder.AddAttribute(2, "Id", id);   
+                      }
                       builder.CloseComponent();
                   }
               
-                  [Parameter]
-                  public Guid Id { get; set; }
+                  [SupplyParameterFromQuery]
+                  public string? Id { get; set; }
               }
               """;
 
