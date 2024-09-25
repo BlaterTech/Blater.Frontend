@@ -1,6 +1,6 @@
 ﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
-using Blater.Frontend.Client.Models;
+using Blater.Frontend.Client.Contracts;
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Table;

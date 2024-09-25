@@ -1,12 +1,14 @@
-﻿namespace Blater.Frontend.SourceGenerator.Templates;
+﻿using Blater.Frontend.SourceGenerator.Templates.Base;
 
-public static class CreatePageTemplate
+namespace Blater.Frontend.SourceGenerator.Templates.Types.Create;
+
+public static class CreateTimelinePageTemplate
 {
     public static string GetCode(string typeName, string nameSpace, IEnumerable<string> namespaces)
     {
         var code =
             $$"""
-              {{CommonTemplateInfo.UsingStatements}}
+              {{BaseTemplateInfo.UsingStatements}}
 
               {{string.Join("\n", namespaces.Select(x => $"using {x};"))}}
 
@@ -14,13 +16,13 @@ public static class CreatePageTemplate
                   
               [AutoIgnore]
               [Layout(typeof(ContainerLayout))]
-              [Route("/{{typeName}}/Create")]
+              [Route("/{{typeName}}/CreateTimeline")]
               
               public partial class {{typeName}}CreatePage : ComponentBase
               {
                   protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
                   {
-                      builder.OpenComponent<AutoForm<{{typeName}}>>(0);
+                      builder.OpenComponent<AutoFormTimelineBuilder<{{typeName}}>>(0);
                       builder.CloseComponent();
                   }
               }

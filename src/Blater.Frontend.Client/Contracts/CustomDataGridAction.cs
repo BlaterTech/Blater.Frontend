@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 
-namespace Blater.Frontend.Client.Models;
+namespace Blater.Frontend.Client.Contracts;
 
 public class CustomAutoTableAction
 {

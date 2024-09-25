@@ -1,7 +1,7 @@
 ﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
-using Blater.Frontend.Client.Models.Bases;
+using Blater.Frontend.Client.Contracts.Bases;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details.Tabs;
 

@@ -1,8 +1,8 @@
 ﻿using Blater.Enumerations;
+using Blater.Frontend.Client.Contracts;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Logging;
-using Blater.Frontend.Client.Models;
 using Microsoft.Extensions.Logging;
 
 namespace Blater.Frontend.Client.Services;

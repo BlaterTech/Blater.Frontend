@@ -1,6 +1,6 @@
 ﻿using Blater.Frontend.Client.Enumerations;
 
-namespace Blater.Frontend.Client.Models;
+namespace Blater.Frontend.Client.Contracts;
 
 public class UserPreferences
 {

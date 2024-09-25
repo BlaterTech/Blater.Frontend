@@ -1,4 +1,4 @@
-﻿namespace Blater.Frontend.Client.Attributes;
+﻿namespace Blater.Frontend.Client.Auto.AutoAttributes;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class AutoNavMenuAttribute(int order, string userRoles, string userPermissions, string? icon = null) : Attribute

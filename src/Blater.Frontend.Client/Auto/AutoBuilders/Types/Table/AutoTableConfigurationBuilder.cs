@@ -3,7 +3,7 @@ using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoExtensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
-using Blater.Frontend.Client.Models;
+using Blater.Frontend.Client.Contracts;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
 

@@ -3,9 +3,9 @@ using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
+using Blater.Frontend.Client.Contracts.Bases;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Frontend.Client.Enumerations;
-using Blater.Frontend.Client.Models.Bases;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 

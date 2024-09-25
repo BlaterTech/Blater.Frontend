@@ -1,4 +1,4 @@
-﻿using Blater.Frontend.Client.Models;
+﻿using Blater.Frontend.Client.Contracts;
 
 namespace Blater.Frontend.Client.Interfaces;
 

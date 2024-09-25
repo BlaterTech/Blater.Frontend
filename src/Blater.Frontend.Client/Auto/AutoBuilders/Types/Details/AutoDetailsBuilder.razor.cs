@@ -4,8 +4,8 @@ using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
+using Blater.Frontend.Client.Contracts.Bases;
 using Blater.Frontend.Client.EasyRenderTree;
-using Blater.Frontend.Client.Models.Bases;
 using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details;

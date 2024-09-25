@@ -1,6 +1,6 @@
 ﻿using Blater.Enumerations;
+using Blater.Frontend.Client.Contracts.Tenant;
 using Blater.Frontend.Client.Interfaces;
-using Blater.Frontend.Client.Models.Tenant;
 
 namespace Blater.Frontend.Client.Services;
 

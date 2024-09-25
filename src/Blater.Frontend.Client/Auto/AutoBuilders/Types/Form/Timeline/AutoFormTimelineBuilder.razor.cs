@@ -3,8 +3,8 @@ using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Form.Timeline;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form.Timeline;
+using Blater.Frontend.Client.Contracts.Bases;
 using Blater.Frontend.Client.EasyRenderTree;
-using Blater.Frontend.Client.Models.Bases;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 

@@ -1,4 +1,4 @@
-﻿namespace Blater.Frontend.Client.Models.Tenant;
+﻿namespace Blater.Frontend.Client.Contracts.Tenant;
 
 public class TenantTypographyButton
 {

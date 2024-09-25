@@ -1,12 +1,14 @@
-﻿namespace Blater.Frontend.SourceGenerator.Templates;
+﻿using Blater.Frontend.SourceGenerator.Templates.Base;
 
-public static class EditPageTemplate
+namespace Blater.Frontend.SourceGenerator.Templates.Types.Edit;
+
+public static class EditTimelinePageTemplate
 {
     public static string GetCode(string typeName, string nameSpace, IEnumerable<string> namespaces)
     {
         var code =
             $$"""
-              {{CommonTemplateInfo.UsingStatements}}
+              {{BaseTemplateInfo.UsingStatements}}
 
               {{string.Join("\n", namespaces.Select(x => $"using {x};"))}}
 
@@ -14,13 +16,13 @@ public static class EditPageTemplate
 
               [AutoIgnore]
               [Layout(typeof(ContainerLayout))]
-              [Route("/{{typeName}}/Edit/{Id:guid}")]
+              [Route("/{{typeName}}/EditTimeline/{Id:guid}")]
               
               public partial class {{typeName}}EditPage : ComponentBase
               {
                   protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
                   {
-                      builder.OpenComponent<AutoForm<{{typeName}}>>(1);
+                      builder.OpenComponent<AutoFormTimelineBuilder<{{typeName}}>>(1);
                       builder.AddAttribute(2, "Id", Id);
                       builder.CloseComponent();
                   }

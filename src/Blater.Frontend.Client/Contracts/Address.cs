@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Blater.Frontend.Client.Models.Bases;
+using Blater.Frontend.Client.Contracts.Bases;
 
-namespace Blater.Frontend.Client.Models;
+namespace Blater.Frontend.Client.Contracts;
 
 public class Address : BaseFrontendModel
 {

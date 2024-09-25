@@ -1,12 +1,14 @@
-﻿namespace Blater.Frontend.SourceGenerator.Templates;
+﻿using Blater.Frontend.SourceGenerator.Templates.Base;
 
-public static class DetailsPageTemplate
+namespace Blater.Frontend.SourceGenerator.Templates.Types.Edit;
+
+public static class EditPageTemplate
 {
     public static string GetCode(string typeName, string nameSpace, IEnumerable<string> namespaces)
     {
         var code =
             $$"""
-              {{CommonTemplateInfo.UsingStatements}}
+              {{BaseTemplateInfo.UsingStatements}}
 
               {{string.Join("\n", namespaces.Select(x => $"using {x};"))}}
 
@@ -14,17 +16,17 @@ public static class DetailsPageTemplate
 
               [AutoIgnore]
               [Layout(typeof(ContainerLayout))]
-              [Route("/{{typeName}}/Details/{Id:guid}")]
+              [Route("/{{typeName}}/Edit/{Id:guid}")]
               
-              public partial class {{typeName}}DetailsPage : ComponentBase
+              public partial class {{typeName}}EditPage : ComponentBase
               {
                   protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
                   {
-                      builder.OpenComponent <AutoDetails <{{typeName}}>>(1);
+                      builder.OpenComponent<AutoFormBuilder<{{typeName}}>>(1);
                       builder.AddAttribute(2, "Id", Id);
                       builder.CloseComponent();
                   }
-              
+                  
                   [Parameter]
                   public Guid Id { get; set; }
               }

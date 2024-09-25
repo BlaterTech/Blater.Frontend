@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using Blater.Extensions;
-using Blater.Frontend.Client.Attributes;
+using Blater.Frontend.Client.Auto.AutoAttributes;
+using Blater.Frontend.Client.Contracts;
 using Blater.Frontend.Client.Interfaces;
-using Blater.Frontend.Client.Models;
 using Blater.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;

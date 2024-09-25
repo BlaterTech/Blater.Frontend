@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Blater.Frontend.Client.Models;
+namespace Blater.Frontend.Client.Contracts;
 
 [SuppressMessage("ReSharper", "CollectionNeverUpdated.Global")]
 public class NavMenuRouteInfo

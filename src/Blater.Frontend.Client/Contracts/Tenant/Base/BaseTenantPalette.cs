@@ -1,4 +1,4 @@
-﻿namespace Blater.Frontend.Client.Models.Tenant.Base;
+﻿namespace Blater.Frontend.Client.Contracts.Tenant.Base;
 
 public class BaseTenantPalette
 {
