@@ -33,9 +33,6 @@ public partial class AutoFormBuilder<T, TValidator> : BaseAutoComponentBuilder<T
     public bool EnableActionsButtons { get; set; } = true;
 
     [Parameter]
-    public (bool enabled, int index) RenderOnlyGroup { get; set; }
-
-    [Parameter]
     public AutoFormConfiguration<T>? FormConfiguration { get; set; }
 
     [Parameter]
@@ -121,14 +118,6 @@ public partial class AutoFormBuilder<T, TValidator> : BaseAutoComponentBuilder<T
             return;
         }
 
-        if (RenderOnlyGroup.enabled)
-        {
-            var index = RenderOnlyGroup.index - 1;
-            var groupConfiguration = groupConfigurations[index];
-            RenderGroupWithSubGroups(groupConfiguration);
-            return;
-        }
-
         foreach (var groupConfiguration in groupConfigurations)
         {
             RenderGroupWithSubGroups(groupConfiguration);
@@ -159,7 +148,7 @@ public partial class AutoFormBuilder<T, TValidator> : BaseAutoComponentBuilder<T
                 {
                     titleGroupBuilder
                        .OpenComponent<MudText>()
-                       .AddAttribute(nameof(MudText.Typo), Typo.h4)
+                       .AddAttribute(nameof(MudText.Typo), Typo.h6)
                        .AddAttribute(nameof(MudText.Color), Color.Inherit)
                        .AddChildContent(builderTextContent =>
                                             builderTextContent

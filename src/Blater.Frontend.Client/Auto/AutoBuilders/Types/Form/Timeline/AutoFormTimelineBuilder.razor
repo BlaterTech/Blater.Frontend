@@ -56,21 +56,21 @@
         @RenderAutoFormBuilder()
     </div>
 
-    <div id="steps-buttons" class="d-flex justify-space-between flex-grow-1 gap-4 mt-4 pa-4">
+    <div id="steps-buttons" class="d-flex justify-space-between flex-grow-1 gap-4 mt-4">
         <MudButton
             Color="Color.Default"
             StartIcon="@Material.Filled.ArrowBack"
             IconSize="Size.Medium"
             Variant="Variant.Text"
             OnClick="@GoBackCallback">
-            @LocalizationService.GetValue($"Auto{DisplayType}-Button-{typeof(T).Name}-GoBack")
+            @LocalizationService.GetValue($"AutoFormTimeline-Button-GoBack")
         </MudButton>
         <MudButton
             Color="Color.Default"
             EndIcon="@Material.Filled.ArrowForward"
             Variant="Variant.Text"
             OnClick="@NextCallback">
-            @LocalizationService.GetValue($"Auto{DisplayType}-Button-{typeof(T).Name}-Next")
+            @LocalizationService.GetValue($"Auto{DisplayType}-Button-Next")
         </MudButton>
     </div>
 

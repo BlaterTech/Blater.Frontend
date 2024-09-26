@@ -74,7 +74,7 @@ public class AutoFormTimelineGroupConfigurationBuilder<TModel>(AutoFormConfigura
             groupConfiguration.LocalizationId ??= $"Blater-AutoFormTimeline-{typeof(TModel).Name}-Group";
             value.Add(groupConfiguration);
         }
-
+        
         configuration.Groups[displayType] = value;
         
         var builder = new AutoFormPropertyConfigurationBuilder<TModel>(displayType, groupConfiguration);

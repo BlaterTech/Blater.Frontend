@@ -5,23 +5,21 @@
 <BlaterCascadingValue
     T="T"
     Id="@CascadingValue">
-    @if (EnablePrincipalTitle)
-    {
-        <MudCard Elevation="0" Class="pa-4 mb-2 mud-height-full">
-            <MudText Typo="Typo.h5">
+    <MudCard
+        Elevation="1">
+        @if (EnablePrincipalTitle)
+        {
+            <MudText Typo="Typo.h5" Color="Color.Inherit" Class="pa-4">
                 @GetTitleValue(FormConfiguration!)
             </MudText>
-        </MudCard>
-    }
-
-    <MudCard
-        Elevation="1"
-        Class="pa-4">
+            <MudDivider DividerType="DividerType.FullWidth"/>
+        }
         <MudForm
             @ref="@_form"
             Model="@Model"
             Validation="@ModelValidator?.ValidateValue"
-            ValidationDelay="0">
+            ValidationDelay="0"
+            Class="pa-4">
             <MudGrid
                 Spacing="@(GridConfiguration?.Spacing ?? 2)">
                 @{

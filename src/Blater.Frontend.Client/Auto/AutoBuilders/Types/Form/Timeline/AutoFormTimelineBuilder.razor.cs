@@ -81,9 +81,8 @@ public partial class AutoFormTimelineBuilder<T, TValidator> : BaseAutoComponentB
            .AddAttribute(nameof(Model), Model)
            .AddAttribute(nameof(ModelValidator), ModelValidator)
            .AddAttribute(nameof(AutoFormBuilder<T, TValidator>.EnableActionsButtons), false)
-           .AddAttribute(nameof(AutoFormBuilder<T, TValidator>.EnablePrincipalTitle), false)
+           .AddAttribute(nameof(AutoFormBuilder<T, TValidator>.EnablePrincipalTitle), true)
            .AddAttribute(nameof(AutoFormBuilder<T, TValidator>.FormConfiguration), stepConfiguration.AutoFormConfiguration)
-           .AddAttribute(nameof(AutoFormBuilder<T, TValidator>.RenderOnlyGroup), (true, _currentStep))
            .Close();
     };
 
