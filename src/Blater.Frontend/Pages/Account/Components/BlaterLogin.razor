@@ -1,10 +1,11 @@
-﻿@typeparam T where T : class
+﻿@using Blater.Frontend.Client.Contracts.Tenant
+@typeparam T where T : class
 
 <MudPaper Elevation="5" Class="pa-16">
     <MudGrid Justify="Justify.Center">
         <MudItem xs="12">
             <MudStack Row="true" Spacing="2" Class="justify-center" AlignItems="AlignItems.Center">
-                <BlaterLogo IconWidth="70"/>
+                <BlaterLogo TenantData="@TenantData" IconWidth="70"/>
             </MudStack>
         </MudItem>
         <MudItem>
@@ -70,6 +71,9 @@
 </MudPaper>
 
 @code {
+
+    [Inject]
+    private TenantData TenantData { get; set; } = null!;
 
     [Parameter]
     public RenderFragment? OAuthButtons { get; set; }

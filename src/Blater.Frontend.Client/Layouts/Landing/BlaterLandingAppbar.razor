@@ -1,6 +1,7 @@
-﻿<div class="d-flex align-center flex-grow-1 d-md-none">
+﻿@using Blater.Frontend.Client.Contracts.Tenant
+<div class="d-flex align-center flex-grow-1 d-md-none">
     <NavLink ActiveClass="d-flex align-center" href="/">
-        <BlaterLogo/>
+        <BlaterLogo TenantData="@TenantData"/>
     </NavLink>
     <MudSpacer/>
     <MudTooltip Delay="1000" Text="Drawer">
@@ -10,7 +11,7 @@
 
 <div class="d-none d-md-flex align-center flex-grow-1">
     <NavLink ActiveClass="d-flex align-center me-4" href="/">
-        <BlaterLogo/>
+        <BlaterLogo TenantData="@TenantData"/>
     </NavLink>
     <BlaterLandingNavMenu/>
     <MudSpacer/>
@@ -38,6 +39,9 @@
 
     [Inject]
     private NavigationManager NavigationManager { get; set; } = null!;
+    
+    [Inject]
+    private TenantData TenantData { get; set; } = null!;
 
     [Parameter]
     public EventCallback<MouseEventArgs> DrawerToggleCallback { get; set; }

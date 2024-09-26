@@ -1,11 +1,13 @@
-﻿<div class="d-flex align-center @(ContainsIcon ? "gap-1" : "")">
+﻿@using Blater.Frontend.Client.Contracts.Tenant
+
+<div class="d-flex align-center @(ContainsIcon ? "gap-1" : "")">
     
     @if (ContainsIcon)
     {
         <MudImage
             Class="@IconClass"
-            Src="@Icon"
-            Width="@IconWidth">
+            Src="@TenantData.TenantTheme.NavMenuIconLogo"
+            Width="@TenantData.TenantTheme.NavMenuLogoIconWidth">
         </MudImage>
     }
     
@@ -13,8 +15,8 @@
     {
         <MudImage
             Class="@ImageClass"
-            Src="@Image"
-            Width="@ImageWidth">
+            Src="@TenantData.TenantTheme.NavMenuLogo"
+            Width="@TenantData.TenantTheme.NavMenuLogoWidth">
         </MudImage>
     }
     
@@ -26,23 +28,15 @@
     public bool ContainsIcon { get; set; } = true;
     
     [Parameter]
-    public bool OnlyIcon { get; set; } = false;
-    
-    [Parameter]
-    public string Icon { get; set; } = "img/blater-icon.svg";
+    public bool OnlyIcon { get; set; }
     
     [Parameter]
     public string IconClass { get; set; } = "pa-1";
-
-    [Parameter]
-    public int IconWidth { get; set; } = 50;
-    
-    [Parameter]
-    public string Image { get; set; } = "img/blater-logo.svg";
     
     [Parameter]
     public string ImageClass { get; set; } = "pa-1";
     
     [Parameter]
-    public int ImageWidth { get; set; } = 100;
+    [EditorRequired]
+    public TenantData TenantData { get; set; } = null!;
 }

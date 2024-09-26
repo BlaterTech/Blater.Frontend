@@ -7,13 +7,13 @@ using Blater.Frontend.Client.Contracts.Tenant;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Services;
+using Blater.Frontend.Components;
 using Blater.Frontend.Pages.Account;
 using Blater.Helpers;
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -77,13 +77,13 @@ public static class WebSetup
 
             return tenantData;
         });
-        
+
         builder.Services.AddScoped<IUserPreferencesService, UserPreferencesService>();
         builder.Services.AddScoped<ILayoutService, LayoutService>();
-        
+
         builder.Services.AddSingleton<ITenantService, TenantService>();
         builder.Services.AddScoped<ITenantThemeConfigurationService, TenantThemeConfigurationService>();
-        
+
         //builder.Services.AddBlaterDatabase();
         //builder.Services.AddBlaterManagement();
         //builder.Services.AddBlaterKeyValue();
@@ -96,7 +96,7 @@ public static class WebSetup
         builder.Services.AddBlazoredSessionStorage();
         //builder.Services.AddScoped<IBlaterMemoryCache, BlaterMemoryCache>();
         //builder.Services.AddScoped<IBlaterStateStore, BlaterStateStore>();
-        
+
         var blaterFrontendAssembly = typeof(Blater.Frontend.WebSetup).Assembly;
         var blaterFrontendClientAssembly = typeof(Blater.Frontend.Client.WebSetup).Assembly;
         var executingAssembly = Assembly.GetEntryAssembly()!;
@@ -109,7 +109,7 @@ public static class WebSetup
                                                    .AssignableTo<ITranslation>())
                                     .AsImplementedInterfaces()
                                     .WithSingletonLifetime());
-        
+
         builder.Services.AddScoped<INavigationService, NavigationService>();
         builder.Services.AddMudServices(config =>
         {
@@ -125,7 +125,7 @@ public static class WebSetup
         });
     }
 
-    public static void UseBlaterFrontendServer<TApp>(this WebApplication app, Assembly clientAssembly) where TApp : ComponentBase
+    public static void UseBlaterFrontendServer(this WebApplication app, Assembly clientAssembly)
     {
         AutoComponentsBuilders.Initialize();
 
@@ -144,22 +144,21 @@ public static class WebSetup
 
         app.UseStaticFiles();
         //app.MapStaticAssets();
-
-        var blaterFrontendAssembly = typeof(Blater.Frontend.WebSetup).Assembly;
-        var blaterFrontendClientAssembly = typeof(Blater.Frontend.Client.WebSetup).Assembly;
+        
         var executingAssembly = Assembly.GetEntryAssembly()!;
 
         TypesHelper.RoutesAssemblies.Add(executingAssembly); //Executing assembly AKA Server
-        TypesHelper.RoutesAssemblies.Add(clientAssembly);
-        TypesHelper.RoutesAssemblies.Add(blaterFrontendAssembly);
-        TypesHelper.RoutesAssemblies.Add(blaterFrontendClientAssembly);
+        if (!TypesHelper.RoutesAssemblies.Contains(clientAssembly))
+        {
+            TypesHelper.RoutesAssemblies.Add(clientAssembly);
+        }
 
         //Test
         app.MapRazorPages();
 
-        app.MapRazorComponents<TApp>()
+        app.MapRazorComponents<App>()
            .AddInteractiveServerRenderMode()
            .AddInteractiveWebAssemblyRenderMode()
-           .AddAdditionalAssemblies(blaterFrontendAssembly, blaterFrontendClientAssembly, clientAssembly);
+           .AddAdditionalAssemblies(TypesHelper.RoutesAssemblies.ToArray());
     }
 }

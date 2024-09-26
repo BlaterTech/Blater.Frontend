@@ -51,11 +51,11 @@
         <MudDrawerHeader Class="pa-1 d-flex align-center justify-center">
             @if (DrawerOpen)
             {
-                <BlaterLogo/>
+                <BlaterLogo TenantData="@TenantData"/>
             }
             else
             {
-                <BlaterLogo OnlyIcon="true"/>
+                <BlaterLogo OnlyIcon="@TenantData.TenantTheme.OnlyIcon" TenantData="@TenantData"/>
             }
         </MudDrawerHeader>
 
