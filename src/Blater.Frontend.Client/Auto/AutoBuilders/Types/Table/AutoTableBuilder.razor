@@ -38,6 +38,10 @@
                     {
                         breakpointValue = TableConfiguration.CustomAutoTableFilters.Count + 2 >= 4 ? 3 : 4;
                     }
+                    else
+                    {
+                        breakpointValue = 4;
+                    }
                 }
                 <MudItem xs="12" lg="@(contains ? breakpointValue : 8)">
                     <MudTextField
