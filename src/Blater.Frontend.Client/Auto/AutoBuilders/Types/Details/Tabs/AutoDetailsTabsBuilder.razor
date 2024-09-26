@@ -3,7 +3,6 @@
 
 
 <BlaterCascadingValue
-    T="T"
     Id="@CascadingValue">
     @if (Loading)
     {
@@ -20,7 +19,7 @@
                     Class="@($"my-4 pa-4 {DetailsTabsConfiguration.ExtraClass}")">
                     <MudText
                         Typo="Typo.h4">
-                        @GetTitleValue(DetailsTabsConfiguration)
+                        <b>@GetTitleValue(DetailsTabsConfiguration)</b>
                     </MudText>
                 </MudCard>
             </MudItem>

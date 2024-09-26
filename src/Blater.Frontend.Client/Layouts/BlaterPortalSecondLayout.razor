@@ -1,15 +1,116 @@
-﻿@inherits BlaterPortalPrimaryLayout
+﻿@using Blater.Frontend.Client.Auto.AutoBuilders.Types
+@inherits LayoutComponentBase
 
-@Body
+@layout BlaterMainLayout
 
-@code
-{
-    protected override void OnInitialized()
-    {
-        EnableHeaderLogo = true;
-        EnableDrawerLogo = false;
+<MudLayout>
+    @*<BlaterAuthorizeView @ref="@_blaterAuthorizeView">
+        <Authorized>
+            
+        </Authorized>
         
-        EnableHeaderToggle = false;
-        EnableFooterToggle = true;
+        <NotAuthorized>
+            <p>Permission is required access this content</p>
+        </NotAuthorized>
+    </BlaterAuthorizeView>*@
+    @{
+        //var blaterUserToken = context.User.GetUserAuthenticated();
+        <MudAppBar Elevation="1">
+            <BlaterLogo/>
+
+            <MudSpacer/>
+
+            <MudList T="string" Class="d-flex gap-2 align-center">
+                <MudIconButton
+                    Icon="@Material.Outlined.Notifications"
+                    Color="Color.Inherit"/>
+
+                <MudDivider Light="true" Absolute="false" FlexItem="true" Vertical="true"/>
+
+                <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@LayoutService.CycleDarkLightModeAsync" aria-label="@(DarkLightModeButtonText)"/>
+
+                <MudDivider Light="true" Absolute="false" FlexItem="true" Vertical="true"/>
+                
+                <MudText Class="pr-2">
+                    Olá, Name@*@(blaterUserToken.Name)*@!
+                </MudText>
+
+                <MudAvatar>
+                    <MudImage Src=""/>
+                </MudAvatar>
+            </MudList>
+        </MudAppBar>
     }
-}
+    <MudDrawer @bind-Open="@DrawerOpen"
+               Elevation="2"
+               Variant="DrawerVariant.Mini"
+               ClipMode="@DrawerClipMode.Always"
+               Class="overflow-hidden"
+               MiniWidth="50px">
+        @{
+            foreach (var route in NavigationService.Routes)
+            {
+                if (route.IsSubMenu)
+                {
+                    <MudNavGroup
+                        Icon="@route.Icon"
+                        Title="@route.Name"
+                        ExpandIcon="">
+                        @foreach (var subRoute in route.ChildRoutes)
+                        {
+                            <MudNavLink
+                                Icon="@subRoute.Icon"
+                                Href="@subRoute.Route"
+                                Match="NavLinkMatch.Prefix">
+                                <MudText>
+                                    @subRoute.Name
+                                </MudText>
+                            </MudNavLink>
+                        }
+                    </MudNavGroup>
+                }
+                else
+                {
+                    <MudNavLink
+                        Icon="@route.Icon"
+                        Href="@route.Route"
+                        Match="NavLinkMatch.Prefix">
+                        <MudText>
+                            @route.Name
+                        </MudText>
+                    </MudNavLink>
+                }
+            }
+        }
+
+        <MudSpacer/>
+
+        <MudList T="string">
+            <MudNavLink
+                ActiveClass="navlink-class"
+                Icon="@Material.Filled.ExitToApp"
+                Match="NavLinkMatch.Prefix"
+                IconColor="Color.Error">
+                <MudText Color="Color.Error">
+                    @LocalizationService.GetValue(nameof(LocalizationComponent.Logout))
+                </MudText>
+            </MudNavLink>
+            <MudDivider Light="true" Absolute="false" FlexItem="true"/>
+            <MudNavLink
+                ActiveClass="navlink-class"
+                Icon="@_toggleIcon"
+                Match="NavLinkMatch.Prefix"
+                IconColor="Color.Inherit"
+                OnClick="@(e => DrawerToggle())">
+                <MudText Color="Color.Inherit">
+                    @LocalizationService.GetValueOrDefault(nameof(LocalizationComponent.Collect))
+                </MudText>
+            </MudNavLink>
+        </MudList>
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer Class="pa-4" MaxWidth="MaxWidth.ExtraExtraLarge">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>

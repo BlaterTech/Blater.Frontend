@@ -17,29 +17,29 @@
     @{
         //var blaterUserToken = context.User.GetUserAuthenticated();
         <MudAppBar Elevation="1">
-            @if (EnableHeaderLogo)
-            {
-                <BlaterLogo/>
-            }
-            @if (EnableHeaderToggle)
-            {
-                <MudIconButton Icon="@Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(e => DrawerToggle())"/>
-            }
+            <MudIconButton Icon="@Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(e => DrawerToggle())"/>
+            
             <MudSpacer/>
 
-            <MudIconButton
-                Icon="@Material.Outlined.Notifications"
-                Color="Color.Inherit"/>
+            <MudList T="string" Class="d-flex gap-2 align-center">
+                <MudIconButton
+                    Icon="@Material.Outlined.Notifications"
+                    Color="Color.Inherit"/>
 
-            <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@LayoutService.CycleDarkLightModeAsync" aria-label="@(DarkLightModeButtonText)" />
+                <MudDivider Light="true" Absolute="false" FlexItem="true" Vertical="true"/>
 
-            <MudText Class="pr-2">
-                Olá, Name@*@(blaterUserToken.Name)*@!
-            </MudText>
+                <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@LayoutService.CycleDarkLightModeAsync" aria-label="@(DarkLightModeButtonText)"/>
 
-            <MudAvatar>
-                <MudImage Src=""/>
-            </MudAvatar>
+                <MudDivider Light="true" Absolute="false" FlexItem="true" Vertical="true"/>
+
+                <MudText Class="pr-2">
+                    Olá, Name@*@(blaterUserToken.Name)*@!
+                </MudText>
+
+                <MudAvatar>
+                    <MudImage Src=""/>
+                </MudAvatar>
+            </MudList>
         </MudAppBar>
     }
     <MudDrawer @bind-Open="@DrawerOpen"
@@ -48,19 +48,16 @@
                ClipMode="@(EnableHeaderLogo ? DrawerClipMode.Always : DrawerClipMode.Never)"
                Class="overflow-hidden"
                MiniWidth="50px">
-        @if (EnableDrawerLogo)
-        {
-            <MudDrawerHeader Class="pa-1 d-flex align-center justify-center">
-                @if (DrawerOpen)
-                {
-                    <BlaterLogo/>
-                }
-                else
-                {
-                    <BlaterLogo OnlyIcon="true"/>
-                }
-            </MudDrawerHeader>
-        }
+        <MudDrawerHeader Class="pa-1 d-flex align-center justify-center">
+            @if (DrawerOpen)
+            {
+                <BlaterLogo/>
+            }
+            else
+            {
+                <BlaterLogo OnlyIcon="true"/>
+            }
+        </MudDrawerHeader>
 
         @{
             foreach (var route in NavigationService.Routes)
@@ -108,15 +105,6 @@
                 @LocalizationService.GetValue(nameof(LocalizationComponent.Logout))
             </MudText>
         </MudNavLink>
-        @if (EnableFooterToggle)
-        {
-            <MudNavLink
-                Icon="@Material.Filled.Menu"
-                Match="NavLinkMatch.Prefix"
-                IconColor="Color.Inherit"
-                OnClick="@(e => DrawerToggle())">
-            </MudNavLink>
-        }
     </MudDrawer>
     <MudMainContent>
         <MudContainer Class="pa-4" MaxWidth="MaxWidth.ExtraExtraLarge">

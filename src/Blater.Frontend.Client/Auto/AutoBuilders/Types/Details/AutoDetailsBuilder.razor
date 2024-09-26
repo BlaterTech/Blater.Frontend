@@ -2,7 +2,6 @@
 @typeparam T where T : Blater.Frontend.Client.Contracts.Bases.BaseFrontendModel
 
 <BlaterCascadingValue
-    T="T"
     Id="@CascadingValue">
     @if (Loading)
     {
@@ -19,7 +18,7 @@
                     Class="@($"my-4 pa-4 {DetailsConfiguration.ExtraClass}")">
                     <MudText
                         Typo="Typo.h4">
-                        @GetTitleValue(DetailsConfiguration)
+                        <b>@GetTitleValue(DetailsConfiguration)</b>
                     </MudText>
                 </MudCard>
             </MudItem>

@@ -1,16 +1,16 @@
 ﻿@inherits BaseAutoComponentBuilder<T>
+
 @typeparam T where T : Blater.Frontend.Client.Contracts.Bases.BaseFrontendModel
+
     @typeparam TValidator where TValidator : BaseModelValidator<T>
 
 <BlaterCascadingValue
-    T="T"
     Id="@CascadingValue">
-    <MudCard
-        Elevation="1">
+    <MudCard Elevation="0">
         @if (EnablePrincipalTitle)
         {
             <MudText Typo="Typo.h5" Color="Color.Inherit" Class="pa-4">
-                @GetTitleValue(FormConfiguration!)
+                <b>@GetTitleValue(FormConfiguration!)</b>
             </MudText>
             <MudDivider DividerType="DividerType.FullWidth"/>
         }

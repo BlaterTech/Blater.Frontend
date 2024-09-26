@@ -1,20 +1,15 @@
-﻿@typeparam T where T : BaseDataModel
-
-@{
-    <CascadingValue
-        TValue="Ulid"
-        Name="ParentId"
-        Value="@Id"
-        IsFixed="true">
-        @ChildContent
-    </CascadingValue>
-}
-
+﻿<CascadingValue
+    TValue="Ulid"
+    Name="ParentId"
+    Value="@Id"
+    IsFixed="true">
+    @ChildContent
+</CascadingValue>
 @code {
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-    
+
     [Parameter]
     [EditorRequired]
     public Ulid Id { get; set; } = Ulid.Empty;

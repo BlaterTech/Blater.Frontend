@@ -3,7 +3,6 @@
 @typeparam TValidator where TValidator : BaseModelValidator<T>
 
 <BlaterCascadingValue
-    T="T"
     Id="@CascadingValue">
     <div class="mb-2 mud-height-full d-flex flex-row align-center gap-2">
         <MudIconButton
@@ -11,7 +10,7 @@
             Color="Color.Primary"
             OnClick="@(async () => await NavigationService.GoBack())"/>
         <MudText Typo="Typo.h5">
-            @GetTitleValue(FormTimelineConfiguration)
+            <b>@GetTitleValue(FormTimelineConfiguration)</b>
         </MudText>
     </div>
     <MudTimeline
@@ -50,28 +49,31 @@
         }
     </MudTimeline>
 
-    <div
-        id="@($"auto-form-group-{_currentStep}")"
-        class="my-4">
-        @RenderAutoFormBuilder()
-    </div>
-
-    <div id="steps-buttons" class="d-flex justify-space-between flex-grow-1 gap-4 mt-4">
-        <MudButton
-            Color="Color.Default"
-            StartIcon="@Material.Filled.ArrowBack"
-            IconSize="Size.Medium"
-            Variant="Variant.Text"
-            OnClick="@GoBackCallback">
-            @LocalizationService.GetValue($"Blater-AutoFormTimeline-Button-GoBack")
-        </MudButton>
-        <MudButton
-            Color="Color.Default"
-            EndIcon="@Material.Filled.ArrowForward"
-            Variant="Variant.Text"
-            OnClick="@NextCallback">
-            @LocalizationService.GetValue(_isLastStep ? $"Blater-AutoFormTimeline-Button-{(EditMode ? "Edit" : "Save")}" : $"Blater-AutoFormTimeline-Button-Next")
-        </MudButton>
-    </div>
+    <MudCard Elevation="0" Class="my-4">
+        <div
+            id="@($"auto-form-group-{_currentStep}")">
+            @RenderAutoFormBuilder()
+        </div>
+        
+        <MudDivider DividerType="DividerType.FullWidth"/>
+        
+        <div id="steps-buttons" class="d-flex justify-end gap-4 pa-4">
+            <MudButton
+                Color="Color.Secondary"
+                Variant="Variant.Filled"
+                Size="Size.Medium"
+                OnClick="@GoBackCallback">
+                @LocalizationService.GetValue($"Blater-AutoFormTimeline-Button-GoBack")
+            </MudButton>
+            <MudButton
+                Color="Color.Primary"
+                Variant="Variant.Filled"
+                Size="Size.Medium"
+                OnClick="@NextCallback">
+                @LocalizationService.GetValue(_isLastStep ? $"Blater-AutoFormTimeline-Button-{(EditMode ? "Edit" : "Save")}" : $"Blater-AutoFormTimeline-Button-Next")
+            </MudButton>
+        </div>
+    </MudCard>
+    
 
 </BlaterCascadingValue>
