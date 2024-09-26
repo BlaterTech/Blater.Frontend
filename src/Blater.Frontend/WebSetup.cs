@@ -96,12 +96,15 @@ public static class WebSetup
         builder.Services.AddBlazoredSessionStorage();
         //builder.Services.AddScoped<IBlaterMemoryCache, BlaterMemoryCache>();
         //builder.Services.AddScoped<IBlaterStateStore, BlaterStateStore>();
+        
+        var blaterFrontendAssembly = typeof(Blater.Frontend.WebSetup).Assembly;
+        var blaterFrontendClientAssembly = typeof(Blater.Frontend.Client.WebSetup).Assembly;
+        var executingAssembly = Assembly.GetEntryAssembly()!;
         builder.Services.AddScoped<ILocalizationService, LocalizationService>();
         builder.Services.Scan(x => x.FromAssemblies(
-                                         typeof(WebSetup).Assembly,
-                                         Assembly.GetEntryAssembly()!,
-                                         Assembly.GetExecutingAssembly(),
-                                         typeof(ITranslation).Assembly)
+                                         blaterFrontendAssembly,
+                                         blaterFrontendClientAssembly,
+                                         executingAssembly)
                                     .AddClasses(classes => classes
                                                    .AssignableTo<ITranslation>())
                                     .AsImplementedInterfaces()

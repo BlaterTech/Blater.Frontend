@@ -21,6 +21,10 @@ public class BlaterFrontendPortugueseTranslation : ITranslation
         [nameof(LocalizationComponent.Processing)] = "Processando",
         [nameof(LocalizationComponent.EditButton)] = "Editar",
         [nameof(LocalizationComponent.SaveButton)] = "Salvar",
+        ["Blater-AutoFormTimeline-Button-Save"] = "Salvar",
+        ["Blater-AutoFormTimeline-Button-Edit"] = "Editar",
+        ["Blater-AutoFormTimeline-Button-Next"] = "Avançar",
+        ["Blater-AutoFormTimeline-Button-GoBack"] = "Voltar",
         
         //AutoTableBuilder
         ["BlaterTable-Date-Range-Label"] = "Período",

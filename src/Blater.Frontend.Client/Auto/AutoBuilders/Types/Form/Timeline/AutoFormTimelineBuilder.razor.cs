@@ -24,8 +24,9 @@ public partial class AutoFormTimelineBuilder<T, TValidator> : BaseAutoComponentB
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
 
-    private int _minValue;
-    private int _maxValue;
+    private int _firstStep;
+    private int _lastStep;
+    private bool _isLastStep;
     private int _currentStep = 1;
 
     private List<AutoFormTimelineStepConfiguration<T>> Steps
@@ -41,8 +42,8 @@ public partial class AutoFormTimelineBuilder<T, TValidator> : BaseAutoComponentB
         var formTimelineConfiguration = FindModelConfig<IAutoFormTimelineConfiguration<T>>();
         FormTimelineConfiguration = formTimelineConfiguration.FormTimelineConfiguration;
         
-        _minValue = Steps.FirstOrDefault()?.Key ?? 1;
-        _maxValue = Steps.LastOrDefault()?.Key ?? 1;
+        _firstStep = Steps.FirstOrDefault()?.Key ?? 1;
+        _lastStep = Steps.LastOrDefault()?.Key ?? 1;
     }
 
     protected override void OnInitialized()
@@ -88,13 +89,13 @@ public partial class AutoFormTimelineBuilder<T, TValidator> : BaseAutoComponentB
 
     private async Task GoBackCallback()
     {
-        if (_currentStep == _minValue)
+        if (_currentStep == _firstStep)
         {
             Logger.LogInformation("GoBack");
             //await NavigationService.GoBack();
         }
 
-        if (_currentStep <= _maxValue && _currentStep > _minValue)
+        if (_currentStep <= _lastStep && _currentStep > _firstStep)
         {
             _currentStep--;
             Logger.LogInformation("BackStep {Step}", _currentStep);
@@ -122,8 +123,11 @@ public partial class AutoFormTimelineBuilder<T, TValidator> : BaseAutoComponentB
             }
         }*/
 
-        if (_currentStep == _maxValue)
+        if (_currentStep == _lastStep)
         {
+            _isLastStep = true;
+            StateHasChanged();
+            
             //todo: save model in db
             Logger.LogInformation("Save model in database");
         }

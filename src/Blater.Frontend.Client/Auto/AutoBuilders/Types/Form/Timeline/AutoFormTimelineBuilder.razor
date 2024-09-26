@@ -63,14 +63,14 @@
             IconSize="Size.Medium"
             Variant="Variant.Text"
             OnClick="@GoBackCallback">
-            @LocalizationService.GetValue($"AutoFormTimeline-Button-GoBack")
+            @LocalizationService.GetValue($"Blater-AutoFormTimeline-Button-GoBack")
         </MudButton>
         <MudButton
             Color="Color.Default"
             EndIcon="@Material.Filled.ArrowForward"
             Variant="Variant.Text"
             OnClick="@NextCallback">
-            @LocalizationService.GetValue($"Auto{DisplayType}-Button-Next")
+            @LocalizationService.GetValue(_isLastStep ? $"Blater-AutoFormTimeline-Button-{(EditMode ? "Edit" : "Save")}" : $"Blater-AutoFormTimeline-Button-Next")
         </MudButton>
     </div>
 

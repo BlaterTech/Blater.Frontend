@@ -58,12 +58,12 @@ public static class WebSetup
         //builder.Services.AddScoped<IBlaterStateStore, BlaterStateStore>();
 
         //todo: creating builder.Services.AddTranslations
-        builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
+        var blaterFrontendClientAssembly = typeof(WebSetup).Assembly;
+        var executingAssembly = Assembly.GetEntryAssembly()!;
+        builder.Services.AddScoped<ILocalizationService, LocalizationService>();
         builder.Services.Scan(x => x.FromAssemblies(
-                                         typeof(WebSetup).Assembly,
-                                         Assembly.GetEntryAssembly()!,
-                                         Assembly.GetExecutingAssembly(),
-                                         typeof(ITranslation).Assembly)
+                                         blaterFrontendClientAssembly,
+                                         executingAssembly)
                                     .AddClasses(classes => classes
                                                    .AssignableTo<ITranslation>())
                                     .AsImplementedInterfaces()
