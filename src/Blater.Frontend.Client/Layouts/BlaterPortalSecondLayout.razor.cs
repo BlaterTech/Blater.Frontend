@@ -1,4 +1,5 @@
-﻿using Blater.Frontend.Client.Enumerations;
+﻿using Blater.Frontend.Client.Contracts.Tenant;
+using Blater.Frontend.Client.Enumerations;
 using Blater.Frontend.Client.Interfaces;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -15,6 +16,9 @@ public partial class BlaterPortalSecondLayout : LayoutComponentBase
     
     [Inject]
     protected ILayoutService LayoutService { get; set; } = default!;
+    
+    [Inject]
+    protected TenantData TenantData { get; set; } = default!;
     
     /*[Inject]
     private IBlaterStateStore StateStore { get; set; } = null!;*/

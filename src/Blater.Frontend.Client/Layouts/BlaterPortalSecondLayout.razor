@@ -113,4 +113,9 @@
             @Body
         </MudContainer>
     </MudMainContent>
+    <MudCard Class="d-flex align-center justify-center pa-2">
+        <MudText>
+            @LocalizationService.GetValue($"FooterDescription-{TenantData.Name}")
+        </MudText>
+    </MudCard>
 </MudLayout>
