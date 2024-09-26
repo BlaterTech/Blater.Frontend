@@ -27,8 +27,8 @@ public class BlaterFrontendPortugueseTranslation : ITranslation
         ["Blater-AutoFormTimeline-Button-GoBack"] = "Voltar",
         
         //AutoTableBuilder
-        ["BlaterTable-Date-Range-Label"] = "Período",
-        ["BlaterTable-GlobalSearch-Label"] = "Buscar",
+        ["BlaterTable-DateRange-Label"] = "Período",
+        ["BlaterTable-GlobalSearch-LabelName"] = "Buscar",
         ["BlaterTable-GlobalSearch-Placeholder"] = "Buscar informações",
 
         //AutoBadge

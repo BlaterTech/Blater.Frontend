@@ -142,14 +142,31 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
         var body = Expression.Convert(Expression.Property(param, propName), typeof(object));
         return Expression.Lambda<Func<T, object>>(body, param).Compile();
     }
-
-    private RenderFragment RenderComponentTable(IAutoTablePropertyConfiguration<T> propertyConfiguration) => builder =>
+    
+    private RenderFragment RenderComponentFilter(IAutoTablePropertyConfiguration<T> propertyConfiguration) => builder =>
     {
         var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
+
+        HasLabel = true;
         
         CreateGenericComponent(easyRenderTreeBuilder, propertyConfiguration);
     };
 
+    private RenderFragment RenderComponentTable(IAutoTablePropertyConfiguration<T> propertyConfiguration) => builder =>
+    {
+        var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
+
+        HasLabel = false;
+        
+        CreateGenericComponent(easyRenderTreeBuilder, propertyConfiguration);
+    };
+
+    private string _search = string.Empty;
+    private async Task SearchChanged(string obj)
+    {
+        _search = obj;
+        await Filter();
+    }
     private async Task Filter()
     {
         await Task.Delay(1);

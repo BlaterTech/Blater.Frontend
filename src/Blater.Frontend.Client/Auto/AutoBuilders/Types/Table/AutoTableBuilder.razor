@@ -31,30 +31,44 @@
     <MudCard Elevation="1" Class="pa-4">
         <form class="mb-2" @onsubmit="Filter">
             <MudGrid Spacing="1">
-                <MudItem xs="12" lg="4">
-                    <MudDateRangePicker
-                        Variant="Variant.Filled"
-                        Clearable="true"
-                        Culture="@(new CultureInfo("pt-BR"))"
-                        Label="@LocalizationService.GetValue("BlaterTable-GlobalSearch-Label")"
+                @{
+                    var contains = TableConfiguration.CustomAutoTableFilters.Count > 0;
+                    var breakpointValue = 0;
+                    if (contains)
+                    {
+                        breakpointValue = TableConfiguration.CustomAutoTableFilters.Count + 2 >= 4 ? 3 : 4;
+                    }
+                }
+                <MudItem xs="12" lg="@(contains ? breakpointValue : 8)">
+                    <MudTextField
+                        T="string"
+                        Label="@LocalizationService.GetValue($"BlaterTable-GlobalSearch-LabelName")"
                         Placeholder="@LocalizationService.GetValue($"BlaterTable-GlobalSearch-Placeholder")"
-                        DateRangeChanged="@(x => DateRangeValueChanged(x))"
-                        DateRange="@(_dateRange ?? new DateRange())"/>
-                    <MudSpacer/>
+                        Class="mb-6"
+                        Value="@_search"
+                        Immediate="false"
+                        ValueChanged="SearchChanged"
+                        Clearable="true"
+                        OnClearButtonClick="@(() => SearchChanged(string.Empty))"
+                        Adornment="Adornment.End"
+                        Variant="Variant.Filled"
+                        AdornmentIcon="@Material.Filled.Search"/>
                 </MudItem>
-                <MudItem xs="12" lg="4">
+                <MudItem xs="12" lg="@(breakpointValue)">
                     <MudDateRangePicker
                         Variant="Variant.Filled"
                         Clearable="true"
                         Culture="@(new CultureInfo("pt-BR"))"
-                        Label="@LocalizationService.GetValue("BlaterTable-Date-Range-Label")"
+                        Label="@LocalizationService.GetValue("BlaterTable-DateRange-Label")"
                         DateRangeChanged="@(x => DateRangeValueChanged(x))"
                         DateRange="@(_dateRange ?? new DateRange())"/>
-                    <MudSpacer/>
                 </MudItem>
-
-                @*todo: criar opção para adicionar novos itens no filtro usando o builder*@
-
+                @foreach (var filter in TableConfiguration.CustomAutoTableFilters)
+                {
+                    <MudItem xs="12" lg="@(breakpointValue)">
+                        @RenderComponentFilter(filter)
+                    </MudItem>
+                }
             </MudGrid>
         </form>
 
@@ -123,13 +137,13 @@
                                         Icon="@Material.Outlined.Edit"
                                         Color="Color.Primary"
                                         OnClick="@(() => OnEditChanged.InvokeAsync(context))"/>
-                                    if (TableConfiguration.EnableShowLockButton)
-                                    {
-                                        <MudIconButton
-                                            Icon="@(context.Enabled ? Material.Outlined.LockOpen : Material.Outlined.Lock)"
-                                            Color="@(context.Enabled ? Color.Primary : Color.Error)"
-                                            OnClick="@(() => OnDisabledChanged.InvokeAsync(context))"/>
-                                    }
+                                }
+                                @if (TableConfiguration.EnableShowLockButton)
+                                {
+                                    <MudIconButton
+                                        Icon="@(context.Enabled ? Material.Outlined.LockOpen : Material.Outlined.Lock)"
+                                        Color="@(context.Enabled ? Color.Primary : Color.Error)"
+                                        OnClick="@(() => OnDisabledChanged.InvokeAsync(context))"/>
                                 }
                                 @if (TableConfiguration.EnableCustomAction)
                                 {

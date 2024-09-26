@@ -24,6 +24,30 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
         }
     }
     
+    public AutoTableEventConfigurationBuilder<TModel, TPropertyType> AddFilter<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TModel, TPropertyType> propertyConfiguration)
+    {
+        var propertyInfo = expression.GetPropertyInfo();
+        
+        var index = _configuration.CustomAutoTableFilters.IndexOf(propertyConfiguration);
+        if (index != -1)
+        {
+            _configuration.CustomAutoTableFilters[index] = propertyConfiguration;
+        }
+        else
+        {
+            propertyConfiguration.EnableDefaultValue = true;
+            propertyConfiguration.Property = propertyInfo;
+            propertyConfiguration.LabelNameLocalizationId ??= $"Blater-AutoTable-{typeof(TModel).Name}-Filter-LabelName-{propertyInfo.Name}";
+            propertyConfiguration.LabelName ??= propertyInfo.Name;
+            propertyConfiguration.Placeholder ??= propertyInfo.Name;
+            propertyConfiguration.PlaceHolderLocalizationId ??= $"Blater-AutoTable-{typeof(TModel).Name}-Filter-Placeholder-{propertyInfo.Name}";
+            propertyConfiguration.AutoComponentType ??= propertyInfo.GetDefaultComponentForForm();
+            _configuration.CustomAutoTableFilters.Add(propertyConfiguration);
+        }
+
+        return new AutoTableEventConfigurationBuilder<TModel, TPropertyType>(propertyConfiguration);
+    }
+    
     public CustomAutoTableAction AddCustomAction(CustomAutoTableAction autoTableAction)
     {
         var index = _configuration.CustomAutoTableActions.IndexOf(autoTableAction);

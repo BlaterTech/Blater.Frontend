@@ -30,19 +30,19 @@ public static class AutoComponentTypeExtensions
             return false;
         }
 
-        return componentType.GetType() == typeof(AutoComponentInputType);
+        return componentType.GetType() == typeof(AutoFormComponentInputType);
     }
 
-    public static AutoComponentInputType GetDefaultComponentForForm(this PropertyInfo propertyInfo)
+    public static AutoFormComponentInputType GetDefaultComponentForForm(this PropertyInfo propertyInfo)
     {
         var propType = propertyInfo.PropertyType;
         return propType switch
         {
-            not null when propType == typeof(string) => AutoComponentInputType.AutoTextComponentInput,
-            not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoComponentInputType.AutoNumericComponentInput,
-            not null when propType == typeof(DateTime) || propType == typeof(DateTimeOffset) => AutoComponentInputType.AutoDateTimeComponentInput,
-            not null when propType == typeof(bool) => AutoComponentInputType.AutoSwitchComponentInput,
-            _ => AutoComponentInputType.AutoTextComponentInput
+            not null when propType == typeof(string) => AutoFormComponentInputType.AutoFormTextComponentInput,
+            not null when propType == typeof(int) || propType == typeof(double) || propType == typeof(decimal) => AutoFormComponentInputType.AutoFormNumericComponentInput,
+            not null when propType == typeof(DateTime) || propType == typeof(DateTimeOffset) => AutoFormComponentInputType.AutoFormDateTimeComponentInput,
+            not null when propType == typeof(bool) => AutoFormComponentInputType.AutoFormSwitchComponentInput,
+            _ => AutoFormComponentInputType.AutoFormTextComponentInput
         };
     }
 

@@ -141,10 +141,13 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
         componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.ExtraClass), propertyConfiguration.ExtraClass);
         componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.ExtraStyle), propertyConfiguration.ExtraStyle);
 
-        var propertyValue = propertyInfo.GetValue(Model) ?? propertyInfo.PropertyType.GetDefaultValue();
-        if (propertyValue != null)
+        if (!propertyConfiguration.EnableDefaultValue)
         {
-            componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Value), propertyValue);
+            var propertyValue = propertyInfo.GetValue(Model) ?? propertyInfo.PropertyType.GetDefaultValue();
+            if (propertyValue != null)
+            {
+                componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Value), propertyValue);
+            }   
         }
 
         if (HasLabel)

@@ -25,5 +25,6 @@ public class AutoTableConfiguration<TModel>(string title) : BaseAutoConfiguratio
 
     public AutoTablePagerConfiguration PagerConfiguration { get; set; } = new();
     public List<CustomAutoTableAction> CustomAutoTableActions { get; set; } = [];
+    public List<IAutoTablePropertyConfiguration<TModel>> CustomAutoTableFilters { get; set; } = [];
     public List<IAutoTablePropertyConfiguration<TModel>> Configurations { get; set; } = [];
 }

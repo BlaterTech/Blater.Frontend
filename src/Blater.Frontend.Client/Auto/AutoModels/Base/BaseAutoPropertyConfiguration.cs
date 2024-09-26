@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Globalization;
+using System.Reflection;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Microsoft.AspNetCore.Components;
@@ -21,6 +22,7 @@ public abstract class BaseAutoPropertyConfiguration<TPropertyValue> : IBaseAutoP
     public string? HelpMessage { get; set; }
 
     public bool IsReadOnly { get; set; }
+    public bool EnableDefaultValue { get; set; }
     public bool Disable { get; set; }
 
     public int Order { get; set; }
@@ -28,7 +30,8 @@ public abstract class BaseAutoPropertyConfiguration<TPropertyValue> : IBaseAutoP
     public Dictionary<Breakpoint, int> Breakpoints { get; set; } = [];
     public BaseAutoComponentTypeEnumeration? AutoComponentType { get; set; }
     public AutoFieldSize Size { get; set; }
-    
+    public CultureInfo Culture { get; set; } = new("pt-BR");
+
     public TPropertyValue? Value { get; set; }
     
     public EventCallback<TPropertyValue> OnValueChanged { get; set; }
