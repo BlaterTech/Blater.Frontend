@@ -1,4 +1,5 @@
 ﻿@using Blater.Frontend.Client.Auto.AutoBuilders.Types
+@using Blater.Frontend.Client.Auto.AutoBuilders.Types.Routes
 
 @inherits LayoutComponentBase
 
@@ -18,7 +19,7 @@
         //var blaterUserToken = context.User.GetUserAuthenticated();
         <MudAppBar Elevation="1">
             <MudIconButton Icon="@Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(e => DrawerToggle())"/>
-            
+
             <MudSpacer/>
 
             <MudList T="string" Class="d-flex gap-2 align-center">
@@ -42,78 +43,22 @@
             </MudList>
         </MudAppBar>
     }
-    <MudDrawer @bind-Open="@DrawerOpen"
-               Elevation="2"
-               Variant="DrawerVariant.Mini"
-               ClipMode="@(EnableHeaderLogo ? DrawerClipMode.Always : DrawerClipMode.Never)"
-               Class="overflow-hidden"
-               MiniWidth="50px">
-        <MudDrawerHeader Class="pa-1 d-flex align-center justify-center">
-            @if (DrawerOpen)
-            {
-                <BlaterLogo TenantData="@TenantData"/>
-            }
-            else
-            {
-                <BlaterLogo OnlyIcon="@TenantData.TenantTheme.OnlyIcon" TenantData="@TenantData"/>
-            }
-        </MudDrawerHeader>
+    
+    <AutoRouteBuilder 
+        TenantData="@TenantData"
+        DrawerOpen="@DrawerOpen"/>
 
-        @{
-            foreach (var route in NavigationService.Routes)
-            {
-                if (route.IsSubMenu)
-                {
-                    <MudNavGroup
-                        Icon="@route.Icon"
-                        Title="@route.Name"
-                        ExpandIcon="">
-                        @foreach (var subRoute in route.ChildRoutes)
-                        {
-                            <MudNavLink
-                                Icon="@subRoute.Icon"
-                                Href="@subRoute.Route"
-                                Match="NavLinkMatch.Prefix">
-                                <MudText>
-                                    @subRoute.Name
-                                </MudText>
-                            </MudNavLink>
-                        }
-                    </MudNavGroup>
-                }
-                else
-                {
-                    <MudNavLink
-                        Icon="@route.Icon"
-                        Href="@route.Route"
-                        Match="NavLinkMatch.Prefix">
-                        <MudText>
-                            @route.Name
-                        </MudText>
-                    </MudNavLink>
-                }
-            }
-        }
-
-        <MudSpacer/>
-
-        <MudNavLink
-            Icon="@Material.Filled.ExitToApp"
-            Match="NavLinkMatch.Prefix"
-            IconColor="Color.Error">
-            <MudText Color="Color.Error">
-                @LocalizationService.GetValue(nameof(LocalizationComponent.Logout))
-            </MudText>
-        </MudNavLink>
-    </MudDrawer>
-    <MudMainContent>
+    <MudMainContent Class="d-flex flex-column justify-space-between" Style="height: 100vh">
         <MudContainer Class="pa-4" MaxWidth="MaxWidth.ExtraExtraLarge">
             @Body
         </MudContainer>
+
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="pa-0">
+            <MudCard Class="d-flex align-center justify-center pa-2">
+                <MudText>
+                    @LocalizationService.GetValue($"FooterDescription-{TenantData.Name}")
+                </MudText>
+            </MudCard>
+        </MudContainer>
     </MudMainContent>
-    <MudCard Class="d-flex align-center justify-center pa-2">
-        <MudText>
-            @LocalizationService.GetValue($"FooterDescription-{TenantData.Name}")
-        </MudText>
-    </MudCard>
 </MudLayout>

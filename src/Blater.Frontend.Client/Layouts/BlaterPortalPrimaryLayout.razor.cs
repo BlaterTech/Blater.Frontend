@@ -27,11 +27,6 @@ public partial class BlaterPortalPrimaryLayout : LayoutComponentBase
 
     //BlaterAuthorizeView _blaterAuthorizeView = null!;
 
-    protected bool EnableHeaderToggle { get; set; } = true;
-    protected bool EnableFooterToggle { get; set; }
-    protected bool EnableHeaderLogo { get; set; }
-    protected bool EnableDrawerLogo { get; set; } = true;
-
     private bool DrawerOpen { get; set; } = true;
 
     private void DrawerToggle()

@@ -1,0 +1,90 @@
+﻿<MudDrawer @bind-Open="@DrawerOpen"
+           Elevation="2"
+           Variant="DrawerVariant.Mini"
+           ClipMode="@ClipMode"
+           Class="overflow-hidden"
+           MiniWidth="@Route.NavMenu.MiniWidth">
+    
+    @if (EnableDrawerHead)
+    {
+        <MudDrawerHeader Class="pa-1 d-flex align-center justify-center">
+            @if (DrawerOpen)
+            {
+                <BlaterLogo TenantData="@TenantData"/>
+            }
+            else
+            {
+                <BlaterLogo OnlyIcon="@TenantData.TenantTheme.OnlyIcon" TenantData="@TenantData"/>
+            }
+        </MudDrawerHeader>
+    }
+    
+    <MudNavMenu
+        Color="Route.NavMenu.NavMenuColor"
+        Margin="@Route.NavMenu.Margin"
+        Rounded="@Route.NavMenu.Rounded"
+        Bordered="@Route.NavMenu.Bordered"
+        Dense="@Route.NavMenu.Dense"
+        Class="@Route.NavMenu.ExtraClass">
+        @if (Route.CanCreateGroupFirst)
+        {
+            RenderRoutes(Route.Groups);
+        }
+        else
+        {
+            foreach (var link in Route.Links)
+            {
+                <MudNavLink
+                    Icon="@link.Icon"
+                    IconColor="@link.IconColor"
+                    Disabled="@link.Disabled"
+                    Href="@link.Href"
+                    Match="@link.Match">
+                    @if (DrawerOpen)
+                    {
+                        @GetNavMenuLocalization(link)
+                    }
+                </MudNavLink>
+            }
+
+            @RenderRoutes(Route.Groups)
+        }
+    </MudNavMenu>
+
+    <MudSpacer/>
+
+    <MudList T="string" Class="@Route.NavMenu.ExtraClass">
+        <MudNavLink
+            ActiveClass="navlink-class"
+            Icon="@Material.Filled.ExitToApp"
+            Match="NavLinkMatch.Prefix"
+            IconColor="Color.Error">
+            @if (DrawerOpen)
+            {
+                <MudText Color="Color.Error">
+                    @LocalizationService.GetValue(nameof(LocalizationComponent.Logout))
+                </MudText>
+            }
+        </MudNavLink>
+
+        @if (EnableToggleBottom)
+        {
+            <MudDivider Light="true" Absolute="false" FlexItem="true"/>
+
+            <MudNavLink
+                ActiveClass="navlink-class"
+                Icon="@ToggleIcon"
+                Match="NavLinkMatch.Prefix"
+                IconColor="Color.Inherit"
+                OnClick="@OnClick">
+                @if (DrawerOpen)
+                {
+                    <MudText Color="Color.Inherit">
+                        @LocalizationService.GetValueOrDefault(nameof(LocalizationComponent.Collect))
+                    </MudText>
+                }
+            </MudNavLink>
+        }
+    </MudList>
+
+</MudDrawer>
