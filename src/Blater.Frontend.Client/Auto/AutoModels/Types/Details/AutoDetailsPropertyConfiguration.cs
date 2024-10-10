@@ -3,7 +3,7 @@ using Blater.Frontend.Client.Auto.AutoModels.Base;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Details;
 
-public class AutoDetailsPropertyConfiguration<TModel, TPropertyValue> 
+public class AutoDetailsPropertyConfiguration<TModel, TPropertyValue>
     : BaseAutoPropertyConfiguration<TPropertyValue>, IAutoDetailsPropertyConfiguration<TModel>
 {
     public bool SeparateCard { get; set; }

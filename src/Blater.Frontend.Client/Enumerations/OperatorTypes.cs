@@ -1,5 +1,6 @@
-﻿using System.ComponentModel;
-using NetEscapades.EnumGenerators;
+﻿using NetEscapades.EnumGenerators;
+
+using System.ComponentModel;
 
 namespace Blater.Frontend.Client.Enumerations;
 
@@ -8,7 +9,7 @@ public enum OperatorTypes
 {
     [Description("CONTAINS")]
     Contains,
-    
+
     [Description("AND")]
     And,
 

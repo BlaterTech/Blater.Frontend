@@ -10,6 +10,6 @@ public class BaseAutoValueComponent<TValue> : BaseAutoComponent
 
     [Parameter]
     public string? Mask { get; set; }
-    
+
     public virtual string ValueAsString => Value?.ToString() ?? "N/A";
 }

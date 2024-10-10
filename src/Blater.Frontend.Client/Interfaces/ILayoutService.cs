@@ -1,4 +1,5 @@
 ﻿using Blater.Frontend.Client.Enumerations;
+
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Interfaces;

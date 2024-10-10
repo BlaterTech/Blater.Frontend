@@ -1,17 +1,21 @@
-﻿using System.Reflection;
-using Blater.Frontend.Client.Authentication;
+﻿using Blater.Frontend.Client.Authentication;
 using Blater.Frontend.Client.Auto;
 using Blater.Frontend.Client.Auto.AutoBuilders;
 using Blater.Frontend.Client.Handlers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Services;
+
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
+
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+
 using MudBlazor;
 using MudBlazor.Services;
+
+using System.Reflection;
 
 namespace Blater.Frontend.Client;
 
@@ -44,7 +48,7 @@ public static class WebSetup
         //builder.Services.AddBlaterAuthRepositories();
 
         //builder.Services.AddSingleton<ICookieService, CookieService>();
-        
+
         builder.Services.AddScoped<IUserPreferencesService, UserPreferencesService>();
         builder.Services.AddScoped<ILayoutService, LayoutService>();
 

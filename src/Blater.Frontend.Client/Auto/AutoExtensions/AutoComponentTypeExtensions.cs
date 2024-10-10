@@ -1,7 +1,8 @@
-﻿using System.Reflection;
-using Blater.Frontend.Client.Auto.AutoModels.Base;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Enumerations;
+
+using System.Reflection;
 
 namespace Blater.Frontend.Client.Auto.AutoExtensions;
 

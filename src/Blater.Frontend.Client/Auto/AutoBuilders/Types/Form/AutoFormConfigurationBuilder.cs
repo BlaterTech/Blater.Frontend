@@ -41,16 +41,16 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
 
     public AutoFormGroupConfiguration<TModel> AddGroup(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.Form, groupConfiguration, action);
-    
+
     public AutoFormGroupConfiguration<TModel> AddGroupCreateOnly(string groupName, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormCreate, new AutoFormGroupConfiguration<TModel>(groupName), action);
-    
+
     public AutoFormGroupConfiguration<TModel> AddGroupCreateOnly(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormCreate, groupConfiguration, action);
 
     public AutoFormGroupConfiguration<TModel> AddGroupEditOnly(string groupName, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormEdit, new AutoFormGroupConfiguration<TModel>(groupName), action);
-    
+
     public AutoFormGroupConfiguration<TModel> AddGroupEditOnly(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormEdit, groupConfiguration, action);
 
@@ -89,9 +89,9 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
         }
 
         _configuration.Groups[displayType] = value;
-        
+
         var builder = new AutoFormPropertyConfigurationBuilder<TModel>(displayType, groupConfiguration);
-        
+
         action.Invoke(builder);
 
         return groupConfiguration;
@@ -108,7 +108,7 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
             value = avatarConfiguration;
             _configuration.AvatarConfiguration.TryAdd(displayType, value);
         }
-        
+
         return value;
     }
 
@@ -123,7 +123,7 @@ public class AutoFormConfigurationBuilder<TModel> : IAutoFormConfigurationBuilde
             value = actionConfiguration;
             _configuration.ActionConfiguration.TryAdd(displayType, value);
         }
-        
+
         return value;
     }
 }

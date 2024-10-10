@@ -9,7 +9,7 @@ public class BaseAutoValueImageComponent : BaseAutoValueComponent<string>
 
     [Parameter]
     public int MinImageHeight { get; set; }
-    
+
     [Parameter]
     public string? ContainerPrefix { get; set; }
 

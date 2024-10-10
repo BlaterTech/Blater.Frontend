@@ -36,11 +36,11 @@ public class AutoRouteGroupConfigurationBuilder(AutoRouteGroupConfiguration grou
     public IAutoRouteGroupConfigurationBuilder AddSubGroup(AutoRouteGroupConfiguration subGroupConfiguration, Action<IAutoRouteGroupConfigurationBuilder> action)
     {
         groupConfiguration.SubGroups.Add(subGroupConfiguration);
-        
+
         var builder = new AutoRouteGroupConfigurationBuilder(subGroupConfiguration);
-        
+
         action.Invoke(builder);
-        
+
         return this;
     }
 }

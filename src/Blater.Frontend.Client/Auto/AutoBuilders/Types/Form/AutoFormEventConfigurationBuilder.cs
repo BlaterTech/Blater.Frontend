@@ -5,8 +5,8 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
 
 public class AutoFormEventConfigurationBuilder<TModel, TPropertyType>(
-    AutoFormPropertyConfiguration<TModel, TPropertyType> configuration) : 
-    BaseAutoEventConfigurationBuilder<TModel, TPropertyType, AutoFormPropertyConfiguration<TModel, TPropertyType>>(configuration), 
+    AutoFormPropertyConfiguration<TModel, TPropertyType> configuration) :
+    BaseAutoEventConfigurationBuilder<TModel, TPropertyType, AutoFormPropertyConfiguration<TModel, TPropertyType>>(configuration),
     IAutoFormEventConfigurationBuilder<TModel, TPropertyType>
 {
 }

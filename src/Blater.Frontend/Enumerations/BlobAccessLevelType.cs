@@ -1,6 +1,7 @@
-﻿using System.ComponentModel;
+﻿using NetEscapades.EnumGenerators;
+
+using System.ComponentModel;
 using System.Text.Json.Serialization;
-using NetEscapades.EnumGenerators;
 
 namespace Blater.Frontend.Enumerations;
 

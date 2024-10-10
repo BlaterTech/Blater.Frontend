@@ -1,10 +1,12 @@
-﻿@using BlazorMonaco.Editor
+@using BlazorMonaco.Editor
+@using Microsoft.JSInterop
+@using MudBlazor
 
 @inject IJSRuntime JSRuntime
 
 <div class="d-flex flex-column">
     <div class="d-flex align-center justify-end">
-        <MudIconButton Icon="@Material.Outlined.ContentPaste" OnClick="CopyValue" Size="Size.Small"/>
+        <MudIconButton Icon="@Icons.Material.Outlined.ContentPaste" OnClick="CopyValue" Size="Size.Small"/>
     </div>  
     <div class="mud-height-full">
         <StandaloneCodeEditor @ref="@_editor" Id="my-editor-instance-id" ConstructionOptions="EditorConstructionOptions"  />

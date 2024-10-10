@@ -15,7 +15,7 @@ public class AutoDetailsTabsGroupConfiguration<TModel> : BaseAutoGroupConfigurat
         Title = title;
         Route = route;
     }
-    
+
     public string? Route { get; set; }
     public bool EnableEditButton { get; set; } = true;
     public List<IAutoDetailsTabsPropertyConfiguration<TModel>> Components { get; set; } = [];

@@ -1,13 +1,15 @@
-﻿using System.Security.Claims;
-using Blater.Frontend.Client;
+﻿using Blater.Frontend.Client;
 using Blater.Frontend.Client.Extensions;
 using Blater.SDK.Contracts.Authentication.Request;
 using Blater.SDK.Contracts.Common.Request;
 using Blater.SDK.Interfaces.BlaterAuth;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
+
+using System.Security.Claims;
 
 namespace Blater.Frontend.Pages.Account.Pages;
 
@@ -20,17 +22,17 @@ public class BaseAccountPage : ComponentBase
 
     [Inject]
     private IBlaterAuthLoginStoreEndpoints LoginStore { get; set; } = default!;
-    
+
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
-    
+
     [Inject]
     private IdentityRedirectManager RedirectManager { get; set; } = default!;
-    
+
     #endregion
 
     #region Methods
-    
+
     //TODO: Criar componente para utilizar os erros
 
     protected async Task LoginInitialized()
@@ -42,7 +44,7 @@ public class BaseAccountPage : ComponentBase
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }
-    
+
     protected async Task Register(string email, string name, string password)
     {
         var result = await LoginStore.Register(new RegisterBlaterUserRequest
@@ -91,12 +93,12 @@ public class BaseAccountPage : ComponentBase
         }
 
         Configuration.Jwt = jwt;
-        
+
         var claims = jwtTokenDecoded.Claims.ToList();
         claims.Add(new Claim("jwt", jwt));
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-        
+
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
         RedirectManager.RedirectTo("home");
     }

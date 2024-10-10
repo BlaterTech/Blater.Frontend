@@ -10,7 +10,7 @@ public interface IAutoValidatorConfiguration<in T> : IValidator<T>
                                              .CreateWithOptions((T)model,
                                                                 x => x
                                                                    .IncludeProperties(propertyName)));
-        
+
         return result.IsValid ? [] : result.Errors.Select(e => e.ErrorMessage);
     };
 }

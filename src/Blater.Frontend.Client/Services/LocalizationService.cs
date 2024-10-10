@@ -1,15 +1,16 @@
-﻿using Blater.Enumerations;
+using Blater.Enumerations;
 using Blater.Frontend.Client.Contracts;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Interfaces;
 using Blater.Frontend.Client.Logging;
+
 using Microsoft.Extensions.Logging;
 
 namespace Blater.Frontend.Client.Services;
 
 public class LocalizationService : ILocalizationService, IDisposable
 {
-    private static readonly Dictionary<string, string> Dictionary = new();
+    private static readonly Dictionary<string, string> Dictionary = [];
     private readonly ILogger<LocalizationService> _logger;
     private readonly IEnumerable<ITranslation> _translations;
 
@@ -33,7 +34,6 @@ public class LocalizationService : ILocalizationService, IDisposable
     public string DateFormat => SelectedLanguageData?.DateFormat ?? "dd/MM/yyyy";
 
     public event Action? LocalizationChanged;
-
 
     private void HotReloadHelperOnUpdateApplicationEvent(Type[]? obj)
     {
@@ -64,7 +64,7 @@ public class LocalizationService : ILocalizationService, IDisposable
 
         var dictionaries = translations
            .SelectMany(x => x.Dictionary);
-        
+
         foreach (var (key, value) in dictionaries)
         {
             if (Dictionary.TryAdd(key, value))
@@ -127,7 +127,7 @@ public class LocalizationService : ILocalizationService, IDisposable
     public bool TryAddValue(string key, object value)
     {
         var stringValue = value.ToString();
-        
+
         return Dictionary.TryAdd(key, stringValue ?? string.Empty);
     }
 

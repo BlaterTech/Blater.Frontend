@@ -1,12 +1,14 @@
-using System.Diagnostics;
-using System.Security.Claims;
 using Blater.Frontend.Client.Extensions;
 using Blater.Models.User;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
+
+using System.Diagnostics;
+using System.Security.Claims;
 
 namespace Blater.Frontend.Authentication;
 
@@ -46,7 +48,7 @@ public sealed class PersistingRevalidatingAuthenticationStateProvider : Revalida
         {
             return false;
         }
-        
+
         var token = principal.Claims.FirstOrDefault(x => x.Type == "UserToken")?.Value;
         var valid = token?.ValidateJwt();
 

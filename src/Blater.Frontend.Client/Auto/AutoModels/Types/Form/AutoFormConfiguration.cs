@@ -8,6 +8,6 @@ public class AutoFormConfiguration<TModel>(string title) : BaseAutoConfiguration
     public Dictionary<AutoComponentDisplayType, AutoGridConfiguration> GridConfigurations { get; set; } = [];
     public Dictionary<AutoComponentDisplayType, AutoAvatarModelConfiguration> AvatarConfiguration { get; set; } = [];
     public Dictionary<AutoComponentDisplayType, AutoFormActionConfiguration> ActionConfiguration { get; set; } = [];
-    
+
     public Dictionary<AutoComponentDisplayType, List<AutoFormGroupConfiguration<TModel>>> Groups { get; set; } = [];
 }

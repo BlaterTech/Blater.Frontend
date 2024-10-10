@@ -1,9 +1,12 @@
-﻿using System.Globalization;
-using System.Reflection;
-using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
+﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
+
 using Microsoft.AspNetCore.Components;
+
 using MudBlazor;
+
+using System.Globalization;
+using System.Reflection;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Base;
 
@@ -33,7 +36,7 @@ public abstract class BaseAutoPropertyConfiguration<TPropertyValue> : IBaseAutoP
     public CultureInfo Culture { get; set; } = new("pt-BR");
 
     public TPropertyValue? Value { get; set; }
-    
+
     public EventCallback<TPropertyValue> OnValueChanged { get; set; }
     public EventCallback<EventArgs> OnClick { get; set; }
 }

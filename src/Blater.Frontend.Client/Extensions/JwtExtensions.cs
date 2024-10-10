@@ -10,9 +10,9 @@ public static class JwtExtensions
         {
             return (false, new JwtSecurityToken());
         }
-        
+
         var jwtTokenHandler = new JwtSecurityTokenHandler();
-        
+
         var jwtTokenDecoded = jwtTokenHandler.ReadJwtToken(jwt);
 
         if (jwtTokenDecoded.ValidTo.ToUniversalTime() <= DateTime.UtcNow)

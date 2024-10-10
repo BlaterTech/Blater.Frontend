@@ -1,8 +1,10 @@
-using System.Diagnostics;
 using Blater.Frontend.SourceGenerator.Templates.Types.Create;
 using Blater.Frontend.SourceGenerator.Templates.Types.Details;
 using Blater.Frontend.SourceGenerator.Templates.Types.Edit;
+
 using Microsoft.CodeAnalysis;
+
+using System.Diagnostics;
 
 namespace Blater.Frontend.SourceGenerator;
 

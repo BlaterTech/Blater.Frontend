@@ -61,7 +61,7 @@ public class AutoFormTimelineConfigurationBuilder<TModel> : IAutoFormTimelineCon
         value.Add(newStep);
 
         _configuration.Steps[displayType] = value;
-        
+
         var builder = new AutoFormTimelineFormConfigurationBuilder<TModel>(newStep.AutoFormConfiguration);
 
         action.Invoke(builder);

@@ -2,8 +2,10 @@
 using Blater.Frontend.Client.Contracts.Tenant;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Frontend.Client.Interfaces;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Routes;
@@ -19,7 +21,7 @@ public partial class AutoRouteBuilder : ComponentBase
     [Parameter]
     [EditorRequired]
     public TenantData TenantData { get; set; } = null!;
-    
+
     [Parameter]
     public bool EnableDrawerHead { get; set; } = true;
 

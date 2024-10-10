@@ -8,7 +8,7 @@ public class AutoNavMenuAttribute(int order, string userRoles, string userPermis
     public string? Icon { get; set; } = icon;
 
     public string? NavMenuParentName { get; set; }
-    
+
     public string UserRoles { get; set; } = userRoles;
     public string UserPermissions { get; set; } = userPermissions;
 }

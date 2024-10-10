@@ -5,7 +5,7 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form.Timeline;
 
-public class AutoFormTimelineGroupConfigurationBuilder<TModel>(AutoFormConfiguration<TModel> configuration) 
+public class AutoFormTimelineGroupConfigurationBuilder<TModel>(AutoFormConfiguration<TModel> configuration)
     : IAutoFormTimelineGroupConfigurationBuilder<TModel>
 {
     #region Group
@@ -28,16 +28,16 @@ public class AutoFormTimelineGroupConfigurationBuilder<TModel>(AutoFormConfigura
 
     public AutoFormGroupConfiguration<TModel> AddGroup(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.Form, groupConfiguration, action);
-    
+
     public AutoFormGroupConfiguration<TModel> AddGroupCreateOnly(string groupName, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormCreate, new AutoFormGroupConfiguration<TModel>(groupName), action);
-    
+
     public AutoFormGroupConfiguration<TModel> AddGroupCreateOnly(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormCreate, groupConfiguration, action);
 
     public AutoFormGroupConfiguration<TModel> AddGroupEditOnly(string groupName, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormEdit, new AutoFormGroupConfiguration<TModel>(groupName), action);
-    
+
     public AutoFormGroupConfiguration<TModel> AddGroupEditOnly(AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
         => AddGroup(AutoComponentDisplayType.FormEdit, groupConfiguration, action);
 
@@ -55,7 +55,7 @@ public class AutoFormTimelineGroupConfigurationBuilder<TModel>(AutoFormConfigura
         => Actions(AutoComponentDisplayType.FormEdit, actionConfiguration);
 
     #endregion
-    
+
     private AutoFormGroupConfiguration<TModel> AddGroup(AutoComponentDisplayType displayType, AutoFormGroupConfiguration<TModel> groupConfiguration, Action<IAutoFormPropertyConfigurationBuilder<TModel>> action)
     {
         if (!configuration.Groups.TryGetValue(displayType, out var value))
@@ -74,11 +74,11 @@ public class AutoFormTimelineGroupConfigurationBuilder<TModel>(AutoFormConfigura
             groupConfiguration.LocalizationId ??= $"Blater-AutoFormTimeline-{typeof(TModel).Name}-Group";
             value.Add(groupConfiguration);
         }
-        
+
         configuration.Groups[displayType] = value;
-        
+
         var builder = new AutoFormPropertyConfigurationBuilder<TModel>(displayType, groupConfiguration);
-        
+
         action.Invoke(builder);
 
         return groupConfiguration;
@@ -95,7 +95,7 @@ public class AutoFormTimelineGroupConfigurationBuilder<TModel>(AutoFormConfigura
             value = avatarConfiguration;
             configuration.AvatarConfiguration.TryAdd(displayType, value);
         }
-        
+
         return value;
     }
 
@@ -110,7 +110,7 @@ public class AutoFormTimelineGroupConfigurationBuilder<TModel>(AutoFormConfigura
             value = actionConfiguration;
             configuration.ActionConfiguration.TryAdd(displayType, value);
         }
-        
+
         return value;
     }
 }

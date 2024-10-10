@@ -9,9 +9,9 @@ public class AutoFormTimelineFormConfigurationBuilder<TModel>(AutoFormConfigurat
     {
         configuration.Title = formTitle;
         configuration.LocalizationId = $"Blater-AutoFormTimeline-{typeof(TModel).Name}-Form";
-        
+
         var builder = new AutoFormTimelineGroupConfigurationBuilder<TModel>(configuration);
-        
+
         action.Invoke(builder);
 
         return configuration;

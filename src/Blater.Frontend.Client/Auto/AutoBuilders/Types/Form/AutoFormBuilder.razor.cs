@@ -7,8 +7,10 @@ using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 using Blater.Frontend.Client.Contracts.Bases;
 using Blater.Frontend.Client.EasyRenderTree;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
+
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Form;
@@ -37,7 +39,7 @@ public partial class AutoFormBuilder<T, TValidator> : BaseAutoComponentBuilder<T
 
     [Parameter]
     public TValidator? ModelValidator { get; set; }
-    
+
     public override AutoComponentDisplayType DisplayType { get; set; }
     public override bool HasLabel { get; set; } = true;
 
@@ -93,7 +95,7 @@ public partial class AutoFormBuilder<T, TValidator> : BaseAutoComponentBuilder<T
         {
             return;
         }
-        
+
         var modelType = typeof(T);
         if (AutoConfigurations.Validators.TryGetValue(modelType, out var value))
         {

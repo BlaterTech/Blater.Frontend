@@ -1,5 +1,7 @@
 ﻿using Blater.Frontend.Client.Interfaces;
+
 using Microsoft.AspNetCore.Components;
+
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Layouts;
@@ -8,16 +10,16 @@ public partial class BlaterMainLayout : LayoutComponentBase
 {
     [Inject]
     protected ILayoutService LayoutService { get; set; } = default!;
-    
+
     [Inject]
     protected ITenantThemeConfigurationService ThemeConfiguration { get; set; } = default!;
-    
+
     [Inject]
     protected INavigationService NavigationService { get; set; } = default!;
-    
+
     [Inject]
     protected ILocalizationService LocalizationService { get; set; } = default!;
-    
+
     private MudThemeProvider _mudThemeProvider = null!;
 
     protected override void OnInitialized()

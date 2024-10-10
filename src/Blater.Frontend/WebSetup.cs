@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Blater.Frontend.Authentication;
+﻿using Blater.Frontend.Authentication;
 using Blater.Frontend.Client;
 using Blater.Frontend.Client.Auto;
 using Blater.Frontend.Client.Auto.AutoBuilders;
@@ -10,8 +9,10 @@ using Blater.Frontend.Client.Services;
 using Blater.Frontend.Components;
 using Blater.Frontend.Pages.Account;
 using Blater.Helpers;
+
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -19,8 +20,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using MudBlazor;
 using MudBlazor.Services;
+
+using System.Reflection;
 
 // ReSharper disable RedundantNameQualifier
 
@@ -144,7 +148,7 @@ public static class WebSetup
 
         app.UseStaticFiles();
         //app.MapStaticAssets();
-        
+
         var executingAssembly = Assembly.GetEntryAssembly()!;
 
         TypesHelper.RoutesAssemblies.Add(executingAssembly); //Executing assembly AKA Server

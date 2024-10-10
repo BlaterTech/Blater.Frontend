@@ -25,11 +25,12 @@ public class AutoDetailsTabsGroupConfigurationBuilder<TModel>(AutoDetailsTabsPan
             {
                 throw new Exception("Details tabs group title is null or white space");
             }
+
             configuration.Groups.Add(groupConfiguration);
         }
-        
+
         var builder = new AutoDetailsTabsPropertyConfigurationBuilder<TModel>(groupConfiguration);
-        
+
         memberConfiguration.Invoke(builder);
 
         return groupConfiguration;

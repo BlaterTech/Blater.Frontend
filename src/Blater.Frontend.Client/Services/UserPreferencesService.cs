@@ -1,5 +1,6 @@
 ﻿using Blater.Frontend.Client.Contracts;
 using Blater.Frontend.Client.Interfaces;
+
 using Blazored.LocalStorage;
 
 namespace Blater.Frontend.Client.Services;

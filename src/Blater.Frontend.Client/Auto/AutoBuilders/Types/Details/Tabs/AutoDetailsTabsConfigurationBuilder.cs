@@ -1,5 +1,6 @@
 ﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
+
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details.Tabs;
@@ -42,6 +43,7 @@ public class AutoDetailsTabsConfigurationBuilder<TModel> : IAutoDetailsTabsConfi
             {
                 throw new Exception("Details panel title is null or white space");
             }
+
             _configuration.Panels.Add(tabsPanelConfiguration);
         }
 

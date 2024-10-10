@@ -1,5 +1,6 @@
-using System.ComponentModel.DataAnnotations;
 using Blater.Frontend.Client.Contracts.Bases;
+
+using System.ComponentModel.DataAnnotations;
 
 namespace Blater.Frontend.Client.Contracts;
 
@@ -51,5 +52,5 @@ public class Address : BaseFrontendModel
     [MinLength(6)]
     [MaxLength(50)]
     public string ExternalReference { get; set; } = string.Empty;
-    
+
 }

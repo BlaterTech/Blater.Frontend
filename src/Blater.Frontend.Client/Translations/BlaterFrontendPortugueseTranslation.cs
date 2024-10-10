@@ -26,7 +26,7 @@ public class BlaterFrontendPortugueseTranslation : ITranslation
         ["Blater-AutoFormTimeline-Button-Edit"] = "Editar",
         ["Blater-AutoFormTimeline-Button-Next"] = "Avançar",
         ["Blater-AutoFormTimeline-Button-GoBack"] = "Voltar",
-        
+
         //AutoTableBuilder
         ["BlaterTable-DateRange-Label"] = "Período",
         ["BlaterTable-GlobalSearch-LabelName"] = "Buscar",

@@ -1,7 +1,9 @@
 ﻿using Blater.Frontend.Client.Contracts.Tenant;
 using Blater.Frontend.Client.Enumerations;
 using Blater.Frontend.Client.Interfaces;
+
 using Microsoft.AspNetCore.Components;
+
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Layouts;
@@ -10,16 +12,16 @@ public partial class BlaterPortalSecondLayout : LayoutComponentBase
 {
     [Inject]
     protected INavigationService NavigationService { get; set; } = default!;
-    
+
     [Inject]
     protected ILocalizationService LocalizationService { get; set; } = default!;
-    
+
     [Inject]
     protected ILayoutService LayoutService { get; set; } = default!;
-    
+
     [Inject]
     protected TenantData TenantData { get; set; } = default!;
-    
+
     /*[Inject]
     private IBlaterStateStore StateStore { get; set; } = null!;*/
 
@@ -63,14 +65,14 @@ public partial class BlaterPortalSecondLayout : LayoutComponentBase
                                      .Where(x => x.UserPermissions?.Any(permission => BlaterAuthState.Permissions.Contains(permission)));#1#
         }
     }*/
-    
+
     public string DarkLightModeButtonText => LayoutService.CurrentDarkLightMode switch
     {
         DarkLightMode.Dark => "System mode",
         DarkLightMode.Light => "Dark mode",
         _ => "Light mode"
     };
-    
+
     public string DarkLightModeButtonIcon => LayoutService.CurrentDarkLightMode switch
     {
         DarkLightMode.Dark => Icons.Material.Rounded.AutoMode,

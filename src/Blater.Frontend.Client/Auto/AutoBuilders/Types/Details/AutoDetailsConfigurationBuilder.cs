@@ -37,11 +37,12 @@ public class AutoDetailsConfigurationBuilder<TModel> : IAutoDetailsConfiguration
             {
                 throw new Exception("Details group title is null or white space");
             }
+
             _configuration.Groups.Add(detailsGroupConfiguration);
         }
 
         var builder = new AutoDetailsPropertyConfigurationBuilder<TModel>(detailsGroupConfiguration);
-        
+
         action.Invoke(builder);
 
         return detailsGroupConfiguration;

@@ -1,9 +1,11 @@
-﻿using System.Security.Claims;
 using Blater.Frontend.Client.Extensions;
 using Blater.Models.User;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Rendering;
+
+using System.Security.Claims;
 
 namespace Blater.Frontend.Client.Components.AuthorizeView;
 
@@ -29,16 +31,18 @@ public class BlaterAuthorizeView : ComponentBase
 
     [CascadingParameter]
     private Task<AuthenticationState>? AuthenticationState { get; set; }
-    
-    public BlaterUserToken GetUserAuthenticated() 
-        => _currentAuthenticationState?.User.GetUserAuthenticated() ?? new BlaterUserToken();
-    
-    #nullable disable
-    
+
+    public BlaterUserToken GetUserAuthenticated()
+    {
+        return _currentAuthenticationState?.User.GetUserAuthenticated() ?? new BlaterUserToken();
+    }
+
+#nullable disable
+
     private AuthenticationState _currentAuthenticationState;
     private bool? _isAuthorized;
 
-    #nullable enable
+#nullable enable
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -66,12 +70,12 @@ public class BlaterAuthorizeView : ComponentBase
         {
             throw new InvalidOperationException("Authorization requires a cascading parameter");
         }
-        
+
         _isAuthorized = new bool?();
         _currentAuthenticationState = await AuthenticationState;
         _isAuthorized = IsAuthorized(_currentAuthenticationState.User);
     }
-    
+
     private bool IsAuthorized(ClaimsPrincipal user)
     {
         var blaterUserToken = user.GetUserAuthenticated();
@@ -79,7 +83,7 @@ public class BlaterAuthorizeView : ComponentBase
         {
             return false;
         }
-        
+
         return EnsureUserRequirements(blaterUserToken);
     }
 
@@ -87,7 +91,7 @@ public class BlaterAuthorizeView : ComponentBase
     {
         if (Roles.Count > 0)
         {
-            var hasRequiredRoles = blaterUserToken.RoleNames.Any(x => Roles.Contains(x));
+            var hasRequiredRoles = blaterUserToken.Roles.Any(Roles.Contains);
             if (!hasRequiredRoles)
             {
                 return false;
@@ -96,7 +100,7 @@ public class BlaterAuthorizeView : ComponentBase
 
         if (Permissions.Count > 0)
         {
-            var hasRequiredPermissions = blaterUserToken.Permissions.Any(x => Permissions.Contains(x));
+            var hasRequiredPermissions = blaterUserToken.Permissions.Any(Permissions.Contains);
             if (!hasRequiredPermissions)
             {
                 return false;

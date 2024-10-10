@@ -6,8 +6,10 @@ using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Contracts.Bases;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Frontend.Client.Interfaces;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
+
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
@@ -147,7 +149,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
             if (propertyValue != null)
             {
                 componentRenderBuilder.AddAttribute(nameof(BaseAutoFormComponent<T>.Value), propertyValue);
-            }   
+            }
         }
 
         if (HasLabel)
@@ -179,7 +181,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         componentRenderBuilder.Close();
     }
-    
+
     protected string GetTitleValue<TConfiguration>(TConfiguration configuration) where TConfiguration : BaseAutoConfiguration
     {
         var value = LocalizationService.GetValueOrDefault(configuration.LocalizationId!);
@@ -190,7 +192,7 @@ public abstract class BaseAutoComponentBuilder<T> : ComponentBase where T : Base
 
         return value;
     }
-    
+
     protected string GetGroupTitleValue<TConfiguration>(TConfiguration configuration) where TConfiguration : BaseAutoGroupConfiguration
     {
         var value = LocalizationService.GetValueOrDefault(configuration.LocalizationId!);

@@ -1,9 +1,10 @@
-﻿using System.Linq.Expressions;
-using Blater.Extensions;
 using Blater.Frontend.Client.Auto.AutoExtensions;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 using Blater.Frontend.Client.Contracts;
+using Blater.Frontend.Client.Extensions;
+
+using System.Linq.Expressions;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
 
@@ -23,11 +24,11 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
             throw new InvalidCastException($"Instance is not implement IAutoTableConfiguration<{typeof(TModel).Name}>");
         }
     }
-    
+
     public AutoTableEventConfigurationBuilder<TModel, TPropertyType> AddFilter<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TModel, TPropertyType> propertyConfiguration)
     {
         var propertyInfo = expression.GetPropertyInfo();
-        
+
         var index = _configuration.CustomAutoTableFilters.IndexOf(propertyConfiguration);
         if (index != -1)
         {
@@ -47,7 +48,7 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
 
         return new AutoTableEventConfigurationBuilder<TModel, TPropertyType>(propertyConfiguration);
     }
-    
+
     public CustomAutoTableAction AddCustomAction(CustomAutoTableAction autoTableAction)
     {
         var index = _configuration.CustomAutoTableActions.IndexOf(autoTableAction);
@@ -62,7 +63,7 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
 
         return autoTableAction;
     }
-    
+
     public AutoTablePagerConfiguration ModifyTablePager(AutoTablePagerConfiguration pagerConfiguration)
     {
         _configuration.PagerConfiguration = pagerConfiguration;
@@ -76,18 +77,18 @@ public class AutoTableConfigurationBuilder<TModel> : IAutoTableConfigurationBuil
 
         return propertyConfiguration;
     }
-    
+
     public IAutoTableEventConfigurationBuilder<TModel, TPropertyType> AddMemberWithEvent<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TModel, TPropertyType> propertyConfiguration)
     {
         AddMember(expression, propertyConfiguration);
 
         return new AutoTableEventConfigurationBuilder<TModel, TPropertyType>(propertyConfiguration);
     }
-    
+
     private void AddMember<TPropertyType>(Expression<Func<TModel, TPropertyType>> expression, AutoTablePropertyConfiguration<TModel, TPropertyType> propertyConfiguration)
     {
         var propertyInfo = expression.GetPropertyInfo();
-        
+
         var index = _configuration.Configurations.IndexOf(propertyConfiguration);
         if (index != -1)
         {

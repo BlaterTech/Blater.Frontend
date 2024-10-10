@@ -1,5 +1,6 @@
-﻿using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.AutoModels.Types.Details;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Types.Details;
+
+using System.Linq.Expressions;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details;
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Routing;
+
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoModels.Types.Routes;

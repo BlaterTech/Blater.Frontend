@@ -35,9 +35,9 @@ public class AutoRouteConfigurationBuilder(AutoRouteConfiguration routeConfigura
     public IAutoRouteConfigurationBuilder AddGroup(AutoRouteGroupConfiguration groupConfiguration, Action<IAutoRouteGroupConfigurationBuilder> action)
     {
         routeConfiguration.Groups.Add(groupConfiguration);
-        
+
         var builder = new AutoRouteGroupConfigurationBuilder(groupConfiguration);
-        
+
         action.Invoke(builder);
 
         return this;

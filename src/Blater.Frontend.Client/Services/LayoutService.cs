@@ -1,6 +1,7 @@
 ﻿using Blater.Frontend.Client.Contracts;
 using Blater.Frontend.Client.Enumerations;
 using Blater.Frontend.Client.Interfaces;
+
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Services;
@@ -19,7 +20,7 @@ public class LayoutService(IUserPreferencesService userPreferencesService) : ILa
     public bool ObserveSystemThemeChange { get; private set; }
 
     public MudTheme CurrentTheme { get; private set; } = new();
-    
+
     public void SetDarkMode(bool value)
     {
         IsDarkMode = value;

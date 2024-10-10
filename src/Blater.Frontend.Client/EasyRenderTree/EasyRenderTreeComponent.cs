@@ -11,16 +11,18 @@ public class EasyRenderTreeComponent(RenderTreeBuilder renderTreeBuilder, int se
         {
             return this;
         }
+
         renderTreeBuilder.AddAttribute(sequence, name, value);
         return this;
     }
-    
+
     public EasyRenderTreeComponent AddComponentParameter(string name, object? value)
     {
         if (string.IsNullOrEmpty(name))
         {
             return this;
         }
+
         renderTreeBuilder.AddComponentParameter(sequence, name, value);
         return this;
     }

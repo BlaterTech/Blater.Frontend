@@ -6,6 +6,7 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Details;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form;
 using Blater.Frontend.Client.Contracts.Bases;
 using Blater.Frontend.Client.EasyRenderTree;
+
 using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Details;
@@ -14,7 +15,6 @@ public partial class AutoDetailsBuilder<T> : BaseAutoComponentBuilder<T> where T
 {
     [Parameter]
     public bool Loading { get; set; }
-
 
     public override AutoComponentDisplayType DisplayType { get; set; } = AutoComponentDisplayType.Details;
     public override bool HasLabel { get; set; }

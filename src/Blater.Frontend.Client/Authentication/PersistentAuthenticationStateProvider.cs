@@ -1,8 +1,10 @@
-using System.Security.Claims;
 using Blater.Frontend.Client.Extensions;
 using Blater.Models.User;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+
+using System.Security.Claims;
 
 namespace Blater.Frontend.Client.Authentication;
 

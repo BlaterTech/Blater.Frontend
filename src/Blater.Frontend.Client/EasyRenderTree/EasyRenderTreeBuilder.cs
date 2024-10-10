@@ -1,6 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+
+using System.Diagnostics.CodeAnalysis;
 
 namespace Blater.Frontend.Client.EasyRenderTree;
 
@@ -28,7 +29,7 @@ public class EasyRenderTreeBuilder(RenderTreeBuilder renderTreeBuilder)
         renderTreeBuilder.OpenElement(_sequenceIndex++, element);
         return new EasyRenderTreeComponent(renderTreeBuilder, _sequenceIndex, true);
     }
-    
+
     public void OpenElement(string element, Action<EasyRenderTreeBuilder> buildContent)
     {
         renderTreeBuilder.OpenElement(_sequenceIndex++, element);

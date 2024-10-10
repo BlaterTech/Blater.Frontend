@@ -1,19 +1,20 @@
-﻿using System.Diagnostics;
-using Serilog;
+﻿using Serilog;
+
+using System.Diagnostics;
 
 namespace Blater.Frontend.Logging;
 
 public class LogTimer(string message = "") : IDisposable
 {
     private readonly Stopwatch _stopwatch = Stopwatch.StartNew();
-    
+
     public void Dispose()
     {
         _stopwatch.Stop();
         Print();
         GC.SuppressFinalize(this);
     }
-    
+
     [Conditional("DEBUG")]
     private void Print()
     {

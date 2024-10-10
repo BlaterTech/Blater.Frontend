@@ -6,6 +6,7 @@ using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Form.Timeline;
 using Blater.Frontend.Client.Contracts.Bases;
 using Blater.Frontend.Client.EasyRenderTree;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 
@@ -17,7 +18,7 @@ public partial class AutoFormTimelineBuilder<T, TValidator> : BaseAutoComponentB
 {
     [Parameter]
     public EventCallback<int> OnCurrentStepChanged { get; set; }
-    
+
     [Parameter]
     public TValidator? ModelValidator { get; set; }
 
@@ -41,7 +42,7 @@ public partial class AutoFormTimelineBuilder<T, TValidator> : BaseAutoComponentB
     {
         var formTimelineConfiguration = FindModelConfig<IAutoFormTimelineConfiguration<T>>();
         FormTimelineConfiguration = formTimelineConfiguration.FormTimelineConfiguration;
-        
+
         _firstStep = Steps.FirstOrDefault()?.Key ?? 1;
         _lastStep = Steps.LastOrDefault()?.Key ?? 1;
     }
@@ -127,7 +128,7 @@ public partial class AutoFormTimelineBuilder<T, TValidator> : BaseAutoComponentB
         {
             _isLastStep = true;
             StateHasChanged();
-            
+
             //todo: save model in db
             Logger.LogInformation("Save model in database");
         }

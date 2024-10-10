@@ -15,7 +15,9 @@ using Blater.Frontend.Client.Auto.AutoModels.Types.Routes;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;
+
 using Microsoft.Extensions.DependencyInjection;
+
 using Serilog;
 
 namespace Blater.Frontend.Client.Auto;
@@ -39,7 +41,7 @@ public class AutoConfigurations
     ///     Parent Type is the key, and the value is the configuration for the child type.
     /// </summary>
     public Dictionary<Type, object> Configurations { get; set; } = new();
-    
+
     public Dictionary<Type, object> Validators { get; set; } = new();
 
     public AutoRouteConfiguration Route { get; set; } = new();
@@ -57,7 +59,7 @@ public class AutoConfigurations
     {
         using var _ = new LogTimer("Building all model validators");
         Validators.Clear();
-        
+
         var validationModels = TypesHelper.AllTypes
                                           .Where(x => x is { IsInterface: false, IsAbstract: false } && x.IsAssignableTo(typeof(IBaseAutoValidator)))
                                           .ToList();
@@ -65,20 +67,20 @@ public class AutoConfigurations
         foreach (var validatorType in validationModels)
         {
             var modelType = validatorType.BaseType?.GetGenericArguments()[0];
-            
+
             if (modelType == null)
             {
                 throw new Exception($"Not found GenericArgument in {validatorType.Name}");
             }
-            
+
             var instance = ActivatorUtilities.CreateInstance(_serviceProvider, validatorType);
-            
+
             Validators.Add(modelType, instance);
         }
-        
+
         ModelsChanged?.Invoke();
     }
-    
+
     private void BuildAllConfigurations()
     {
         using var _ = new LogTimer("Building all model configurations");
@@ -109,23 +111,23 @@ public class AutoConfigurations
         using var _ = new LogTimer("Building route configurations");
 
         Route = new AutoRouteConfiguration();
-        
+
         var model = TypesHelper.AllTypes
                                 .FirstOrDefault(x => x is
-                                 {
-                                     IsInterface: false
-                                 } && x.IsAssignableTo(typeof(IAutoRouteConfiguration)));
+                                {
+                                    IsInterface: false
+                                } && x.IsAssignableTo(typeof(IAutoRouteConfiguration)));
 
         if (model == null)
         {
             Log.Error("Not found route configuration");
             return;
         }
-        
+
         var instance = Activator.CreateInstance(model) as IAutoRouteConfiguration;
         var builder = new AutoRouteConfigurationBuilder(Route);
         instance!.ConfigureRoute(builder);
-        
+
         ModelsChanged?.Invoke();
     }
 
@@ -145,7 +147,10 @@ public class AutoConfigurations
                                .Replace("`1", "");
         var methodName = $"Configure{configurationName}";
         var method = modelType.GetMethod(methodName);
-        if (method == null) return;
+        if (method == null)
+        {
+            return;
+        }
 
         var genericBuilderType = builderType.MakeGenericType(modelType);
         var builder = Activator.CreateInstance(genericBuilderType, instance);

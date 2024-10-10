@@ -1,6 +1,7 @@
-﻿using System.Security.Claims;
-using Blater.Extensions;
+﻿using Blater.Extensions;
 using Blater.Models.User;
+
+using System.Security.Claims;
 
 namespace Blater.Frontend.Client.Extensions;
 
@@ -17,7 +18,7 @@ public static class ClaimsExtensions
             {
                 key = "role";
             }
-            
+
             var value = prop.GetValue(userToken);
 
             if (value == null)
@@ -56,7 +57,7 @@ public static class ClaimsExtensions
                          g => g.Key,
                          g => g.Select(c => c.Value).ToList()
                      );
-        
+
         var userToken = new BlaterUserToken();
         foreach (var prop in typeof(BlaterUserToken).GetProperties())
         {
@@ -65,7 +66,7 @@ public static class ClaimsExtensions
             {
                 name = "role";
             }
-            
+
             if (!claims.TryGetValue(name, out var claimValues))
             {
                 continue;

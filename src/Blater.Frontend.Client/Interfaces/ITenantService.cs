@@ -11,17 +11,17 @@ public interface ITenantService
     Task<TenantData> GetById(Guid tenantId);
     Task<TenantData> GetById(string tenantId);
     Task<TenantData> GetByShortName(string shortName);
-    
+
     Task<TenantData> Create(TenantData tenantData);
     Task<IReadOnlyList<TenantData>> Create(IEnumerable<TenantData> tenants);
-    
+
     Task<TenantData> Update(TenantData tenantData);
     Task<IReadOnlyList<TenantData>> Update(IEnumerable<TenantData> tenants);
-    
+
     Task<TenantData> Delete(TenantData tenantData);
     Task<TenantData> Delete(Guid tenantId);
     Task<TenantData> Delete(string tenantId);
     Task<TenantData> Delete(IEnumerable<TenantData> tenants);
     Task<TenantData> Delete(IEnumerable<Guid> tenantIds);
-    
+
 }

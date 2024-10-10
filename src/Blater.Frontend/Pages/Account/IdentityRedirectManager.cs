@@ -1,6 +1,7 @@
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
+
+using System.Diagnostics.CodeAnalysis;
 
 namespace Blater.Frontend.Pages.Account;
 

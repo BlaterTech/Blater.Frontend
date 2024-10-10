@@ -15,7 +15,7 @@ public class BaseAutoComponentInput : ComponentBase
 
     [Parameter]
     public bool Disabled { get; set; }
-    
+
     [Parameter]
     public bool IsReadOnly { get; set; }
 

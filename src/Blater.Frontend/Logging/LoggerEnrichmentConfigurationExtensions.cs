@@ -15,14 +15,14 @@ public static class LoggerEnrichmentConfigurationExtensions
                                                       IServiceProvider serviceProvider)
     {
         ArgumentNullException.ThrowIfNull(enrichmentConfiguration);
-        
+
         return enrichmentConfiguration.With(new HttpContextEnricher(serviceProvider));
     }
-    
+
     public static LoggerConfiguration WithInvocationContext(this LoggerEnrichmentConfiguration enrichmentConfiguration)
     {
         ArgumentNullException.ThrowIfNull(enrichmentConfiguration);
-        
+
         return enrichmentConfiguration.With(new InvocationContextEnricher());
     }
 }

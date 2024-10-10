@@ -1,8 +1,10 @@
-﻿using System.Linq.Expressions;
-using System.Reflection;
-using Blater.Frontend.Client.Services;
+﻿using Blater.Frontend.Client.Services;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
 
@@ -23,7 +25,6 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
 
     [Parameter]
     public EventCallback<TValue> OnValueChanged { get; set; }
-    
 
     [Parameter]
     public object? ModelInstance { get; set; }
@@ -38,7 +39,7 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
     public bool Dirty { get; set; }
 
     protected Expression<Func<TValue>>? For { get; set; }
-    
+
     protected override void OnInitialized()
     {
         StateNotifierService.StateChanged += OnStateChanged;
@@ -75,33 +76,36 @@ public abstract class BaseAutoFormComponent<TValue> : BaseAutoValueComponent<TVa
 
     private void OnStateChanged(PropertyInfo propertyInfo, object? value)
     {
-        if (propertyInfo.Name != AutoPropertyConfiguration.Property.Name || value == null) return;
+        if (propertyInfo.Name != AutoPropertyConfiguration.Property.Name || value == null)
+        {
+            return;
+        }
 
         Value = (TValue)value;
         Console.WriteLine("Value OnStateChanged => " + value);
         StateHasChanged();
     }
-    
+
     private Expression<Func<TValue>> CreateExpression()
     {
         if (ModelInstance == null)
         {
             throw new Exception("Model instance is nullable");
         }
-        
+
         var targetType = ModelInstance.GetType();
-        
+
         var property = targetType.GetProperty(AutoPropertyConfiguration.Property.Name);
-    
+
         if (property == null)
         {
             throw new ArgumentException($"Propriedade {AutoPropertyConfiguration.Property.Name} não encontrada em {targetType.Name}");
         }
-        
+
         var instanceExpression = Expression.Constant(ModelInstance);
-        
+
         var propertyAccess = Expression.Property(instanceExpression, property);
-        
+
         var lambda = Expression.Lambda<Func<TValue>>(propertyAccess, []);
 
         return lambda;

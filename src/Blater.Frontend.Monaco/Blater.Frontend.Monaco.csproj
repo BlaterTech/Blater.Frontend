@@ -8,11 +8,13 @@
 
 
     <ItemGroup>
-        <SupportedPlatform Include="browser"/>
+        <SupportedPlatform Include="browser" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.7"/>
+        <PackageReference Include="BlazorMonaco" Version="3.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.10" />
+        <PackageReference Include="MudBlazor" Version="7.9.0" />
     </ItemGroup>
 
 </Project>

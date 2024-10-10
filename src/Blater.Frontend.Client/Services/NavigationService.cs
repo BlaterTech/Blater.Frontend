@@ -1,4 +1,5 @@
 ﻿using Blater.Frontend.Client.Interfaces;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -19,20 +20,20 @@ public class NavigationService(NavigationManager navigationManager, IJSRuntime j
 
         navigationManager.NavigateTo(route);
     }
-    
+
     public void NavigateTo(string route, Dictionary<string, object> parameters)
     {
         var url = navigationManager.GetUriWithQueryParameters(route, parameters!);
         navigationManager.NavigateTo(url);
     }
-    
+
     public void NavigateTo(string route, string paramName, object paramValue)
     {
         var parameters = new Dictionary<string, object>
         {
             [paramName] = paramValue.ToString()!
         };
-        
+
         NavigateTo(route, parameters);
     }
 

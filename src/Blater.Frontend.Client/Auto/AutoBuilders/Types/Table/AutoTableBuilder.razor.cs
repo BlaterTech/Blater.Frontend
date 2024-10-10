@@ -1,13 +1,16 @@
-﻿using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.AutoBuilders.Base;
+﻿using Blater.Frontend.Client.Auto.AutoBuilders.Base;
 using Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 using Blater.Frontend.Client.Auto.AutoModels.Enumerations;
 using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 using Blater.Frontend.Client.Contracts.Bases;
 using Blater.Frontend.Client.EasyRenderTree;
 using Blater.Frontend.Client.Enumerations;
+
 using Microsoft.AspNetCore.Components;
+
 using MudBlazor;
+
+using System.Linq.Expressions;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Types.Table;
 
@@ -142,13 +145,13 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
         var body = Expression.Convert(Expression.Property(param, propName), typeof(object));
         return Expression.Lambda<Func<T, object>>(body, param).Compile();
     }
-    
+
     private RenderFragment RenderComponentFilter(IAutoTablePropertyConfiguration<T> propertyConfiguration) => builder =>
     {
         var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
 
         HasLabel = true;
-        
+
         CreateGenericComponent(easyRenderTreeBuilder, propertyConfiguration);
     };
 
@@ -157,7 +160,7 @@ public partial class AutoTableBuilder<T> : BaseAutoComponentBuilder<T> where T :
         var easyRenderTreeBuilder = new EasyRenderTreeBuilder(builder);
 
         HasLabel = false;
-        
+
         CreateGenericComponent(easyRenderTreeBuilder, propertyConfiguration);
     };
 

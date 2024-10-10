@@ -1,6 +1,7 @@
-﻿using System.Linq.Expressions;
-using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
+﻿using Blater.Frontend.Client.Auto.AutoModels.Types.Table;
 using Blater.Frontend.Client.Contracts;
+
+using System.Linq.Expressions;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Table;
 

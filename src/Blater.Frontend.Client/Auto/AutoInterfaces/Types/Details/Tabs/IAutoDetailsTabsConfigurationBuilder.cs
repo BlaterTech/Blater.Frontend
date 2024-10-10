@@ -1,4 +1,5 @@
 ﻿using Blater.Frontend.Client.Auto.AutoModels.Types.Details.Tabs;
+
 using MudBlazor;
 
 namespace Blater.Frontend.Client.Auto.AutoInterfaces.Types.Details.Tabs;

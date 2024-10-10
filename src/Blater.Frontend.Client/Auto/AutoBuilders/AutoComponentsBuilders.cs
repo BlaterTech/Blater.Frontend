@@ -4,6 +4,7 @@ using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Helpers;
 using Blater.Frontend.Client.Logging;
 using Blater.Helpers;
+
 using Serilog;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders;
@@ -56,7 +57,7 @@ public static class AutoComponentsBuilders
     public static IAutoBuildableComponent? GetComponentBuilder(IBaseAutoPropertyConfiguration configuration)
     {
         var fieldConfigurationDisplayType = configuration.AutoComponentType;
-        
+
         if (fieldConfigurationDisplayType == null)
         {
             Log.Error("No display type found");

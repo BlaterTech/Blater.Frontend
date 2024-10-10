@@ -1,6 +1,7 @@
 ﻿using Blater.Frontend.Client.Auto.AutoInterfaces.Base;
 using Blater.Frontend.Client.Auto.AutoModels.Base;
 using Blater.Frontend.Client.Services;
+
 using Microsoft.AspNetCore.Components;
 
 namespace Blater.Frontend.Client.Auto.AutoBuilders.Base;
@@ -20,7 +21,7 @@ public class BaseAutoEventConfigurationBuilder<TModel, TPropertyType, TResponseT
         });
         return (TResponseType)configuration;
     }
-    
+
     public TResponseType AddOnValueChanged(Action<TPropertyType> onValueChanged, IBaseAutoPropertyConfigurationValue<TPropertyType> value)
     {
         configuration.OnValueChanged = EventCallback.Factory.Create(this, (TPropertyType x) =>
@@ -40,16 +41,16 @@ public class BaseAutoEventConfigurationBuilder<TModel, TPropertyType, TResponseT
         });
         return (TResponseType)configuration;
     }
-    
+
     public TResponseType AddOnValueChanged(Action<TPropertyType> onValueChanged, params IBaseAutoPropertyConfigurationValue<TPropertyType>[] values)
     {
         configuration.OnValueChanged = EventCallback.Factory.Create(this, (TPropertyType x) =>
         {
             onValueChanged.Invoke(x);
-            
+
             configuration.Value = x;
             AddNotifyStateHasChanged(configuration);
-            
+
             foreach (var value in values)
             {
                 AddNotifyStateHasChanged(value);
